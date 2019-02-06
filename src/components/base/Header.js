@@ -8,13 +8,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 
 const Header = ({ onActionClick, children }) => (
-  <AppBar className="header-wrapper" position="sticky">
-    <Toolbar className="header-container">
+  <AppBar className="header" position="sticky">
+    <Toolbar className="header__container">
       <Grid container 
             alignItems="center" 
             justify="space-between" 
             spacing={24} 
-            className="header-content">
+            className="header__content">
           <Grid item>
             {children}
           </Grid>
