@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function MapLegend() {
   return (
-    <div>
+    <div className="map-legend">
       Map Legend
     </div>
   )

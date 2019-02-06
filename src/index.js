@@ -12,7 +12,7 @@ const target = document.querySelector('#root')
 render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div className="app-wrapper">
+      <div className="app">
         <App />
       </div>
     </ConnectedRouter>

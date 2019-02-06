@@ -5,11 +5,11 @@ import MapView from './map'
 import withRoot from '../withRoot';
 
 const App = () => (
-  <div className="app-container">
+  <div className="app__container">
     <Header>
       <Link to="/">Home</Link>
     </Header>
-    <main className="body-wrapper">
+    <main className="body">
       <Route exact path="/" component={MapView} />
     </main>
   </div>

@@ -7,19 +7,13 @@ body {
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
     sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-button:disabled {
-  opacity: 0.5;
 }
 
 #root,
-.app-wrapper,
-.app-container,
-.map-view-wrapper,
-.map-view-container {
+.app,
+.app__container,
+.map-view,
+.map-view__container {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,41 +23,27 @@ button:disabled {
   height: 100%;
 }
 
-.app-container {
+.app__container {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   align-items: stretch;
 }
 
-/** Header */
-
-.header-content {
-  max-width: 960px;
-}
-
-.header-container {
-  align-items: center;
-  justify-content: center;
-  flex-grow: 0;
-}
-
-/** Body */
-
-.body-wrapper {
+.body {
   position:relative;
   flex-grow: 1;
 }
 
+/** LAYOUTS **/
+
 /** Map View */
 
-.map-view-wrapper { }
+.map-view { background: rgba(0,0,0,0.15); }
 
-.map-view-container {
-  background: rgba(0,0,0,0.15);
-}
+/** Map View: Search Overlay */
 
-.map-view-top-wrapper {
+.map-view__search-overlay {
   position: absolute;
   top: 16px;
   left: 16px;
@@ -71,21 +51,132 @@ button:disabled {
   background: rgba(0,0,0,0.15);
 }
 
-.map-view-bottom-wrapper {
+@media(min-width: 600px) {
+  .map-view__search-overlay {
+    top: 24px;
+    left:24px;
+    width: 50%;
+    right:auto;
+    max-width: 368px;
+  }
+}
+
+/** Map View: Controls Overlay */
+
+.map-view__controls-overlay {
   position: absolute;
   bottom: 16px;
   left: 16px;
   right: 16px;
+  max-width: 400px;
+  margin:auto;
   background: rgba(0,0,0,0.15);
+}
+
+@media(min-width: 600px) {
+  .map-view__controls-overlay {
+    left:auto;
+    right: 24px;
+    bottom:24px;
+    max-width: 360px;
+    width: calc(50% - 32px);
+  }
+}
+
+@media(min-width: 1200px) {
+  .map-view__controls-overlay {
+    max-width: none;
+  }
+}
+
+
+/** Map View: Scatterplot Overlay */
+
+.map-view__scatterplot-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  max-width: 400px;
+  margin:auto;
+  background: rgba(0,0,0,0.15);
+}
+
+@media(min-width: 600px) {
+  .map-view__scatterplot-overlay {
+    right:auto;
+    left: 24px;
+    bottom:24px;
+    max-width: none;
+    width: calc(50% - 32px);
+    max-width: 640px;
+  }
+}
+
+/** END LAYOUTS */
+
+
+/** COMPONENTS */
+
+/** Header Component */
+
+.header__container {
+  align-items: center;
+  justify-content: center;
+  flex-grow: 0;
 }
 
 /** Map Component */
 
-.map-wrapper {
-  position:absolute;
-  top:0; left:0; right:0; bottom: 64px;
+.map {
+  position: absolute;
+  top:0; left:0; right:0; bottom: 0px;
   background: rgba(0,0,0,0.15);
 }
 
-/** Map UI Wrappers */
+@media(min-width: 1200px) {
+  .map {
+    bottom: 64px;
+  }
+}
+
+/** Map Legend Component */
+
+.map-legend {
+  background: rgba(0,0,0,0.15);
+}
+
+/** Map Controls Component */
+
+.map-controls {
+  background: rgba(0,0,0,0.15);
+  height: 288px;
+}
+
+@media(min-width: 1200px) {
+  .map-controls {
+    height: 72px;
+  }
+}
+
+/** Map Scatterplot Component **/
+
+.map-scatterplot {
+  position:relative;
+  background: rgba(0,0,0,0.15);
+  height:0px;
+  padding-top: 56.25%;
+}
+
+.map-scatterplot__container {
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+}
+
+/** END COMPONENTS */
 
