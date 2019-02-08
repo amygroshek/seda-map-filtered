@@ -64,4 +64,12 @@ const map = (state = initialState, action) => {
   }
 }
 
+export const getChoroplethProperty = (state) => {
+  const { metric } = state;
+  const demographic = 'mn'; 
+  // TODO: uncomment line below when real tilesets are available
+  // const demographic = this.props.demographic;
+  return demographic + '_' + metric;
+}
+
 export default map;

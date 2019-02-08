@@ -138,13 +138,57 @@ body {
 
 @media(min-width: 1200px) {
   .map {
-    bottom: 104px;
+    bottom: 112px;
+    border-bottom: 1px solid #e0e0e0;
   }
 }
 
 /** Map Legend Component */
 
 .map-legend {
+  position:relative;
+  top: -8px;
+  background: #fff;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+}
+
+.map-legend__label {
+  flex:1;
+  font-size: 0.8rem;
+  text-align:center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.map-legend__stops {
+  position: relative;
+  display: flex;
+  height: 100%;
+  align-items: stretch;
+  justify-content: stretch;
+  flex: 4;
+}
+
+.map-legend__stop {
+  flex-grow:1;
+  text-align:center;
+  line-height: 31px;
+  font-weight:bold;
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.87);
+}
+
+.map-legend__marker {
+  position:absolute;
+  height:100%;
+  width: 2px;
+  background: rgba(0,0,0,0.5);
+  transition: left 0.2s ease-in-out;
 }
 
 /** Map Controls Component */
