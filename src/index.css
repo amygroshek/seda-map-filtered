@@ -37,9 +37,15 @@ body {
 
 /** LAYOUTS **/
 
-/** Map View */
+/** IN DEVELOPMENT */
+.map-view__scatterplot-overlay,
+.map-view__search-overlay,
+.map-legend,
+.map-scatterplot {
+  background: rgba(0,0,0,0.15);
 
-.map-view { background: rgba(0,0,0,0.15); }
+}
+
 
 /** Map View: Search Overlay */
 
@@ -48,7 +54,6 @@ body {
   top: 16px;
   left: 16px;
   right: 16px;
-  background: rgba(0,0,0,0.15);
 }
 
 @media(min-width: 600px) {
@@ -70,7 +75,6 @@ body {
   right: 16px;
   max-width: 400px;
   margin:auto;
-  background: rgba(0,0,0,0.15);
 }
 
 @media(min-width: 600px) {
@@ -99,7 +103,6 @@ body {
   right: 16px;
   max-width: 400px;
   margin:auto;
-  background: rgba(0,0,0,0.15);
 }
 
 @media(min-width: 600px) {
@@ -131,31 +134,33 @@ body {
 .map {
   position: absolute;
   top:0; left:0; right:0; bottom: 0px;
-  background: rgba(0,0,0,0.15);
 }
 
 @media(min-width: 1200px) {
   .map {
-    bottom: 64px;
+    bottom: 104px;
   }
 }
 
 /** Map Legend Component */
 
 .map-legend {
-  background: rgba(0,0,0,0.15);
 }
 
 /** Map Controls Component */
 
 .map-controls {
-  background: rgba(0,0,0,0.15);
-  height: 288px;
+  position:relative;
+  background: #fff;
+  padding: 16px;
+  z-index: 100;
 }
 
 @media(min-width: 1200px) {
   .map-controls {
     height: 72px;
+    background:none;
+    padding:0;
   }
 }
 
@@ -163,7 +168,6 @@ body {
 
 .map-scatterplot {
   position:relative;
-  background: rgba(0,0,0,0.15);
   height:0px;
   padding-top: 56.25%;
 }

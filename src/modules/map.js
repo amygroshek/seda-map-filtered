@@ -1,7 +1,7 @@
 const initialState = {
   metric: 'ach',
-  region: 'districts',
-  demographic: 'mn',
+  region: 'counties',
+  demographic: 'all',
   hoveredFeature: null,
   viewport: {
     latitude: 37.7577,
@@ -19,16 +19,26 @@ const map = (state = initialState, action) => {
         hoveredFeature: action.hoveredFeature
       }
     case 'SET_MAP_REGION':
+      if (action.region === 'schools') {
+        window.alert('schools not yet available')
+        return state;
+      }
       return {
         ...state,
         region: action.region
       }
     case 'SET_MAP_DEMOGRAPHIC':
+      if (action.demographic !== 'all') {
+        window.alert('demographics not yet available')
+      }
       return {
         ...state,
         demographic: action.demographic
       }
     case 'SET_MAP_METRIC':
+      if (action.metric !== 'ach') {
+        window.alert('metric not yet available')
+      }
       return {
         ...state,
         metric: action.metric
