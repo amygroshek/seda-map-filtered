@@ -34,7 +34,11 @@ const MapLegend = ({ hoveredValue, stops }) => (
           style={{
             background: s[1],
           }}
-        />
+        >
+          {(i === 0 || i === stops.length - 1) &&
+            <span>{s[0]}</span>
+          }
+        </div>
       )}
     </div>
   </div>

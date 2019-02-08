@@ -176,6 +176,11 @@ body {
 
 .map-legend__stop {
   flex-grow:1;
+  text-align:center;
+  line-height: 31px;
+  font-weight:bold;
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.87);
 }
 
 .map-legend__marker {
