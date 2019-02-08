@@ -88,7 +88,10 @@ class Map extends Component {
   };
 
   _getChoroplethProperty() {
-    const { metric, demographic } = this.props;
+    const { metric } = this.props;
+    const demographic = 'mn'; 
+    // TODO: uncomment line below when real tilesets are available
+    // const demographic = this.props.demographic;
     return demographic + '_' + metric;
   }
 

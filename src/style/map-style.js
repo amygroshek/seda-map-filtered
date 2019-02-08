@@ -1,5 +1,18 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
+import { metrics } from '../constants/dataOptions';
+
+// TODO: set to true when tilesets have been generated
+// don't use the data prop until the tilesets are ready
+const ready = false;
+
+const getStopsForMetric = (metric) => {
+  const match = metrics.find(m => m.id === metric);
+  if (!match) { 
+    throw new Error('No metric found matching ' + metric); 
+  }
+  return match.stops;
+}
 
 export const getChoroplethLayer = (region, dataProp) => fromJS({
   id: 'choropleth',
@@ -9,18 +22,8 @@ export const getChoroplethLayer = (region, dataProp) => fromJS({
   interactive: true,
   paint: {
     'fill-color': {
-      property: dataProp,
-      stops: [
-        [ 1, '#d53e4f' ],
-        [ 2, '#f46d43' ],
-        [ 3, '#fdae61' ],
-        [ 4, '#fee08b' ],
-        [ 5, '#ffffbf' ],
-        [ 6, '#e6f598' ],
-        [ 7, '#abdda4' ],
-        [ 8, '#66c2a5' ],
-        [ 10, '#3288bd' ]
-      ]
+      property: ready ? dataProp : 'mn_' + dataProp.split('_')[1],
+      stops: getStopsForMetric(dataProp.split('_')[1])
     },
     'fill-opacity': 0.8
   }
