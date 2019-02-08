@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { defaultMapStyle, getChoroplethLayer } from '../../style/map-style';
 import { onHoverFeature, onViewportChange, onSelectFeature } from '../../actions/mapActions';
+import { getChoroplethProperty } from '../../modules/map';
+import mapboxgl from 'mapbox-gl';
 
 class Map extends Component {
 
@@ -59,14 +61,18 @@ class Map extends Component {
 
   _updateChoropleth(init = false) {
     const region = this.props.region;
-    const dataProp = this._getChoroplethProperty();
-    const choroplethLayer = getChoroplethLayer(region, dataProp);
+    const choroplethLayer = getChoroplethLayer(region, this.props.dataProp);
     const updatedLayers = defaultMapStyle
       .get('layers')
       .splice(2, (init ? 0 : 1), choroplethLayer)
     const mapStyle = defaultMapStyle
       .set('layers', updatedLayers);
     this.setState({ mapStyle });
+  }
+
+  _onLoad = event => {
+    this.map = event.target;
+    this.map.addControl(new mapboxgl.AttributionControl(), 'top-right');
   }
 
   _onClick = event => {
@@ -87,23 +93,15 @@ class Map extends Component {
     });
   };
 
-  _getChoroplethProperty() {
-    const { metric } = this.props;
-    const demographic = 'mn'; 
-    // TODO: uncomment line below when real tilesets are available
-    // const demographic = this.props.demographic;
-    return demographic + '_' + metric;
-  }
-
   _renderTooltip() {
     const { tooltip } = this.state;
-    const { hoveredFeature } = this.props;
+    const { hoveredFeature, dataProp } = this.props;
 
     return hoveredFeature && (
       <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
         <div>GEOID: {hoveredFeature.properties.GEOID}</div>
         <div>VALUE: {' '}
-          {hoveredFeature.properties[ this._getChoroplethProperty() ]}
+          {hoveredFeature.properties[ dataProp ]}
         </div>
       </div>
     );
@@ -126,6 +124,8 @@ class Map extends Component {
             onViewportChange={ (vp) => onViewportChange(vp) }
             onHover={this._onHover}
             onClick={this._onClick}
+            onLoad={this._onLoad}
+            attributionControl={false}
           >
             {this._renderTooltip()}
           </ReactMapGL>
@@ -146,7 +146,8 @@ Map.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  ...state.map
+  ...state.map,
+  dataProp: getChoroplethProperty(state.map)
 });
 
 const mapDispatchToProps = (dispatch) => ({

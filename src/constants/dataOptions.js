@@ -1,10 +1,8 @@
-
 export const metrics = [
   { 
     id: 'ach',
     label: 'Average Test Scores',
     stops: [
-      [ 1, '#d53e4f' ],
       [ 2, '#f46d43' ],
       [ 3, '#fdae61' ],
       [ 4, '#fee08b' ],
@@ -12,7 +10,6 @@ export const metrics = [
       [ 6, '#e6f598' ],
       [ 7, '#abdda4' ],
       [ 8, '#66c2a5' ],
-      [ 9, '#3288bd' ]
     ]
   },
   { 
@@ -100,3 +97,11 @@ export const demographics = [
     label: 'Non-Poor'
   },
 ]
+
+export const getStopsForMetric = (metric) => {
+  const match = metrics.find(m => m.id === metric);
+  if (!match) { 
+    throw new Error('No metric found matching ' + metric); 
+  }
+  return match.stops;
+}
