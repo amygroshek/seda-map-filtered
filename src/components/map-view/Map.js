@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactMapGL from 'react-map-gl';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { defaultMapStyle, getChoroplethLayer } from '../../style/map-style';
+import { defaultMapStyle, getChoroplethLayer, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
 import { onHoverFeature, onViewportChange, onSelectFeature } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
 import mapboxgl from 'mapbox-gl';
@@ -61,10 +61,21 @@ class Map extends Component {
 
   _updateChoropleth(init = false) {
     const region = this.props.region;
-    const choroplethLayer = getChoroplethLayer(region, this.props.dataProp);
-    const updatedLayers = defaultMapStyle
-      .get('layers')
-      .splice(2, (init ? 0 : 1), choroplethLayer)
+    let updatedLayers;
+    if (region !== 'schools') {
+      const choroplethLayer = getChoroplethLayer(region, this.props.dataProp);
+      updatedLayers = defaultMapStyle
+        .get('layers')
+        .splice(2, (init ? 0 : 1), choroplethLayer)
+    } else {
+      const choroplethLayer = getBackgroundChoroplethLayer('districts', this.props.dataProp);
+      const dotLayer = getDotLayer(region, this.props.dataProp);
+      updatedLayers = defaultMapStyle
+        .get('layers')
+        .splice(2, (init ? 0 : 1), choroplethLayer)
+        .splice(100, (init ? 0 : 1), dotLayer)
+    }
+
     const mapStyle = defaultMapStyle
       .set('layers', updatedLayers);
     this.setState({ mapStyle });
@@ -85,8 +96,12 @@ class Map extends Component {
 
   _onHover = event => {
     const { features, srcEvent: { offsetX, offsetY } } = event;
+    const { region } = this.props;
     const hoveredFeature = features && 
-      features.find(f => f.layer.id === 'choropleth');
+      features.find(f => (
+        (region !== 'schools' && f.layer.id === 'choropleth') ||
+        (region === 'schools' && f.layer.id === 'dots')
+      ));
     this.props.onHoverFeature(hoveredFeature);
     this.setState({ 
       tooltip: { x: offsetX, y: offsetY }
