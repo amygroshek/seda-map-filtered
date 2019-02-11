@@ -1,5 +1,5 @@
 const initialState = {
-  metric: 'ach',
+  metric: 'avg',
   region: 'counties',
   demographic: 'all',
   hoveredFeature: null,
@@ -19,26 +19,16 @@ const map = (state = initialState, action) => {
         hoveredFeature: action.hoveredFeature
       }
     case 'SET_MAP_REGION':
-      if (action.region === 'schools') {
-        window.alert('schools not yet available')
-        return state;
-      }
       return {
         ...state,
         region: action.region
       }
     case 'SET_MAP_DEMOGRAPHIC':
-      if (action.demographic !== 'all') {
-        window.alert('demographics not yet available')
-      }
       return {
         ...state,
         demographic: action.demographic
       }
     case 'SET_MAP_METRIC':
-      if (action.metric !== 'ach') {
-        window.alert('metric not yet available')
-      }
       return {
         ...state,
         metric: action.metric
@@ -65,10 +55,7 @@ const map = (state = initialState, action) => {
 }
 
 export const getChoroplethProperty = (state) => {
-  const { metric } = state;
-  const demographic = 'mn'; 
-  // TODO: uncomment line below when real tilesets are available
-  // const demographic = this.props.demographic;
+  const { metric, demographic } = state;
   return demographic + '_' + metric;
 }
 

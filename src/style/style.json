@@ -2821,40 +2821,6 @@
                 "text-size": {"base": 1, "stops": [[1, 14], [4, 30]]}
             },
             "paint": {"text-color": "#78888a", "text-halo-blur": 0}
-        },
-        {
-            "id": "counties-centers",
-            "type": "symbol",
-            "source": "composite",
-            "source-layer": "counties-centers",
-            "layout": {"text-field": "{GEOID}", "visibility": "none"},
-            "paint": {}
-        },
-        {
-            "id": "districts-centers",
-            "type": "symbol",
-            "source": "composite",
-            "source-layer": "districts-centers",
-            "minzoom": 9,
-            "layout": {
-                "text-field": "{NAME}",
-                "text-font": ["Open Sans Bold", "Arial Unicode MS Regular"],
-                "text-size": [
-                    "interpolate",
-                    ["linear"],
-                    ["zoom"],
-                    6,
-                    12,
-                    22,
-                    16
-                ],
-                "text-letter-spacing": 0.01
-            },
-            "paint": {
-                "text-halo-blur": 0,
-                "text-halo-color": "hsla(0, 0%, 100%, 0.34)",
-                "text-halo-width": 0
-            }
         }
     ],
     "created": "2019-01-03T02:25:12.554Z",

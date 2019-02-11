@@ -2,9 +2,26 @@ import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
 import { getStopsForMetric } from '../constants/dataOptions';
 
-// TODO: set to true when tilesets have been generated
-// don't use the data prop until the tilesets are ready
-const ready = false;
+const noDataFill = "#cccccc";
+
+const getFillStyle = (dataProp) => {
+  const metric = dataProp.split('_')[1];
+  const stops = getStopsForMetric(metric).reduce(
+    (acc, curr) => [ ...acc, ...curr ], []
+  );
+  return [ 
+    "case",
+    [ "has", dataProp ],
+    [
+      "interpolate",
+      [ "linear" ],
+      [ "get", dataProp ],
+      -9999, noDataFill,
+      ...stops
+    ],
+    noDataFill
+  ]
+}
 
 export const getChoroplethLayer = (region, dataProp) => fromJS({
   id: 'choropleth',
@@ -13,10 +30,7 @@ export const getChoroplethLayer = (region, dataProp) => fromJS({
   type: 'fill',
   interactive: true,
   paint: {
-    'fill-color': {
-      property: ready ? dataProp : 'mn_' + dataProp.split('_')[1],
-      stops: getStopsForMetric(dataProp.split('_')[1])
-    },
+    'fill-color': getFillStyle(dataProp),
     'fill-opacity': 0.8
   }
 });
