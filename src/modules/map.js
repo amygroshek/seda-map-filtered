@@ -4,9 +4,9 @@ const initialState = {
   demographic: 'all',
   hoveredFeature: null,
   viewport: {
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8
+    latitude: 38,
+    longitude: -97,
+    zoom: 3.5
   },
   selected: []
 }
