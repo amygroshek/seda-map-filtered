@@ -1,6 +1,6 @@
 export const metrics = [
   { 
-    id: 'ach',
+    id: 'avg',
     label: 'Average Test Scores',
     stops: [
       [ 2, '#f46d43' ],
@@ -13,33 +13,31 @@ export const metrics = [
     ]
   },
   { 
-    id: 'diff',
+    id: 'grd',
     label: 'Growth over years',
     stops: [
-      [ -1, '#d53e4f' ],
-      [ -0.75, '#f46d43' ],
-      [ -0.5, '#fdae61' ],
-      [ -0.25, '#fee08b' ],
-      [ 0, '#ffffbf' ],
-      [ 0.25, '#e6f598' ],
-      [ 0.5, '#abdda4' ],
-      [ 0.75, '#66c2a5' ],
-      [ 1, '#3288bd' ]
+      [ 0.2, '#f46d43' ],
+      [ 0.4, '#fdae61' ],
+      [ 0.6, '#fee08b' ],
+      [ 0.8, '#ffffbf' ],
+      [ 1, '#e6f598' ],
+      [ 1.2, '#abdda4' ],
+      [ 1.4, '#66c2a5' ],
     ]
   },
   { 
-    id: 'slp',
+    id: 'coh',
     label: 'Trend over years',
     stops: [
-      [ -1, '#d53e4f' ],
-      [ -0.75, '#f46d43' ],
-      [ -0.5, '#fdae61' ],
-      [ -0.25, '#fee08b' ],
+      [ -0.4, '#d53e4f' ],
+      [ -0.3, '#f46d43' ],
+      [ -0.2, '#fdae61' ],
+      [ -0.1, '#fee08b' ],
       [ 0, '#ffffbf' ],
-      [ 0.25, '#e6f598' ],
-      [ 0.5, '#abdda4' ],
-      [ 0.75, '#66c2a5' ],
-      [ 1, '#3288bd' ]
+      [ 0.1, '#e6f598' ],
+      [ 0.2, '#abdda4' ],
+      [ 0.3, '#66c2a5' ],
+      [ 0.4, '#3288bd' ]
     ]
   }
 ];
