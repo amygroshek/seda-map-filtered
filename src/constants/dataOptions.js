@@ -1,13 +1,3 @@
-'#0E3C8B'
-'#195BA9'
-'#2887D5'
-'#2CA0E3'
-'#28AFE1'
-'#26BAE0'
-'#26C4D1'
-'#2ACEB2'
-'#2CD1A3'
-
 export const metrics = [
   { 
     id: 'avg',
