@@ -87,13 +87,17 @@ export class MapScatterplot extends Component {
     return stops.map(s => s[1])
   }
 
-  _getMetricMinMax() {
+  _getMetricMinMax(padSteps = 0) {
     const { metric } = this.props;
     const stops = metrics.find(m => m.id === metric).stops;
-    return {
-      min: stops[0][0],
-      max: stops[stops.length-1][0],
+    let min = stops[0][0];
+    let max = stops[stops.length-1][0];
+    if (padSteps) {
+      const stepSize = Math.abs(stops[0][0] - stops[1][0]);
+      min = Math.round((min - (stepSize * padSteps))*10)/10;
+      max = Math.round((max + (stepSize * padSteps))*10)/10;
     }
+    return { min, max }
   }
 
   _getSeries() {
@@ -130,7 +134,7 @@ export class MapScatterplot extends Component {
       ...hoverOptions,
       yAxis: {
         ...hoverOptions.yAxis,
-        ...this._getMetricMinMax()
+        ...this._getMetricMinMax(2)
       },
       series: [
         {
@@ -162,7 +166,7 @@ export class MapScatterplot extends Component {
       },
       yAxis: {
         ...scatterOptions.yAxis,
-        ...this._getMetricMinMax()
+        ...this._getMetricMinMax(2)
       },
       series: [
         {
