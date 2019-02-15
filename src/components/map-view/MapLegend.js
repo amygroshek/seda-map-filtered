@@ -15,7 +15,7 @@ const getMarkerLocation = (stops, value) => {
 const MapLegend = ({ hoveredValue, stops }) => (
   <div className="map-legend">
     <div className="map-legend__label">
-      Map Legend
+      Legend
     </div>
     <div 
       className="map-legend__stops"
