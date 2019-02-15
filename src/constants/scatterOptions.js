@@ -93,10 +93,10 @@ export const scatterOptions = {
     },
     axisLabel: {
       formatter: function (val) {
-        if (val == 3) {
+        if (val === 3) {
           return 'richer →';
         }
-        if (val == -5) {
+        if (val === -5) {
           return '← poorer';
         }
         return null;
