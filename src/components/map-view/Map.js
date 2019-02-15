@@ -6,6 +6,7 @@ import { defaultMapStyle, getChoroplethLayer, getDotLayer, getBackgroundChorople
 import { onHoverFeature, onViewportChange, onSelectFeature } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
 import mapboxgl from 'mapbox-gl';
+import { getMetric } from '../../constants/dataOptions';
 
 class Map extends Component {
 
@@ -129,13 +130,19 @@ class Map extends Component {
 
   _renderTooltip() {
     const { tooltip } = this.state;
-    const { hoveredFeature, dataProp } = this.props;
-
+    const { hoveredFeature, dataProp, metric } = this.props;
+    const label = getMetric(metric).short_label;
     return hoveredFeature && (
       <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-        <div>{hoveredFeature.properties.name}</div>
-        <div>
-          {hoveredFeature.properties[ dataProp ]}
+        <div className="tooltip__title">{hoveredFeature.properties.name}</div>
+        <div className="tooltip__content">
+          { label }{': '}
+          {
+            hoveredFeature.properties[dataProp] &&
+            hoveredFeature.properties[dataProp] > -999 ?
+              Math.round(hoveredFeature.properties[dataProp]*100)/100 :
+              'Unavailable'
+          }
         </div>
       </div>
     );
