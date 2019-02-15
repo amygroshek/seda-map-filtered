@@ -84,6 +84,25 @@ class Map extends Component {
   _onLoad = event => {
     this.map = event.target;
     this.map.addControl(new mapboxgl.AttributionControl(), 'top-right');
+    // this.map.on('moveend', () => {
+    //   var features = this.map.queryRenderedFeatures({layers:['dots']});
+    //   if (features) {
+    //     var uniqueFeatures = this._getUniqueFeatures(features, "id");
+    //     console.log(uniqueFeatures);
+    //   }
+    // });
+  }
+
+  _getUniqueFeatures(array, comparatorProperty) {
+    const existingFeatureKeys = {};
+    return array.filter(function(el) {
+      if (existingFeatureKeys[el.properties[comparatorProperty]]) {
+        return false;
+      } else {
+        existingFeatureKeys[el.properties[comparatorProperty]] = true;
+        return true;
+      }
+    });
   }
 
   _onClick = event => {
