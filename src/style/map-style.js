@@ -62,7 +62,7 @@ export const getChoroplethLayer = (region, dataProp) => fromJS({
   interactive: true,
   paint: {
     'fill-color': getFillStyle(dataProp),
-    'fill-opacity': 0.8
+    'fill-opacity': 0.9
   }
 });
 

@@ -133,8 +133,8 @@ class Map extends Component {
 
     return hoveredFeature && (
       <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-        <div>GEOID: {hoveredFeature.properties.GEOID}</div>
-        <div>VALUE: {' '}
+        <div>{hoveredFeature.properties.name}</div>
+        <div>
           {hoveredFeature.properties[ dataProp ]}
         </div>
       </div>
