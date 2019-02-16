@@ -3,17 +3,19 @@ import { Route, Link } from 'react-router-dom'
 import Header from '../components/base/Header';
 import MapView from './map'
 import withRoot from '../withRoot';
+import Paper from '@material-ui/core/Paper';
 
 const App = () => (
   <div className="app__container">
     <Header>
       <Link to="/">
         <img 
-          alt="Logo" 
-          src="https://via.placeholder.com/240x40?text=LOGO"
+          alt="Educational Opportunity Project" 
+          src="/assets/img/seda-light.svg"
         />
       </Link>
     </Header>
+
     <main className="body">
       <Route exact path="/" component={ MapView } />
     </main>
