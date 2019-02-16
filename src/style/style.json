@@ -41,7 +41,7 @@
             "type": "background",
             "layout": {},
             "paint": {"background-color": "#ffffff"}
-        },
+        },        
         {
             "id": "waterway-river-canal",
             "type": "line",

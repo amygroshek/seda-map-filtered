@@ -231,13 +231,37 @@ body {
 .tooltip {
   position: absolute;
   margin: 8px;
-  padding: 4px;
+  padding: 8px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   max-width: 300px;
   font-size: 10px;
   z-index: 9;
+  margin-top: -20px;
+  margin-left: -2px;
+  transform: translate(-50%, -100%);
+  border-radius:2px;
   pointer-events: none;
+  text-align: center;
+  font-size: 12px;
+}
+.tooltip:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width:0;
+  height:0;
+  border: 8px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, 0.8);
+  bottom: -16px;
+  left: 50%;
+  margin-left: -8px;
+}
+
+.tooltip__title {
+  line-height: 1;
+  font-weight: bold;
+  margin-bottom: 2px;
 }
 
 .mapboxgl-ctrl-bottom-left {

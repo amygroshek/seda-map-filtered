@@ -3,6 +3,7 @@ export const metrics = [
   { 
     id: 'avg',
     label: 'Average Test Scores',
+    short_label: 'Avg. Test Score',
     stops: [
       [ 2.5,  '#312B88' ],
       [ 3.25, '#6634C2' ],
@@ -12,12 +13,13 @@ export const metrics = [
       [ 6.25, '#73D4BF' ],
       [ 7,    '#9DE57F' ],
       [ 7.75, '#C8F393' ],
-      [ 8.5,   '#FBEB93' ],
+      [ 8.5,  '#FBEB93' ],
     ]
   },
   { 
     id: 'grd',
     label: 'Growth over years',
+    short_label: 'Growth Rate',
     stops: [
       [ 0.6, '#312B88' ],
       [ 0.7, '#6634C2' ],
@@ -33,6 +35,7 @@ export const metrics = [
   { 
     id: 'coh',
     label: 'Trend over years',
+    short_label: 'Trend',
     stops: [
       [ -0.3, '#312B88' ],
       [ -0.225, '#6634C2' ],
@@ -46,6 +49,8 @@ export const metrics = [
     ]
   }
 ];
+
+export const getMetric = (id) => metrics.find(m => m.id === id)
 
 export const regions = [
   {

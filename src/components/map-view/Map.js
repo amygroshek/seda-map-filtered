@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import ReactMapGL from 'react-map-gl';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { defaultMapStyle, getChoroplethLayer, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
+import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
 import { onHoverFeature, onViewportChange, onSelectFeature } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
 import mapboxgl from 'mapbox-gl';
+import { getMetric } from '../../constants/dataOptions';
 
 class Map extends Component {
 
@@ -14,7 +15,8 @@ class Map extends Component {
     tooltip: {
       x:0,
       y:0,
-    }
+    },
+    hoveredId: null
   };
 
   getContainerSize() {
@@ -64,15 +66,16 @@ class Map extends Component {
     let updatedLayers;
     if (region !== 'schools') {
       const choroplethLayer = getChoroplethLayer(region, this.props.dataProp);
+      const choroplethOutline = getChoroplethOutline(region);
       updatedLayers = defaultMapStyle
         .get('layers')
-        .splice(2, (init ? 0 : 1), choroplethLayer)
+        .splice(2, (init ? 0 : 2), choroplethLayer, choroplethOutline)
     } else {
       const choroplethLayer = getBackgroundChoroplethLayer('districts', this.props.dataProp);
       const dotLayer = getDotLayer(region, this.props.dataProp);
       updatedLayers = defaultMapStyle
         .get('layers')
-        .splice(2, (init ? 0 : 1), choroplethLayer)
+        .splice(2, (init ? 0 : 2), choroplethLayer)
         .splice(100, (init ? 0 : 1), dotLayer)
     }
 
@@ -125,17 +128,36 @@ class Map extends Component {
     this.setState({ 
       tooltip: { x: offsetX, y: offsetY }
     });
+    const featureId = hoveredFeature ? hoveredFeature.id : null;
+    if (featureId) {
+      if (this.state.hoveredId) {
+        this.map.setFeatureState({source: 'composite', sourceLayer: region, id: this.state.hoveredId}, { hover: false});
+      }
+      this.setState({ hoveredId: featureId })
+      this.map.setFeatureState({source: 'composite', sourceLayer: region, id: featureId}, { hover: true});
+    } else {
+      if (this.state.hoveredId) {
+        this.map.setFeatureState({source: 'composite', sourceLayer: region, id: this.state.hoveredId}, { hover: false});
+      }
+      this.setState({ hoveredId: null })
+    }
   };
 
   _renderTooltip() {
     const { tooltip } = this.state;
-    const { hoveredFeature, dataProp } = this.props;
-
+    const { hoveredFeature, dataProp, metric } = this.props;
+    const label = getMetric(metric).short_label;
     return hoveredFeature && (
       <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-        <div>{hoveredFeature.properties.name}</div>
-        <div>
-          {hoveredFeature.properties[ dataProp ]}
+        <div className="tooltip__title">{hoveredFeature.properties.name}</div>
+        <div className="tooltip__content">
+          { label }{': '}
+          {
+            hoveredFeature.properties[dataProp] &&
+            hoveredFeature.properties[dataProp] > -999 ?
+              Math.round(hoveredFeature.properties[dataProp]*100)/100 :
+              'Unavailable'
+          }
         </div>
       </div>
     );
@@ -181,7 +203,8 @@ Map.propTypes = {
 
 const mapStateToProps = (state) => ({
   ...state.map,
-  dataProp: getChoroplethProperty(state.map)
+  dataProp: getChoroplethProperty(state.map),
+  hoveredFeature: state.map.hoveredFeature
 });
 
 const mapDispatchToProps = (dispatch) => ({
