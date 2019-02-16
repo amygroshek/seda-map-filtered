@@ -69,13 +69,13 @@ class Map extends Component {
       const choroplethOutline = getChoroplethOutline(region);
       updatedLayers = defaultMapStyle
         .get('layers')
-        .splice(2, (init ? 0 : 2), choroplethLayer, choroplethOutline)
+        .splice(4, (init ? 0 : 2), choroplethLayer, choroplethOutline)
     } else {
       const choroplethLayer = getBackgroundChoroplethLayer('districts', this.props.dataProp);
       const dotLayer = getDotLayer(region, this.props.dataProp);
       updatedLayers = defaultMapStyle
         .get('layers')
-        .splice(2, (init ? 0 : 2), choroplethLayer)
+        .splice(4, (init ? 0 : 2), choroplethLayer)
         .splice(100, (init ? 0 : 1), dotLayer)
     }
 
