@@ -50,7 +50,7 @@ export const metrics = [
   }
 ];
 
-export const getMetric = (id) => metrics.find(m => m.id == id)
+export const getMetric = (id) => metrics.find(m => m.id === id)
 
 export const regions = [
   {
