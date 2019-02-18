@@ -186,6 +186,7 @@ export class MapScatterplot extends Component {
 
   _onChartReady(e) {
     console.log(e)
+    e.on('mousemove', console.log)
     // this.echart = e;
   }
 
@@ -223,11 +224,13 @@ export class MapScatterplot extends Component {
       <div className='map-scatterplot'>
         <Paper className="map-scatterplot__container">
           <ReactEcharts
+            onChartReady={this._onChartReady.bind(this)}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             option={this._getScatterOptions()}
+
           />
           <ReactEcharts
-            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            style={{ pointerEvents: 'none', position: 'absolute', width: '100%', height: '100%' }}
             option={this._getOverlayOptions()}
           />
         </Paper>
@@ -242,6 +245,7 @@ const mapStateToProps = (state) => ({
   metric: state.map.metric,
   yVar: 'all_' + state.map.metric,
   xVar: 'all_ses',
+  xData: state.scatterplot.data[region]['all_ses'],
   hoveredFeature: state.map.hoveredFeature ? 
     state.map.hoveredFeature : null
 })

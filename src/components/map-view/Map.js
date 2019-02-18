@@ -124,6 +124,7 @@ class Map extends Component {
         (region !== 'schools' && f.layer.id === 'choropleth') ||
         (region === 'schools' && f.layer.id === 'dots')
       ));
+    console.log(hoveredFeature);
     this.props.onHoverFeature(hoveredFeature);
     this.setState({ 
       tooltip: { x: offsetX, y: offsetY }
