@@ -6,7 +6,7 @@ import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer,
 import { onHoverFeature, onViewportChange, onSelectFeature } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
 import mapboxgl from 'mapbox-gl';
-import { getMetric } from '../../constants/dataOptions';
+import { getStops } from '../../modules/metrics';
 
 class Map extends Component {
 
@@ -62,17 +62,20 @@ class Map extends Component {
   }
 
   _updateChoropleth(init = false) {
-    const region = this.props.region;
+    const { region, dataProp, stops } = this.props;
     let updatedLayers;
     if (region !== 'schools') {
-      const choroplethLayer = getChoroplethLayer(region, this.props.dataProp);
-      const choroplethOutline = getChoroplethOutline(region);
-      updatedLayers = defaultMapStyle
-        .get('layers')
-        .splice(4, (init ? 0 : 2), choroplethLayer, choroplethOutline)
+      const choroplethLayer = 
+        getChoroplethLayer(region, dataProp, stops);
+      const choroplethOutline = 
+        getChoroplethOutline(region);
+      updatedLayers = 
+        defaultMapStyle
+          .get('layers')
+          .splice(4, (init ? 0 : 2), choroplethLayer, choroplethOutline)
     } else {
-      const choroplethLayer = getBackgroundChoroplethLayer('districts', this.props.dataProp);
-      const dotLayer = getDotLayer(region, this.props.dataProp);
+      const choroplethLayer = getBackgroundChoroplethLayer('districts', dataProp, stops);
+      const dotLayer = getDotLayer(region, dataProp, stops);
       updatedLayers = defaultMapStyle
         .get('layers')
         .splice(4, (init ? 0 : 2), choroplethLayer)
@@ -145,8 +148,8 @@ class Map extends Component {
 
   _renderTooltip() {
     const { tooltip } = this.state;
-    const { hoveredFeature, dataProp, metric } = this.props;
-    const label = getMetric(metric).short_label;
+    const { hoveredFeature, dataProp, metricItem } = this.props;
+    const label = metricItem.short_label;
     return hoveredFeature && (
       <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
         <div className="tooltip__title">{hoveredFeature.properties.name}</div>
@@ -201,10 +204,13 @@ Map.propTypes = {
   onSelectFeature: PropTypes.func,
 }
 
-const mapStateToProps = (state) => ({
-  ...state.map,
-  dataProp: getChoroplethProperty(state.map),
-  hoveredFeature: state.map.hoveredFeature
+const mapStateToProps = ({map, metrics}) => ({
+  ...map,
+  dataProp: getChoroplethProperty(map),
+  stops: getStops(metrics, map.metric),
+  hoveredFeature: map.hoveredFeature,
+  metricItem: metrics.items && map && metrics.items[map.metric] ?
+    metrics.items[map.metric] : {}
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -25,8 +25,28 @@ const initialState = {
       numSteps: 9
     }
   },
-  colors: []
+  colors: [
+    '#252D7A', 
+    '#37469C', 
+    '#3561A8', 
+    '#519DD4', 
+    '#68C5D0', 
+    '#A2E2D4', 
+    '#E5F8C1', 
+    '#F9FECC', 
+    '#FFFFE7' 
+  ]
 }
+
+/** Metrics are static for now, so no actions are handled */
+const metrics = (state = initialState, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
+
+export default metrics;
 
 /**
  * Gets expanded min / max of a metric by adding a provided
@@ -36,8 +56,9 @@ const initialState = {
  * @param {int} padSteps the number of steps to expand the min / max
  */
 export const getPaddedMinMax = (state, metric, padSteps = 0) => {
-  const m = state[metric];
-  let { min, max, numSteps } = m;
+  const m = state.items[metric];
+  const numSteps = state.colors.length-1
+  let { min, max } = m;
   if (padSteps) {
     const stepSize = Math.abs(max - min) / numSteps;
     min = Math.round((min - (stepSize * padSteps))*10)/10;
@@ -46,4 +67,19 @@ export const getPaddedMinMax = (state, metric, padSteps = 0) => {
   return { min, max }
 }
 
-export const getStops = (state, metric) => {}
+/**
+ * Get an array with step value associated to each color
+ * @param {*} state metrics state containing metrics and colors
+ * @param {*} metric the metric id to get stops for
+ * @returns {Array<Array<number, string>>}
+ */
+export const getStops = (state, metric) => {
+  const m = state.items[metric];
+  const colors = state.colors;
+  const { min, max } = m;
+  const range = Math.abs(max - min);
+  const stepSize = range / (colors.length - 1);
+  return colors.map((c, i) =>
+    [ (min + (i * stepSize)), c ]
+  )
+}

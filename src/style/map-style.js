@@ -1,20 +1,18 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
-import { getStopsForMetric } from '../constants/dataOptions';
 
 const noDataFill = "#cccccc";
 
-const getFillStyle = (dataProp) => {
-  const metric = dataProp.split('_')[1];
-  const stops = getStopsForMetric(metric).reduce(
+const getFillStyle = (dataProp, stops) => {
+  // combine stops into one dimensional array
+  stops = stops.reduce(
     (acc, curr) => [ ...acc, ...curr ], []
   );
   return [ 
     "case",
     [ "has", dataProp ],
     [
-      "interpolate",
-      [ "linear" ],
+      "interpolate", [ "linear" ],
       [ "get", dataProp ],
       -9999, noDataFill,
       ...stops
@@ -23,14 +21,14 @@ const getFillStyle = (dataProp) => {
   ]
 }
 
-export const getDotLayer = (region, dataProp) => fromJS({
+export const getDotLayer = (region, dataProp, stops) => fromJS({
   id: 'dots',
   source: 'composite',
   'source-layer': region,
   type: 'circle',
   interactive: true,
   paint: {
-    'circle-color': getFillStyle(dataProp),
+    'circle-color': getFillStyle(dataProp, stops),
     'circle-opacity': 0.8,
     'circle-radius': [
       "interpolate",
@@ -73,26 +71,26 @@ export const getChoroplethOutline = (region) => fromJS({
   }
 })
 
-export const getChoroplethLayer = (region, dataProp) => fromJS({
+export const getChoroplethLayer = (region, dataProp, stops) => fromJS({
   id: 'choropleth',
   source: 'composite',
   'source-layer': region,
   type: 'fill',
   interactive: true,
   paint: {
-    'fill-color': getFillStyle(dataProp),
+    'fill-color': getFillStyle(dataProp, stops),
     'fill-opacity': 0.9
   }
 });
 
-export const getBackgroundChoroplethLayer = (region, dataProp) => fromJS({
+export const getBackgroundChoroplethLayer = (region, dataProp, stops) => fromJS({
   id: 'choropleth',
   source: 'composite',
   'source-layer': region,
   type: 'fill',
   interactive: true,
   paint: {
-    'fill-color': getFillStyle(dataProp),
+    'fill-color': getFillStyle(dataProp, stops),
     'fill-opacity': [
       "interpolate",
       [ "linear" ],

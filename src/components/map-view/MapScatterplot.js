@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Paper from '@material-ui/core/Paper';
 import ReactEcharts from 'echarts-for-react';
 import { scatterOptions, hoverOptions } from '../../constants/scatterOptions';
-import { metrics } from '../../constants/dataOptions';
+import { getPaddedMinMax } from '../../modules/metrics';
 import { loadVarsForRegion } from '../../actions/scatterplotActions';
 
 export class MapScatterplot extends Component {
@@ -25,33 +25,14 @@ export class MapScatterplot extends Component {
   }
 
   _getVisualMap() {
+    const { metrics, metric } = this.props;
     return {
-      ...this._getMetricMinMax(),
+      ...getPaddedMinMax(metrics, metric),
       inRange: {
-        color: this._getMetricColors()
+        color: metrics.colors
       }
     }
   }
-
-  _getMetricColors() {
-    const { metric } = this.props;
-    const stops = metrics.find(m => m.id === metric).stops;
-    return stops.map(s => s[1])
-  }
-
-  _getMetricMinMax(padSteps = 0) {
-    const { metric } = this.props;
-    const stops = metrics.find(m => m.id === metric).stops;
-    let min = stops[0][0];
-    let max = stops[stops.length-1][0];
-    if (padSteps) {
-      const stepSize = Math.abs(stops[0][0] - stops[1][0]);
-      min = Math.round((min - (stepSize * padSteps))*10)/10;
-      max = Math.round((max + (stepSize * padSteps))*10)/10;
-    }
-    return { min, max }
-  }
-
 
   _getDataForFeatureId(id) {
     const { xData, yData } = this.props;
@@ -61,12 +42,12 @@ export class MapScatterplot extends Component {
   }
 
   _getOverlayOptions() {
-    const { hoveredFeature } = this.props;
+    const { hoveredFeature, metrics, metric } = this.props;
     return {
       ...hoverOptions,
       yAxis: {
         ...hoverOptions.yAxis,
-        ...this._getMetricMinMax(2)
+        ...getPaddedMinMax(metrics, metric, 2)
       },
       series: [
         {
@@ -96,6 +77,7 @@ export class MapScatterplot extends Component {
   }
 
   _getScatterOptions() {
+    const { metrics, metric } = this.props;
     return {
       ...scatterOptions,
       visualMap: {
@@ -104,7 +86,7 @@ export class MapScatterplot extends Component {
       },
       yAxis: {
         ...scatterOptions.yAxis,
-        ...this._getMetricMinMax(2)
+        ...getPaddedMinMax(metrics, metric, 2)
       },
       series: [
         {
@@ -123,8 +105,8 @@ export class MapScatterplot extends Component {
   }
 
   _onChartReady(e) {
-    console.log(e)
-    e.on('mousemove', console.log)
+    // console.log(e)
+    // e.on('mousemove', console.log)
     // this.echart = e;
   }
 
@@ -195,7 +177,7 @@ const mergeDatasets = (set1, set2) =>
     }, {}
   )
 
-const mapStateToProps = ({map, scatterplot}) => {
+const mapStateToProps = ({map, scatterplot, metrics}) => {
   const region = 
     map.region === 'schools' ? 
       'districts' : map.region;
@@ -215,6 +197,7 @@ const mapStateToProps = ({map, scatterplot}) => {
     xData,
     yData,
     yVar,
+    metrics,
     xVar: 'all_ses',
     metric: map.metric,
     hoveredFeature: map.hoveredFeature ? 
