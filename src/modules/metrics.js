@@ -48,6 +48,13 @@ const metrics = (state = initialState, action) => {
 
 export default metrics;
 
+export const getMetricShortLabel = ({ items }, metric) => {
+  if (items && items[metric] && items[metric].short_label) {
+    return items[metric].short_label
+  }
+  throw new Error(`No short label for metric: ${metric}`);
+}
+
 /**
  * Gets expanded min / max of a metric by adding a provided
  * number of steps to each.

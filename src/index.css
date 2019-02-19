@@ -253,6 +253,7 @@ body {
 
 .tooltip {
   position: absolute;
+  z-index: 9999;
   margin: 8px;
   padding: 8px;
   background: rgba(0, 0, 0, 0.8);

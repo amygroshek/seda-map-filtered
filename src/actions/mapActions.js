@@ -1,6 +1,11 @@
-export const onHoverFeature = (hoveredFeature) => ({
+export const onHoverFeature = (feature) => ({
   type: 'SET_HOVERED_FEATURE',
-  hoveredFeature
+  feature
+});
+
+export const onCoordsChange = (coords) => ({
+  type: 'SET_COORDS',
+  coords
 });
 
 export const onViewportChange = (viewport) => ({

@@ -6,6 +6,8 @@ import ReactEcharts from 'echarts-for-react';
 import { scatterOptions, hoverOptions } from '../../constants/scatterOptions';
 import { getPaddedMinMax } from '../../modules/metrics';
 import { loadVarsForRegion } from '../../actions/scatterplotActions';
+import { onHoverFeature, onCoordsChange } from '../../actions/mapActions';
+
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -73,7 +75,7 @@ export class MapScatterplot extends Component {
     const { xData, yData } = this.props;
     if (!yData || !xData) { return []; }
     const data = mergeDatasets(xData, yData);
-    return Object.keys(data).map(k => data[k])
+    return Object.keys(data).map(k => data[k]);
   }
 
   _getScatterOptions() {
@@ -88,6 +90,7 @@ export class MapScatterplot extends Component {
         ...scatterOptions.yAxis,
         ...getPaddedMinMax(metrics, metric, 2)
       },
+      
       series: [
         {
           id: 'scatter',
@@ -104,10 +107,30 @@ export class MapScatterplot extends Component {
     // this.echart.resize();
   }
 
+  _handleHoveredDot = (e) => {
+    const data = e.data;
+    const feature = {
+      id: data[2],
+      properties: {
+        id: data[2],
+        [this.props.xVar]: data[0],
+        [this.props.yVar]: data[1]
+      }
+    }
+    const coords = {
+      x: e.event.event.clientX,
+      y: e.event.event.clientY
+    }
+    this.props.onHoverFeature(feature, coords);
+    console.log(coords);
+  }
+
   _onChartReady(e) {
     // console.log(e)
-    // e.on('mousemove', console.log)
-    // this.echart = e;
+    e.on('mouseover', this._handleHoveredDot)
+    e.on('mouseout', this._handleHoveredDot)
+
+    this.echart = e;
   }
 
   _handleResize() {
@@ -170,23 +193,29 @@ const mergeDatasets = (set1, set2) =>
       ) {
         acc[curr] = [ 
           parseFloat(set1[curr]), 
-          parseFloat(set2[curr]) 
+          parseFloat(set2[curr]),
+          curr
         ]
       }
       return acc;
     }, {}
   )
 
-const mapStateToProps = ({map, scatterplot, metrics}) => {
+const mapStateToProps = ({
+  map: { options },
+  hovered: { feature },
+  scatterplot, 
+  metrics
+}) => {
   const region = 
-    map.region === 'schools' ? 
-      'districts' : map.region;
+    options.region === 'schools' ? 
+      'districts' : options.region;
   const xData = 
     scatterplot.data[region] &&
     scatterplot.data[region]['all_ses'] ?
       scatterplot.data[region]['all_ses'] :
       null
-  const yVar = 'all_' + map.metric;
+  const yVar = 'all_' + options.metric;
   const yData = 
     scatterplot.data[region] &&
     scatterplot.data[region][yVar] ?
@@ -199,13 +228,16 @@ const mapStateToProps = ({map, scatterplot, metrics}) => {
     yVar,
     metrics,
     xVar: 'all_ses',
-    metric: map.metric,
-    hoveredFeature: map.hoveredFeature ? 
-      map.hoveredFeature : null
+    metric: options.metric,
+    hoveredFeature: feature ? feature : null
   })
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  onHoverFeature: (feature, coords) => (
+    dispatch(onHoverFeature(feature)) &&
+    dispatch(onCoordsChange(coords))
+  ),
   loadVarsForRegion: (vars, region) => 
     dispatch(loadVarsForRegion(vars, region))
 })
