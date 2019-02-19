@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getStopsForMetric } from '../../constants/dataOptions';
+import { getStops } from '../../modules/metrics';
 import { getChoroplethProperty } from '../../modules/map';
 
 const getMarkerLocation = (stops, value) => {
@@ -44,12 +44,12 @@ const MapLegend = ({ hoveredValue, stops }) => (
   </div>
 )
 
-const mapStateToProps = (state) => ({
-  metric: state.map.metric,
-  stops: getStopsForMetric(state.map.metric), 
-  hoveredValue: state.map.hoveredFeature ? 
-    state.map.hoveredFeature.properties[
-      getChoroplethProperty(state.map)
+const mapStateToProps = ({map, metrics}) => ({
+  metric: map.metric,
+  stops: getStops(metrics, map.metric), 
+  hoveredValue: map.hoveredFeature ? 
+    map.hoveredFeature.properties[
+      getChoroplethProperty(map)
     ] : null
 })
 
