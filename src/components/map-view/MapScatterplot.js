@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import axios from 'axios';
-import { parse } from 'papaparse';
 import Paper from '@material-ui/core/Paper';
 import ReactEcharts from 'echarts-for-react';
 import { scatterOptions, hoverOptions } from '../../constants/scatterOptions';
 import { metrics } from '../../constants/dataOptions';
+import { loadVarsForRegion } from '../../actions/scatterplotActions';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -17,59 +16,12 @@ export class MapScatterplot extends Component {
     hoveredFeature: PropTypes.object
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-      scatterData: []
-    }
-  }
-
-  _loadDataForVar(varName) {
-    const {region} = this.props;
-    const url = `/assets/data/${region}/${varName}.csv`;
-    return axios.get(url).then((res) => {
-      const parsed = parse(res.data);
-      if (parsed.errors.length) {
-        throw new Error(res.errors[0])
-      }
-      return parsed.data
-        .reduce((acc, curr) => {
-          acc[curr[0]] = curr[1];
-          return acc;
-        }, {});
-    })
-  }
-
-  _buildScatterplotData() {
-    const { xVar, yVar } = this.props;
-    return Promise.all([
-      this._loadDataForVar(xVar),
-      this._loadDataForVar(yVar),
-    ])
-      .then(data => Object.keys(data[0]).reduce(
-        (acc, curr) => {
-          if (
-            data[1].hasOwnProperty(curr) && 
-            curr !== "" && curr !== "id"
-          ) {
-            acc[curr] = [ 
-              parseFloat(data[0][curr]), 
-              parseFloat(data[1][curr]) 
-            ]
-          }
-          return acc;
-        }, {}
-      ))
-      .then(data => {
-        this.setState({ 
-          data,
-          scatterData: Object.keys(data)
-            .filter(k => data[k][1] > -999)
-            .map(k => data[k])
-        });
-        return data;
-      })
+  _loadScatterplotData() {
+    const { xVar, yVar, xData, yData, region, loadVarsForRegion } = this.props;
+    const vars = [];
+    xVar && !xData && vars.push(xVar);
+    yVar && !yData && vars.push(yVar);
+    loadVarsForRegion(vars, region);
   }
 
   _getVisualMap() {
@@ -100,32 +52,12 @@ export class MapScatterplot extends Component {
     return { min, max }
   }
 
-  _getSeries() {
-    const { hoveredFeature } = this.props;
-    const series = [
-      {
-        id: 'scatter',
-        name: 'scatter',
-        type: 'scatter',
-        data: Object.keys(this.state.data)
-                    .filter(k => this.state.data[k][1] > -999)
-                    .map(k => this.state.data[k]),
-        z:2
-      }
-    ]
-    if (hoveredFeature) {
-      series.push({
-        id: 'hover',
-        type: 'effectScatter',
-        symbolSize: 20,
-        
-        data: [
-          this.state.data[hoveredFeature.properties.id]
-        ],
-        z: 3
-      })
-    }
-    return series;
+
+  _getDataForFeatureId(id) {
+    const { xData, yData } = this.props;
+    return xData && yData ?
+      [ [ xData[id], yData[id] ] ] :
+      []
   }
 
   _getOverlayOptions() {
@@ -145,16 +77,22 @@ export class MapScatterplot extends Component {
             color: 'rgba(255,0,0, 1)'
           },
           data: hoveredFeature && 
-            this.state.data[hoveredFeature.properties.id] && 
-            this.state.data[hoveredFeature.properties.id][1] > -999 ? 
-              [ this.state.data[hoveredFeature.properties.id] ] : 
-              null
+            hoveredFeature.properties.id ? 
+              this._getDataForFeatureId(hoveredFeature.properties.id) : 
+              []
           ,
           z: 3
         }
       ]
     }
     
+  }
+
+  _getData() {
+    const { xData, yData } = this.props;
+    if (!yData || !xData) { return []; }
+    const data = mergeDatasets(xData, yData);
+    return Object.keys(data).map(k => data[k])
   }
 
   _getScatterOptions() {
@@ -173,7 +111,7 @@ export class MapScatterplot extends Component {
           id: 'scatter',
           name: 'scatter',
           type: 'scatter',
-          data: this.state.scatterData,
+          data: this._getData(),
           z:2
         }
       ]
@@ -190,16 +128,16 @@ export class MapScatterplot extends Component {
     // this.echart = e;
   }
 
-  handleResize() {
+  _handleResize() {
     this._updateDimensions();
   }
 
   componentDidMount() {
     window.addEventListener(
-      'resize', this.handleResize.bind(this)
+      'resize', this._handleResize.bind(this)
     );
     this._updateDimensions();
-    this._buildScatterplotData();
+    this._loadScatterplotData();
   }
 
   componentDidUpdate(prevProps) {
@@ -209,13 +147,13 @@ export class MapScatterplot extends Component {
       prevProps.xVar !== xVar ||
       prevProps.yVar !== yVar
     ) {
-      this._buildScatterplotData();
+      this._loadScatterplotData();
     }
   }
 
   componentWillUnmount() {
     window.removeEventListener(
-      'resize', this.handleResize.bind(this)
+      'resize', this._handleResize.bind(this)
     );
   }
 
@@ -239,19 +177,54 @@ export class MapScatterplot extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  region: state.map.region === 'schools' ? 
-    'districts' : state.map.region,
-  metric: state.map.metric,
-  yVar: 'all_' + state.map.metric,
-  xVar: 'all_ses',
-  xData: state.scatterplot.data[region]['all_ses'],
-  hoveredFeature: state.map.hoveredFeature ? 
-    state.map.hoveredFeature : null
-})
+const mergeDatasets = (set1, set2) =>
+  Object.keys(set1).reduce(
+    (acc, curr) => {
+      if (
+        set2.hasOwnProperty(curr) && 
+        parseFloat(set2[curr]) > -9999 &&
+        parseFloat(set1[curr]) > -9999 &&
+        curr !== "" && curr !== "id"
+      ) {
+        acc[curr] = [ 
+          parseFloat(set1[curr]), 
+          parseFloat(set2[curr]) 
+        ]
+      }
+      return acc;
+    }, {}
+  )
 
-const mapDispatchToProps = {
-  
+const mapStateToProps = ({map, scatterplot}) => {
+  const region = 
+    map.region === 'schools' ? 
+      'districts' : map.region;
+  const xData = 
+    scatterplot.data[region] &&
+    scatterplot.data[region]['all_ses'] ?
+      scatterplot.data[region]['all_ses'] :
+      null
+  const yVar = 'all_' + map.metric;
+  const yData = 
+    scatterplot.data[region] &&
+    scatterplot.data[region][yVar] ?
+      scatterplot.data[region][yVar] :
+      null
+  return ({
+    region,
+    xData,
+    yData,
+    yVar,
+    xVar: 'all_ses',
+    metric: map.metric,
+    hoveredFeature: map.hoveredFeature ? 
+      map.hoveredFeature : null
+  })
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  loadVarsForRegion: (vars, region) => 
+    dispatch(loadVarsForRegion(vars, region))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapScatterplot)
