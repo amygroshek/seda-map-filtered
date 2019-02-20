@@ -15,6 +15,7 @@ import { getRegionData } from '../../modules/scatterplot';
 import { mergeDatasets } from '../../utils';
 import { fetchResults } from '../../actions/searchActions';
 import * as _isEmpty from 'lodash.isempty';
+import { Typography } from '@material-ui/core';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -34,10 +35,10 @@ export class MapScatterplot extends Component {
   }
 
   _getVisualMap() {
-    const { colors, metric } = this.props;
+    const { colors, metric: {min, max} } = this.props;
     return {
-      min: metric.min,
-      max: metric.max,
+      min,
+      max,
       inRange: {
         color: colors
       }
@@ -147,7 +148,7 @@ export class MapScatterplot extends Component {
     e.on('mouseover', this._handleMouseOver)
     e.on('mouseout', this._handleMouseOut)
     e.on('click', this._handleClick)
-
+    e.on('datarangeselected', console.log)
     this.echart = e;
   }
 
@@ -166,16 +167,17 @@ export class MapScatterplot extends Component {
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener(
-      'resize', this._handleResize.bind(this)
-    );
-  }
-
   render() {
     return (
-      <div className='map-scatterplot'>
-        <Paper className="map-scatterplot__container">
+      <Paper className='map-scatterplot'>
+        <div className="map-scatterplot__header">
+          <p>
+            Displaying <span>average test scores</span>
+            {' '}for {' '}
+            <span>all students</span> by <span>county</span>
+          </p>
+        </div>
+        <div className="map-scatterplot__container">
           <ReactEcharts
             onChartReady={this._onChartReady.bind(this)}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
@@ -186,8 +188,8 @@ export class MapScatterplot extends Component {
             style={{ pointerEvents: 'none', position: 'absolute', width: '100%', height: '100%' }}
             option={this._getOverlayOptions()}
           />
-        </Paper>
-      </div>
+        </div>
+      </Paper>
     )
   }
 }

@@ -1,11 +1,15 @@
 
-export const hoverOptions = {
+const overlayOptions = {
   grid: {
     top: '24',
     right: '32',
-    bottom: '40',
+    bottom: '96',
     left: '32',
   },
+}
+
+export const hoverOptions = {
+  ...overlayOptions,
   xAxis: {
     type: 'value',
     name: '',
@@ -56,16 +60,18 @@ export const hoverOptions = {
 }
 
 export const scatterOptions = {
-  grid: {
-    top: '24',
-    right: '32',
-    bottom: '40',
-    left: '32',
-  },
+  ...overlayOptions,
   visualMap: {
     dimension: 1,
-    show:false,
-    calculable: false
+    calculable: true,
+    precision: 1,
+    left: 8,
+    right: 8,
+    bottom:8,
+    top: 'auto',
+    backgroundColor: '#efefef',
+    orient: 'horizontal',
+    itemHeight: 384,
   },
   xAxis: {
     type: 'value',

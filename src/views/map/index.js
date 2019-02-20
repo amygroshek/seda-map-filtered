@@ -15,10 +15,7 @@ const MapView = props => (
       <div className="map-view__search-overlay">
         <MapSearch />
       </div>
-      <div className="map-view__controls-overlay">
-        <MapLegend />
-        <MapControls />
-      </div>
+
       <div className="map-view__scatterplot-overlay">
         <MapScatterplot />
       </div>
