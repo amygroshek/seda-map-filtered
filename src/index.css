@@ -37,15 +37,6 @@ body {
 
 /** LAYOUTS **/
 
-/** IN DEVELOPMENT */
-.map-view__scatterplot-overlay,
-.map-view__search-overlay,
-.map-legend,
-.map-scatterplot {
-  background: rgba(0,0,0,0.15);
-
-}
-
 
 /** Map View: Search Overlay */
 
@@ -293,4 +284,52 @@ body {
   right: 6px!important;
   left: auto!important;
   bottom: auto!important;
+}
+
+.ais-InstantSearch__root {
+  
+}
+
+.ais-SearchBox {
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
+.ais-SearchBox-input {
+  border: none;
+  height:40px;
+  padding:8px;
+  width:100%;
+  font-size: 16px;
+  width: calc(100% - 40px)
+}
+
+.ais-SearchBox-submit {
+  position:absolute;
+  background: none;
+  border:none;
+  right: 8px;
+  top:10px;
+}
+
+.ais-SearchBox-submitIcon {
+  width:16px!important;
+  height: 16px!important;
+}
+
+.ais-SearchBox-reset {
+  display:none;
+}
+
+.ais-Hits {
+
+}
+
+.ais-Hits-list {
+  list-style: none;
+  padding:0;
+  margin:0;
+  background: #fff;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);
+
 }
