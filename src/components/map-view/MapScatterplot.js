@@ -172,9 +172,9 @@ export class MapScatterplot extends Component {
       <Paper className='map-scatterplot'>
         <div className="map-scatterplot__header">
           <p>
-            Displaying <span>average test scores</span>
+            Displaying <span>{this.props.metric.label.toLowerCase()}</span>
             {' '}for {' '}
-            <span>all students</span> by <span>county</span>
+            {this.props.region}
           </p>
         </div>
         <div className="map-scatterplot__container">

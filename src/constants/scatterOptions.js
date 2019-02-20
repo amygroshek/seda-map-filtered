@@ -3,7 +3,7 @@ const overlayOptions = {
   grid: {
     top: '24',
     right: '32',
-    bottom: '96',
+    bottom: '40',
     left: '32',
   },
 }
@@ -63,15 +63,8 @@ export const scatterOptions = {
   ...overlayOptions,
   visualMap: {
     dimension: 1,
-    calculable: true,
-    precision: 1,
-    left: 8,
-    right: 8,
-    bottom:8,
-    top: 'auto',
-    backgroundColor: '#efefef',
-    orient: 'horizontal',
-    itemHeight: 384,
+    calculable: false,
+    show: false,
   },
   xAxis: {
     type: 'value',
