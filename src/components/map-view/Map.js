@@ -12,12 +12,7 @@ import { isPropEqual } from '../../utils';
 class Map extends Component {
 
   state = {
-    mapStyle: defaultMapStyle,
-    tooltip: {
-      x:0,
-      y:0,
-    },
-    hoveredId: null
+    mapStyle: defaultMapStyle
   };
 
   _getContainerSize() {
@@ -39,7 +34,7 @@ class Map extends Component {
   }
 
   _setFeatureState(region, featureId, state) {
-    this.map.setFeatureState({
+    this.map && this.map.setFeatureState({
       source: 'composite', 
       sourceLayer: region, 
       id: featureId

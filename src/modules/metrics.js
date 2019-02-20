@@ -38,6 +38,8 @@ const initialState = {
   ]
 }
 
+// Reducer
+
 /** Metrics are static for now, so no actions are handled */
 const metrics = (state = initialState, action) => {
   switch (action.type) {
@@ -47,6 +49,9 @@ const metrics = (state = initialState, action) => {
 }
 
 export default metrics;
+
+
+// Helper Functions
 
 export const getMetricShortLabel = ({ items }, metric) => {
   if (items && items[metric] && items[metric].short_label) {

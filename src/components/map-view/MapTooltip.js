@@ -14,15 +14,35 @@ const getValues = (feature, vals) =>
     ]
   }) : []
 
+const getFeatureName = (feature, results = {}) => {
+  if (
+    feature && 
+    feature.properties && 
+    feature.properties.name
+  ) {
+    return feature.properties.name
+  }
+  if (
+    feature &&
+    feature.properties &&
+    feature.properties.id &&
+    results[feature.properties.id]
+  ) {
+    return results[feature.properties.id].name
+  }
+  return null;
+}
+
 const mapStateToProps = ({ 
-  hovered: { feature, coords },
+  hovered: { feature, coords: { x, y } },
   metrics,
-  map: { options }
+  map: { options },
+  search: { results }
 }) => ({
-  ...coords,
+  x,
+  y,
   visible: Boolean(feature),
-  title: feature && feature.properties ? 
-    feature.properties.name : 'Unknown',
+  title: getFeatureName(feature, results),
   values: getValues(feature, [ [
     getMetricShortLabel(metrics, options.metric),
     getChoroplethProperty(options)

@@ -10,3 +10,22 @@ export const isPropEqual = (obj1, obj2, propName) => {
           obj2.hasOwnProperty(propName) &&
           obj1[propName] === obj2[propName])
 }
+
+export const mergeDatasets = (set1, set2) =>
+  Object.keys(set1).reduce(
+    (acc, curr) => {
+      if (
+        set2.hasOwnProperty(curr) && 
+        parseFloat(set2[curr]) > -9999 &&
+        parseFloat(set1[curr]) > -9999 &&
+        curr !== "" && curr !== "id"
+      ) {
+        acc[curr] = [ 
+          parseFloat(set1[curr]), 
+          parseFloat(set2[curr]),
+          curr
+        ]
+      }
+      return acc;
+    }, {}
+  )

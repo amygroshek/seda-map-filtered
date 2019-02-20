@@ -112,7 +112,7 @@ body {
     bottom:24px;
     max-width: none;
     width: calc(50% - 32px);
-    max-width: 480px;
+    max-width: 640px;
   }
 }
 
