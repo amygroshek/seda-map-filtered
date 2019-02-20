@@ -1,8 +1,8 @@
 import React from 'react'
-import { InstantSearch, SearchBox, Hits, Highlight, Configure, connectStateResults, connectSearchBox } from 'react-instantsearch-dom';
+import { InstantSearch, SearchBox, Hits, Highlight, Configure, connectSearchBox } from 'react-instantsearch-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
-import { onViewportChange } from '../../actions/mapActions';
+import { onViewportChange, onRegionChange } from '../../actions/mapActions';
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 
@@ -27,8 +27,8 @@ const Results = connectSearchBox(
 );
 
 const mapDispatchToProps = (dispatch) => ({
-  updateMapViewport: (hit) =>
-    hit ?
+  updateMapViewport: (hit) => {
+    if (hit) {
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
         longitude: parseFloat(hit.lon),
@@ -36,7 +36,14 @@ const mapDispatchToProps = (dispatch) => ({
         transitionDuration: 3000,
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: ease.easeCubic
-      })) : null
+      }))
+      console.log(hit)
+      const region = hit.group === 'district' ?
+        'districts' : hit.group === 'county' ?
+        'counties' : 'schools';
+      dispatch(onRegionChange(region))
+    }
+  }
 })
 
 const Search = connect(null, mapDispatchToProps)(
@@ -46,9 +53,6 @@ const Search = connect(null, mapDispatchToProps)(
         <SearchBox />
         <Results onClick={(e) => {
           updateMapViewport(e);
-          if (e.group === "district") {
-            
-          }
         }} />
       </div>
     );
