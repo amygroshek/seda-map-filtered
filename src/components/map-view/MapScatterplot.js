@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import {FlyToInterpolator} from 'react-map-gl';
+// 3rd-party easing functions
+import * as ease from 'd3-ease';
+
 import Paper from '@material-ui/core/Paper';
 import ReactEcharts from 'echarts-for-react';
 import { scatterOptions, hoverOptions } from '../../constants/scatterOptions';
@@ -225,7 +229,10 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(onViewportChange({ 
         latitude: parseFloat(meta.lat), 
         longitude: parseFloat(meta.lon),
-        zoom: feature.id.length+2
+        zoom: feature.id.length+2,
+        transitionDuration: 3000,
+        transitionInterpolator: new FlyToInterpolator(),
+        transitionEasing: ease.easeCubic
       })) : null
 })
 

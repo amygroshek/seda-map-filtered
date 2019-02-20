@@ -115,6 +115,7 @@ class Map extends Component {
         (region === 'schools' && f.layer.id === 'dots')
       ));
     const coords = { x: offsetX, y: offsetY };
+    console.log(hoveredFeature);
     this.props.onHoverFeature(hoveredFeature, coords);
   };
 

@@ -3,6 +3,8 @@ import { InstantSearch, SearchBox, Hits, Highlight, Configure, connectStateResul
 import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import { onViewportChange } from '../../actions/mapActions';
+import {FlyToInterpolator} from 'react-map-gl';
+import * as ease from 'd3-ease';
 
 
 const SearchMenuItem = 
@@ -30,7 +32,10 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
         longitude: parseFloat(hit.lon),
-        zoom: hit.id.length
+        zoom: hit.id.length,
+        transitionDuration: 3000,
+        transitionInterpolator: new FlyToInterpolator(),
+        transitionEasing: ease.easeCubic
       })) : null
 })
 
@@ -39,7 +44,12 @@ const Search = connect(null, mapDispatchToProps)(
     return (
       <div>
         <SearchBox />
-        <Results onClick={(e) => updateMapViewport(e)} />
+        <Results onClick={(e) => {
+          updateMapViewport(e);
+          if (e.group === "district") {
+            
+          }
+        }} />
       </div>
     );
   }
