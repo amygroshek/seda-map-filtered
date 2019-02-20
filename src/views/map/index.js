@@ -5,11 +5,13 @@ import MapControls from '../../components/map-view/MapControls';
 import MapLegend from '../../components/map-view/MapLegend';
 import MapScatterplot from '../../components/map-view/MapScatterplot';
 import MapSearch from '../../components/map-view/MapSearch';
+import MapTooltip from '../../components/map-view/MapTooltip';
 
 const MapView = props => (
   <div className="map-view">
     <div className="map-view__container">
       <Map />
+      <MapTooltip />
       <div className="map-view__search-overlay">
         <MapSearch />
       </div>

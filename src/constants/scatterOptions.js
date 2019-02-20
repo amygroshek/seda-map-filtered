@@ -62,9 +62,6 @@ export const scatterOptions = {
     bottom: '40',
     left: '32',
   },
-  tooltip: {
-    trigger: 'item',
-  },
   visualMap: {
     dimension: 1,
     show:false,

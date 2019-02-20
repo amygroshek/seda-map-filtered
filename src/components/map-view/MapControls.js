@@ -58,10 +58,10 @@ MapControls.propTypes = {
   onDemographicChange: PropTypes.func
 }
 
-const mapStateToProps = (state) => ({
-  metric: state.map.metric,
-  region: state.map.region,
-  demographic: state.map.demographic
+const mapStateToProps = ({map: {options}}) => ({
+  metric: options.metric,
+  region: options.region,
+  demographic: options.demographic
 })
 
 const mapDispatchToProps = (dispatch) => ({

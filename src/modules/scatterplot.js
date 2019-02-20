@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 
-export const data = (state = {}, action) => {
+// Reducers
+
+const data = (state = {}, action) => {
   switch(action.type) {
     case 'FETCH_VAR_SUCCESS':
       return {
@@ -15,7 +17,7 @@ export const data = (state = {}, action) => {
   }
 }
 
-export const isLoading = (state = false, action) => {
+const isLoading = (state = false, action) => {
   switch(action.type) {
     case 'FETCH_VAR_REQUEST':
       return true
@@ -28,7 +30,7 @@ export const isLoading = (state = false, action) => {
   }
 }
 
-export const errorMessage = (state = null, action) => {
+const errorMessage = (state = null, action) => {
   switch(action.type) {
     case 'FETCH_VAR_REQUEST':
       return null
@@ -41,10 +43,16 @@ export const errorMessage = (state = null, action) => {
   }
 }
 
-export const scatterplot = combineReducers({
+const scatterplot = combineReducers({
   data,
   isLoading,
   errorMessage
 })
 
 export default scatterplot;
+
+// Helper Functions
+
+export const getRegionData = ({ data }, region, prop) =>
+  data[region] && data[region][prop] ?
+    data[region][prop] : null

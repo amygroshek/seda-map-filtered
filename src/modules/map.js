@@ -1,23 +1,13 @@
-const initialState = {
+import { combineReducers } from "redux";
+
+const defaultOptions = {
   metric: 'avg',
   region: 'counties',
   demographic: 'all',
-  hoveredFeature: null,
-  viewport: {
-    latitude: 38,
-    longitude: -97,
-    zoom: 3.5
-  },
-  selected: []
 }
 
-const map = (state = initialState, action) => {
-  switch(action.type) {
-    case 'SET_HOVERED_FEATURE':
-      return {
-        ...state,
-        hoveredFeature: action.hoveredFeature
-      }
+const options = (state = defaultOptions, action) => {
+  switch (action.type) {
     case 'SET_MAP_REGION':
       return {
         ...state,
@@ -33,29 +23,32 @@ const map = (state = initialState, action) => {
         ...state,
         metric: action.metric
       }
-    case 'ADD_SELECTED_FEATURE':
-      return {
-        ...state,
-        selected: [ 
-          ...state.selected, 
-          action.feature
-        ]
-      }
+    default:
+      return state;
+  }
+}
+
+const defaultViewport = {
+  latitude: 38,
+  longitude: -97,
+  zoom: 3.5
+}
+const viewport = (state = defaultViewport, action) => {
+  switch (action.type) {
     case 'SET_MAP_VIEWPORT':
       return {
         ...state,
-        viewport: { 
-          ...state.viewport,
-          ...action.viewport 
-        }
+        ...action.viewport
       }
     default:
       return state;
   }
 }
 
-export const getChoroplethProperty = (state) => {
-  const { metric, demographic } = state;
+const map = combineReducers({ viewport, options })
+
+export const getChoroplethProperty = (options) => {
+  const { metric, demographic } = options;
   return demographic + '_' + metric;
 }
 

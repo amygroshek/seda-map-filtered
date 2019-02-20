@@ -3,23 +3,19 @@ import ReactMapGL from 'react-map-gl';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
-import { onHoverFeature, onViewportChange, onSelectFeature } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
 import mapboxgl from 'mapbox-gl';
 import { getStops } from '../../modules/metrics';
+import { isPropEqual } from '../../utils';
 
 class Map extends Component {
 
   state = {
-    mapStyle: defaultMapStyle,
-    tooltip: {
-      x:0,
-      y:0,
-    },
-    hoveredId: null
+    mapStyle: defaultMapStyle
   };
 
-  getContainerSize() {
+  _getContainerSize() {
     if (!this.mapContainer) {
       return { width: 400, height: 400 }
     }
@@ -29,36 +25,34 @@ class Map extends Component {
     }
   }
 
-  handleResize() {
-    this.updateDimensions();
+  _handleResize() {
+    this._updateDimensions();
   }
 
-  updateDimensions(dimensions = this.getContainerSize()) {
+  _updateDimensions(dimensions = this._getContainerSize()) {
     this.props.onViewportChange(dimensions);
   }
 
-  componentDidMount() {
-    window.addEventListener(
-      'resize', this.handleResize.bind(this)
-    );
-    this.updateDimensions();
-    this._updateChoropleth(true);
+  _setFeatureState(region, featureId, state) {
+    this.map && this.map.setFeatureState({
+      source: 'composite', 
+      sourceLayer: region, 
+      id: featureId
+    }, state);
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.metric !== this.props.metric ||
-      prevProps.region !== this.props.region ||
-      prevProps.demographic !== this.props.demographic
-    ) {
-      this._updateChoropleth();
+  _updateOutlineHighlight(oldFeature, newFeature, region) {
+    const featureId = newFeature ? newFeature.id : null;
+    if (oldFeature && oldFeature.id) {
+      this._setFeatureState(
+        region, oldFeature.id, { hover: false}
+      );
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener(
-      'resize', this.handleResize.bind(this)
-    );
+    if (featureId) {
+      this._setFeatureState(
+        region, featureId, { hover: true}
+      );
+    }
   }
 
   _updateChoropleth(init = false) {
@@ -90,13 +84,6 @@ class Map extends Component {
   _onLoad = event => {
     this.map = event.target;
     this.map.addControl(new mapboxgl.AttributionControl(), 'top-right');
-    // this.map.on('moveend', () => {
-    //   var features = this.map.queryRenderedFeatures({layers:['dots']});
-    //   if (features) {
-    //     var uniqueFeatures = this._getUniqueFeatures(features, "id");
-    //     console.log(uniqueFeatures);
-    //   }
-    // });
   }
 
   _getUniqueFeatures(array, comparatorProperty) {
@@ -127,42 +114,43 @@ class Map extends Component {
         (region !== 'schools' && f.layer.id === 'choropleth') ||
         (region === 'schools' && f.layer.id === 'dots')
       ));
-    this.props.onHoverFeature(hoveredFeature);
-    this.setState({ 
-      tooltip: { x: offsetX, y: offsetY }
-    });
-    const featureId = hoveredFeature ? hoveredFeature.id : null;
-    if (featureId) {
-      if (this.state.hoveredId) {
-        this.map.setFeatureState({source: 'composite', sourceLayer: region, id: this.state.hoveredId}, { hover: false});
-      }
-      this.setState({ hoveredId: featureId })
-      this.map.setFeatureState({source: 'composite', sourceLayer: region, id: featureId}, { hover: true});
-    } else {
-      if (this.state.hoveredId) {
-        this.map.setFeatureState({source: 'composite', sourceLayer: region, id: this.state.hoveredId}, { hover: false});
-      }
-      this.setState({ hoveredId: null })
-    }
+    const coords = { x: offsetX, y: offsetY };
+    this.props.onHoverFeature(hoveredFeature, coords);
   };
 
-  _renderTooltip() {
-    const { tooltip } = this.state;
-    const { hoveredFeature, dataProp, metricItem } = this.props;
-    const label = metricItem.short_label;
-    return hoveredFeature && (
-      <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>
-        <div className="tooltip__title">{hoveredFeature.properties.name}</div>
-        <div className="tooltip__content">
-          { label }{': '}
-          {
-            hoveredFeature.properties[dataProp] &&
-            hoveredFeature.properties[dataProp] > -999 ?
-              Math.round(hoveredFeature.properties[dataProp]*100)/100 :
-              'Unavailable'
-          }
-        </div>
-      </div>
+  componentDidMount() {
+    window.addEventListener(
+      'resize', this._handleResize.bind(this)
+    );
+    this._updateDimensions();
+    this._updateChoropleth(true);
+  }
+
+
+  componentDidUpdate(prevProps) {
+    const { metric, region, demographic, hoveredFeature } = this.props;
+    const oldFeature = prevProps.hoveredFeature;
+    if (
+      prevProps.metric !== metric ||
+      prevProps.region !== region ||
+      prevProps.demographic !== demographic
+    ) {
+      this._updateChoropleth();
+    }
+    if (
+      !isPropEqual(oldFeature, hoveredFeature, 'id')
+    ) {
+      this._updateOutlineHighlight(
+        oldFeature, 
+        hoveredFeature, 
+        region
+      )
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'resize', this._handleResize.bind(this)
     );
   }
 
@@ -174,9 +162,7 @@ class Map extends Component {
         className="map"
         ref={ (el) => this.mapContainer = el }
       >
-        <div 
-          className="map__container"
-        >
+        <div className="map__container">
           <ReactMapGL
             { ...viewport }
             mapStyle={mapStyle}
@@ -185,9 +171,7 @@ class Map extends Component {
             onClick={this._onClick}
             onLoad={this._onLoad}
             attributionControl={false}
-          >
-            {this._renderTooltip()}
-          </ReactMapGL>
+          />
         </div>
       </div>
     );
@@ -204,17 +188,25 @@ Map.propTypes = {
   onSelectFeature: PropTypes.func,
 }
 
-const mapStateToProps = ({map, metrics}) => ({
-  ...map,
-  dataProp: getChoroplethProperty(map),
-  stops: getStops(metrics, map.metric),
-  hoveredFeature: map.hoveredFeature,
-  metricItem: metrics.items && map && metrics.items[map.metric] ?
-    metrics.items[map.metric] : {}
+const mapStateToProps = ({ 
+  map: { options, viewport },
+  hovered: { feature },
+  metrics 
+}) => ({
+  ...options,
+  viewport,
+  dataProp: getChoroplethProperty(options),
+  stops: getStops(metrics, options.metric),
+  hoveredFeature: feature,
+  metricItem: metrics.items && options && metrics.items[options.metric] ?
+    metrics.items[options.metric] : {}
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onHoverFeature: (feature) => dispatch(onHoverFeature(feature)),
+  onHoverFeature: (feature, coords) => (
+    dispatch(onHoverFeature(feature)) &&
+    dispatch(onCoordsChange(coords))
+  ),
   onViewportChange: (vp) => dispatch(onViewportChange(vp)),
   onSelectFeature: (feature) => dispatch(onSelectFeature(feature)),
 });

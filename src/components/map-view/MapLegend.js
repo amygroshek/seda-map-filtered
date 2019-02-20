@@ -44,12 +44,16 @@ const MapLegend = ({ hoveredValue, stops }) => (
   </div>
 )
 
-const mapStateToProps = ({map, metrics}) => ({
-  metric: map.metric,
-  stops: getStops(metrics, map.metric), 
-  hoveredValue: map.hoveredFeature ? 
-    map.hoveredFeature.properties[
-      getChoroplethProperty(map)
+const mapStateToProps = ({ 
+  map: { options }, 
+  hovered: { feature }, 
+  metrics 
+}) => ({
+  metric: options.metric,
+  stops: getStops(metrics, options.metric), 
+  hoveredValue: feature ? 
+    feature.properties[
+      getChoroplethProperty(options)
     ] : null
 })
 
