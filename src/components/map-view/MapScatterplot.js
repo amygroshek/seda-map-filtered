@@ -15,7 +15,7 @@ import { getRegionData } from '../../modules/scatterplot';
 import { mergeDatasets } from '../../utils';
 import { fetchResults } from '../../actions/searchActions';
 import * as _isEmpty from 'lodash.isempty';
-import { Typography } from '@material-ui/core';
+import Hint from '../base/Hint';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -172,7 +172,10 @@ export class MapScatterplot extends Component {
       <Paper className='map-scatterplot'>
         <div className="map-scatterplot__header">
           <p>
-            Displaying <span>{this.props.metric.label.toLowerCase()}</span>
+            Displaying {' '}
+            <Hint text={this.props.metric.help}>
+              {this.props.metric.label.toLowerCase()}
+            </Hint>
             {' '}for {' '}
             {this.props.region}
           </p>
