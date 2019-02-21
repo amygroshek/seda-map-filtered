@@ -4,6 +4,7 @@ const initialState = {
       id: 'avg',
       label: 'Average Test Scores',
       short_label: 'Avg. Test Score',
+      help: 'Average test scores explainer',
       min: 2.5,
       max: 8.5,
       numSteps: 9
@@ -12,6 +13,7 @@ const initialState = {
       id: 'grd',
       label: 'Growth over years',
       short_label: 'Growth Rate',
+      help: 'Growth rate explainer',
       min: 0.6,
       max: 1.4,
       numSteps: 9
@@ -20,6 +22,7 @@ const initialState = {
       id: 'coh',
       label: 'Trend over years',
       short_label: 'Trend',
+      help: 'Trend over years explainer',
       min: -0.3,
       max: 0.3,
       numSteps: 9
