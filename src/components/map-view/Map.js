@@ -100,8 +100,12 @@ class Map extends Component {
 
   _onClick = event => {
     const { features } = event;
+    const { region } = this.props;
     const selectedFeature = features && 
-      features.find(f => f.layer.id === 'choropleth');
+      features.find(f => (
+        (region !== 'schools' && f.layer.id === 'choropleth') ||
+        (region === 'schools' && f.layer.id === 'dots')
+      ));
     return selectedFeature &&
       this.props.onSelectFeature(selectedFeature)
   }

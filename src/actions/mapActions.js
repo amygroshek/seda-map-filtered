@@ -37,3 +37,4 @@ export const onRemoveSelectedFeature = (feature) => ({
   type: 'REMOVE_SELECTED_FEATURE',
   feature
 });
+
