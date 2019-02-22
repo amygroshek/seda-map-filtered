@@ -4,9 +4,9 @@ const initialState = {
       id: 'avg',
       label: 'Average Test Scores',
       short_label: 'Avg. Test Score',
-      help: 'Average test scores explainer',
-      min: 2.5,
-      max: 8.5,
+      help: 'Average test scores for grades 3-8 explainer',
+      min: -4,
+      max: 4,
       numSteps: 9
     },
     'grd': { 

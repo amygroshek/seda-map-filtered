@@ -11,7 +11,7 @@ import { parse } from 'papaparse';
 const fetchVarsForRegion = (vars = [], region) =>
   Promise.all(
     vars.map(v => axios
-      .get(`/assets/data/${region}/${v}.csv`)
+      .get(`/assets/data/${region}-${v}.csv`)
       .then((res) => {
         const parsed = parse(res.data);
         if (parsed.errors.length) {
