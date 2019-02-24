@@ -73,7 +73,7 @@ class Map extends Component {
       updatedLayers = defaultMapStyle
         .get('layers')
         .splice(4, (init ? 0 : 2), choroplethLayer)
-        .splice(100, (init ? 0 : 1), dotLayer)
+        .splice(60, (init ? 0 : 1), dotLayer)
     }
 
     const mapStyle = defaultMapStyle
