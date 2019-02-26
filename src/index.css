@@ -264,6 +264,15 @@ body {
   bottom:0;
 }
 
+/** Map Locations Component **/
+
+.map-view__locations {
+  position: absolute;
+  left: 24px;
+  bottom: 112px;
+  z-index: 100;
+}
+
 /** END COMPONENTS */
 
 .tooltip {

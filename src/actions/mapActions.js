@@ -28,9 +28,10 @@ export const onRegionChange = (region) => ({
   region
 });
 
-export const onSelectFeature = (feature) => ({
+export const onSelectFeature = (feature, region) => ({
   type: 'ADD_SELECTED_FEATURE',
-  feature
+  feature,
+  region
 });
 
 export const onRemoveSelectedFeature = (feature) => ({

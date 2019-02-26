@@ -107,7 +107,7 @@ class Map extends Component {
         (region === 'schools' && f.layer.id === 'dots')
       ));
     return selectedFeature &&
-      this.props.onSelectFeature(selectedFeature)
+      this.props.onSelectFeature(selectedFeature, region)
   }
 
   _onHover = event => {
@@ -213,7 +213,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onCoordsChange(coords))
   ),
   onViewportChange: (vp) => dispatch(onViewportChange(vp)),
-  onSelectFeature: (feature) => dispatch(onSelectFeature(feature)),
+  onSelectFeature: (feature, region) => dispatch(onSelectFeature(feature, region)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);
