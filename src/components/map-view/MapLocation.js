@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const MapLocation = ({ name }) => {
   return (
-    <div>
+    <div className="map-location">
       { name }
     </div>
   )

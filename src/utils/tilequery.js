@@ -1,0 +1,71 @@
+import axios from 'axios';
+import { parseLocationsString } from '../modules/router';
+
+/**
+ * Returns the feature with an id property that matches the
+ * provided ID
+ * @param {string} id 
+ * @param {FeatureCollection} collection 
+ * @returns {Feature}
+ */
+const getFeatureFromCollection = (id, collection) => {
+  const feature = collection
+    .find(f => f.properties.id === id);
+  if (!feature) {
+    throw new Error('feature ' + id + ' not found from tilequery API')
+  }
+  return feature;
+}
+
+/**
+ * Gets the tilequery URL for the given region, latitude and longitude
+ * @param {string} region 
+ * @param {number} lat 
+ * @param {number} lon 
+ * @returns {string}
+ */
+const getTilequeryUrl = (region, lat, lon) => 
+  'https://api.mapbox.com/v4/'
+  + process.env.REACT_APP_MAPBOX_USER
+  + '.' + region + '-' 
+  + (process.env.NODE_ENV === 'production' ? 'prod' : 'dev')
+  + '/tilequery/'
+  + lon + ',' + lat + '.json?radius=10000&access_token=' 
+  + process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+
+/**
+ * Loads a feature from a location object containing a feature ID,
+ * latitude, and longitude
+ * @param {object} location 
+ * @returns {Promise<Feature>}
+ */
+const loadLocation = ({ id, latitude, longitude }) => {
+  const region = id.length === 5 ? 'counties' :
+    id.length === 12 ? 'schools' : 'districts';
+  return axios.get(getTilequeryUrl(region, latitude, longitude))
+    .then((res) => {
+      return getFeatureFromCollection(id, res.data.features)
+    })
+}
+
+/**
+ * Loads map features based on a string of locations
+ * @param {string} locations locations formed as `{id},{lat},{lon}` separated by a `+`
+ * @returns {Promise<Array<Feature>>}
+ */
+export const loadLocationsFromString = (locations) => {
+  const locationsArray = parseLocationsString(locations)
+  return Promise.all(
+    locationsArray.map(l => loadLocation(l))
+  )
+}
+
+/**
+ * Loads map features from location parameter
+ * @param {*} params 
+ * @returns {Promise<Array<Feature>>}
+ */
+export const loadLocationsFromParams = (params) =>
+  params.locations ? 
+    loadLocationsFromString(params.locations) :
+    Promise.resolve([])

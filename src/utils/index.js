@@ -11,6 +11,14 @@ export const isPropEqual = (obj1, obj2, propName) => {
           obj1[propName] === obj2[propName])
 }
 
+/**
+ * Takes two data sets with identifiers and merges them
+ * into one for use with echarts scatterplot. Filters out 
+ * entries where there are not values in both data sets.
+ * @param {object} set1 e.g. { "01001": 3.45, ... }
+ * @param {object} set2 e.g. { "01001": 5.10, ... }
+ * @returns {object} e.g. { "01001": [ 3.45, 5.10, 01001 ], ... }
+ */
 export const mergeDatasets = (set1, set2) =>
   Object.keys(set1).reduce(
     (acc, curr) => {

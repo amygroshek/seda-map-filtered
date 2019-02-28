@@ -19,17 +19,11 @@ MapSelectedLocations.propTypes = {
   selected: PropTypes.array
 }
 
-// const mapStateToProps = ({ 
-//   selected, 
-//   match: { params: { region } } 
-// }) => ({ 
-//   selected: selected[region]
-//     .map(k => selected.features[k])
-// })
-
-
-const mapStateToProps = (state) => ({ 
-  selected: []
+const mapStateToProps = ({ selected, features }, {  
+  match: { params: { region } } 
+}) => ({ 
+  selected: selected[region]
+    .map(k => features[k])
 })
 
 const mapDispatchToProps = {}
