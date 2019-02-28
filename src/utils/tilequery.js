@@ -40,7 +40,7 @@ const getTilequeryUrl = (region, lat, lon) =>
  * @param {object} location 
  * @returns {Promise<Feature>}
  */
-const loadLocation = ({ id, latitude, longitude }) => {
+export const loadFeatureFromCoords = ({ id, latitude, longitude }) => {
   const region = id.length === 5 ? 'counties' :
     id.length === 12 ? 'schools' : 'districts';
   return axios.get(getTilequeryUrl(region, latitude, longitude))
@@ -54,19 +54,25 @@ const loadLocation = ({ id, latitude, longitude }) => {
  * @param {string} locations locations formed as `{id},{lat},{lon}` separated by a `+`
  * @returns {Promise<Array<Feature>>}
  */
-export const loadLocationsFromString = (locations) => {
-  const locationsArray = parseLocationsString(locations)
-  return Promise.all(
-    locationsArray.map(l => loadLocation(l))
+export const loadFeaturesFromCoords = (locationsArray) => 
+  Promise.all(
+    locationsArray.map(l => loadFeatureFromCoords(l))
   )
-}
+
+/**
+ * Loads map features based on a string of locations
+ * @param {string} locations locations formed as `{id},{lat},{lon}` separated by a `+`
+ * @returns {Promise<Array<Feature>>}
+ */
+export const loadFeaturesFromRoute = (locations) =>
+  loadFeaturesFromCoords(parseLocationsString(locations))
 
 /**
  * Loads map features from location parameter
  * @param {*} params 
  * @returns {Promise<Array<Feature>>}
  */
-export const loadLocationsFromParams = (params) =>
+export const loadFeaturesFromRouteParams = (params) =>
   params.locations ? 
-    loadLocationsFromString(params.locations) :
+    loadFeaturesFromRoute(params.locations) :
     Promise.resolve([])

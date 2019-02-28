@@ -17,14 +17,25 @@ import { mergeDatasets } from '../../utils';
 import { fetchResults } from '../../actions/searchActions';
 import * as _isEmpty from 'lodash.isempty';
 import Hint from '../base/Hint';
+import { loadLocation } from '../../actions/featuresActions';
 
 export class MapScatterplot extends Component {
   static propTypes = {
     region: PropTypes.string,
     yVar: PropTypes.string,
     xVar: PropTypes.string,
+    xData: PropTypes.object,
+    yData: PropTypes.object,
+    loadVarsForRegion: PropTypes.func,
+    colors: PropTypes.array,
     metric: PropTypes.object,
-    hoveredFeature: PropTypes.object
+    yRange: PropTypes.object,
+    hoveredFeature: PropTypes.object,
+    onHoverFeature: PropTypes.func,
+    loadMetadataForPlace: PropTypes.func,
+    hoveredMetaData: PropTypes.object,
+    updateMapViewport: PropTypes.func,
+    addSelectedLocation: PropTypes.func
   }
 
   _loadScatterplotData() {
@@ -135,12 +146,17 @@ export class MapScatterplot extends Component {
     }
   }
 
-  _handleMouseOut = (e) => {
+  _handleMouseOut = () => {
     this.props.onHoverFeature(null, {x:0,y:0});
   }
 
-  _handleClick = (e) => {
+  _handleClick = () => {
     const { updateMapViewport, hoveredFeature, hoveredMetaData } = this.props;
+    this.props.addSelectedLocation({
+      id: hoveredMetaData.id,
+      latitude: hoveredMetaData.lat,
+      longitude: hoveredMetaData.lon
+    })
     updateMapViewport(hoveredFeature, hoveredMetaData)
   }
 
@@ -149,7 +165,7 @@ export class MapScatterplot extends Component {
     e.on('mouseover', this._handleMouseOver)
     e.on('mouseout', this._handleMouseOut)
     e.on('click', this._handleClick)
-    e.on('datarangeselected', console.log)
+    // e.on('datarangeselected', console.log)
     this.echart = e;
   }
 
@@ -223,6 +239,9 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  addSelectedLocation: (location) => (
+    dispatch(loadLocation(location))
+  ),
   onHoverFeature: (feature, coords) => (
     dispatch(onHoverFeature(feature)) &&
     dispatch(onCoordsChange(coords))

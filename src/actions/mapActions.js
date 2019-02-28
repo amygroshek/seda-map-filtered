@@ -1,27 +1,4 @@
-import { push } from 'connected-react-router'
-import { addFeatureToPathname, removeLocationFromPathname } from '../modules/router';
-
-/**
- * Pushes a location to the route based on a feature
- * @param {*} dispatch 
- * @param {string} pathname
- * @param {object} feature 
- */
-const addFeatureToRoute = (dispatch, pathname, feature) => {
-  const newRoute = addFeatureToPathname(pathname, feature)
-  dispatch(push(newRoute))
-}
-
-/**
- * Pushes a location to the route based on a feature
- * @param {*} dispatch 
- * @param {string} pathname
- * @param {object} feature 
- */
-const removeFeatureFromRoute = (dispatch, pathname, feature) => {
-  const newRoute = removeLocationFromPathname(pathname, feature.properties.id)
-  dispatch(push(newRoute))
-}
+import { addFeatureToRoute, removeFeatureFromRoute, updateRegionInRoute } from '../modules/router';
 
 export const onHoverFeature = (feature) => ({
   type: 'SET_HOVERED_FEATURE',
@@ -48,10 +25,13 @@ export const onMetricChange = (metric) => ({
   metric
 });
 
-export const onRegionChange = (region) => ({
-  type: 'SET_MAP_REGION',
-  region
-});
+export const onRegionChange = (region) => 
+  (dispatch, getState) =>
+    updateRegionInRoute(
+      dispatch, 
+      getState().router.location.pathname, 
+      region
+    )
 
 export const onSelectFeature = (feature, region) => 
   (dispatch, getState) => {

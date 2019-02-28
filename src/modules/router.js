@@ -1,5 +1,6 @@
 import * as _debounce from 'lodash.debounce';
 import * as polylabel from 'polylabel';
+import { push } from 'connected-react-router';
 
 /**
  * Variables stored in the root, in order
@@ -154,3 +155,30 @@ export const updateViewportRoute = _debounce((props, vp) => {
     updateRoute(props, routeUpdates);
   }
 }, 1000);
+
+export const updateRegionInRoute = (dispatch, pathname, region) => {
+  const currentRoute = getParamsFromPathname(pathname);
+  dispatch(push(getPathnameFromParams(currentRoute, { region })))
+}
+
+/**
+ * Pushes a location to the route based on a feature
+ * @param {*} dispatch 
+ * @param {string} pathname
+ * @param {object} feature 
+ */
+export const addFeatureToRoute = (dispatch, pathname, feature) => {
+  const newRoute = addFeatureToPathname(pathname, feature)
+  dispatch(push(newRoute))
+}
+
+/**
+ * Pushes a location to the route based on a feature
+ * @param {*} dispatch 
+ * @param {string} pathname
+ * @param {object} feature 
+ */
+export const removeFeatureFromRoute = (dispatch, pathname, feature) => {
+  const newRoute = removeLocationFromPathname(pathname, feature.properties.id)
+  dispatch(push(newRoute))
+}

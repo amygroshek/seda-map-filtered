@@ -10,16 +10,16 @@ import React, { Component } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadLocations } from '../../actions/featuresActions';
+import { loadRouteLocations } from '../../actions/featuresActions';
 
 export class MapView extends Component {
   static propTypes = {
-    loadLocations: PropTypes.any,
+    loadRouteLocations: PropTypes.any,
     match: PropTypes.object
   }
 
   componentDidMount() { 
-    this.props.loadLocations(this.props.match.params.locations);
+    this.props.loadRouteLocations(this.props.match.params.locations);
   }
 
   render() {
@@ -48,7 +48,8 @@ export class MapView extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  loadLocations: (locations) => dispatch(loadLocations(locations))
+  loadRouteLocations: (locations) => 
+    dispatch(loadRouteLocations(locations))
 })
 
 export default compose(

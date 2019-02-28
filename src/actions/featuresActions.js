@@ -1,4 +1,5 @@
-import { loadLocationsFromString } from "../utils/tilequery";
+import { loadFeaturesFromRoute, loadFeatureFromCoords } from "../utils/tilequery";
+import { addFeatureToRoute } from '../modules/router';
 
 const onLoadFeaturesRequest = (locations) => ({
   type: 'LOAD_FEATURES_REQUEST',
@@ -15,10 +16,24 @@ const onLoadFeaturesError = (error) => ({
   error
 })
 
-export const loadLocations = (locations) => 
+export const loadLocation = (location) =>
+  (dispatch, getState) => {
+    const pathname = getState().router.location.pathname;
+    dispatch(onLoadFeaturesRequest([location]))
+    loadFeatureFromCoords(location)
+      .then(feature => {
+        dispatch(onLoadFeaturesSuccess([feature]))
+        dispatch(addFeatureToRoute(dispatch, pathname, feature))
+      })
+      .catch((error) => {
+        dispatch(onLoadFeaturesError(error))
+      })
+    }
+
+export const loadRouteLocations = (locations) => 
   (dispatch) => {
     dispatch(onLoadFeaturesRequest(locations))
-    loadLocationsFromString(locations)
+    loadFeaturesFromRoute(locations)
       .then(features => {
         dispatch(onLoadFeaturesSuccess(features))
       })
