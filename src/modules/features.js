@@ -13,10 +13,6 @@ const features = (state = {}, action) => {
           [curr.properties.id]: curr
         }), {})
       }
-    case 'REMOVE_SELECTED_FEATURE':
-      return Object.keys(state)
-        .filter((id) => id !== action.feature.properties.id)
-        .reduce((acc, curr) => ({ ...acc, [curr]: state[curr] }), {});
     default:
       return state;
   }

@@ -40,6 +40,7 @@ const getLocationFromFeature = (feature) => {
  * @returns {Array<{id, latitude, longitude }>}
  */
 export const parseLocationsString = (locations) => {
+  if (!locations) { return []; }
   const locationParts = ['id', 'latitude', 'longitude' ];
   return locations.split('+').map(l => 
     l.split(',')
@@ -82,9 +83,10 @@ export const addFeatureToPathname = (pathname, feature) => {
  */
 export const removeLocationFromPathname = (pathname, locationId) => {
   const params = getParamsFromPathname(pathname)
-  const locations = parseLocationsString(params.location)
+  const locations = parseLocationsString(params.locations)
+  console.log('locations', locations, locationId)
   const newLocations = locations.filter(l => l.id !== locationId)
-  return getPathnameFromParams(params, newLocations)
+  return getPathnameFromParams(params, { locations: locationsToString(newLocations) })
 }
 
 /**

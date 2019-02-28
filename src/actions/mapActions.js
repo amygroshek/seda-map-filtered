@@ -64,12 +64,11 @@ export const onSelectFeature = (feature, region) =>
   }
 
 
-export const onRemoveSelectedFeature = (feature, region) => 
+export const onRemoveSelectedFeature = (feature) => 
   (dispatch, getState) => {
     dispatch({
       type: 'REMOVE_SELECTED_FEATURE',
-      feature,
-      region
+      feature
     });
     removeFeatureFromRoute(dispatch, getState().router.location.pathname, feature)
   }

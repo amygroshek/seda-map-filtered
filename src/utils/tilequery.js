@@ -28,7 +28,8 @@ const getTilequeryUrl = (region, lat, lon) =>
   'https://api.mapbox.com/v4/'
   + process.env.REACT_APP_MAPBOX_USER
   + '.' + region + '-' 
-  + (process.env.NODE_ENV === 'production' ? 'prod' : 'dev')
+  // TODO: update to prod when it's available
+  + (process.env.NODE_ENV === 'production' ? 'dev' : 'dev')
   + '/tilequery/'
   + lon + ',' + lat + '.json?radius=10000&access_token=' 
   + process.env.REACT_APP_MAPBOX_ACCESS_TOKEN

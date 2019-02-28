@@ -17,11 +17,17 @@ const createRegionListReducer = (region) =>
         return [
           ...state,
           ...action.features
-            .filter(f => f.properties.id.length === idLengths[region])
+            .filter(f =>
+              region === 'all' ||
+              f.properties.id.length === idLengths[region]
+            )
             .map(f => f.properties.id)
         ]
       case 'REMOVE_SELECTED_FEATURE':
-        return (action.region === region || region === 'all') ? 
+        return (
+          action.feature.properties.id.length === idLengths[region] || 
+          region === 'all'
+        ) ? 
           state.filter(id => 
             id !== action.feature.properties.id
           ) : state;

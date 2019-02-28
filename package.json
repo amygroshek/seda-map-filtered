@@ -4,7 +4,7 @@
     "start": "react-scripts start",
     "now-start": "serve -s ./build",
     "build": "react-scripts build && mv build/index.html build/200.html",
-    "deploy": "surge build seda-dev.surge.sh",
+    "deploy": "npm run build && surge build seda-dev.surge.sh",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged"

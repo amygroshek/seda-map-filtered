@@ -4,19 +4,25 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import MapLocation from './MapLocation';
 import { compose } from 'redux';
+import { onRemoveSelectedFeature } from '../../actions/mapActions';
 
-const MapSelectedLocations = ({ selected }) => {
+const MapSelectedLocations = ({ selected, removeLocation }) => {
   return (
     <div className="map-locations">
       {selected.map(s =>
-        <MapLocation key={s.id} {...s.properties} />  
+        <MapLocation 
+          key={s.id}
+          {...s.properties}
+          onDismissClick={() => removeLocation(s)}
+        />  
       )}
     </div>
   )
 }
 
 MapSelectedLocations.propTypes = {
-  selected: PropTypes.array
+  selected: PropTypes.array,
+  removeLocation: PropTypes.any
 }
 
 const mapStateToProps = ({ selected, features }, {  
@@ -26,7 +32,10 @@ const mapStateToProps = ({ selected, features }, {
     .map(k => features[k])
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = (dispatch) => ({
+  removeLocation: (feature) => 
+    dispatch(onRemoveSelectedFeature(feature))
+});
 
 export default compose(
   withRouter,

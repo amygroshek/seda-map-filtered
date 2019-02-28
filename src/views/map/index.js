@@ -14,7 +14,7 @@ import { loadLocations } from '../../actions/featuresActions';
 
 export class MapView extends Component {
   static propTypes = {
-    loadLocations: PropTypes.function,
+    loadLocations: PropTypes.any,
     match: PropTypes.object
   }
 
