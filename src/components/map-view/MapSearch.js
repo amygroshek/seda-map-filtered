@@ -41,7 +41,6 @@ const mapDispatchToProps = (dispatch) => ({
       const region = hit.group === 'districts' ?
         'districts' : hit.group === 'counties' ?
         'counties' : 'schools';
-      console.log(region)
       dispatch(onRegionChange(region))
       dispatch(loadLocation({ 
         id: hit.id,

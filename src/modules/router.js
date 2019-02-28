@@ -19,7 +19,7 @@ export const routeVars = [
  * Gets a route string to represent the feature
  * @param {object} feature 
  */
-const getLocationFromFeature = (feature) => {
+export const getLocationFromFeature = (feature) => {
   let point;
   if (feature.geometry.type === 'MultiPolygon') {
     point = polylabel(feature.geometry.coordinates[0]);
@@ -78,14 +78,13 @@ export const addFeatureToPathname = (pathname, feature) => {
 }
 
 /**
- * 
+ * Removes a location from the pathname
  * @param {string} pathname 
- * @param {object} feature 
+ * @param {string} locationId 
  */
 export const removeLocationFromPathname = (pathname, locationId) => {
   const params = getParamsFromPathname(pathname)
   const locations = parseLocationsString(params.locations)
-  console.log('locations', locations, locationId)
   const newLocations = locations.filter(l => l.id !== locationId)
   return getPathnameFromParams(params, { locations: locationsToString(newLocations) })
 }

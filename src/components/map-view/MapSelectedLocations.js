@@ -4,25 +4,33 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import MapLocation from './MapLocation';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature } from '../../actions/mapActions';
+import { onRemoveSelectedFeature, onViewportChange } from '../../actions/mapActions';
+import MenuList from '@material-ui/core/MenuList';
+import { getLocationFromFeature, parseLocationsString } from '../../modules/router';
 
-const MapSelectedLocations = ({ selected, removeLocation }) => {
+const MapSelectedLocations = ({ selected, removeLocation, navigateToLocation }) => {
   return (
     <div className="map-locations">
-      {selected.map(s =>
-        <MapLocation 
-          key={s.id}
-          {...s.properties}
-          onDismissClick={() => removeLocation(s)}
-        />  
-      )}
+      <MenuList>
+        {selected.map((s, i) =>
+            <MapLocation 
+              key={s.id}
+              number={i+1}
+              {...s.properties}
+              onLocationClick={() => navigateToLocation(s)}
+              onDismissClick={() => removeLocation(s)}
+            />  
+        )}
+      </MenuList>
+
     </div>
   )
 }
 
 MapSelectedLocations.propTypes = {
   selected: PropTypes.array,
-  removeLocation: PropTypes.any
+  removeLocation: PropTypes.any,
+  navigateToLocation: PropTypes.any
 }
 
 const mapStateToProps = ({ selected, features }, {  
@@ -34,7 +42,19 @@ const mapStateToProps = ({ selected, features }, {
 
 const mapDispatchToProps = (dispatch) => ({
   removeLocation: (feature) => 
-    dispatch(onRemoveSelectedFeature(feature))
+    dispatch(onRemoveSelectedFeature(feature)),
+  navigateToLocation: (feature) => {
+    const l = parseLocationsString(
+      getLocationFromFeature(feature)
+    )[0];
+    if (l) {
+      dispatch(onViewportChange({ 
+        latitude: parseFloat(l.latitude), 
+        longitude: parseFloat(l.longitude),
+        zoom: l.id.length + 2
+      }, true))
+    }
+  }
 });
 
 export default compose(

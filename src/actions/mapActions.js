@@ -1,3 +1,6 @@
+import {FlyToInterpolator} from 'react-map-gl';
+// 3rd-party easing functions
+import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRegionInRoute } from '../modules/router';
 
 export const onHoverFeature = (feature) => ({
@@ -10,10 +13,20 @@ export const onCoordsChange = (coords) => ({
   coords
 });
 
-export const onViewportChange = (viewport) => ({
-  type: 'SET_MAP_VIEWPORT',
-  viewport
-});
+export const onViewportChange = (viewport, transition = false) => {
+  if (transition) {
+    viewport = { 
+      ...viewport,
+      transitionDuration: 3000,
+      transitionInterpolator: new FlyToInterpolator(),
+      transitionEasing: ease.easeCubic
+    }
+  }
+  return ({
+    type: 'SET_MAP_VIEWPORT',
+    viewport
+  });
+}
 
 export const onDemographicChange = (demographic) => ({
   type: 'SET_MAP_DEMOGRAPHIC',
