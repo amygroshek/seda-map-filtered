@@ -162,6 +162,10 @@ class Map extends Component {
     this.props.onHoverFeature(hoveredFeature, coords);
   };
 
+  _onHoverOut = event => {
+    this.props.onHoverFeature(undefined, null);
+  }
+
   componentDidMount() {
     // set the viewport from the route on initial load
     const initialViewport = {
@@ -225,6 +229,7 @@ class Map extends Component {
       <div 
         className="map"
         ref={ (el) => this.mapContainer = el }
+        onMouseLeave={this._onHoverOut}
       >
         <div className="map__container">
           <ReactMapGL
