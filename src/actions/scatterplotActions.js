@@ -11,14 +11,14 @@ import { parse } from 'papaparse';
 const fetchVarsForRegion = (vars = [], region) =>
   Promise.all(
     vars.map(v => axios
-      .get(`/assets/data/${region}-${v}.csv`)
+      .get(`${process.env.REACT_APP_VARS_ENDPOINT}${region}-${v}.csv`)
       .then((res) => {
         const parsed = parse(res.data);
         if (parsed.errors.length) {
           throw new Error(res.errors[0])
         }
         return parsed.data.reduce((acc, curr) => {
-            acc[curr[0]] = curr[1];
+            acc[curr[0]] = parseFloat(curr[1]);
             return acc;
           }, {});
       })
