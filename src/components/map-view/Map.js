@@ -9,8 +9,9 @@ import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } fro
 import { getChoroplethProperty } from '../../modules/map';
 import mapboxgl from 'mapbox-gl';
 import { getStops } from '../../modules/metrics';
-import { isPropEqual } from '../../utils';
+import { isPropEqual, getRegionFromId } from '../../utils';
 import { updateViewportRoute, getViewportFromRoute } from '../../modules/router';
+import * as _isEqual from 'lodash.isequal';
 
 class Map extends Component {
 
@@ -45,6 +46,33 @@ class Map extends Component {
     }, state);
   }
 
+  /**
+   * Updates the selected color on the state of the map features.
+   * Removes colors from oldSelected and assigns colors to selectedIds.
+   * @param {Array<string>} oldSelected 
+   * @param {Array<string>} selectedIds 
+   */
+  _updateOutlineSelected(oldSelected = [], selectedIds = []) {
+    oldSelected.forEach(id => {
+      const region = getRegionFromId(id);
+      this._setFeatureState(
+        region, id, { selected: false}
+      );
+    })
+    selectedIds.forEach((id,i) => {
+      const region = getRegionFromId(id);
+      this._setFeatureState(
+        region, id, { selected: this.props.colors[i] }
+      );
+    })
+  }
+
+  /**
+   * Updates the outline of a feature on hover
+   * @param {*} oldFeature feature to remove highlight from
+   * @param {*} newFeature feature to add highlight to
+   * @param {*} region source layer
+   */
   _updateOutlineHighlight(oldFeature, newFeature, region) {
     const featureId = newFeature ? newFeature.id : null;
     if (oldFeature && oldFeature.id) {
@@ -70,14 +98,15 @@ class Map extends Component {
       updatedLayers = 
         defaultMapStyle
           .get('layers')
-          .splice(4, (init ? 0 : 2), choroplethLayer, choroplethOutline)
+          .splice(4, (init ? 0 : 1), choroplethLayer)
+          .splice(59, (init ? 0 : 1), choroplethOutline)
     } else {
       const choroplethLayer = getBackgroundChoroplethLayer('districts', dataProp, stops);
       const dotLayer = getDotLayer(region, dataProp, stops);
       updatedLayers = defaultMapStyle
         .get('layers')
-        .splice(4, (init ? 0 : 2), choroplethLayer)
-        .splice(60, (init ? 0 : 1), dotLayer)
+        .splice(4, (init ? 0 : 1), choroplethLayer)
+        .splice(59, (init ? 0 : 1), dotLayer)
     }
 
     const mapStyle = defaultMapStyle
@@ -88,6 +117,7 @@ class Map extends Component {
   _onLoad = event => {
     this.map = event.target;
     this.map.addControl(new mapboxgl.AttributionControl(), 'top-right');
+    this._updateOutlineSelected([], this.props.selectedIds)
   }
 
   _getUniqueFeatures(array, comparatorProperty) {
@@ -113,7 +143,7 @@ class Map extends Component {
       ));
     // dispatch selected feature event if selected
     return selectedFeature &&
-      this.props.onSelectFeature(selectedFeature)
+      this.props.onSelectFeature(selectedFeature, region)
   }
 
   _onHover = event => {
@@ -147,11 +177,12 @@ class Map extends Component {
     this._updateViewport();
     // initialize the choropleth layer
     this._updateChoropleth(true);
+
   }
 
 
   componentDidUpdate(prevProps) {
-    const { metric, region, demographic, hoveredFeature } = this.props;
+    const { metric, region, demographic, hoveredFeature, selectedIds } = this.props;
     const oldFeature = prevProps.hoveredFeature;
     // update the choropleth if any of the map data has changed
     if (
@@ -169,6 +200,14 @@ class Map extends Component {
         oldFeature, 
         hoveredFeature, 
         region
+      )
+    }
+    // update selected outlines
+    const oldSelected = prevProps.selectedIds;
+    if (!_isEqual(oldSelected, selectedIds)) {
+      this._updateOutlineSelected(
+        oldSelected, 
+        selectedIds
       )
     }
   }
@@ -216,7 +255,8 @@ Map.propTypes = {
 const mapStateToProps = ({ 
   map: { viewport },
   hovered: { feature },
-  metrics
+  metrics,
+  selected
 }, 
 {
   match: { params: { metric, demographic, region } }
@@ -227,7 +267,9 @@ const mapStateToProps = ({
   stops: getStops(metrics, metric),
   hoveredFeature: feature,
   metricItem: metrics.items && metrics.items[metric] ?
-    metrics.items[metric] : {}
+    metrics.items[metric] : {},
+  colors: selected.colors,
+  selectedIds: selected[region]
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -236,7 +278,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onCoordsChange(coords))
   ),
   onViewportChange: (vp) => dispatch(onViewportChange(vp)),
-  onSelectFeature: (feature) => dispatch(onSelectFeature(feature)),
+  onSelectFeature: (feature, region) => dispatch(onSelectFeature(feature, region)),
 });
 
 export default compose(

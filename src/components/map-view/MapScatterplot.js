@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {FlyToInterpolator} from 'react-map-gl';
-// 3rd-party easing functions
-import * as ease from 'd3-ease';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
@@ -17,14 +14,28 @@ import { mergeDatasets } from '../../utils';
 import { fetchResults } from '../../actions/searchActions';
 import * as _isEmpty from 'lodash.isempty';
 import Hint from '../base/Hint';
+import { loadLocation } from '../../actions/featuresActions';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 
 export class MapScatterplot extends Component {
   static propTypes = {
     region: PropTypes.string,
     yVar: PropTypes.string,
     xVar: PropTypes.string,
+    xData: PropTypes.object,
+    yData: PropTypes.object,
+    loadVarsForRegion: PropTypes.func,
+    colors: PropTypes.array,
     metric: PropTypes.object,
-    hoveredFeature: PropTypes.object
+    yRange: PropTypes.object,
+    hoveredFeature: PropTypes.object,
+    onHoverFeature: PropTypes.func,
+    loadMetadataForPlace: PropTypes.func,
+    hoveredMetaData: PropTypes.object,
+    updateMapViewport: PropTypes.func,
+    addSelectedLocation: PropTypes.func,
+    selectedIds: PropTypes.array,
+    selectedColors: PropTypes.array
   }
 
   _loadScatterplotData() {
@@ -41,7 +52,7 @@ export class MapScatterplot extends Component {
       min,
       max,
       inRange: {
-        color: colors
+        color: colors.map(c => fade(c, 0.9))
       }
     }
   }
@@ -49,17 +60,38 @@ export class MapScatterplot extends Component {
   _getDataForFeatureId(id) {
     const { xData, yData } = this.props;
     return xData && yData ?
-      [ [ xData[id], yData[id] ] ] :
+      [ [ xData[id], yData[id], id, -1 ] ] :
+      [ ]
+  }
+
+  _getDataForFeatureIds(ids) {
+    const { xData, yData } = this.props;
+    return xData && yData ?
+      ids.map((id,i) => [ xData[id], yData[id], id, i ]) :
       [ ]
   }
 
   _getOverlayOptions() {
-    const { hoveredFeature, yRange } = this.props;
+    const { hoveredFeature, yRange, selectedIds, selectedColors } = this.props;
     return {
       ...hoverOptions,
       yAxis: {
         ...hoverOptions.yAxis,
         ...yRange
+      },
+      visualMap: {
+        show: false,
+        type: 'piecewise',
+        dimension: 3,
+        pieces: [
+          { value: -1, color: '#f00' },
+          ...selectedIds.map((id, i) => {
+            return {
+              value: i,
+              color: selectedColors[i]
+            }
+          })
+        ]
       },
       series: [
         {
@@ -75,6 +107,16 @@ export class MapScatterplot extends Component {
               []
           ,
           z: 3
+        },
+        {
+          id: 'selected',
+          type: 'scatter',
+          symbolSize: 14,
+          itemStyle: {
+            borderWidth: 1,
+            borderColor: '#666'
+          },
+          data: this._getDataForFeatureIds(selectedIds)
         }
       ]
     }
@@ -105,6 +147,10 @@ export class MapScatterplot extends Component {
           name: 'scatter',
           type: 'scatter',
           data: this._getData(),
+          itemStyle: {
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.15)'
+          },
           z:2
         }
       ]
@@ -135,12 +181,17 @@ export class MapScatterplot extends Component {
     }
   }
 
-  _handleMouseOut = (e) => {
+  _handleMouseOut = () => {
     this.props.onHoverFeature(null, {x:0,y:0});
   }
 
-  _handleClick = (e) => {
+  _handleClick = () => {
     const { updateMapViewport, hoveredFeature, hoveredMetaData } = this.props;
+    this.props.addSelectedLocation({
+      id: hoveredMetaData.id,
+      latitude: hoveredMetaData.lat,
+      longitude: hoveredMetaData.lon
+    })
     updateMapViewport(hoveredFeature, hoveredMetaData)
   }
 
@@ -149,7 +200,7 @@ export class MapScatterplot extends Component {
     e.on('mouseover', this._handleMouseOver)
     e.on('mouseout', this._handleMouseOut)
     e.on('click', this._handleClick)
-    e.on('datarangeselected', console.log)
+    // e.on('datarangeselected', console.log)
     this.echart = e;
   }
 
@@ -202,13 +253,15 @@ const mapStateToProps = ({
   hovered: { feature },
   scatterplot, 
   metrics,
-  search: { results }
+  search: { results },
+  selected
 }, {
   match: { params: { region, metric } }
 }) => { 
   region = (region === 'schools' ? 'districts' : region);
   return ({
     region,
+    selectedIds: selected[region],
     yVar: 'all_' + metric,
     xData: getRegionData(scatterplot, region, 'all_ses'),
     yData: getRegionData(scatterplot, region, 'all_' + metric),
@@ -216,6 +269,7 @@ const mapStateToProps = ({
     xVar: 'all_ses',
     colors: metrics.colors,
     metric: metrics.items[metric],
+    selectedColors: selected.colors,
     hoveredFeature: feature ? feature : null,
     hoveredMetaData: feature && results[feature.properties.id] ? 
        results[feature.properties.id] : {}
@@ -223,6 +277,9 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  addSelectedLocation: (location) => (
+    dispatch(loadLocation(location))
+  ),
   onHoverFeature: (feature, coords) => (
     dispatch(onHoverFeature(feature)) &&
     dispatch(onCoordsChange(coords))
@@ -236,11 +293,8 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(onViewportChange({ 
         latitude: parseFloat(meta.lat), 
         longitude: parseFloat(meta.lon),
-        zoom: feature.id.length+2,
-        transitionDuration: 3000,
-        transitionInterpolator: new FlyToInterpolator(),
-        transitionEasing: ease.easeCubic
-      })) : null
+        zoom: feature.id.length+2
+      }, true)) : null
 })
 
 export default compose(

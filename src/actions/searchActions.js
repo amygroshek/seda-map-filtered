@@ -1,7 +1,10 @@
 import * as algoliasearch from 'algoliasearch';
 
-const client = algoliasearch('VQGKAQUEHP', 'd57cfd62e7ef2abb89335bf26080e3fd');
-const index = client.initIndex('dev_seda');
+const client = algoliasearch(
+  process.env.REACT_APP_ALGOLIA_ID, 
+  process.env.REACT_APP_ALGOLIA_KEY
+);
+const index = client.initIndex(process.env.REACT_APP_ALGOLIA_INDEX);
 
 export const fetchResults = (query) => (dispatch) => {
   dispatch({

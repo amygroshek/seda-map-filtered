@@ -5,6 +5,7 @@ import search from './search';
 import metrics from './metrics';
 import hovered from './hovered';
 import selected from './selected';
+import features from './features';
 
 export default combineReducers({ 
   map, 
@@ -12,5 +13,6 @@ export default combineReducers({
   search,
   metrics,
   hovered,
-  selected
+  selected,
+  features
 })

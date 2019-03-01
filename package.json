@@ -3,7 +3,8 @@
   "scripts": {
     "start": "react-scripts start",
     "now-start": "serve -s ./build",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mv build/index.html build/200.html",
+    "deploy": "npm run build && surge build seda-dev.surge.sh",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged"
@@ -24,7 +25,9 @@
     "immutable": "^4.0.0-rc.12",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
+    "lodash.isequal": "^4.5.0",
     "papaparse": "^4.6.3",
+    "polylabel": "^1.0.2",
     "react": "16.8.1",
     "react-dom": "16.8.1",
     "react-instantsearch-dom": "^5.4.0",

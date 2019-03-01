@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import { onViewportChange, onRegionChange } from '../../actions/mapActions';
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
+import { loadLocation } from '../../actions/featuresActions';
 
+const algolia = {
+  id: process.env.REACT_APP_ALGOLIA_ID,
+  key: process.env.REACT_APP_ALGOLIA_KEY,
+  index: process.env.REACT_APP_ALGOLIA_INDEX
+}
 
 const SearchMenuItem = 
   ({hit, onClick}) => {
@@ -27,7 +33,7 @@ const Results = connectSearchBox(
 );
 
 const mapDispatchToProps = (dispatch) => ({
-  updateMapViewport: (hit) => {
+  selectSearchResult: (hit) => {
     if (hit) {
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
@@ -37,22 +43,26 @@ const mapDispatchToProps = (dispatch) => ({
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: ease.easeCubic
       }))
-      console.log(hit)
-      const region = hit.group === 'district' ?
-        'districts' : hit.group === 'county' ?
+      const region = hit.group === 'districts' ?
+        'districts' : hit.group === 'counties' ?
         'counties' : 'schools';
       dispatch(onRegionChange(region))
+      dispatch(loadLocation({ 
+        id: hit.id,
+        latitude: hit.lat,
+        longitude: hit.lon
+      }))
     }
   }
 })
 
 const Search = connect(null, mapDispatchToProps)(
-  ({ updateMapViewport }) => {
+  ({ selectSearchResult }) => {
     return (
       <div>
         <SearchBox />
         <Results onClick={(e) => {
-          updateMapViewport(e);
+          selectSearchResult(e);
         }} />
       </div>
     );
@@ -63,9 +73,9 @@ const MapSearch = () => {
   return (
     <div className="map-search-wrapper">
       <InstantSearch
-        appId="VQGKAQUEHP"
-        apiKey="d57cfd62e7ef2abb89335bf26080e3fd"
-        indexName="dev_seda"
+        appId={algolia.id}
+        apiKey={algolia.key}
+        indexName={algolia.index}
       >
         <Configure hitsPerPage={5} />
         <Search />
@@ -73,9 +83,6 @@ const MapSearch = () => {
     </div>
   )
 }
-
-
-
 
 export default MapSearch
 
