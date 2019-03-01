@@ -52,6 +52,7 @@ export const getDotLayer = (region, dataProp, stops) => fromJS({
   }
 });
 
+
 export const getChoroplethOutline = (region) => fromJS({
   "id": "choropleth-outline",
   "source": 'composite',
@@ -60,14 +61,10 @@ export const getChoroplethOutline = (region) => fromJS({
   paint: {
     'line-color': ["case",
       ["boolean", ["feature-state", "hover"], false],
-      'rgba(255,0,0,1)',
-      'rgba(255,0,0,0)'
+      '#f00',
+      ["string", ["feature-state", "selected"], 'rgba(0,0,0,0)']
     ],
-    "line-width": ["case",
-      ["boolean", ["feature-state", "hover"], false],
-      3,
-      0
-    ],
+    "line-width": 3
   }
 })
 

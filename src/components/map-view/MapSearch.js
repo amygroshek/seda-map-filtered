@@ -7,6 +7,11 @@ import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { loadLocation } from '../../actions/featuresActions';
 
+const algolia = {
+  id: process.env.REACT_APP_ALGOLIA_ID,
+  key: process.env.REACT_APP_ALGOLIA_KEY,
+  index: process.env.REACT_APP_ALGOLIA_INDEX
+}
 
 const SearchMenuItem = 
   ({hit, onClick}) => {
@@ -68,9 +73,9 @@ const MapSearch = () => {
   return (
     <div className="map-search-wrapper">
       <InstantSearch
-        appId="VQGKAQUEHP"
-        apiKey="d57cfd62e7ef2abb89335bf26080e3fd"
-        indexName="dev_seda"
+        appId={algolia.id}
+        apiKey={algolia.key}
+        indexName={algolia.index}
       >
         <Configure hitsPerPage={5} />
         <Search />

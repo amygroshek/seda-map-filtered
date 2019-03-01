@@ -6,11 +6,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const MapLocation = ({ name, number, onDismissClick, onLocationClick }) => {
+const MapLocation = ({ name, number, color, onDismissClick, onLocationClick, ...rest }) => {
   return (
-    <MenuItem onClick={onLocationClick} className="map-location">
+    <MenuItem 
+      onClick={onLocationClick} 
+      {...rest}
+      className="map-location"
+    >
         <ListItemIcon>
-          <span className="number-marker">{number}</span>
+          <span style={{background: color}} className="number-marker">{number}</span>
         </ListItemIcon>
         <ListItemText 
           inset 
@@ -36,7 +40,8 @@ MapLocation.propTypes = {
   name: PropTypes.string.isRequired,
   onDismissClick: PropTypes.func.isRequired,
   onLocationClick: PropTypes.func.isRequired,
-  number: PropTypes.number
+  number: PropTypes.number,
+  color: PropTypes.string,
 }
 
 export default MapLocation

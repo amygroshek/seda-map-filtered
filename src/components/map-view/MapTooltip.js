@@ -36,15 +36,15 @@ const getFeatureName = (feature, results = {}) => {
 }
 
 const mapStateToProps = ({ 
-  hovered: { feature, coords: { x, y } },
+  hovered: { feature, coords },
   metrics,
   search: { results }
 }, {
   match: { params }
 }) => ({
-  x,
-  y,
-  visible: Boolean(feature),
+  x: coords && coords.x,
+  y: coords && coords.y,
+  visible: Boolean(feature) && Boolean(coords),
   title: getFeatureName(feature, results),
   values: getValues(feature, [ [
     getMetricShortLabel(metrics, params.metric),

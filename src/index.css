@@ -280,6 +280,13 @@ body {
   padding: 16px;
 }
 
+.number-marker {
+  width: 16px;
+  height: 16px;
+  color: transparent;
+  border-radius: 12px;
+}
+
 /** END COMPONENTS */
 
 .tooltip {

@@ -37,3 +37,13 @@ export const mergeDatasets = (set1, set2) =>
       return acc;
     }, {}
   )
+
+const idLengths = {
+  5: 'counties',
+  7: 'districts',
+  12: 'schools'
+}
+
+export const getRegionFromId = (id) => {
+  return idLengths[id.length]
+}

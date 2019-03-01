@@ -7,8 +7,16 @@ import { compose } from 'redux';
 import { onRemoveSelectedFeature, onViewportChange } from '../../actions/mapActions';
 import MenuList from '@material-ui/core/MenuList';
 import { getLocationFromFeature, parseLocationsString } from '../../modules/router';
+import { onHoverFeature, onCoordsChange } from '../../actions/mapActions';
 
-const MapSelectedLocations = ({ selected, removeLocation, navigateToLocation }) => {
+
+const MapSelectedLocations = ({ 
+  selected, 
+  removeLocation, 
+  navigateToLocation,
+  onHoverFeature, 
+  colors
+}) => {
   return (
     <div className="map-locations">
       <MenuList>
@@ -17,12 +25,14 @@ const MapSelectedLocations = ({ selected, removeLocation, navigateToLocation }) 
               key={s.id}
               number={i+1}
               {...s.properties}
+              color={colors[i]}
               onLocationClick={() => navigateToLocation(s)}
               onDismissClick={() => removeLocation(s)}
+              onMouseOver={() => onHoverFeature(s) }
+              onMouseOut={() => onHoverFeature(null)}
             />  
         )}
       </MenuList>
-
     </div>
   )
 }
@@ -30,12 +40,15 @@ const MapSelectedLocations = ({ selected, removeLocation, navigateToLocation }) 
 MapSelectedLocations.propTypes = {
   selected: PropTypes.array,
   removeLocation: PropTypes.any,
-  navigateToLocation: PropTypes.any
+  navigateToLocation: PropTypes.any,
+  onHoverFeature: PropTypes.any,
+  colors: PropTypes.array
 }
 
 const mapStateToProps = ({ selected, features }, {  
   match: { params: { region } } 
 }) => ({ 
+  colors: selected.colors,
   selected: selected[region]
     .map(k => features[k])
 })
@@ -43,6 +56,10 @@ const mapStateToProps = ({ selected, features }, {
 const mapDispatchToProps = (dispatch) => ({
   removeLocation: (feature) => 
     dispatch(onRemoveSelectedFeature(feature)),
+  onHoverFeature: (feature) => (
+    dispatch(onHoverFeature(feature)) &&
+    dispatch(onCoordsChange(null))
+  ),
   navigateToLocation: (feature) => {
     const l = parseLocationsString(
       getLocationFromFeature(feature)
