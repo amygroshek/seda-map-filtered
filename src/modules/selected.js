@@ -1,4 +1,4 @@
-import { combineReducers } from "../../../../Library/Caches/typescript/3.3/node_modules/redux";
+import { combineReducers } from "redux";
 
 const idLengths = {
   'counties': 5,
