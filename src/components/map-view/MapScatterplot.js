@@ -311,6 +311,7 @@ export class MapScatterplot extends Component {
     if (
       prevProps.region !== region ||
       prevProps.xVar !== xVar ||
+      prevProps.zVar !== zVar ||
       prevProps.yVar !== yVar
     ) {
       this._loadScatterplotData();
