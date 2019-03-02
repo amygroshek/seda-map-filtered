@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import Paper from '@material-ui/core/Paper';
 import ReactEcharts from 'echarts-for-react';
 import { scatterOptions, hoverOptions } from '../../constants/scatterOptions';
 import { getPaddedMinMax } from '../../modules/metrics';
@@ -19,7 +18,13 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import * as _isEqual from 'lodash.isequal';
 import * as scale from 'd3-scale';
 import * as d3array from 'd3-array';
+import { getStops } from '../../modules/metrics';
+import ColorStops from './ColorStops';
 
+
+// TODO: refactoring, this component is too big.
+//   Should split into presentational scatterplot component
+//   and pass data to abstact data loading
 export class MapScatterplot extends Component {
   static propTypes = {
     region: PropTypes.string,
@@ -40,7 +45,8 @@ export class MapScatterplot extends Component {
     updateMapViewport: PropTypes.func,
     addSelectedLocation: PropTypes.func,
     selectedIds: PropTypes.array,
-    selectedColors: PropTypes.array
+    selectedColors: PropTypes.array,
+    stops: PropTypes.array,
   }
 
   constructor(props) {
@@ -208,10 +214,7 @@ export class MapScatterplot extends Component {
         {
           id: 'selected',
           type: 'scatter',
-          symbolSize: (value, params) => {
-
-            return sizeScale(value[2])
-          },
+          symbolSize: (value) => sizeScale(value[2]),
           itemStyle: {
             borderWidth: 1.5,
             borderColor: '#fff',
@@ -247,9 +250,7 @@ export class MapScatterplot extends Component {
           type: 'scatter',
           data: Object.keys(this.state.scatterplotData)
             .map(k => this.state.scatterplotData[k]),
-          symbolSize: (value, params) => {
-            return sizeScale(value[2])
-          },
+          symbolSize: (value) => sizeScale(value[2]),
           itemStyle: {
             borderWidth: 1,
             borderColor: 'rgba(0,0,0,0.15)'
@@ -344,7 +345,7 @@ export class MapScatterplot extends Component {
 
   render() {
     return (
-      <Paper className='map-scatterplot'>
+      <div className='map-scatterplot'>
         <div className="map-scatterplot__header">
           <p>
             Displaying {' '}
@@ -356,6 +357,13 @@ export class MapScatterplot extends Component {
           </p>
         </div>
         <div className="map-scatterplot__container">
+          { this.props.stops && 
+            <ColorStops 
+              stops={this.props.stops} 
+              label={false} 
+              vertical={true} 
+            />
+          }
           { 
             this.state.baseScatterplot && 
             <ReactEcharts
@@ -369,9 +377,20 @@ export class MapScatterplot extends Component {
             option={this._getOverlayOptions()}
           />
         </div>
-      </Paper>
+      </div>
     )
   }
+}
+
+const getPaddedStops = (stops, amount) => {
+  const targetLength = (stops.length-1) + (amount*2)
+  const newStops = [];
+  for(var i = 0; i < targetLength; i++) {
+    newStops[i] = (i >= (targetLength - stops.length + amount)) ?
+      ((i <= stops.length - 1) ? stops[i] : stops[stops.length - 1])
+      : stops[0]
+  }
+  return newStops
 }
 
 const mapStateToProps = ({
@@ -395,6 +414,7 @@ const mapStateToProps = ({
     yRange: getPaddedMinMax(metrics, metric, 1),
     xVar: 'all_ses',
     zVar: 'sz',
+    stops: getPaddedStops(getStops(metrics, metric), 1), 
     loadedVars: scatterplot.data[region] ?
       Object.keys(scatterplot.data[region]) : [],
     colors: metrics.colors,
