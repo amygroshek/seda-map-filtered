@@ -314,7 +314,7 @@ export class MapScatterplot extends Component {
   componentDidUpdate(prevProps) {
     const { region, xVar, yVar, zVar, xData, yData, zData } = this.props;
     if (
-      prevProps.region != region ||
+      prevProps.region !== region ||
       prevProps.xVar !== xVar ||
       prevProps.zVar !== zVar ||
       prevProps.yVar !== yVar
