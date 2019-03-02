@@ -54,6 +54,11 @@ export class MapScatterplot extends Component {
     }
   }
 
+  _isVarLoaded(varName) {
+    const { loadedVars } = this.props;
+    return loadedVars.indexOf(varName) > -1
+  }
+
   _loadScatterplotData() {
     const { 
       xVar, 
@@ -309,7 +314,7 @@ export class MapScatterplot extends Component {
   componentDidUpdate(prevProps) {
     const { region, xVar, yVar, zVar, xData, yData, zData } = this.props;
     if (
-      prevProps.region !== region ||
+      prevProps.region != region ||
       prevProps.xVar !== xVar ||
       prevProps.zVar !== zVar ||
       prevProps.yVar !== yVar
@@ -376,19 +381,22 @@ const mapStateToProps = ({
   search: { results },
   selected
 }, {
-  match: { params: { region, metric } }
+  match: { params: { region, metric, demographic } }
 }) => { 
   region = (region === 'schools' ? 'districts' : region);
   return ({
     region,
+    demographic,
     selectedIds: selected[region],
-    yVar: 'all_' + metric,
+    yVar: demographic + '_' + metric,
     xData: getRegionData(scatterplot, region, 'all_ses'),
-    yData: getRegionData(scatterplot, region, 'all_' + metric),
+    yData: getRegionData(scatterplot, region, demographic + '_' + metric),
     zData: getRegionData(scatterplot, region, 'sz'),
     yRange: getPaddedMinMax(metrics, metric, 1),
     xVar: 'all_ses',
     zVar: 'sz',
+    loadedVars: scatterplot.data[region] ?
+      Object.keys(scatterplot.data[region]) : [],
     colors: metrics.colors,
     metric: metrics.items[metric],
     selectedColors: selected.colors,

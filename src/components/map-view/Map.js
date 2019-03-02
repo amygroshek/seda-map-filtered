@@ -268,6 +268,7 @@ const mapStateToProps = ({
 }) => ({
   region,
   viewport,
+  demographic,
   dataProp: getChoroplethProperty({metric, demographic}),
   stops: getStops(metrics, metric),
   hoveredFeature: feature,
