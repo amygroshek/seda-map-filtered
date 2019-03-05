@@ -26,6 +26,7 @@ export const loadLocation = (location) =>
         dispatch(addFeatureToRoute(dispatch, pathname, feature))
       })
       .catch((error) => {
+        console.error(error)
         dispatch(onLoadFeaturesError(error))
       })
     }
@@ -38,6 +39,7 @@ export const loadRouteLocations = (locations) =>
         dispatch(onLoadFeaturesSuccess(features))
       })
       .catch((error) => {
+        console.error(error)
         dispatch(onLoadFeaturesError(error))
       })
   }
