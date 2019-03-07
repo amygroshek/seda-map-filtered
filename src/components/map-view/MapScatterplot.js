@@ -17,7 +17,6 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import * as _isEqual from 'lodash.isequal';
 import { getStops } from '../../modules/metrics';
 import ColorStops from './ColorStops';
-import { getScatterplotConfig } from '../../utils/scatterplot';
 import Scatterplot from '../scatterplot/Scatterplot';
 import ConnectedScatterplot from './ConnectedScatterplot';
 
