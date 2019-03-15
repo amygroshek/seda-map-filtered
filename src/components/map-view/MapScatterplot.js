@@ -5,18 +5,21 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { scatterOptions } from '../../constants/scatterOptions';
 import { getPaddedMinMax } from '../../modules/metrics';
-import Hint from '../base/Hint';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import * as _isEqual from 'lodash.isequal';
 import { getStops } from '../../modules/metrics';
 import ColorStops from './ColorStops';
-import ConnectedScatterplot from '../scatterplot/ConnectedScatterplot';
 import { onHoverFeature, onViewportChange, onCoordsChange } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
+import { Typography } from '@material-ui/core';
+import { getSingularRegion } from '../../utils/index'
+import { demographics } from '../../constants/dataOptions';
+import SedaScatterplot from 'react-seda-scatterplot';
 
 export class MapScatterplot extends Component {
   static propTypes = {
     region: PropTypes.string,
+    demographic: PropTypes.object,
     yVar: PropTypes.string,
     xVar: PropTypes.string,
     zVar: PropTypes.string,
@@ -33,8 +36,7 @@ export class MapScatterplot extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      baseScatterplot: null,
-      overlayScatterplot: null
+      baseScatterplot: null
     }
   }
 
@@ -61,8 +63,33 @@ export class MapScatterplot extends Component {
     const { yRange } = this.props;
     return {
       visualMap: this._getVisualMapOverrides(),
+      grid: scatterOptions.grid,
       xAxis: scatterOptions.xAxis,
-      yAxis: { ...yRange, splitNumber: 7 },
+      yAxis: { 
+        ...yRange, 
+        splitNumber: 7, 
+        position: 'right',
+        axisLine: { 
+          show: true,
+          lineStyle: {
+            type: 'dashed',
+            color: '#999'
+          }
+        }
+      },
+      series: [{
+        itemStyle: {
+          'normal': {
+            borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.34)'
+          },
+          'emphasis': {
+            borderWidth: 2,
+            borderColor: 'rgba(255,0,0,1)'
+          }
+          
+        }
+      }]
     }
   }
 
@@ -84,10 +111,12 @@ export class MapScatterplot extends Component {
 
   }
 
- _onMouseMove = (e) => {
-   this.props.onCoordsChange({
-     x: e.event.event.clientX, y: e.event.event.clientY
-   })
+  _onMouseMove = (e) => {
+    const coords = {
+      x: e.event.event.clientX, 
+      y: e.event.event.clientY
+    }
+    this.props.onCoordsChange(coords)
   }
 
   componentDidMount() {
@@ -111,16 +140,6 @@ export class MapScatterplot extends Component {
   render() {
     return (
       <div className='map-scatterplot'>
-        <div className="map-scatterplot__header">
-          <p>
-            Displaying {' '}
-            <Hint text={this.props.metric.help}>
-              {this.props.metric.label.toLowerCase()}
-            </Hint>
-            {' '}for {' '}
-            {this.props.region}
-          </p>
-        </div>
         <div className="map-scatterplot__container">
           { this.props.stops && 
             <ColorStops 
@@ -131,17 +150,30 @@ export class MapScatterplot extends Component {
           }
           { 
             this.state.baseScatterplot && 
-            <ConnectedScatterplot
+            <SedaScatterplot
+              endpoint={process.env.REACT_APP_VARS_ENDPOINT}
               xVar={this.props.xVar}
               yVar={this.props.yVar}
               zVar={this.props.zVar}
-              region={this.props.region}
+              prefix={this.props.region}
               options={this.state.baseScatterplot}
+              hovered={this.props.hoveredId}
+              selected={this.props.selectedIds}
+              selectedColors={this.props.selectedColors}
               onHover={this._onHover}
               onClick={this._onClick}
               onMouseMove={this._onMouseMove}
+              onDataLoaded={(e) => console.log(e)}
             /> 
           }
+          <Typography variant="body2" classes={{root: "tmp__axis-overlay" }}>
+            <span>← poorer</span>
+            <span>richer →</span>
+          </Typography>
+          <Typography classes={{root: 'map-scatterplot__hint'}} variant="caption">
+            Each circle represents {this.props.demographic.id === 'all' ? 'all' : this.props.demographic.label.toLowerCase()}
+            {' '}students in one {getSingularRegion(this.props.region)}. Larger circles represent {this.props.region} with more students.
+          </Typography>
         </div>
       </div>
     )
@@ -165,19 +197,26 @@ const getPaddedStops = (stops, amount) => {
 }
 
 const mapStateToProps = (
-  { metrics }, 
+  { metrics, hovered: { feature }, selected }, 
   { match: { params: { region, metric, demographic } } }
 ) => { 
   region = (region === 'schools' ? 'districts' : region);
   return ({
     region,
+    demographic: demographics.find(d => d.id === demographic),
     yVar: demographic + '_' + metric,
-    xVar: 'all_ses',
+    xVar: demographic + '_ses',
     zVar: 'sz',
     yRange: getPaddedMinMax(metrics, metric, 0),
     stops: getPaddedStops(getStops(metrics, metric), 0), 
     colors: metrics.colors,
     metric: metrics.items[metric],
+    selectedIds: selected[region],
+    selectedColors: selected.colors,
+    hoveredId: feature && 
+      feature.properties && 
+      feature.properties.id ?
+        feature.properties.id : false
   })
 }
 

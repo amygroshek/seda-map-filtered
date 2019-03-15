@@ -1,11 +1,11 @@
 import Map from '../../components/map-view/Map';
-import MapControls from '../../components/map-view/MapControls';
+import MapHeader from '../../components/map-view/MapHeader';
 import MapLegend from '../../components/map-view/MapLegend';
 import MapScatterplot from '../../components/map-view/MapScatterplot';
 import MapSearch from '../../components/map-view/MapSearch';
 import MapTooltip from '../../components/map-view/MapTooltip';
 import MapSelectedLocations from '../../components/map-view/MapSelectedLocations';
-import ReportCard from '../../components/map-view/ReportCard';
+import ReportCard from '../../components/report-card/ReportCard';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react'
 import { compose } from 'redux';
@@ -38,29 +38,26 @@ export class MapView extends Component {
     } = this.props;
     return (
       <div className="map-view">
+        <MapTooltip />
+        <div className="map-view__header">
+          <MapHeader />
+          <MapSearch />
+        </div>
         <div className="map-view__container">
-          <MapTooltip />
           <div className="map-view__map">
             <Map />
-          </div>
-          <div className="map-view__search-overlay">
-            <MapSearch />
+            <MapLegend />
           </div>
           <div className="map-view__scatterplot-overlay">
-            <MapLegend />
             <MapScatterplot />
             <MapSelectedLocations />
-            <MapControls />
           </div>
-          { 
-            <div className={
-              "map-view__report-card" +
-              (reportCard ? " map-view__report-card--visible" : '')
-            }>
-              <ReportCard onClose={hideReportCard} />
-            </div>
-          }
-
+        </div>
+        <div className={
+          "map-view__report-card" +
+          (reportCard ? " map-view__report-card--visible" : '')
+        }>
+          <ReportCard onClose={hideReportCard} />
         </div>
       </div>
     )
