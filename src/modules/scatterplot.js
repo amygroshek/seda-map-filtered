@@ -17,19 +17,6 @@ const data = (state = {}, action) => {
   }
 }
 
-const isLoading = (state = false, action) => {
-  switch(action.type) {
-    case 'FETCH_VAR_REQUEST':
-      return true
-    case 'FETCH_VAR_SUCCESS':
-      return false
-    case 'FETCH_VAR_ERROR':
-      return false
-    default:
-      return state
-  }
-}
-
 const errorMessage = (state = null, action) => {
   switch(action.type) {
     case 'FETCH_VAR_REQUEST':
@@ -44,7 +31,6 @@ const errorMessage = (state = null, action) => {
 
 const scatterplot = combineReducers({
   data,
-  isLoading,
   errorMessage
 })
 

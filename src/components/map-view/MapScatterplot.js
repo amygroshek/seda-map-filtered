@@ -12,6 +12,7 @@ import { getSingularRegion } from '../../utils/index'
 import { demographics } from '../../constants/dataOptions';
 import SedaScatterplot from 'react-seda-scatterplot';
 import * as scatterplotStyle from '../../constants/mapScatterplot';
+import { onScatterplotData, onScatterplotError } from '../../actions/scatterplotActions';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -30,8 +31,10 @@ export class MapScatterplot extends Component {
     stops: PropTypes.array,
     onHoverFeature: PropTypes.func,
     updateMapViewport: PropTypes.func,
-    addSelectedLocation: PropTypes.func,
-    onCoordsChange: PropTypes.func,
+    onSelectLocation: PropTypes.func,
+    onMouseMove: PropTypes.func,
+    onDataLoaded: PropTypes.func,
+    onError: PropTypes.func
   }
 
   constructor(props) {
@@ -75,11 +78,6 @@ export class MapScatterplot extends Component {
   _onReady = (e) => {
     window.echartInstance = e
   }
-
-  _onClick = (location) => {
-    this.props.addSelectedLocation(location)
-    this.props.updateMapViewport(location)
-  }
   
   _onHover = (location) => {
     if (location && location.id) {
@@ -91,7 +89,6 @@ export class MapScatterplot extends Component {
     } else {
       this.props.onHoverFeature(null);
     }
-
   }
 
   _onMouseMove = (e) => {
@@ -99,7 +96,7 @@ export class MapScatterplot extends Component {
       x: e.event.event.clientX, 
       y: e.event.event.clientY
     }
-    this.props.onCoordsChange(coords)
+    this.props.onMouseMove(coords)
   }
 
   componentDidMount() {
@@ -137,9 +134,10 @@ export class MapScatterplot extends Component {
               selectedColors={this.props.selectedColors}
               onReady={this._onReady}
               onHover={this._onHover}
-              onClick={this._onClick}
+              onClick={this.props.onSelectLocation}
               onMouseMove={this._onMouseMove}
-              onDataLoaded={(e) => console.log(e)}
+              onDataLoaded={this.props.onDataLoaded}
+              onError={this.props.onError}
             /> 
           }
           <Typography variant="body2" classes={{root: "tmp__axis-overlay" }}>
@@ -181,19 +179,22 @@ const mapStateToProps = (
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  onDataLoaded: (data) => 
+    dispatch(onScatterplotData(data)),
+  onError: (err) => 
+    dispatch(onScatterplotError(err)),
   onHoverFeature: (feature) =>
     dispatch(onHoverFeature(feature)),
-  onCoordsChange: (coords) =>
+  onMouseMove: (coords) =>
     dispatch(onCoordsChange(coords)),
-  addSelectedLocation: (location) => (
+  onSelectLocation: (location) => {
     dispatch(loadLocation(location))
-  ),
-  updateMapViewport: (locationData) =>
     dispatch(onViewportChange({ 
-      latitude: locationData.lat, 
-      longitude: locationData.lon,
-      zoom: locationData.id.length+2
+      latitude: location.lat, 
+      longitude: location.lon,
+      zoom: location.id.length+2
     }, true))
+  }
 })
 
 export default compose(

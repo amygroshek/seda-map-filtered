@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import ReportCardSummary from './ReportCardSummary';
 import { updateRoute } from '../../modules/router';
 import { compose } from 'redux';
@@ -10,7 +8,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 const ReportCard = ({
-  onClose, 
   data, 
   demographic, 
   onDemographicChange
@@ -21,16 +18,6 @@ const ReportCard = ({
         <Typography variant="h6">
           {data.name}
         </Typography>
-        <IconButton 
-          size="small"
-          classes={
-            {root: 'report-card__close-button'}
-          }
-          aria-label="Close Report Card"
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
       </div>
       <div className="report-card__body">
           <ReportCardSummary 

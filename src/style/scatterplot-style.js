@@ -1,4 +1,8 @@
-
+/**
+ * Gets `series.markPoints` echart options based on an
+ * array of points.
+ * @param {array<{axis, x, y, label, options}>} points
+ */
 export const getMarkPoints = (points) => {
   return {
     animation: false,
@@ -9,6 +13,12 @@ export const getMarkPoints = (points) => {
   }
 }
 
+/**
+ * Gets a echarts `series` containing any marked lines or
+ * points for the graph.
+ * @param {array} points 
+ * @param {array} lines 
+ */
 export const getOverlay = (points, lines) => {
   return {
     type: 'scatter',
@@ -27,6 +37,10 @@ export const getOverlay = (points, lines) => {
   }
 }
 
+/**
+ * Gets a point that falls on the x or y axis
+ * @param {object} point 
+ */
 export const getAxisPoint = ({axis, x, y, label, options }) => {
   const position = axis === 'y' ?
     { x: x, yAxis: y } :
@@ -56,10 +70,11 @@ export const getAxisPoint = ({axis, x, y, label, options }) => {
     }
 }
 
-export const getLines = () => {
-
-}
-
+/**
+ * Gets `series.markLine` echart options based on an
+ * array of lines.
+ * @param {array<{axis, position, style}>} lines 
+ */
 export const getMarkLines = (lines) => {
   return {
     animation: false,
@@ -70,6 +85,10 @@ export const getMarkLines = (lines) => {
   }
 }
 
+/**
+ * Gets line data that spans the graph on the x or y axis
+ * @param {object} line 
+ */
 export const getAxisLine = ({axis, position, style}) => {
   const startPosition = axis === 'y' ?
     { x: 0, yAxis: position } :

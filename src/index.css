@@ -59,8 +59,8 @@ body {
 
 @media(min-width: 960px) {
   .map-view__container {
-    position: sticky;
-    top: 96px;
+    position: relative;
+    top: 0;
     height: calc(100% - 160px);
   }
 }
@@ -83,7 +83,7 @@ body {
 
 @media(min-width: 960px) {
   .map-view__header {
-    position:sticky;
+    position:relative;
     top: 0px;
     left:0;
     right:0;
@@ -174,9 +174,7 @@ body {
 }
 
 .map-view__report-card {
-  display: none;
-  background: #fff;
-  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);
+
   transform: translate(100%, 0);
   transition: all 0.4s ease;
   position: relative;
@@ -187,7 +185,6 @@ body {
   width: 100%;
   transform: translate(0, 0);
   z-index:1;
-  opacity:0;
   
 }
 
@@ -206,22 +203,12 @@ body {
 @media(min-width: 960px) {
   .map-view__report-card {
     display:block;
-    position:absolute;
-    transform: translate(0%, 100%);
-    top:64px;
-    bottom: auto;
-    max-width: none;
-    width: calc(50vw - 80px);
     height: auto;
-    margin:auto;
-    margin-bottom: 80px;
-
-    left:auto;
-    right:24px;
+    margin:24px auto;
+    max-width: 66.666%
   }
   .map-view__report-card--visible {
-    transform: translate(0, 70%);
-    
+
   }
 }
 
