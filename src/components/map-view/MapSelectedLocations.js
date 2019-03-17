@@ -9,7 +9,24 @@ import MenuList from '@material-ui/core/MenuList';
 import { getLocationFromFeature, parseLocationsString } from '../../modules/router';
 import { onHoverFeature, onCoordsChange } from '../../actions/mapActions';
 import { Typography } from '@material-ui/core';
+import { getStateAbbr } from '../../constants/statesFips';
 
+
+/**
+ * Gets the location name with state abbreviation
+ * @param {*} feature 
+ */
+const getPlaceName = (feature) => {
+  if (
+    feature && 
+    feature.properties && 
+    feature.properties.name
+  ) {
+    return feature.properties.name + ', '
+      + getStateAbbr(feature.properties.id)
+  }
+  return null;
+}
 
 const MapSelectedLocations = ({ 
   selected, 
@@ -28,7 +45,7 @@ const MapSelectedLocations = ({
                 <MapLocation 
                   key={s.id}
                   number={i+1}
-                  {...s.properties}
+                  name={getPlaceName(s)}
                   color={colors[i % colors.length]}
                   onLocationClick={() => navigateToLocation(s)}
                   onDismissClick={() => removeLocation(s)}

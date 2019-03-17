@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const MapLocation = ({ 
+const MapLocation = ({
   name, 
   number, 
   color, 
