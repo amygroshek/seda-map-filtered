@@ -2,18 +2,13 @@ import { connect } from 'react-redux';
 import Tooltip from '../base/Tooltip';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { getStateName } from '../../constants/statesFips';
 
-// const getValues = (feature, vals) =>
-//   feature ? vals.map(v => {
-//     return [
-//       v[0],
-//       feature.properties[v[1]] &&
-//       feature.properties[v[1]] > -9999 ?
-//         Math.round(feature.properties[v[1]]*100)/100 :
-//         'Unavailable'
-//     ]
-//   }) : []
-
+/**
+ * Get the label for the provided metric and value
+ * @param {*} metric 
+ * @param {*} value 
+ */
 const getMetricLabel = (metric, value) => {
   if (!value || value <= -9999) { return 'Data unavailable' }
   switch (metric) {
@@ -30,35 +25,31 @@ const getMetricLabel = (metric, value) => {
   }
 }
 
-const getFeatureName = (feature, results = {}) => {
+/**
+ * Gets the location name for the title of the tooltip
+ * @param {*} feature 
+ */
+const getFeatureTitle = (feature) => {
   if (
     feature && 
     feature.properties && 
     feature.properties.name
   ) {
-    return feature.properties.name
-  }
-  if (
-    feature &&
-    feature.properties &&
-    feature.properties.id &&
-    results[feature.properties.id]
-  ) {
-    return results[feature.properties.id].name
+    return feature.properties.name + ', '
+      + getStateName(feature.properties.id)
   }
   return null;
 }
 
 const mapStateToProps = ({ 
-  hovered: { feature, coords },
-  search: { results }
+  hovered: { feature, coords }
 }, {
   match: { params: { metric, demographic } }
 }) => ({
   x: coords && coords.x,
   y: coords && coords.y,
   visible: Boolean(feature) && Boolean(coords),
-  title: getFeatureName(feature, results),
+  title: getFeatureTitle(feature),
   content: feature && feature.properties && feature.properties[demographic + '_' + metric] ? 
     getMetricLabel(metric, feature.properties[demographic + '_' + metric]) :  
     ''
