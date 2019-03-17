@@ -8,7 +8,8 @@ const initialState = {
       help: 'Average test scores for grades 3-8 explainer',
       min: -4,
       max: 4,
-      numSteps: 9
+      map: true,
+      scatterplot: true,
     },
     'grd': { 
       id: 'grd',
@@ -16,9 +17,10 @@ const initialState = {
       short_label: 'Growth Rate',
       descriptive_label: 'Grow %value% grade levels each year',
       help: 'Growth rate explainer',
-      min: 0.6,
-      max: 1.4,
-      numSteps: 9
+      min: 0.4,
+      max: 1.6,
+      map: true,
+      scatterplot: true,
     },
     'coh': { 
       id: 'coh',
@@ -27,19 +29,26 @@ const initialState = {
       help: 'Trend over years explainer',
       min: -0.3,
       max: 0.3,
-      numSteps: 9
+      map: true,
+      scatterplot: true,
+    },
+    'ses': {
+      id: 'ses',
+      label: 'Socioeconomic Status',
+      short_label: 'SES',
+      help: 'Socioeconomic status helper',
+      map: true,
+      scatterplot: true
     }
   },
   colors: [
-    '#252D7A', 
     '#37469C', 
     '#3561A8', 
     '#519DD4', 
     '#68C5D0', 
     '#A2E2D4', 
     '#E5F8C1', 
-    '#F9FECC', 
-    '#FFFFE7' 
+    '#F9FECC'
   ]
 }
 
@@ -95,8 +104,24 @@ export const getStops = (state, metric) => {
   const colors = state.colors;
   const { min, max } = m;
   const range = Math.abs(max - min);
-  const stepSize = range / (colors.length - 1);
+  const stepSize = range / (colors.length);
   return colors.map((c, i) =>
     [ (min + (i * stepSize)), c ]
   )
+}
+
+/**
+ * Pads both sides of the provided stops by the given amount
+ * @param {*} stops 
+ * @param {*} amount 
+ */
+export const getPaddedStops = (stops, amount) => {
+  const targetLength = (stops.length-1) + (amount*2)
+  const newStops = [];
+  for(var i = 0; i < targetLength; i++) {
+    newStops[i] = (i >= (targetLength - stops.length + amount)) ?
+      ((i <= stops.length - 1) ? stops[i] : stops[stops.length - 1])
+      : stops[0]
+  }
+  return newStops
 }
