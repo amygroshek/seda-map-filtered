@@ -33,7 +33,7 @@
     "react-redux": "5.1.1",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
-    "react-seda-scatterplot": "^1.0.8",
+    "react-seda-scatterplot": "^1.0.9",
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "sanitize.css": "7.0.3",

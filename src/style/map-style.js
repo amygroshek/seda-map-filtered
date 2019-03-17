@@ -12,7 +12,7 @@ const getFillStyle = (dataProp, stops) => {
     "case",
     [ "has", dataProp ],
     [
-      "interpolate", [ "linear" ],
+      "interpolate", ["linear"],
       [ "get", dataProp ],
       -9999, noDataFill,
       ...stops

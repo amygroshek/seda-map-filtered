@@ -3,18 +3,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { scatterOptions } from '../../constants/scatterOptions';
-import { getPaddedMinMax } from '../../modules/metrics';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import * as _isEqual from 'lodash.isequal';
 import { getStops } from '../../modules/metrics';
-import ColorStops from './ColorStops';
 import { onHoverFeature, onViewportChange, onCoordsChange } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
 import { Typography } from '@material-ui/core';
 import { getSingularRegion } from '../../utils/index'
 import { demographics } from '../../constants/dataOptions';
 import SedaScatterplot from 'react-seda-scatterplot';
+import * as scatterplotStyle from '../../constants/mapScatterplot';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -24,8 +21,12 @@ export class MapScatterplot extends Component {
     xVar: PropTypes.string,
     zVar: PropTypes.string,
     colors: PropTypes.array,
-    metric: PropTypes.object,
+    yMetric: PropTypes.object,
+    xMetric: PropTypes.object,
     yRange: PropTypes.object,
+    hoveredId: PropTypes.string,
+    selectedIds: PropTypes.array,
+    selectedColors: PropTypes.array,
     stops: PropTypes.array,
     onHoverFeature: PropTypes.func,
     updateMapViewport: PropTypes.func,
@@ -41,56 +42,38 @@ export class MapScatterplot extends Component {
   }
 
   /**
-   * Gets the visual map that is used to color the base dots
-   * in the scatterplot
-   */
-  _getVisualMapOverrides() {
-    const { colors, metric: {min, max} } = this.props;
-    return [{
-      type: 'continuous',
-      min,
-      max,
-      inRange: {
-        color: colors.map(c => fade(c, 0.9))
-      }
-    }]
-  }
-
-  /**
    * Gets the configuration overrides for the base scatterplot
    */
   _getOverrides() {
-    const { yRange } = this.props;
-    return {
-      visualMap: this._getVisualMapOverrides(),
-      grid: scatterOptions.grid,
-      xAxis: scatterOptions.xAxis,
-      yAxis: { 
-        ...yRange, 
-        splitNumber: 7, 
-        position: 'right',
-        axisLine: { 
-          show: true,
-          lineStyle: {
-            type: 'dashed',
-            color: '#999'
-          }
-        }
-      },
-      series: [{
-        itemStyle: {
-          'normal': {
-            borderWidth: 1,
-            borderColor: 'rgba(0,0,0,0.34)'
+    const { xMetric, yMetric, colors } = this.props;
+    const overrides = {
+      visualMap: scatterplotStyle.visualMap(yMetric, colors),
+      grid: scatterplotStyle.grid,
+      xAxis: scatterplotStyle.xAxis(xMetric),
+      yAxis: scatterplotStyle.yAxis(yMetric),
+      series: [
+        {
+          id: 'base',
+          itemStyle: {
+            'normal': {
+              borderWidth: 1,
+              borderColor: 'rgba(0,0,0,0.34)'
+            },
+            'emphasis': {
+              borderWidth: 2,
+              borderColor: 'rgba(255,0,0,1)'
+            }
           },
-          'emphasis': {
-            borderWidth: 2,
-            borderColor: 'rgba(255,0,0,1)'
-          }
-          
-        }
-      }]
-    }
+        }, 
+        scatterplotStyle.overlays(yMetric)
+      ]
+    };
+    return overrides;
+  }
+
+  // TODO: Remove global instance
+  _onReady = (e) => {
+    window.echartInstance = e
   }
 
   _onClick = (location) => {
@@ -126,10 +109,9 @@ export class MapScatterplot extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // update scatterplot overrides when metric or range changes
+    // update scatterplot overrides when metric changes
     if (
-      !_isEqual(prevProps.metric, this.props.metric) ||
-      !_isEqual(prevProps.yRange, this.props.yRange)
+      !_isEqual(prevProps.yMetric, this.props.yMetric)
     ) {
       this.setState({
         baseScatterplot: this._getOverrides()
@@ -141,13 +123,6 @@ export class MapScatterplot extends Component {
     return (
       <div className='map-scatterplot'>
         <div className="map-scatterplot__container">
-          { this.props.stops && 
-            <ColorStops 
-              stops={this.props.stops} 
-              label={false} 
-              vertical={true} 
-            />
-          }
           { 
             this.state.baseScatterplot && 
             <SedaScatterplot
@@ -160,6 +135,7 @@ export class MapScatterplot extends Component {
               hovered={this.props.hoveredId}
               selected={this.props.selectedIds}
               selectedColors={this.props.selectedColors}
+              onReady={this._onReady}
               onHover={this._onHover}
               onClick={this._onClick}
               onMouseMove={this._onMouseMove}
@@ -180,22 +156,6 @@ export class MapScatterplot extends Component {
   }
 }
 
-/**
- * Pads both sides of the provided stops by the given amount
- * @param {*} stops 
- * @param {*} amount 
- */
-const getPaddedStops = (stops, amount) => {
-  const targetLength = (stops.length-1) + (amount*2)
-  const newStops = [];
-  for(var i = 0; i < targetLength; i++) {
-    newStops[i] = (i >= (targetLength - stops.length + amount)) ?
-      ((i <= stops.length - 1) ? stops[i] : stops[stops.length - 1])
-      : stops[0]
-  }
-  return newStops
-}
-
 const mapStateToProps = (
   { metrics, hovered: { feature }, selected }, 
   { match: { params: { region, metric, demographic } } }
@@ -207,16 +167,16 @@ const mapStateToProps = (
     yVar: demographic + '_' + metric,
     xVar: demographic + '_ses',
     zVar: 'sz',
-    yRange: getPaddedMinMax(metrics, metric, 0),
-    stops: getPaddedStops(getStops(metrics, metric), 0), 
+    stops: getStops(metrics, metric), 
     colors: metrics.colors,
-    metric: metrics.items[metric],
+    xMetric: metrics.items['ses'],
+    yMetric: metrics.items[metric],
     selectedIds: selected[region],
     selectedColors: selected.colors,
     hoveredId: feature && 
       feature.properties && 
       feature.properties.id ?
-        feature.properties.id : false
+        feature.properties.id : ''
   })
 }
 
