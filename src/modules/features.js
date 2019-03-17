@@ -19,3 +19,19 @@ const features = (state = {}, action) => {
 }
 
 export default features;
+
+/**
+ * Gets a property from a feature, returns null if not found
+ * @param {Feature} feature GeoJSON feature
+ * @param {string} propName property name to grab
+ */
+export const getFeatureProperty = (feature, propName) => {
+  if (
+    feature && 
+    feature.properties && 
+    feature.properties[propName]
+  ) {
+    return feature.properties[propName]
+  }
+  return null;
+}
