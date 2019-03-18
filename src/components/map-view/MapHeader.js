@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import Hint from '../../components/base/Hint';
-import { metrics, regions, demographics } from '../../constants/dataOptions';
+import { regions, demographics } from '../../constants/dataOptions';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -53,6 +53,7 @@ export class MapHeader extends Component {
   static propTypes = {
     region: PropTypes.string,
     demographic: PropTypes.object,
+    metrics: PropTypes.array,
     metric: PropTypes.object,
     regionLabel: PropTypes.string,
     onRegionChange: PropTypes.func,
@@ -82,7 +83,7 @@ export class MapHeader extends Component {
           open: true,
           type,
           selectedValue: this.props.metric.id,
-          items: metrics
+          items: this.props.metrics.filter(m => m.map)
         });
         break;
       case 'region':
@@ -165,6 +166,8 @@ const mapStateToProps = (
     regionLabel: region === 'districts' ? 'school districts': region,
     demographic: demographics.find(d => d.id === demographic),
     metric: metrics.items[metric],
+    metrics: Object.keys(metrics.items)
+      .map(k => metrics.items[k])
   })
 }
 

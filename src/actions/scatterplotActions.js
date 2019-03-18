@@ -1,6 +1,6 @@
 
-export const onScatterplotData = (data) => {
-  const region = Object.keys(data)[0];
+export const onScatterplotData = (data, region) => {
+  console.log('loaded data', region, data);
   return ({
     type: 'FETCH_VAR_SUCCESS',
     region,

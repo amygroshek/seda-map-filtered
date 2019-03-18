@@ -4,7 +4,7 @@ const initialState = {
       id: 'avg',
       label: 'Average Test Scores',
       short_label: 'Avg. Test Score',
-      description: 'Average test scores show the eductional opportunity for a region and if students are scoring above or below their grade level.',
+      description: 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
       help: 'Average test scores for grades 3-8 explainer',
       min: -4,
       max: 4,
@@ -13,10 +13,10 @@ const initialState = {
     },
     'grd': { 
       id: 'grd',
-      label: 'Growth over years',
+      label: 'Growth of test scores',
       short_label: 'Growth Rate',
       descriptive_label: 'Grow %value% grade levels each year',
-      help: 'Growth rate explainer',
+      description: 'Shows how much students learn on average while they are in school',
       min: 0.4,
       max: 1.6,
       map: true,
@@ -24,9 +24,9 @@ const initialState = {
     },
     'coh': { 
       id: 'coh',
-      label: 'Trend over years',
+      label: 'Trend of test scores',
       short_label: 'Trend',
-      help: 'Trend over years explainer',
+      description: 'Indicates the extent to which a community is getting better at providing educational opportunities over time',
       min: -0.3,
       max: 0.3,
       map: true,
@@ -36,8 +36,16 @@ const initialState = {
       id: 'ses',
       label: 'Socioeconomic Status',
       short_label: 'SES',
-      help: 'Socioeconomic status helper',
-      map: true,
+      description: 'Socioeconomic status helper',
+      map: false,
+      scatterplot: true
+    },
+    'seg': {
+      id: 'seg',
+      label: 'Segregation Measure',
+      short_label: 'Segregation',
+      description: 'Segregation status helper',
+      map: false,
       scatterplot: true
     }
   },
@@ -66,6 +74,22 @@ export default metrics;
 
 
 // Helper Functions
+
+/**
+ * Gets an object mapping metric ID to label
+ * @param {object} state metrics state
+ * @param {array} metricIds an array of metric IDs
+ */
+export const getMetricLabels = ({ items }, metricIds, demographic) => {
+  return metricIds.reduce((acc, curr) => {
+    const demKey = demographic ? demographic + '_' + curr : curr
+    if (items && items[curr] && items[curr].label) {
+      acc[demKey] = items[curr].label;
+      return acc;
+    }
+    throw new Error(`No label for metric: ${curr}`);
+  }, {})
+}
 
 export const getMetricShortLabel = ({ items }, metric) => {
   if (items && items[metric] && items[metric].short_label) {

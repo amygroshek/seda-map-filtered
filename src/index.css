@@ -706,6 +706,11 @@ body {
 }
 
 
+.dynamic-scatterplot__graph {
+  position:relative;
+  padding-top: 56.25%
+}
+
 
 .hint .hint__container {
   margin-top: -32px;

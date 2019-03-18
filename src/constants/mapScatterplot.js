@@ -69,7 +69,7 @@ export const overlays = (metric) => {
   return overlayConfig[metric.id] ? overlayConfig[metric.id] : {}
 }
 
-export const visualMap = (metric, colors) => {
+export const visualMap = (metric, colors, highlightIndex = 0) => {
   const baseConfig = {
     type: 'continuous',
     min: metric.min,
@@ -79,6 +79,7 @@ export const visualMap = (metric, colors) => {
       color: colors.map(c => fade(c, 0.9))
     },
     show:false,
+    seriesIndex: highlightIndex,
     calculable: true,
     right:0,
     bottom:'auto',

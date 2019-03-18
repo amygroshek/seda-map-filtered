@@ -10,6 +10,19 @@ export const isPropEqual = (obj1, obj2, propName) => {
           obj1[propName] === obj2[propName])
 }
 
+/**
+ * Maps the data object to new keys based on the provided keyMap
+ * @param {object} obj the object for which the keys should be mapped
+ * @param {object} keyMap a map of { oldKey: newKey }
+ * @returns {object} object containing the new keys in keyMap
+ */
+export const mapObjectKeys = (obj, keyMap) =>
+  Object.keys(keyMap).reduce((acc, curr) => {
+    if (obj[curr]) {
+      acc[keyMap[curr]] = obj[curr];
+    }
+    return acc;
+  }, {})
 
 /**
  * Gets the region that corresponds to the provided ID
