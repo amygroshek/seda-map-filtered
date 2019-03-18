@@ -1,3 +1,20 @@
+const idLengths = {
+  2: 'states',
+  5: 'counties',
+  7: 'districts',
+  12: 'schools'
+}
+
+export const intToRegionId = (value, region) => {
+  const s = "0000000000000" + value;
+  const length = Object.keys(idLengths)
+    .find(k => idLengths[k] === region)
+  if (length) {
+    return s.substr(s.length - parseInt(length));
+  }
+  throw new Error('no id length for region ' + region)
+}
+
 /**
  * Checks if a property of two objects are equal
  */
@@ -29,11 +46,7 @@ export const mapObjectKeys = (obj, keyMap) =>
  * @param {string} id 
  */
 export const getRegionFromId = (id) => {
-  const idLengths = {
-    5: 'counties',
-    7: 'districts',
-    12: 'schools'
-  }
+  
   if (!idLengths[id.length]) {
     throw new Error('No region corresponding to provided ID');
   }

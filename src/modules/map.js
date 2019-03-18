@@ -17,7 +17,16 @@ const viewport = (state = defaultViewport, action) => {
   }
 }
 
-const map = combineReducers({ viewport })
+const usState = (state = null, action) => {
+  switch (action.type) {
+    case 'SET_US_STATE':
+      return action.stateId
+    default:
+      return state
+  }
+}
+
+const map = combineReducers({ viewport, usState })
 
 export const getChoroplethProperty = (options) => {
   const { metric, demographic } = options;

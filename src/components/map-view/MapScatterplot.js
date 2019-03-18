@@ -13,6 +13,8 @@ import { demographics } from '../../constants/dataOptions';
 import SedaScatterplot from 'react-seda-scatterplot';
 import * as scatterplotStyle from '../../constants/mapScatterplot';
 import { onScatterplotData, onScatterplotError } from '../../actions/scatterplotActions';
+import { getStateName } from '../../constants/statesFips';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -35,26 +37,22 @@ export class MapScatterplot extends Component {
     onMouseMove: PropTypes.func,
     onDataLoaded: PropTypes.func,
     onError: PropTypes.func,
-    highlightState: PropTypes.string
+    showState: PropTypes.string,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       baseScatterplot: null,
-      highlightState: false
+      highlightState: false,
+      restore: false,
     }
   }
 
-  _toggleHighlight = (e) => {
-    const newState = e.target.checked ? '06' : false;
+  _toggleHighlight = (highlightState, restore = false) => {
     this.setState(
-      { 
-        highlightState: newState
-      }, 
-      () => this.setState({
-        baseScatterplot: this._getOverrides()
-      })
+      { highlightState, restore }, 
+      () => this.setState({ baseScatterplot: this._getOverrides() })
     )
   }
 
@@ -152,9 +150,18 @@ export class MapScatterplot extends Component {
         baseScatterplot: this._getOverrides()
       })
     }
+    // turn off highlight if no state available
+    if (prevProps.showState !== this.props.showState) {
+      if (!this.props.showState) {
+        this._toggleHighlight(false, this.state.highlightState)
+      } else {
+        this.state.restore && this._toggleHighlight(true)
+      }
+    }
   }
 
   render() {
+    const { region, showState } = this.props;
     return (
       <div className='map-scatterplot'>
         <div className="map-scatterplot__container">
@@ -187,7 +194,22 @@ export class MapScatterplot extends Component {
             Each circle represents {this.props.demographic.id === 'all' ? 'all' : this.props.demographic.label.toLowerCase()}
             {' '}students in one {getSingularRegion(this.props.region)}. Larger circles represent {this.props.region} with more students.
           </Typography>
-          <Checkbox onChange={this._toggleHighlight}/>
+          { showState &&
+            <div className="checkbox-overlay">
+              <FormControlLabel
+                control={
+                  <Checkbox 
+                    checked={this.state.highlightState} 
+                    onChange={(e) => this._toggleHighlight(e.target.checked)}
+                  />
+                }
+                label={
+                  <span>Highlight {region} in <strong>{showState}</strong></span>
+                }
+                labelPlacement="start"
+              />
+            </div>
+          }
         </div>
       </div>
     )
@@ -204,7 +226,7 @@ const getStateIds = (ids, fips) => {
 }
 
 const mapStateToProps = (
-  { metrics, hovered: { feature }, selected, scatterplot: { data } }, 
+  { map, metrics, hovered: { feature }, selected, scatterplot: { data } }, 
   { match: { params: { region, metric, demographic } } }
 ) => { 
   region = (region === 'schools' ? 'districts' : region);
@@ -220,9 +242,9 @@ const mapStateToProps = (
     yMetric: metrics.items[metric],
     selectedIds: selected[region],
     selectedColors: selected.colors,
-    highlightState: '01',
-    highlighted: data && data[region] && data[region]['name'] ? 
-      getStateIds(Object.keys(data[region]['name']), '06') : [],
+    showState: map.usState ? getStateName(map.usState) : false,
+    highlighted: data && data[region] && data[region]['name'] && map.usState ? 
+      getStateIds(Object.keys(data[region]['name']), map.usState) : [],
     hoveredId: feature && 
       feature.properties && 
       feature.properties.id ?

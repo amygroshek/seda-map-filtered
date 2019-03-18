@@ -4,6 +4,14 @@ import lightGreen from '@material-ui/core/colors/lightGreen';
 
 // Theme for the tool
 const materialTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#0e7cb4'
+    },
+    secondary: {
+      main: '#17d3a3',
+    },
+  },
   overrides: {
     MuiInputBase: {
       root: {
@@ -48,10 +56,6 @@ const materialTheme = createMuiTheme({
         right: 8
       }
     },
-  },
-  palette: {
-    primary: blue,
-    secondary: lightGreen,
   },
   typography: {
     useNextVariants: true,

@@ -2393,6 +2393,15 @@
             }
         },
         {
+          "id": "states-fills",
+          "type": "fill",
+          "source": "states",
+          "paint": {
+              "fill-color": "#ccc",
+              "fill-opacity": 0
+          }
+        },
+        {
           "id": "states-outlines",
           "type": "line",
           "source": "states",
@@ -2409,16 +2418,18 @@
                 5,
                 0
               ],
-              "line-opacity": 1,
-              "line-color": [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  4,
-                  "#061d56",
-                  5,
-                  "rgba(0,0,0,0)"
-              ]
+              "line-opacity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                2,
+                0,
+                4,
+                1,
+                5,
+                0
+              ],
+              "line-color": "#061d56"
           }
         },
         {

@@ -22,6 +22,11 @@ export const hideReportCard = () => ({
   type: 'HIDE_REPORT_CARD'
 });
 
+export const updateCurrentState = (stateId) => ({
+  type: 'SET_US_STATE',
+  stateId
+})
+
 export const onViewportChange = (viewport, transition = false) => {
   if (transition) {
     viewport = { 

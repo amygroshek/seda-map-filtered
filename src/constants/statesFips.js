@@ -68,6 +68,10 @@ const getStateProp = (id, prop) => {
     statesFips[id][prop] : null;
 }
 
+export const getState = (id) => {
+  return statesFips[id]
+}
+
 /**
  * Gets the state abbreviation for the provided identifier
  * @param {string} id identifier for any geography

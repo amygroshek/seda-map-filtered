@@ -758,6 +758,16 @@ body {
   left: 24px;
 }
 
+.checkbox-overlay {
+
+}
+
+.map-scatterplot__container .checkbox-overlay {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
 /** TEMPORARY **/
 
 p.tmp__axis-overlay {
