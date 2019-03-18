@@ -242,7 +242,7 @@ const mapStateToProps = (
     yMetric: metrics.items[metric],
     selectedIds: selected[region],
     selectedColors: selected.colors,
-    showState: map.usState ? getStateName(map.usState) : false,
+    showState: map.usState ? getStateName(map.usState) : '',
     highlighted: data && data[region] && data[region]['name'] && map.usState ? 
       getStateIds(Object.keys(data[region]['name']), map.usState) : [],
     hoveredId: feature && 
