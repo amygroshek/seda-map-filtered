@@ -65,19 +65,24 @@ const ReportCard = ({
   demographicControl,
   highlightControl,
   opportunity,
+  achievement,
   onOptionChange
 }) => {
   return (
     <div className="report-card">
       <div className="report-card__body">
         <div className="report-card-section">
+          <Typography classes={{root: "report-card-section__heading" }}>
+            Selected Locations
+          </Typography>
           <div className="report-card-section__body">
             { 
-              locations && <LocationStatsList
+              Boolean(locations.length) && <LocationStatsList
                 locations={locations}
                 stats={metricLabels}
               />
             }
+            { Boolean(!locations.length) && <Typography variant="body2">No locations selected. Select a location through the scatterplots, map, or search</Typography>}
           </div>
         </div>
         <ReportCardSection 
@@ -88,6 +93,7 @@ const ReportCard = ({
           xVar={xVarSes}
           yVar={yVarSes}
           zVar='sz'
+          variant='ses'
           controls={[
             metricControl,
             demographicControl,
@@ -112,6 +118,7 @@ const ReportCard = ({
           description='This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.'
           region={region}
           highlight={highlight}
+          variant='opp'
           onOptionChange={(option) => {
             option.id === 'highlight' ?
               onHighlightChange(option.value) :
@@ -123,11 +130,14 @@ const ReportCard = ({
           description='This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.'
           region={region}
           highlight={highlight}
-          xVar={xVarSes}
-          yVar={yVarSes}
+          {...achievement}
           zVar='sz'
-          controls={[]}
-          onOptionChange={console.log}
+          variant='ach'
+          onOptionChange={(option) => {
+            option.id === 'highlight' ?
+              onHighlightChange(option.value) :
+              onOptionChange('achievement', option)
+          }}
         />
         <div className="report-card-section">
           <Typography classes={{root: "report-card-section__heading" }}>
@@ -152,7 +162,7 @@ ReportCard.propTypes = {
 }
 
 const mapStateToProps = (
-  { features, selected, metrics, map: { usState, highlightState }, report: { opportunity } },
+  { features, selected, metrics, map: { usState, highlightState }, report: { opportunity, achievement } },
   { match: { params: { demographic, region, metric } } }
 ) => {
   const highlightControl =
@@ -173,12 +183,23 @@ const mapStateToProps = (
         getDemographicControl(
           opportunity.xVar.split('_')[0], 
           'subgroupX',
-          'X Axis Subgroup'
+          'Subgroup 1'
         ),
         getDemographicControl(
           opportunity.yVar.split('_')[0], 
           'subgroupY',
-          'Y Axis Subgroup'
+          'Subgroup 2'
+        ),
+        highlightControl
+      ]
+    },
+    achievement: {
+      ...achievement,
+      controls: [
+        getGapControl(
+          achievement.xVar.split('_')[0], 
+          'gap',
+          'Achievement Gap'
         ),
         highlightControl
       ]

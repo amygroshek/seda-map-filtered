@@ -1,19 +1,5 @@
 import { combineReducers } from "redux";
 
-const createSectionReducer = (sectionId, defaultState) =>
-  (state = defaultState, action) => {
-    if (action.section !== sectionId) { return state; }
-    switch(action.type) {
-      case 'SET_REPORT_VAR':
-        return {
-          ...state,
-
-        }
-      default:
-        return state
-    }
-  }
-
 const defaultSocioeconomic = {
   xVar: 'all_ses',
   yVar: 'all_avg',
@@ -43,8 +29,6 @@ const socioeconomic =
         return state
     }
   }
-
-
 
 const defaultOpportunity = {
   xVar: 'np_avg',
@@ -78,14 +62,31 @@ const opportunity =
     }
   }
 
-/**
- * Reducer for the achievement section
- */
-const achievement = createSectionReducer('achievement', {
+const defaultAchievement = {
   xVar: 'wb_ses',
   yVar: 'wb_avg',
   zVar: 'sz',
-});
+};
+
+/**
+ * Reducer for the achievement gaps section
+ */
+const achievement = 
+  (state = defaultAchievement, action) => {
+    switch(action.type) {
+      case 'SET_REPORT_OPTION':
+        return action.section === 'achievement' ?
+          {
+            ...state,
+            xVar: action.id === 'gap' ? 
+              action.value + '_ses' : state.xVar,
+            yVar: action.id === 'gap' ? 
+              action.value + '_avg' : state.yVar,
+          } : state
+      default:
+        return state
+    }
+  }
 
 export default combineReducers({
   socioeconomic,

@@ -18,6 +18,19 @@ export const theme = {
     color: ['#00a8c6', '#a2d4e6']
   },
 
+  valueAxis: {
+    splitLine: {
+      lineStyle: {
+        type: 'dashed',
+        color: '#ccc'
+      }
+    },
+    nameTextStyle: {
+      fontSize: 14,
+      fontWeight: 'bold'
+    }
+  },
+
   scatter : {
     itemStyle:{
       color: '#76ced2cc',

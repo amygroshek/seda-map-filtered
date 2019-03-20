@@ -26,7 +26,11 @@ export class ReportCardSection extends Component {
     onOptionChange: PropTypes.func,
     classes: PropTypes.object,
     title: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    /**
+     * Determines the graph config variant
+     */
+    variant: PropTypes.string,
   }
 
   render() {
@@ -39,7 +43,8 @@ export class ReportCardSection extends Component {
       highlight, 
       onOptionChange,
       title,
-      description
+      description,
+      variant
     } = this.props;
     return (
       <div className="report-card-section socioeconomic-conditions">
@@ -58,6 +63,7 @@ export class ReportCardSection extends Component {
             highlight={highlight === 'none' ? null : highlight}
             region={region}
             onOptionChange={onOptionChange}
+            variant={variant}
           />
         </div>
       </div>

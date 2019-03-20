@@ -1,6 +1,6 @@
-import * as spStyle from '../style/scatterplot-style';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
+import { getDemographicLabel } from '../constants/dataOptions';
 /**
  * Gets `series.markPoints` echart options based on an
  * array of points.
@@ -122,9 +122,9 @@ export const grid = {
   left: '24',
 }
 
-export const overlays = (metric) => {
+export const overlays = (metric, variant = '') => {
   const overlayConfig = {
-    'avg': spStyle.getOverlay(
+    'avg': getOverlay(
       new Array(7).fill().map((v, i) => {
         const position = -3 + i;
         const grades = Math.abs(position) === 1 ? 'grade' : 'grades'
@@ -143,7 +143,7 @@ export const overlays = (metric) => {
         position: -3 + i
       }))
     ),
-    'grd': spStyle.getOverlay(
+    'grd': getOverlay(
       new Array(5).fill().map((v, i) => {
         const position = 0.6 + (i * (1)/5);
         const label = position === 1 ? 'average\ngrowth' :
@@ -161,7 +161,7 @@ export const overlays = (metric) => {
         position: 0.6 + (i * 1/5)
       }))
     ),
-    'coh': spStyle.getOverlay(
+    'coh': getOverlay(
       new Array(5).fill().map((v, i) => {
         const position = Math.round((-0.2 + (i * 0.1))*10)/10;
         const label = position === 0 ? 'no change\nin test scores' :
@@ -179,8 +179,45 @@ export const overlays = (metric) => {
         position: -0.2 + (i * 0.1)
       }))
     ),
+    'avg_opp': {
+      type: 'line',
+      animation: false,
+      silent: true,
+      visualMap: false,
+      data: [[-4, -4], [4, 4]],
+      symbolSize: 0.1,
+      label: {
+        show:false
+      },
+      markLine: {
+        animation: false,
+        silent: true,
+        label: {
+          position: 'middle',
+          formatter: function(value) {
+            return value.name
+          } 
+        },
+        lineStyle: {
+          type: 'dashed',
+          color: '#999'
+        },
+        data: [
+          [
+            { 
+              name: 'equal opportunity', 
+              coord: [-4, -4], 
+              symbol: 'none',
+            },
+            { coord: [ 4,  4], symbol: 'none' },
+          ]
+        ]
+      }
+    }
   }
-  return overlayConfig[metric.id] ? overlayConfig[metric.id] : {}
+  const configKey = variant ? 
+    metric.id + '_' + variant : metric.id
+  return overlayConfig[configKey] ? overlayConfig[configKey] : null
 }
 
 export const visualMap = (metric, colors, highlightIndex = 0) => {
@@ -216,26 +253,85 @@ export const visualMap = (metric, colors, highlightIndex = 0) => {
     }] : [{}]
 }
 
-export const xAxis = (metric) => {
-  const xAxisConfig = {
-    'ses': {
-      axisLabel: {
-        formatter: function (val) {
-          if (val === 0) {
-            return 'average\nsocioeconomic status'
-          }
-          return null;
-        },
-        fontSize: 14,
-        inside: false,
-        margin: 10,
-      },
-    }
+export const xAxis = (metric, demographic = '') => {
+  const baseConfig = {
+    axisLabel: {
+      show: true
+    },
+    axisLine: {
+      show: false
+    },
+    splitLine: {
+      show: true
+    },
+    splitNumber: 7,
+    nameGap: 32,
+    nameLocation: 'middle'
   };
-  return xAxisConfig[metric.id] ? xAxisConfig[metric.id] : {}
+  const configKey = demographic ? 
+    demographic +'_'+ metric.id : metric.id;
+  switch (configKey) {
+    case 'ses':
+      return {
+        splitLine: { show: false },
+        axisLabel: {
+          formatter: function (val) {
+            if (val === 0) {
+              return 'average\nsocioeconomic status'
+            }
+            return null;
+          },
+          fontSize: 14,
+          inside: false,
+          margin: 10,
+        },
+      }
+    // gap axis labels
+    case 'p_grd':
+    case 'np_grd':
+    case 'b_grd':
+      return {
+        ...baseConfig,
+        min: metric.min,
+        max: metric.max,
+        name: metric.label + (
+          demographic ? 
+            ' (' + getDemographicLabel(demographic) + ' students)' : 
+            ''
+        ),
+        splitLine: {
+          show: true
+        },
+        splitNumber: 5,
+        interval: 0.2,
+      }
+    case 'wb_ses':
+    case 'wh_ses':
+    case 'wa_ses':
+    case 'pn_ses':
+      return {
+        ...baseConfig,
+        name: metric.label + (
+          demographic ? 
+            ' (' + getDemographicLabel(demographic) + ')' : 
+            ''
+        ),
+      }
+    default:
+      return {
+        ...baseConfig,
+        min: metric.min,
+        max: metric.max,
+        name: metric.label + (
+          demographic ? 
+            ' (' + getDemographicLabel(demographic) + ' students)' : 
+            ''
+        ),
+      }
+  }
 }
 
-export const yAxis = (metric) => {
+export const yAxis = (metric, demographic = '') => {
   const baseConfig = {
     position: 'right',
     axisLabel: { 
@@ -247,27 +343,66 @@ export const yAxis = (metric) => {
       show: true,
       lineStyle: {
         type: 'dashed',
-        color: '#999'
+        color: '#ccc'
       }
     },
-    splitLine: { show: false }
+    splitLine: { show: false },
+    min: metric.min,
+    max: metric.max,
   }
-  const yAxisConfig = {
-    'avg': {
-      ...baseConfig,
-      min: metric.min,
-      max: metric.max,
-    },
-    'grd': {
-      ...baseConfig,
-      min: metric.min,
-      max: metric.max,
-    },
-    'coh': {
-      ...baseConfig,
-      min: metric.min,
-      max: metric.max,
-    },
-  };
-  return yAxisConfig[metric.id] ? yAxisConfig[metric.id] : {}
+  const configKey = demographic ? 
+    demographic +'_'+ metric.id : metric.id;
+  switch (configKey) {
+    case 'avg':
+    case 'grd':
+    case 'coh':
+      return baseConfig
+    case 'wb_avg':
+    case 'wh_avg':
+    case 'wa_avg':
+    case 'pn_avg':
+      return {
+        ...baseConfig,
+        max: 0,
+        min: -6,
+        axisLabel: {
+          show: true
+        },
+        axisLine: {
+          show: false
+        },
+        splitLine: {
+          show: true
+        },
+        splitNumber: 7,
+        name: metric.label + (
+          demographic ? 
+            ' (' + getDemographicLabel(demographic) + ')' : 
+            ''
+        ),
+        nameGap: 32,
+        nameLocation: 'middle'
+      }
+    default:
+      return {
+        ...baseConfig,
+        axisLabel: {
+          show: true
+        },
+        axisLine: {
+          show: false
+        },
+        splitLine: {
+          show: true
+        },
+        splitNumber: 7,
+        name: metric.label + (
+          demographic ? 
+            ' (' + getDemographicLabel(demographic) + ' students)' : 
+            ''
+        ),
+        nameGap: 32,
+        nameLocation: 'middle'
+      }
+  }
 }
