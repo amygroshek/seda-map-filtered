@@ -68,6 +68,7 @@ export const demographics = [
   },
 ]
 
+
 export const gaps = [
   {
     id: 'wb',
@@ -86,3 +87,14 @@ export const gaps = [
     label: 'Poor / Non-poor Gap'
   }
 ]
+
+export const getDemographicLabel = (id) => {
+  let dem = demographics.find(d => d.id === id);
+  if (!dem) {
+    dem = gaps.find(d => d.id === id)
+  }
+  if (!dem) {
+    throw new Error('no demographic found for ' + id)
+  }
+  return dem.label;
+}

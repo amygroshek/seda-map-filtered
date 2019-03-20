@@ -8,18 +8,22 @@ import Select from '../base/Select';
 function Controls({controls, onOptionChange, children }) {
   return (
     <div className='controls'>
+      
+      
       { 
         controls.map(c =>
-          <Select
-            key={c.id + '-select'}
-            label={c.label}
-            value={ c.value }
-            items={ c.options }
-            onChange={
-              (e) => onOptionChange && 
-                onOptionChange({ id: c.id, value: e })
-            }
-          />
+          <div key={c.id + '-select'} className="controls__control">
+            <Select
+              
+              label={c.label}
+              value={ c.value }
+              items={ c.options }
+              onChange={
+                (e) => onOptionChange && 
+                  onOptionChange({ id: c.id, value: e })
+              }
+            />
+          </div>
         )
       }
       { children }

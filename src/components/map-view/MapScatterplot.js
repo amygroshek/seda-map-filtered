@@ -172,7 +172,7 @@ export class MapScatterplot extends Component {
               onClick={this.props.onSelectLocation}
               onMouseMove={this._onMouseMove}
               onDataLoaded={(e) => this.props.onDataLoaded(e, this.props.region)}
-              onError={this.props.onError}
+              onError={() => alert('data not yet available')}
               theme={theme}
             /> 
           }

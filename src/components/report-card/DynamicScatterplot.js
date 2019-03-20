@@ -31,6 +31,7 @@ class DynamicScatterplot extends Component {
     data: PropTypes.object,
     highlight: PropTypes.string,
     onOptionChange: PropTypes.func,
+    variant: PropTypes.string
   }
 
   state = {
@@ -41,9 +42,11 @@ class DynamicScatterplot extends Component {
    * Gets the configuration overrides for the base scatterplot
    */
   _getOverrides() {
-    const { xVar, yVar, highlight, metrics } = this.props;
+    const { xVar, yVar, highlight, metrics, variant } = this.props;
     const yMetric = metrics[yVar.split('_')[1]];
     const xMetric = metrics[xVar.split('_')[1]];
+    const yDem = yVar.split('_')[0];
+    const xDem = xVar.split('_')[0];
     const hl = Boolean(highlight);
     const series = [
       {
@@ -63,18 +66,21 @@ class DynamicScatterplot extends Component {
         itemStyle: {
           borderColor: 'rgba(6, 29, 86, 0.4)',
         }
-      },
-      scatterplotStyle.overlays(yMetric),
+      }
     ];
+    const overlays = scatterplotStyle.overlays(yMetric, variant);
+    if (overlays) {
+      series.push(overlays);
+    }
     const overrides = {
       grid: {
-        top:0,
+        top:24,
         bottom:48,
         left:0,
-        right:0
+        right:48
       },
-      xAxis: scatterplotStyle.xAxis(xMetric),
-      yAxis: scatterplotStyle.yAxis(yMetric),
+      xAxis: scatterplotStyle.xAxis(xMetric, xDem),
+      yAxis: scatterplotStyle.yAxis(yMetric, yDem),
       series
     };
     return overrides;
@@ -89,15 +95,15 @@ class DynamicScatterplot extends Component {
   }
 
   _onHover = (location) => {
-    if (location && location.id) {
-      const feature = {
-        id: location.id,
-        properties: location,
-      }
-      this.props.onHoverFeature(feature);
-    } else {
-      this.props.onHoverFeature(null);
-    }
+    // if (location && location.id) {
+    //   const feature = {
+    //     id: location.id,
+    //     properties: location,
+    //   }
+    //   this.props.onHoverFeature(feature);
+    // } else {
+    //   this.props.onHoverFeature(null);
+    // }
   }
 
   componentDidMount() {
@@ -141,6 +147,7 @@ class DynamicScatterplot extends Component {
             selected={this.props.selectedIds}
             selectedColors={['#f00']}
             theme={theme}
+            onError={() => alert('data not yet available')}
           /> 
         </div>
       </div>

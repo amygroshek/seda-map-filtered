@@ -14,8 +14,7 @@ function LocationStats({id, name, state, metrics, data}) {
           Object.keys(metrics).map(k =>
             metrics[k] && data[k] &&
             <div key={'stat_' + k} className='location-stat'>
-              <span>{metrics[k]}</span>
-              <span>{data[k]}</span>
+              <span>{data[k] && data[k] !== -9999 ? Math.round(data[k]*100)/100 : 'Unavailable'}</span>
             </div>
           )
         }

@@ -8,40 +8,48 @@ import { withRouter } from 'react-router-dom';
 import { getMetricLabels } from '../../modules/metrics';
 import LocationStatsList from './LocationStatsList';
 import { ReportCardSection } from './ReportCardSection';
-import { metrics, demographics } from '../../constants/dataOptions';
+import { metrics, demographics, gaps } from '../../constants/dataOptions';
 import { getStateSelectOptions } from '../../constants/statesFips';
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
 
 
-const controls = {
-  'ses' : (metric, demographic, highlight) => 
-    [
-      {
-        id: 'metric',
-        label: 'Data Metric',
-        value: metric,
-        options: metrics
-      },
-      {
-        id: 'demographic',
-        label: 'Demographic',
-        value: demographic,
-        options: demographics
-      },
-      {
-        id: 'highlight',
-        label: 'Highlight',
-        value: highlight ? highlight : 'none',
-        options: [
-          {
-            id: 'none',
-            label: 'None'
-          },
-          ...getStateSelectOptions()
-        ]
-      }
-    ]
-};
+const getMetricControl = (metric, id = 'metric') => ({
+  id,
+  label: 'Data Metric',
+  value: metric,
+  options: metrics
+})
+
+const getDemographicControl = (
+  demographic, 
+  id = 'demographic', 
+  label = 'Demographics'
+) => ({
+  id,
+  label,
+  value: demographic,
+  options: demographics
+})
+
+const getHighlightControl = (highlight) => ({
+  id: 'highlight',
+  label: 'Highlight',
+  value: highlight ? highlight : 'none',
+  options: [
+    {
+      id: 'none',
+      label: 'None'
+    },
+    ...getStateSelectOptions()
+  ]
+})
+
+const getGapControl = (gap) => ({
+  id: 'gap',
+  label: 'Gap Type',
+  value: gap,
+  options: gaps
+})
 
 const ReportCard = ({
   locations, 
@@ -50,22 +58,31 @@ const ReportCard = ({
   highlight, 
   xVarSes, 
   yVarSes,
-  controlsSes,
   onDemographicChange,
   onMetricChange,
-  onHighlightChange
+  onHighlightChange,
+  metricControl,
+  demographicControl,
+  highlightControl,
+  opportunity,
+  achievement,
+  onOptionChange
 }) => {
   return (
     <div className="report-card">
       <div className="report-card__body">
         <div className="report-card-section">
+          <Typography classes={{root: "report-card-section__heading" }}>
+            Selected Locations
+          </Typography>
           <div className="report-card-section__body">
             { 
-              locations && <LocationStatsList
+              Boolean(locations.length) && <LocationStatsList
                 locations={locations}
                 stats={metricLabels}
               />
             }
+            { Boolean(!locations.length) && <Typography variant="body2">No locations selected. Select a location through the scatterplots, map, or search</Typography>}
           </div>
         </div>
         <ReportCardSection 
@@ -76,7 +93,12 @@ const ReportCard = ({
           xVar={xVarSes}
           yVar={yVarSes}
           zVar='sz'
-          controls={controlsSes}
+          variant='ses'
+          controls={[
+            metricControl,
+            demographicControl,
+            highlightControl
+          ]}
           onOptionChange={(option) => {
             switch(option.id) {
               case 'metric':
@@ -91,26 +113,31 @@ const ReportCard = ({
           }}
         />
         <ReportCardSection 
+          {...opportunity}
           title='Opportunity Differences'
           description='This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.'
           region={region}
           highlight={highlight}
-          xVar={xVarSes}
-          yVar={yVarSes}
-          zVar='sz'
-          controls={controlsSes}
-          onOptionChange={console.log}
+          variant='opp'
+          onOptionChange={(option) => {
+            option.id === 'highlight' ?
+              onHighlightChange(option.value) :
+              onOptionChange('opportunity', option)
+          }}
         />
         <ReportCardSection 
           title='Achievement Gaps'
           description='This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.'
           region={region}
           highlight={highlight}
-          xVar={xVarSes}
-          yVar={yVarSes}
+          {...achievement}
           zVar='sz'
-          controls={controlsSes}
-          onOptionChange={console.log}
+          variant='ach'
+          onOptionChange={(option) => {
+            option.id === 'highlight' ?
+              onHighlightChange(option.value) :
+              onOptionChange('achievement', option)
+          }}
         />
         <div className="report-card-section">
           <Typography classes={{root: "report-card-section__heading" }}>
@@ -135,33 +162,70 @@ ReportCard.propTypes = {
 }
 
 const mapStateToProps = (
-  { features, selected, metrics, map: { usState, highlightState } },
+  { features, selected, metrics, map: { usState, highlightState }, report: { opportunity, achievement } },
   { match: { params: { demographic, region, metric } } }
-) => ({
-  region,
-  metric,
-  yVarSes: demographic + '_' + metric,
-  xVarSes: demographic + '_ses',
-  controlsSes: controls['ses'](
-    metric, 
-    demographic, 
-    highlightState && usState ? usState : 'none'
-  ),
-  highlight: highlightState && usState ? usState : 'none',
-  locations: selected[region]
-    .map(l => 
-      features[l] && features[l].properties ? 
-        features[l].properties : null
-    )
-    .filter(l => l)
-  ,
-  metricLabels: getMetricLabels(
-    metrics, ['avg', 'grd', 'coh', 'ses', 'seg'], demographic
-  ),
-  demographic
-})
+) => {
+  const highlightControl =
+    getHighlightControl(highlightState && usState ? usState : 'none');
+  return ({
+    region,
+    metric,
+    yVarSes: demographic + '_' + metric,
+    xVarSes: demographic + '_ses',
+    metricControl: getMetricControl(metric),
+    demographicControl: getDemographicControl(demographic),
+    highlightControl: highlightControl,
+    highlight: highlightState && usState ? usState : 'none',
+    opportunity: {
+      ...opportunity,
+      controls: [
+        getMetricControl(opportunity.xVar.split('_')[1]),
+        getDemographicControl(
+          opportunity.xVar.split('_')[0], 
+          'subgroupX',
+          'Subgroup 1'
+        ),
+        getDemographicControl(
+          opportunity.yVar.split('_')[0], 
+          'subgroupY',
+          'Subgroup 2'
+        ),
+        highlightControl
+      ]
+    },
+    achievement: {
+      ...achievement,
+      controls: [
+        getGapControl(
+          achievement.xVar.split('_')[0], 
+          'gap',
+          'Achievement Gap'
+        ),
+        highlightControl
+      ]
+    },
+    locations: selected[region]
+      .map(l => 
+        features[l] && features[l].properties ? 
+          features[l].properties : null
+      )
+      .filter(l => l)
+    ,
+    metricLabels: getMetricLabels(
+      metrics, ['avg', 'grd', 'coh', 'ses', 'seg'], demographic
+    ),
+    demographic
+  })
+} 
+
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onOptionChange: (section, option) => 
+    dispatch({
+      type: 'SET_REPORT_OPTION',
+      section,
+      ...option
+    }),
   onDemographicChange: (value) => 
     updateRoute(ownProps, { demographic: value }),
   onMetricChange: (value) =>
