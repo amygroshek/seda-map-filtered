@@ -6,7 +6,7 @@ import metrics from './metrics';
 import hovered from './hovered';
 import selected from './selected';
 import features from './features';
-import reportCard from './reportCard';
+import report from './report';
 
 export default combineReducers({ 
   map, 
@@ -16,5 +16,5 @@ export default combineReducers({
   hovered,
   selected,
   features,
-  reportCard
+  report
 })

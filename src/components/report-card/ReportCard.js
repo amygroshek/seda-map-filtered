@@ -7,10 +7,53 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMetricLabels } from '../../modules/metrics';
 import LocationStatsList from './LocationStatsList';
-import DynamicScatterplot from './DynamicScatterplot';
+import { SocioeconomicConditions } from './SocioeconomicConditions';
+import { metrics, demographics } from '../../constants/dataOptions';
+import { getStateSelectOptions } from '../../constants/statesFips';
+import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
+
+
+const controls = {
+  'ses' : (metric, demographic, highlight) => 
+    [
+      {
+        id: 'metric',
+        label: 'Data Metric',
+        value: metric,
+        options: metrics
+      },
+      {
+        id: 'demographic',
+        label: 'Demographic',
+        value: demographic,
+        options: demographics
+      },
+      {
+        id: 'highlight',
+        label: 'Highlight',
+        value: highlight ? highlight : 'none',
+        options: [
+          {
+            id: 'none',
+            label: 'None'
+          },
+          ...getStateSelectOptions()
+        ]
+      }
+    ]
+};
 
 const ReportCard = ({
-  locations, metricLabels, region
+  locations, 
+  metricLabels, 
+  region, 
+  highlight, 
+  xVarSes, 
+  yVarSes,
+  controlsSes,
+  onDemographicChange,
+  onMetricChange,
+  onHighlightChange
 }) => {
   return (
     <div className="report-card">
@@ -25,23 +68,27 @@ const ReportCard = ({
             }
           </div>
         </div>
-        <div className="report-card-section">
-          <Typography classes={{root: "report-card-section__heading" }}>
-            Socioeconomic Conditions
-          </Typography>
-          <div className="report-card-section__body">
-            <Typography variant="body2">
-              This section will show how the socioeconomic conditions compares to other areas. By default, it shows how average test scores correlate to socioeconomic status in the scatterplot. The scatterplot also allows the user to select any of the three key data metrics to see how they correlate to socioeconomic conditions.
-            </Typography>
-            <DynamicScatterplot 
-              xVar='all_ses'
-              yVar='all_avg'
-              zVar='sz'
-              region={region}
-            />
-          </div>
-        </div>
-        <div className="report-card-section">
+        <SocioeconomicConditions 
+          region={region}
+          highlight={highlight}
+          xVar={xVarSes}
+          yVar={yVarSes}
+          zVar='sz'
+          controls={controlsSes}
+          onOptionChange={(option) => {
+            switch(option.id) {
+              case 'metric':
+                return onMetricChange(option.value)
+              case 'demographic':
+                return onDemographicChange(option.value)
+              case 'highlight':
+                return onHighlightChange(option.value)
+              default:
+                return false
+            }
+          }}
+        />
+        {/* <div className="report-card-section">
           <Typography classes={{root: "report-card-section__heading" }}>
             Opportunity Differences
           </Typography>
@@ -53,6 +100,7 @@ const ReportCard = ({
               xVar='np_avg'
               yVar='p_avg'
               zVar='sz'
+              highlight='largest'
               region={region}
             />
           </div>
@@ -76,10 +124,11 @@ const ReportCard = ({
                 id: 'wb_seg',
                 label: 'Segregation'
               }]}
+              highlight='largest'
               region={region}
             />
           </div>
-        </div>
+        </div> */}
         <div className="report-card-section">
           <Typography classes={{root: "report-card-section__heading" }}>
             Similar Places
@@ -103,10 +152,19 @@ ReportCard.propTypes = {
 }
 
 const mapStateToProps = (
-  { features, selected, metrics },
-  { match: { params: { demographic, region } } }
+  { features, selected, metrics, map: { usState, highlightState } },
+  { match: { params: { demographic, region, metric } } }
 ) => ({
   region,
+  metric,
+  yVarSes: demographic + '_' + metric,
+  xVarSes: demographic + '_ses',
+  controlsSes: controls['ses'](
+    metric, 
+    demographic, 
+    highlightState && usState ? usState : 'none'
+  ),
+  highlight: highlightState && usState ? usState : 'none',
   locations: selected[region]
     .map(l => 
       features[l] && features[l].properties ? 
@@ -122,7 +180,18 @@ const mapStateToProps = (
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onDemographicChange: (value) => 
-    updateRoute(ownProps, { demographic: value })
+    updateRoute(ownProps, { demographic: value }),
+  onMetricChange: (value) =>
+    updateRoute(ownProps, { metric: value }),
+  onHighlightChange: (value) => {
+    if (value === 'none') {
+      dispatch(toggleHighlightState(false))
+      dispatch(updateCurrentState(null))
+    } else {
+      dispatch(toggleHighlightState(true))
+      dispatch(updateCurrentState(value))
+    }
+  }
 })
 
 export default compose(

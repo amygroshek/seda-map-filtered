@@ -1,4 +1,18 @@
 
+export const metrics = [
+  {
+    id: 'avg',
+    label: 'Average Test Scores',
+  },
+  {
+    id: 'grd',
+    label: 'Growth of test scores',
+  },
+  {
+    id: 'coh',
+    label: 'Trend of test scores',
+  }
+]
 
 export const regions = [
   {
@@ -52,4 +66,23 @@ export const demographics = [
     id: 'np',
     label: 'Non-Poor'
   },
+]
+
+export const gaps = [
+  {
+    id: 'wb',
+    label: 'White / Black Gap'
+  },
+  {
+    id: 'wh',
+    label: 'White / Hispanic Gap'
+  },
+  {
+    id: 'wa',
+    label: 'White / Asian Gap'
+  },
+  {
+    id: 'pn',
+    label: 'Poor / Non-poor Gap'
+  }
 ]

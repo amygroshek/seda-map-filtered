@@ -17,6 +17,15 @@ const viewport = (state = defaultViewport, action) => {
   }
 }
 
+const highlightState = (state = false, action) => {
+  switch (action.type) {
+    case 'TOGGLE_STATE_HIGHLIGHT':
+      return action.on
+    default:
+      return state
+  }
+}
+
 const usState = (state = null, action) => {
   switch (action.type) {
     case 'SET_US_STATE':
@@ -26,7 +35,7 @@ const usState = (state = null, action) => {
   }
 }
 
-const map = combineReducers({ viewport, usState })
+const map = combineReducers({ viewport, usState, highlightState })
 
 export const getChoroplethProperty = (options) => {
   const { metric, demographic } = options;
