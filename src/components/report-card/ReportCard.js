@@ -8,40 +8,48 @@ import { withRouter } from 'react-router-dom';
 import { getMetricLabels } from '../../modules/metrics';
 import LocationStatsList from './LocationStatsList';
 import { ReportCardSection } from './ReportCardSection';
-import { metrics, demographics } from '../../constants/dataOptions';
+import { metrics, demographics, gaps } from '../../constants/dataOptions';
 import { getStateSelectOptions } from '../../constants/statesFips';
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
 
 
-const controls = {
-  'ses' : (metric, demographic, highlight) => 
-    [
-      {
-        id: 'metric',
-        label: 'Data Metric',
-        value: metric,
-        options: metrics
-      },
-      {
-        id: 'demographic',
-        label: 'Demographic',
-        value: demographic,
-        options: demographics
-      },
-      {
-        id: 'highlight',
-        label: 'Highlight',
-        value: highlight ? highlight : 'none',
-        options: [
-          {
-            id: 'none',
-            label: 'None'
-          },
-          ...getStateSelectOptions()
-        ]
-      }
-    ]
-};
+const getMetricControl = (metric, id = 'metric') => ({
+  id,
+  label: 'Data Metric',
+  value: metric,
+  options: metrics
+})
+
+const getDemographicControl = (
+  demographic, 
+  id = 'demographic', 
+  label = 'Demographics'
+) => ({
+  id,
+  label,
+  value: demographic,
+  options: demographics
+})
+
+const getHighlightControl = (highlight) => ({
+  id: 'highlight',
+  label: 'Highlight',
+  value: highlight ? highlight : 'none',
+  options: [
+    {
+      id: 'none',
+      label: 'None'
+    },
+    ...getStateSelectOptions()
+  ]
+})
+
+const getGapControl = (gap) => ({
+  id: 'gap',
+  label: 'Gap Type',
+  value: gap,
+  options: gaps
+})
 
 const ReportCard = ({
   locations, 
@@ -50,10 +58,14 @@ const ReportCard = ({
   highlight, 
   xVarSes, 
   yVarSes,
-  controlsSes,
   onDemographicChange,
   onMetricChange,
-  onHighlightChange
+  onHighlightChange,
+  metricControl,
+  demographicControl,
+  highlightControl,
+  opportunity,
+  onOptionChange
 }) => {
   return (
     <div className="report-card">
@@ -76,7 +88,11 @@ const ReportCard = ({
           xVar={xVarSes}
           yVar={yVarSes}
           zVar='sz'
-          controls={controlsSes}
+          controls={[
+            metricControl,
+            demographicControl,
+            highlightControl
+          ]}
           onOptionChange={(option) => {
             switch(option.id) {
               case 'metric':
@@ -91,15 +107,16 @@ const ReportCard = ({
           }}
         />
         <ReportCardSection 
+          {...opportunity}
           title='Opportunity Differences'
           description='This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.'
           region={region}
           highlight={highlight}
-          xVar={xVarSes}
-          yVar={yVarSes}
-          zVar='sz'
-          controls={controlsSes}
-          onOptionChange={console.log}
+          onOptionChange={(option) => {
+            option.id === 'highlight' ?
+              onHighlightChange(option.value) :
+              onOptionChange('opportunity', option)
+          }}
         />
         <ReportCardSection 
           title='Achievement Gaps'
@@ -109,7 +126,7 @@ const ReportCard = ({
           xVar={xVarSes}
           yVar={yVarSes}
           zVar='sz'
-          controls={controlsSes}
+          controls={[]}
           onOptionChange={console.log}
         />
         <div className="report-card-section">
@@ -135,33 +152,59 @@ ReportCard.propTypes = {
 }
 
 const mapStateToProps = (
-  { features, selected, metrics, map: { usState, highlightState } },
+  { features, selected, metrics, map: { usState, highlightState }, report: { opportunity } },
   { match: { params: { demographic, region, metric } } }
-) => ({
-  region,
-  metric,
-  yVarSes: demographic + '_' + metric,
-  xVarSes: demographic + '_ses',
-  controlsSes: controls['ses'](
-    metric, 
-    demographic, 
-    highlightState && usState ? usState : 'none'
-  ),
-  highlight: highlightState && usState ? usState : 'none',
-  locations: selected[region]
-    .map(l => 
-      features[l] && features[l].properties ? 
-        features[l].properties : null
-    )
-    .filter(l => l)
-  ,
-  metricLabels: getMetricLabels(
-    metrics, ['avg', 'grd', 'coh', 'ses', 'seg'], demographic
-  ),
-  demographic
-})
+) => {
+  const highlightControl =
+    getHighlightControl(highlightState && usState ? usState : 'none');
+  return ({
+    region,
+    metric,
+    yVarSes: demographic + '_' + metric,
+    xVarSes: demographic + '_ses',
+    metricControl: getMetricControl(metric),
+    demographicControl: getDemographicControl(demographic),
+    highlightControl: highlightControl,
+    highlight: highlightState && usState ? usState : 'none',
+    opportunity: {
+      ...opportunity,
+      controls: [
+        getMetricControl(opportunity.xVar.split('_')[1]),
+        getDemographicControl(
+          opportunity.xVar.split('_')[0], 
+          'subgroupX',
+          'X Axis Subgroup'
+        ),
+        getDemographicControl(
+          opportunity.yVar.split('_')[0], 
+          'subgroupY',
+          'Y Axis Subgroup'
+        ),
+        highlightControl
+      ]
+    },
+    locations: selected[region]
+      .map(l => 
+        features[l] && features[l].properties ? 
+          features[l].properties : null
+      )
+      .filter(l => l)
+    ,
+    metricLabels: getMetricLabels(
+      metrics, ['avg', 'grd', 'coh', 'ses', 'seg'], demographic
+    ),
+    demographic
+  })
+} 
+
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onOptionChange: (section, option) => 
+    dispatch({
+      type: 'SET_REPORT_OPTION',
+      section,
+      ...option
+    }),
   onDemographicChange: (value) => 
     updateRoute(ownProps, { demographic: value }),
   onMetricChange: (value) =>
