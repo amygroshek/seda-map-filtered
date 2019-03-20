@@ -68,6 +68,10 @@ const getStateProp = (id, prop) => {
     statesFips[id][prop] : null;
 }
 
+/**
+ * Get the state for this given fips code
+ * @param {*} id fips code for the state
+ */
 export const getState = (id) => {
   return statesFips[id]
 }
@@ -85,3 +89,15 @@ export const getStateAbbr = (id) =>
  */
 export const getStateName = (id) =>
   getStateProp(id, 'full')
+
+/**
+ * Gets a list of state options for `<Select />`
+ */
+export const getStateSelectOptions = () =>
+  Object.keys(statesFips).map(fips => ({
+    id: fips,
+    label: statesFips[fips]['full']
+  })).sort((a, b) => (
+    a.label < b.label ? -1 : 
+      a.label > b.label ? 1 : 0
+  ))

@@ -5,16 +5,17 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import * as _isEqual from 'lodash.isequal';
 import { getStops } from '../../modules/metrics';
-import { onHoverFeature, onViewportChange, onCoordsChange } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onCoordsChange, toggleHighlightState } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
 import { Typography, Checkbox } from '@material-ui/core';
 import { getSingularRegion } from '../../utils/index'
 import { demographics } from '../../constants/dataOptions';
 import SedaScatterplot from 'react-seda-scatterplot';
-import * as scatterplotStyle from '../../constants/mapScatterplot';
+import * as scatterplotStyle from '../../style/scatterplot-style';
 import { onScatterplotData, onScatterplotError } from '../../actions/scatterplotActions';
 import { getStateName } from '../../constants/statesFips';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { theme } from '../../style/echartTheme';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -38,20 +39,22 @@ export class MapScatterplot extends Component {
     onDataLoaded: PropTypes.func,
     onError: PropTypes.func,
     showState: PropTypes.string,
+    onToggleHighlight: PropTypes.func,
+    highlightState: PropTypes.bool,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       baseScatterplot: null,
-      highlightState: false,
       restore: false,
     }
   }
 
   _toggleHighlight = (highlightState, restore = false) => {
+    this.props.onToggleHighlight(highlightState);
     this.setState(
-      { highlightState, restore }, 
+      { restore }, 
       () => this.setState({ baseScatterplot: this._getOverrides() })
     )
   }
@@ -60,45 +63,29 @@ export class MapScatterplot extends Component {
    * Gets the configuration overrides for the base scatterplot
    */
   _getOverrides() {
-    const { xMetric, yMetric, colors, selectedIds } = this.props;
-    const hl = Boolean(this.state.highlightState);
+    const { xMetric, yMetric, colors } = this.props;
+    const hl = this.props.highlightState;
     const series = [
       {
         id: 'base',
         animation: false,
         silent: hl ? true : false,
         itemStyle: {
-          'normal': {
-            borderWidth: 1,
-            borderColor: hl ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.34)',
-            color: 'rgba(0,0,0,0.1)'
-          },
-          'emphasis': {
-            borderWidth: 2,
-            borderColor: 'rgba(255,0,0,1)'
-          }
+          color: 'rgba(0, 0, 0, 0.1)',
+          borderColor: hl ? 'rgba(0,0,0,0.1)' : 'rgba(6, 29, 86, 0.4)',
         },
       },
       {
         id: 'highlight',
         type: 'scatter',
-        show: Boolean(this.state.highlightState),
+        show: this.props.highlightState,
         itemStyle: {
-          'normal': {
-            borderWidth: 1,
-            borderColor: 'rgba(0,0,0,0.34)',
-            color: 'rgba(255,255,100,1)'
-          },
-          'emphasis': {
-            borderWidth: 2,
-            borderColor: 'rgba(255,0,0,1)'
-          }
+          borderColor: 'rgba(6, 29, 86, 0.4)',
         }
       },
       scatterplotStyle.overlays(yMetric),
     ];
-    const hlIndex = hl ?
-      (selectedIds && selectedIds.length ? 2 : 2) : 0
+    const hlIndex = hl ? 2 : 0
     const overrides = {
       visualMap: scatterplotStyle.visualMap(yMetric, colors, hlIndex),
       grid: scatterplotStyle.grid,
@@ -106,6 +93,7 @@ export class MapScatterplot extends Component {
       yAxis: scatterplotStyle.yAxis(yMetric),
       series
     };
+    console.log('map scatterplot', overrides.yAxis)
     return overrides;
   }
 
@@ -144,7 +132,8 @@ export class MapScatterplot extends Component {
   componentDidUpdate(prevProps) {
     // update scatterplot overrides when metric changes
     if (
-      !_isEqual(prevProps.yMetric, this.props.yMetric)
+      !_isEqual(prevProps.yMetric, this.props.yMetric) ||
+      prevProps.highlightState !== this.props.highlightState
     ) {
       this.setState({
         baseScatterplot: this._getOverrides()
@@ -153,7 +142,7 @@ export class MapScatterplot extends Component {
     // turn off highlight if no state available
     if (prevProps.showState !== this.props.showState) {
       if (!this.props.showState) {
-        this._toggleHighlight(false, this.state.highlightState)
+        this._toggleHighlight(false, this.props.highlightState)
       } else {
         this.state.restore && this._toggleHighlight(true)
       }
@@ -175,7 +164,7 @@ export class MapScatterplot extends Component {
               prefix={this.props.region}
               options={this.state.baseScatterplot}
               hovered={this.props.hoveredId}
-              highlighted={this.state.highlightState ? this.props.highlighted : []}
+              highlighted={this.props.highlightState ? this.props.highlighted : []}
               selected={this.props.selectedIds}
               selectedColors={this.props.selectedColors}
               onReady={this._onReady}
@@ -184,6 +173,7 @@ export class MapScatterplot extends Component {
               onMouseMove={this._onMouseMove}
               onDataLoaded={(e) => this.props.onDataLoaded(e, this.props.region)}
               onError={this.props.onError}
+              theme={theme}
             /> 
           }
           <Typography variant="body2" classes={{root: "tmp__axis-overlay" }}>
@@ -199,7 +189,7 @@ export class MapScatterplot extends Component {
               <FormControlLabel
                 control={
                   <Checkbox 
-                    checked={this.state.highlightState} 
+                    checked={this.props.highlightState} 
                     onChange={(e) => this._toggleHighlight(e.target.checked)}
                   />
                 }
@@ -242,8 +232,11 @@ const mapStateToProps = (
     yMetric: metrics.items[metric],
     selectedIds: selected[region],
     selectedColors: selected.colors,
-    showState: map.usState ? getStateName(map.usState) : '',
-    highlighted: data && data[region] && data[region]['name'] && map.usState ? 
+    highlightState: map.viewport && map.viewport.zoom > 6 ? map.highlightState : false,
+    showState: map.usState && map.viewport && map.viewport.zoom > 6 ? getStateName(map.usState) : '',
+    highlighted: data && data[region] && 
+      data[region]['name'] && map.usState &&
+      map.viewport && map.viewport.zoom > 6 ? 
       getStateIds(Object.keys(data[region]['name']), map.usState) : [],
     hoveredId: feature && 
       feature.properties && 
@@ -253,6 +246,8 @@ const mapStateToProps = (
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  onToggleHighlight: (on) =>
+    dispatch(toggleHighlightState(on)),
   onDataLoaded: (data, region) => 
     dispatch(onScatterplotData(data, region)),
   onError: (err) => 

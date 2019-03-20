@@ -18,6 +18,18 @@ export const theme = {
     color: ['#00a8c6', '#a2d4e6']
   },
 
+  scatter : {
+    itemStyle:{
+      color: '#76ced2cc',
+      borderWidth: 1,
+      borderColor: 'rgba(6, 29, 86, 0.4)'      
+    },
+    'emphasis': { itemStyle: {
+      borderWidth: 2,
+      borderColor: 'rgba(255,0,0,1)'
+    }}
+  },
+
   toolbox: {
     color: ['#00a8c6', '#00a8c6', '#00a8c6', '#00a8c6']
   },
@@ -117,59 +129,4 @@ export const theme = {
     }
   },
 
-  force: {
-    itemStyle: {
-      normal: {
-        linkStyle: {
-          color: '#00a8c6'
-        }
-      }
-    }
-  },
-
-  gauge: {
-    axisLine: { // Coordinate axis
-      show: true, // Default display, property show control display or not
-      lineStyle: { // Attribute lineStyle controls the line style
-        color: [
-          [0.2, '#40c0cb'],
-          [0.8, '#00a8c6'],
-          [1, '#8fbe00']
-        ],
-        width: 8
-      }
-    },
-    axisTick: { // Small mark of the axis
-      splitNumber: 10, // How many segments per split subdivision
-      length: 12, // Attribute length control line length
-      lineStyle: { // Attribute lineStyle controls the line style
-        color: 'auto'
-      }
-    },
-    axisLabel: { // Axis text label, see details axis.axisLabel
-      textStyle: { // The remaining attributes use the global text style by default TEXTSTYLE
-        color: 'auto'
-      }
-    },
-    splitLine: { // Separate lines
-      length: 18, // Attribute length control line length
-      lineStyle: { // The attribute lineStyle (see lineStyle for details) controls the line style
-        color: 'auto'
-      }
-    },
-    pointer: {
-      length: '90%',
-      color: 'auto'
-    },
-    title: {
-      textStyle: { // The remaining attributes use the global text style by default TEXTSTYLE
-        color: '#333'
-      }
-    },
-    detail: {
-      textStyle: { // The remaining attributes use the global text style by default TEXTSTYLE
-        color: 'auto'
-      }
-    }
-  }
 };
