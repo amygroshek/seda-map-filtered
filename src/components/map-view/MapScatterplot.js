@@ -63,7 +63,7 @@ export class MapScatterplot extends Component {
    * Gets the configuration overrides for the base scatterplot
    */
   _getOverrides() {
-    const { xMetric, yMetric, colors, selectedIds } = this.props;
+    const { xMetric, yMetric, colors } = this.props;
     const hl = this.props.highlightState;
     const series = [
       {
@@ -93,6 +93,7 @@ export class MapScatterplot extends Component {
       yAxis: scatterplotStyle.yAxis(yMetric),
       series
     };
+    console.log('map scatterplot', overrides.yAxis)
     return overrides;
   }
 
@@ -131,7 +132,7 @@ export class MapScatterplot extends Component {
   componentDidUpdate(prevProps) {
     // update scatterplot overrides when metric changes
     if (
-      !_isEqual(prevProps.yMetric, this.props.yMetric),
+      !_isEqual(prevProps.yMetric, this.props.yMetric) ||
       prevProps.highlightState !== this.props.highlightState
     ) {
       this.setState({

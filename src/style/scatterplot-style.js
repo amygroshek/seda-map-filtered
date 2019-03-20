@@ -237,8 +237,6 @@ export const xAxis = (metric) => {
 
 export const yAxis = (metric) => {
   const baseConfig = {
-    min: metric.min,
-    max: metric.max,
     position: 'right',
     axisLabel: { 
       show: false,
@@ -255,9 +253,21 @@ export const yAxis = (metric) => {
     splitLine: { show: false }
   }
   const yAxisConfig = {
-    'avg': baseConfig,
-    'grd': baseConfig,
-    'coh': baseConfig
+    'avg': {
+      ...baseConfig,
+      min: metric.min,
+      max: metric.max,
+    },
+    'grd': {
+      ...baseConfig,
+      min: metric.min,
+      max: metric.max,
+    },
+    'coh': {
+      ...baseConfig,
+      min: metric.min,
+      max: metric.max,
+    },
   };
   return yAxisConfig[metric.id] ? yAxisConfig[metric.id] : {}
 }

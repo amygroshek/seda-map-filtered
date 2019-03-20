@@ -5,6 +5,8 @@ import Controls from '../base/Controls';
 import { theme } from '../../style/echartTheme';
 import * as scatterplotStyle from '../../style/scatterplot-style';
 import { connect } from 'react-redux';
+import { onHoverFeature, onCoordsChange } from '../../actions/mapActions';
+
 
 class DynamicScatterplot extends Component {
   static propTypes = {
@@ -39,9 +41,9 @@ class DynamicScatterplot extends Component {
    * Gets the configuration overrides for the base scatterplot
    */
   _getOverrides() {
-    const { xVar, yVar, highlight } = this.props;
-    const yMetric = yVar.split('_')[1];
-    const xMetric = xVar.split('_')[1];
+    const { xVar, yVar, highlight, metrics } = this.props;
+    const yMetric = metrics[yVar.split('_')[1]];
+    const xMetric = metrics[xVar.split('_')[1]];
     const hl = Boolean(highlight);
     const series = [
       {
@@ -50,7 +52,7 @@ class DynamicScatterplot extends Component {
         animation: false,
         silent: hl ? true : false,
         itemStyle: {
-          color: 'rgba(0, 0, 0, 0.1)',
+          color: hl ? 'rgba(0,0,0,0.1)' : '#76ced2cc',
           borderColor: hl ? 'rgba(0,0,0,0.1)' : 'rgba(6, 29, 86, 0.4)',
         },
       },
@@ -62,20 +64,44 @@ class DynamicScatterplot extends Component {
           borderColor: 'rgba(6, 29, 86, 0.4)',
         }
       },
-      scatterplotStyle.overlays({ id: yMetric }),
+      scatterplotStyle.overlays(yMetric),
     ];
     const overrides = {
-      grid: scatterplotStyle.grid,
-      xAxis: scatterplotStyle.xAxis({ id: xMetric }),
-      yAxis: scatterplotStyle.yAxis({ id: yMetric }),
+      grid: {
+        top:0,
+        bottom:48,
+        left:0,
+        right:0
+      },
+      xAxis: scatterplotStyle.xAxis(xMetric),
+      yAxis: scatterplotStyle.yAxis(yMetric),
       series
     };
     return overrides;
   }
 
+  _onMouseMove = (e) => {
+    const coords = {
+      x: e.event.event.clientX, 
+      y: e.event.event.clientY
+    }
+    this.props.onMouseMove(coords)
+  }
+
+  _onHover = (location) => {
+    if (location && location.id) {
+      const feature = {
+        id: location.id,
+        properties: location,
+      }
+      this.props.onHoverFeature(feature);
+    } else {
+      this.props.onHoverFeature(null);
+    }
+  }
+
   componentDidMount() {
     const options = this._getOverrides()
-    console.log(options)
     this.setState({ options })
   }
 
@@ -87,7 +113,6 @@ class DynamicScatterplot extends Component {
       prevProps.highlight !== this.props.highlight
     ) {
       const options = this._getOverrides()
-      console.log(options)
       this.setState({ options })
     }
   }
@@ -108,6 +133,8 @@ class DynamicScatterplot extends Component {
             xVar={xVar}
             yVar={yVar}
             zVar={zVar}
+            onHover={this._onHover}
+            onMouseMove={this._onMouseMove}
             prefix={this.props.region}
             options={this.state.options}
             highlighted={this.props.highlightedIds}
@@ -130,14 +157,22 @@ const getStateIds = (ids, fips) => {
 }
 
 const mapStateToDispatch = (
-  { map, selected, scatterplot: { data } }, 
-  { region, highlight }
+  { map, metrics: { items }, selected, scatterplot: { data } }, 
+  { region, highlight, xVar, yVar }
 ) => ({
   selectedIds: selected[region],
   highlightedIds: highlight && data && data[region] && 
     data[region]['name'] && map.usState ? 
       getStateIds(Object.keys(data[region]['name']), highlight) : 
       [],
+  metrics: items
 })
 
-export default connect(mapStateToDispatch, null)(DynamicScatterplot);
+const mapDispatchToProps = (dispatch) => ({
+  onHoverFeature: (feature) =>
+    dispatch(onHoverFeature(feature)),
+  onMouseMove: (coords) =>
+    dispatch(onCoordsChange(coords)),
+})
+
+export default connect(mapStateToDispatch, mapDispatchToProps)(DynamicScatterplot);

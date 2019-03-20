@@ -20,7 +20,7 @@ export const theme = {
 
   scatter : {
     itemStyle:{
-      color: 'rgba(6, 29, 86, 0.1)',
+      color: '#76ced2cc',
       borderWidth: 1,
       borderColor: 'rgba(6, 29, 86, 0.4)'      
     },

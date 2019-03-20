@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMetricLabels } from '../../modules/metrics';
 import LocationStatsList from './LocationStatsList';
-import { SocioeconomicConditions } from './SocioeconomicConditions';
+import { ReportCardSection } from './ReportCardSection';
 import { metrics, demographics } from '../../constants/dataOptions';
 import { getStateSelectOptions } from '../../constants/statesFips';
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
@@ -68,7 +68,9 @@ const ReportCard = ({
             }
           </div>
         </div>
-        <SocioeconomicConditions 
+        <ReportCardSection 
+          title='Socioeconomic Conditions'
+          description='This section will show how the socioeconomic conditions compares to other areas. By default, it shows how average test scores correlate to socioeconomic status in the scatterplot. The scatterplot also allows the user to select any of the three key data metrics to see how they correlate to socioeconomic conditions.'
           region={region}
           highlight={highlight}
           xVar={xVarSes}
@@ -88,47 +90,28 @@ const ReportCard = ({
             }
           }}
         />
-        {/* <div className="report-card-section">
-          <Typography classes={{root: "report-card-section__heading" }}>
-            Opportunity Differences
-          </Typography>
-          <div className="report-card-section__body">
-            <Typography variant="body2">
-              This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.
-            </Typography>
-            <DynamicScatterplot 
-              xVar='np_avg'
-              yVar='p_avg'
-              zVar='sz'
-              highlight='largest'
-              region={region}
-            />
-          </div>
-        </div>
-        <div className="report-card-section">
-          <Typography classes={{root: "report-card-section__heading" }}>
-            Achievement Gaps
-          </Typography>
-          <div className="report-card-section__body">
-            <Typography variant="body2">
-              This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable. 
-            </Typography>
-            <DynamicScatterplot 
-              xVar='wb_ses'
-              yVar='wb_avg'
-              zVar='sz'
-              xVars={[{
-                id: 'wb_ses',
-                label: 'Socioeconomic Status'
-              }, {
-                id: 'wb_seg',
-                label: 'Segregation'
-              }]}
-              highlight='largest'
-              region={region}
-            />
-          </div>
-        </div> */}
+        <ReportCardSection 
+          title='Opportunity Differences'
+          description='This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.'
+          region={region}
+          highlight={highlight}
+          xVar={xVarSes}
+          yVar={yVarSes}
+          zVar='sz'
+          controls={controlsSes}
+          onOptionChange={console.log}
+        />
+        <ReportCardSection 
+          title='Achievement Gaps'
+          description='This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.'
+          region={region}
+          highlight={highlight}
+          xVar={xVarSes}
+          yVar={yVarSes}
+          zVar='sz'
+          controls={controlsSes}
+          onOptionChange={console.log}
+        />
         <div className="report-card-section">
           <Typography classes={{root: "report-card-section__heading" }}>
             Similar Places

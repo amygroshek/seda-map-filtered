@@ -529,11 +529,13 @@ body {
   padding:8px 24px;
 }
 
-
-
-
 .report-card-section {
   border-top: 1px solid #e0e0e0;
+}
+
+.report-card-section:nth-child(2) {
+  min-height:480px;
+
 }
 
 .report-card .report-card-section__heading {
