@@ -3,12 +3,13 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from '../base/Select';
-import { metrics, regions, demographics } from '../../constants/dataOptions';
+import { regions, demographics } from '../../constants/dataOptions';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { updateRoute } from '../../modules/router';
 
-const MapControls = ({ 
+const MapControls = ({
+  metrics,
   metric, 
   region, 
   demographic,  
@@ -52,6 +53,7 @@ const MapControls = ({
 );
 
 MapControls.propTypes = {
+  metrics: PropTypes.array,
   metric: PropTypes.string,
   demographic: PropTypes.string,
   region: PropTypes.string,
@@ -60,7 +62,14 @@ MapControls.propTypes = {
   onDemographicChange: PropTypes.func
 }
 
-const mapStateToProps = (state, { match: { params } }) => params
+const mapStateToProps = (
+  { metrics }, 
+  { match: { params } }
+) => ({
+  ...params,
+  metrics: Object.keys(metrics.items)
+    .map(k => metrics.items[k])
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onMetricChange: (value) => updateRoute(ownProps, { metric: value }),

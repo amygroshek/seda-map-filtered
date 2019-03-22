@@ -1,23 +1,32 @@
-import { fetchScatterplotVars } from "../utils/scatterplot";
 
 /**
- * Fetches the data for the variables and dispatches events
- * @param {Array<String>} vars array of variable names to fetch
- * @param {string} region region to fetch for (counties, districts, schools)
+ * Action to dispatch when receiving fetched scatterplot data
+ * for a region.
+ * @param {object} data 
+ * @param {string} region 
  */
-export const loadVarsForRegion = (vars = [], region) => 
-  (dispatch) => {
-    dispatch({ type: 'FETCH_VAR_REQUEST' })
-    fetchScatterplotVars(vars, region)
-      .then(data => {
-        dispatch({
-          type: 'FETCH_VAR_SUCCESS',
-          region,
-          data
-        })
-      })
-      .catch(err => dispatch({
-        type: 'FETCH_VAR_ERROR',
-        errorMessage: err.message ? err.message : err
-      }))
-  }
+export const onScatterplotData = (data, region) => {
+  return ({
+    type: 'SCATTERPLOT_DATA_RECEIVED',
+    region,
+    data: data[region]
+  })
+}
+
+/**
+ * Action to dispatch when all data vars for a scatterplot are loaded
+ * @param {string} scatterplotId 
+ */
+export const onScatterplotLoaded = (scatterplotId) => ({
+  type: 'SCATTERPLOT_LOADED',
+  scatterplotId
+});
+
+/**
+ * Action to dispatch when loading new vars on scatterplot
+ * @param {string} scatterplotId 
+ */
+export const onScatterplotUnloaded = (scatterplotId) => ({
+  type: 'SCATTERPLOT_UNLOADED',
+  scatterplotId
+});

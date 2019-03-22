@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import MapLocation from './MapLocation';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature, onViewportChange, showReportCard, hideReportCard } from '../../actions/mapActions';
+import { onRemoveSelectedFeature, onViewportChange } from '../../actions/mapActions';
 import MenuList from '@material-ui/core/MenuList';
 import { getLocationFromFeature, parseLocationsString } from '../../modules/router';
 import { onHoverFeature, onCoordsChange } from '../../actions/mapActions';
@@ -33,8 +33,7 @@ const MapSelectedLocations = ({
   removeLocation, 
   navigateToLocation,
   onHoverFeature, 
-  colors,
-  showReportCard
+  colors
 }) => {
   return (
     <div className="map-locations">
@@ -49,7 +48,6 @@ const MapSelectedLocations = ({
                   color={colors[i % colors.length]}
                   onLocationClick={() => navigateToLocation(s)}
                   onDismissClick={() => removeLocation(s)}
-                  onReportClick={() => showReportCard(s.properties.id)}
                   onMouseOver={() => onHoverFeature(s) }
                   onMouseOut={() => onHoverFeature(null)}
                 /> 
@@ -70,7 +68,6 @@ MapSelectedLocations.propTypes = {
   navigateToLocation: PropTypes.any,
   onHoverFeature: PropTypes.any,
   colors: PropTypes.array,
-  showReportCard: PropTypes.func,
 }
 
 const mapStateToProps = ({ selected, features }, {  
@@ -88,8 +85,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onHoverFeature(feature)) &&
     dispatch(onCoordsChange(null))
   ),
-  showReportCard: (id) => dispatch(showReportCard(id)),
-  hideReportCard,
   navigateToLocation: (feature) => {
     const l = parseLocationsString(
       getLocationFromFeature(feature)

@@ -1,10 +1,14 @@
 import { combineReducers } from "redux";
 
-// Reducers
 
+/**
+ * Manages state that tracks all scatterplot data
+ * @param {*} state 
+ * @param {*} action 
+ */
 const data = (state = {}, action) => {
   switch(action.type) {
-    case 'FETCH_VAR_SUCCESS':
+    case 'SCATTERPLOT_DATA_RECEIVED':
       return {
         ...state,
         [action.region]: {
@@ -17,41 +21,38 @@ const data = (state = {}, action) => {
   }
 }
 
-const isLoading = (state = false, action) => {
+/**
+ * Manages state that tracks loading state for scatterplots
+ * @param {*} state 
+ * @param {*} action 
+ */
+const loaded = (state = {}, action) => {
   switch(action.type) {
-    case 'FETCH_VAR_REQUEST':
-      return true
-    case 'FETCH_VAR_SUCCESS':
-      return false
-    case 'FETCH_VAR_ERROR':
-      return false
-    default:
-      return state
-  }
-}
-
-const errorMessage = (state = null, action) => {
-  switch(action.type) {
-    case 'FETCH_VAR_REQUEST':
-    case 'FETCH_VAR_SUCCESS':
-      return null
-    case 'FETCH_VAR_ERROR':
-      return action.errorMessage
+    case 'SCATTERPLOT_LOADED':
+      return {
+        ...state,
+        [action.scatterplotId]: true
+      }
+    case 'SCATTERPLOT_UNLOADED':
+      return {
+        ...state,
+        [action.scatterplotId]: false
+      }
     default:
       return state;
   }
 }
 
-const scatterplot = combineReducers({
-  data,
-  isLoading,
-  errorMessage
-})
+const scatterplot = combineReducers({ data, loaded })
 
 export default scatterplot;
 
-// Helper Functions
-
+/**
+ * Gets a variable for a provided region
+ * @param {object} state scatterplot state
+ * @param {string} region area to grab data for
+ * @param {string} prop variable name to retrieve data for
+ */
 export const getRegionData = ({ data }, region, prop) =>
   data[region] && data[region][prop] ?
     data[region][prop] : null
