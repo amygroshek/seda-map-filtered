@@ -6,6 +6,7 @@ import { theme } from '../../style/echartTheme';
 import * as scatterplotStyle from '../../style/scatterplot-style';
 import { connect } from 'react-redux';
 import { onHoverFeature, onCoordsChange } from '../../actions/mapActions';
+import { BASE_VARS } from '../../constants/dataOptions';
 
 
 class DynamicScatterplot extends Component {
@@ -139,6 +140,7 @@ class DynamicScatterplot extends Component {
             xVar={xVar}
             yVar={yVar}
             zVar={zVar}
+            data={this.props.scatterplotData}
             onHover={this._onHover}
             onMouseMove={this._onMouseMove}
             prefix={this.props.region}
@@ -147,7 +149,7 @@ class DynamicScatterplot extends Component {
             selected={this.props.selectedIds}
             selectedColors={['#f00']}
             theme={theme}
-            onError={() => alert('data not yet available')}
+            baseVars={BASE_VARS}
           /> 
         </div>
       </div>
@@ -165,14 +167,15 @@ const getStateIds = (ids, fips) => {
 
 const mapStateToDispatch = (
   { map, metrics: { items }, selected, scatterplot: { data } }, 
-  { region, highlight, xVar, yVar }
+  { region, highlight }
 ) => ({
   selectedIds: selected[region],
   highlightedIds: highlight && data && data[region] && 
     data[region]['name'] && map.usState ? 
       getStateIds(Object.keys(data[region]['name']), highlight) : 
       [],
-  metrics: items
+  metrics: items,
+  scatterplotData: data && data[region] ? data[region] : undefined,
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -13,24 +13,15 @@ export const onCoordsChange = (coords) => ({
   coords
 });
 
-export const showReportCard = (id) => ({
-  type: 'SHOW_REPORT_CARD',
-  id
-});
-
-export const hideReportCard = () => ({
-  type: 'HIDE_REPORT_CARD'
-});
-
 export const updateCurrentState = (stateId) => ({
   type: 'SET_US_STATE',
   stateId
-})
+});
 
 export const toggleHighlightState = (on) => ({
   type: 'TOGGLE_STATE_HIGHLIGHT',
   on: on === 'none' ? false : on
-})
+});
 
 export const onViewportChange = (viewport, transition = false) => {
   if (transition) {
