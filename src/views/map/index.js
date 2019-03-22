@@ -12,17 +12,15 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadRouteLocations } from '../../actions/featuresActions';
-import { hideReportCard } from '../../actions/mapActions';
 
 
 export class MapView extends Component {
   static propTypes = {
     loadRouteLocations: PropTypes.any,
     match: PropTypes.object,
-    reportCard: PropTypes.bool,
-    hideReportCard: PropTypes.func, 
     demographic: PropTypes.string, 
-    onDemographicChange: PropTypes.func
+    onDemographicChange: PropTypes.func,
+    mapScatterplotLoaded: PropTypes.bool
   }
 
   componentDidMount() { 
@@ -32,10 +30,6 @@ export class MapView extends Component {
   }
 
   render() {
-    const { 
-      reportCard, 
-      hideReportCard,
-    } = this.props;
     return (
       <div className="map-view">
         <MapTooltip />
@@ -53,26 +47,25 @@ export class MapView extends Component {
             <MapSelectedLocations />
           </div>
         </div>
-        <div className={
-          "map-view__report-card" +
-          (reportCard ? " map-view__report-card--visible" : '')
-        }>
-          <ReportCard onClose={hideReportCard} />
-        </div>
+        {
+          // show report card once map scatterplot is loaded
+          this.props.mapScatterplotLoaded &&
+            <div className="map-view__report-card">
+              <ReportCard />
+            </div>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ reportCard }) => ({
-  reportCard: Boolean(reportCard)
+const mapStateToProps = ({ scatterplot: { loaded } }) => ({
+  mapScatterplotLoaded: loaded && loaded['map']
 })
 
 const mapDispatchToProps = (dispatch) => ({
   loadRouteLocations: (locations) => 
-    dispatch(loadRouteLocations(locations)),
-  hideReportCard: () =>
-    dispatch(hideReportCard()),
+    dispatch(loadRouteLocations(locations))
 })
 
 export default compose(

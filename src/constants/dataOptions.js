@@ -1,4 +1,13 @@
 
+/**
+ * Variables contained in the base csv file for each region
+ */
+export const BASE_VARS = {
+  'counties': ['id', 'name', 'lat', 'lon', 'all_avg', 'all_ses', 'sz' ],
+  'districts': ['id', 'name', 'lat', 'lon', 'all_avg', 'all_ses', 'sz' ],
+  'schools': ['id', 'name', 'lat', 'lon', 'all_avg', 'frl_pct', 'sz' ]
+}
+
 export const metrics = [
   {
     id: 'avg',

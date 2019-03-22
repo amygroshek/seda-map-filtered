@@ -9,10 +9,10 @@ import { onHoverFeature, onViewportChange, onCoordsChange, toggleHighlightState 
 import { loadLocation } from '../../actions/featuresActions';
 import { Typography, Checkbox } from '@material-ui/core';
 import { getSingularRegion } from '../../utils/index'
-import { demographics } from '../../constants/dataOptions';
+import { demographics, BASE_VARS } from '../../constants/dataOptions';
 import SedaScatterplot from 'react-seda-scatterplot';
 import * as scatterplotStyle from '../../style/scatterplot-style';
-import { onScatterplotData, onScatterplotError } from '../../actions/scatterplotActions';
+import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
 import { getStateName } from '../../constants/statesFips';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { theme } from '../../style/echartTheme';
@@ -32,6 +32,7 @@ export class MapScatterplot extends Component {
     selectedIds: PropTypes.array,
     selectedColors: PropTypes.array,
     stops: PropTypes.array,
+    scatterplotData: PropTypes.object,
     onHoverFeature: PropTypes.func,
     updateMapViewport: PropTypes.func,
     onSelectLocation: PropTypes.func,
@@ -41,10 +42,12 @@ export class MapScatterplot extends Component {
     showState: PropTypes.string,
     onToggleHighlight: PropTypes.func,
     highlightState: PropTypes.bool,
+    onLoaded: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
+    this.loaded = false;
     this.state = {
       baseScatterplot: null,
       restore: false,
@@ -76,7 +79,7 @@ export class MapScatterplot extends Component {
         },
       },
       {
-        id: 'highlight',
+        id: 'highlighted',
         type: 'scatter',
         show: this.props.highlightState,
         itemStyle: {
@@ -93,7 +96,6 @@ export class MapScatterplot extends Component {
       yAxis: scatterplotStyle.yAxis(yMetric),
       series
     };
-    console.log('map scatterplot', overrides.yAxis)
     return overrides;
   }
 
@@ -123,6 +125,14 @@ export class MapScatterplot extends Component {
     this.props.onMouseMove(coords)
   }
 
+  _isDataLoaded = () => {
+    const { scatterplotData, xVar, yVar, zVar } = this.props;
+    return scatterplotData &&
+      scatterplotData[xVar] &&
+      scatterplotData[yVar] &&
+      scatterplotData[zVar];
+  }
+
   componentDidMount() {
     this.setState({
       baseScatterplot: this._getOverrides(),
@@ -130,6 +140,16 @@ export class MapScatterplot extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if(this._isDataLoaded()) {
+      if (!this.loaded) {
+        this.loaded = true;
+        this.props.onLoaded && this.props.onLoaded(this)
+      }
+    } else {
+      if (this.loaded) {
+        this.loaded = false;
+      }
+    }
     // update scatterplot overrides when metric changes
     if (
       !_isEqual(prevProps.yMetric, this.props.yMetric) ||
@@ -162,6 +182,7 @@ export class MapScatterplot extends Component {
               yVar={this.props.yVar}
               zVar={this.props.zVar}
               prefix={this.props.region}
+              data={this.props.scatterplotData}
               options={this.state.baseScatterplot}
               hovered={this.props.hoveredId}
               highlighted={this.props.highlightState ? this.props.highlighted : []}
@@ -172,8 +193,8 @@ export class MapScatterplot extends Component {
               onClick={this.props.onSelectLocation}
               onMouseMove={this._onMouseMove}
               onDataLoaded={(e) => this.props.onDataLoaded(e, this.props.region)}
-              onError={() => alert('data not yet available')}
               theme={theme}
+              baseVars={BASE_VARS}
             /> 
           }
           <Typography variant="body2" classes={{root: "tmp__axis-overlay" }}>
@@ -232,6 +253,7 @@ const mapStateToProps = (
     yMetric: metrics.items[metric],
     selectedIds: selected[region],
     selectedColors: selected.colors,
+    scatterplotData: data[region],
     highlightState: map.viewport && map.viewport.zoom > 6 ? map.highlightState : false,
     showState: map.usState && map.viewport && map.viewport.zoom > 6 ? getStateName(map.usState) : '',
     highlighted: data && data[region] && 
@@ -250,8 +272,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(toggleHighlightState(on)),
   onDataLoaded: (data, region) => 
     dispatch(onScatterplotData(data, region)),
-  onError: (err) => 
-    dispatch(onScatterplotError(err)),
+  onLoaded: () => 
+    dispatch(onScatterplotLoaded('map')),
   onHoverFeature: (feature) =>
     dispatch(onHoverFeature(feature)),
   onMouseMove: (coords) =>

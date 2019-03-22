@@ -139,16 +139,6 @@ const ReportCard = ({
               onOptionChange('achievement', option)
           }}
         />
-        <div className="report-card-section">
-          <Typography classes={{root: "report-card-section__heading" }}>
-            Similar Places
-          </Typography>
-          <div className="report-card-section__body">
-            <Typography variant="body2">
-              This section will show similar places based on size, socioeconomic status, and racial composition.
-            </Typography>
-          </div>
-        </div>
       </div>
     </div>
   )
