@@ -106,7 +106,11 @@ const getOverrides = (
     grid: { top:24, bottom:48, left:0, right:48 },
     xAxis: scatterplotStyle.xAxis(xMetric, xDem),
     yAxis: scatterplotStyle.yAxis(yMetric, yDem),
-    series
+    series,
+    tooltip: {
+      show:true,
+      trigger: 'item',
+    }
   };
   return { 
     ...overrides,
