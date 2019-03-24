@@ -37,7 +37,7 @@ export class MapScatterplot extends Component {
     updateMapViewport: PropTypes.func,
     onSelectLocation: PropTypes.func,
     onMouseMove: PropTypes.func,
-    onDataLoaded: PropTypes.func,
+    onData: PropTypes.func,
     onError: PropTypes.func,
     showState: PropTypes.string,
     onToggleHighlight: PropTypes.func,
@@ -125,13 +125,6 @@ export class MapScatterplot extends Component {
     this.props.onMouseMove(coords)
   }
 
-  _isDataLoaded = () => {
-    const { scatterplotData, xVar, yVar, zVar } = this.props;
-    return scatterplotData &&
-      scatterplotData[xVar] &&
-      scatterplotData[yVar] &&
-      scatterplotData[zVar];
-  }
 
   componentDidMount() {
     this.setState({
@@ -140,16 +133,6 @@ export class MapScatterplot extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this._isDataLoaded()) {
-      if (!this.loaded) {
-        this.loaded = true;
-        this.props.onLoaded && this.props.onLoaded(this)
-      }
-    } else {
-      if (this.loaded) {
-        this.loaded = false;
-      }
-    }
     // update scatterplot overrides when metric changes
     if (
       !_isEqual(prevProps.yMetric, this.props.yMetric) ||
@@ -192,7 +175,8 @@ export class MapScatterplot extends Component {
               onHover={this._onHover}
               onClick={this.props.onSelectLocation}
               onMouseMove={this._onMouseMove}
-              onDataLoaded={(e) => this.props.onDataLoaded(e, this.props.region)}
+              onData={(e) => {this.props.onData(e, this.props.region)}}
+              onLoaded={this.props.onLoaded}
               theme={theme}
               baseVars={BASE_VARS}
             /> 
@@ -270,7 +254,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch) => ({
   onToggleHighlight: (on) =>
     dispatch(toggleHighlightState(on)),
-  onDataLoaded: (data, region) => 
+  onData: (data, region) => 
     dispatch(onScatterplotData(data, region)),
   onLoaded: () => 
     dispatch(onScatterplotLoaded('map')),

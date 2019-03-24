@@ -55,9 +55,12 @@ const ReportCard = ({
   locations, 
   metricLabels, 
   region, 
-  highlight, 
+  highlight,
+  selected,
+  selectedColors,
   xVarSes, 
   yVarSes,
+  data,
   onDemographicChange,
   onMetricChange,
   onHighlightChange,
@@ -88,8 +91,11 @@ const ReportCard = ({
         <ReportCardSection 
           title='Socioeconomic Conditions'
           description='This section will show how the socioeconomic conditions compares to other areas. By default, it shows how average test scores correlate to socioeconomic status in the scatterplot. The scatterplot also allows the user to select any of the three key data metrics to see how they correlate to socioeconomic conditions.'
+          data={data}
           region={region}
           highlight={highlight}
+          selected={selected}
+          selectedColors={selectedColors}
           xVar={xVarSes}
           yVar={yVarSes}
           zVar='sz'
@@ -116,8 +122,11 @@ const ReportCard = ({
           {...opportunity}
           title='Opportunity Differences'
           description='This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.'
+          data={data}
           region={region}
           highlight={highlight}
+          selected={selected}
+          selectedColors={selectedColors}
           variant='opp'
           onOptionChange={(option) => {
             option.id === 'highlight' ?
@@ -126,11 +135,14 @@ const ReportCard = ({
           }}
         />
         <ReportCardSection 
+          {...achievement}
           title='Achievement Gaps'
           description='This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.'
+          data={data}
           region={region}
           highlight={highlight}
-          {...achievement}
+          selected={selected}
+          selectedColors={selectedColors}
           zVar='sz'
           variant='ach'
           onOptionChange={(option) => {
@@ -152,7 +164,7 @@ ReportCard.propTypes = {
 }
 
 const mapStateToProps = (
-  { features, selected, metrics, map: { usState, highlightState }, report: { opportunity, achievement } },
+  { scatterplot: { data }, features, selected, metrics, map: { usState, highlightState }, report: { opportunity, achievement } },
   { match: { params: { demographic, region, metric } } }
 ) => {
   const highlightControl =
@@ -160,10 +172,13 @@ const mapStateToProps = (
   return ({
     region,
     metric,
+    data,
     yVarSes: demographic + '_' + metric,
     xVarSes: demographic + '_ses',
     metricControl: getMetricControl(metric),
     demographicControl: getDemographicControl(demographic),
+    selected: selected && selected[region],
+    selectedColors: selected.colors,
     highlightControl: highlightControl,
     highlight: highlightState && usState ? usState : 'none',
     opportunity: {
