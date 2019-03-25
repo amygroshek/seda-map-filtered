@@ -567,18 +567,6 @@ body {
   text-align: left;
   font-size: 12px;
 }
-.tooltip:after {
-  content: '';
-  display: block;
-  position: absolute;
-  width:0;
-  height:0;
-  border: 8px solid transparent;
-  border-top: 8px solid rgba(0, 0, 0, 0.8);
-  bottom: -16px;
-  left: 50%;
-  margin-left: -8px;
-}
 
 .tooltip__title {
   line-height: 1.2;

@@ -5,19 +5,18 @@ import { updateRoute } from '../../modules/router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getMetricLabels } from '../../modules/metrics';
 import LocationStatsList from './LocationStatsList';
 import { ReportCardSection } from './ReportCardSection';
-import { metrics, demographics, gaps } from '../../constants/dataOptions';
 import { getStateSelectOptions } from '../../constants/statesFips';
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
+import { getMetrics, getDemographics, getGaps, getMetricById, getMetricLabels, getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
 
 
 const getMetricControl = (metric, id = 'metric') => ({
   id,
   label: 'Data Metric',
   value: metric,
-  options: metrics
+  options: getMetrics()
 })
 
 const getDemographicControl = (
@@ -28,7 +27,7 @@ const getDemographicControl = (
   id,
   label,
   value: demographic,
-  options: demographics
+  options: getDemographics()
 })
 
 const getHighlightControl = (highlight) => ({
@@ -48,7 +47,7 @@ const getGapControl = (gap) => ({
   id: 'gap',
   label: 'Gap Type',
   value: gap,
-  options: gaps
+  options: getGaps()
 })
 
 const ReportCard = ({
@@ -58,17 +57,13 @@ const ReportCard = ({
   highlight,
   selected,
   selectedColors,
-  xVarSes, 
-  yVarSes,
   data,
   onDemographicChange,
   onMetricChange,
   onHighlightChange,
-  metricControl,
-  demographicControl,
-  highlightControl,
   opportunity,
   achievement,
+  socioeconomic,
   onOptionChange
 }) => {
   return (
@@ -89,6 +84,7 @@ const ReportCard = ({
           </div>
         </div>
         <ReportCardSection 
+          {...socioeconomic}
           title='Socioeconomic Conditions'
           description='This section will show how the socioeconomic conditions compares to other areas. By default, it shows how average test scores correlate to socioeconomic status in the scatterplot. The scatterplot also allows the user to select any of the three key data metrics to see how they correlate to socioeconomic conditions.'
           data={data}
@@ -96,15 +92,7 @@ const ReportCard = ({
           highlight={highlight}
           selected={selected}
           selectedColors={selectedColors}
-          xVar={xVarSes}
-          yVar={yVarSes}
-          zVar='sz'
           variant='ses'
-          controls={[
-            metricControl,
-            demographicControl,
-            highlightControl
-          ]}
           onOptionChange={(option) => {
             switch(option.id) {
               case 'metric':
@@ -164,34 +152,42 @@ ReportCard.propTypes = {
 }
 
 const mapStateToProps = (
-  { scatterplot: { data }, features, selected, metrics, map: { usState, highlightState }, report: { opportunity, achievement } },
+  { scatterplot: { data }, features, selected, map: { usState, highlightState }, report: { opportunity, achievement } },
   { match: { params: { demographic, region, metric } } }
 ) => {
   const highlightControl =
     getHighlightControl(highlightState && usState ? usState : 'none');
   return ({
     region,
-    metric,
+    metric: getMetricById(metric),
     data,
-    yVarSes: demographic + '_' + metric,
-    xVarSes: demographic + '_ses',
-    metricControl: getMetricControl(metric),
-    demographicControl: getDemographicControl(demographic),
     selected: selected && selected[region],
     selectedColors: selected.colors,
     highlightControl: highlightControl,
     highlight: highlightState && usState ? usState : 'none',
+    socioeconomic: {
+      xVar: demographic + '_ses',
+      yVar: demographic + '_' + metric,
+      zVar: 'sz',
+      controls: [
+        getMetricControl(metric),
+        getDemographicControl(demographic),
+        highlightControl
+      ]
+    },
     opportunity: {
       ...opportunity,
       controls: [
-        getMetricControl(opportunity.xVar.split('_')[1]),
+        getMetricControl(
+          getMetricIdFromVarName(opportunity.xVar)
+        ),
         getDemographicControl(
-          opportunity.xVar.split('_')[0], 
+          getDemographicIdFromVarName(opportunity.xVar),
           'subgroupX',
           'Subgroup 1'
         ),
         getDemographicControl(
-          opportunity.yVar.split('_')[0], 
+          getDemographicIdFromVarName(opportunity.yVar), 
           'subgroupY',
           'Subgroup 2'
         ),
@@ -202,7 +198,7 @@ const mapStateToProps = (
       ...achievement,
       controls: [
         getGapControl(
-          achievement.xVar.split('_')[0], 
+          getDemographicIdFromVarName(achievement.xVar), 
           'gap',
           'Achievement Gap'
         ),
@@ -217,7 +213,7 @@ const mapStateToProps = (
       .filter(l => l)
     ,
     metricLabels: getMetricLabels(
-      metrics, ['avg', 'grd', 'coh', 'ses', 'seg'], demographic
+      ['avg', 'grd', 'coh', 'ses', 'seg'], demographic
     ),
     demographic
   })

@@ -3,6 +3,7 @@ import Tooltip from '../base/Tooltip';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { getStateName } from '../../constants/statesFips';
+import { underscoreCombine } from '../../utils';
 
 /**
  * Get the label for the provided metric and value
@@ -45,15 +46,17 @@ const mapStateToProps = ({
   hovered: { feature, coords }
 }, {
   match: { params: { metric, demographic } }
-}) => ({
-  x: coords && coords.x,
-  y: coords && coords.y,
-  visible: Boolean(feature) && Boolean(coords),
-  title: getFeatureTitle(feature),
-  content: feature && feature.properties && feature.properties[demographic + '_' + metric] ? 
-    getMetricLabel(metric, feature.properties[demographic + '_' + metric]) :  
-    ''
-})
+}) => {
+  const varName = underscoreCombine(demographic, metric)
+  return {
+    x: coords && coords.x,
+    y: coords && coords.y,
+    visible: Boolean(feature) && Boolean(coords),
+    title: getFeatureTitle(feature),
+    content: feature && feature.properties && feature.properties[varName] ? 
+      getMetricLabel(metric, feature.properties[varName]) :  ''
+  }
+}
 
 const MapTooltip = compose(
   withRouter,

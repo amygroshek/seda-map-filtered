@@ -3,19 +3,19 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { Typography, Checkbox, FormControlLabel } from '@material-ui/core';
 import * as _isEqual from 'lodash.isequal';
-import { getStops } from '../../modules/metrics';
+import SedaScatterplot from 'react-seda-scatterplot';
+
+import { getBaseVars, getStopsForMetric, getMetricById, getChoroplethColors } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onCoordsChange, toggleHighlightState } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
-import { Typography, Checkbox } from '@material-ui/core';
-import { getSingularRegion } from '../../utils/index'
-import { demographics, BASE_VARS } from '../../constants/dataOptions';
-import SedaScatterplot from 'react-seda-scatterplot';
+import { getSingularRegion, underscoreCombine } from '../../utils/index'
 import * as scatterplotStyle from '../../style/scatterplot-style';
 import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
 import { getStateName } from '../../constants/statesFips';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { theme } from '../../style/echartTheme';
+import { getDemographicById } from '../../modules/config';
 
 export class MapScatterplot extends Component {
   static propTypes = {
@@ -86,7 +86,7 @@ export class MapScatterplot extends Component {
           borderColor: 'rgba(6, 29, 86, 0.4)',
         }
       },
-      scatterplotStyle.overlays(yMetric),
+      scatterplotStyle.overlays(yMetric.id),
     ];
     const hlIndex = hl ? 2 : 0
     const overrides = {
@@ -170,15 +170,15 @@ export class MapScatterplot extends Component {
               hovered={this.props.hoveredId}
               highlighted={this.props.highlightState ? this.props.highlighted : []}
               selected={this.props.selectedIds}
-              selectedColors={this.props.selectedColors}
+              theme={theme}
+              baseVars={getBaseVars()}
               onReady={this._onReady}
               onHover={this._onHover}
               onClick={this.props.onSelectLocation}
               onMouseMove={this._onMouseMove}
               onData={(e) => {this.props.onData(e, this.props.region)}}
               onLoaded={this.props.onLoaded}
-              theme={theme}
-              baseVars={BASE_VARS}
+
             /> 
           }
           <Typography variant="body2" classes={{root: "tmp__axis-overlay" }}>
@@ -221,20 +221,20 @@ const getStateIds = (ids, fips) => {
 }
 
 const mapStateToProps = (
-  { map, metrics, hovered: { feature }, selected, scatterplot: { data } }, 
+  { map, hovered: { feature }, selected, scatterplot: { data } }, 
   { match: { params: { region, metric, demographic } } }
 ) => { 
   region = (region === 'schools' ? 'districts' : region);
   return ({
     region,
-    demographic: demographics.find(d => d.id === demographic),
-    yVar: demographic + '_' + metric,
-    xVar: demographic + '_ses',
+    demographic: getDemographicById(demographic),
+    yVar: underscoreCombine(demographic, metric),
+    xVar: underscoreCombine(demographic, 'ses'),
     zVar: 'sz',
-    stops: getStops(metrics, metric), 
-    colors: metrics.colors,
-    xMetric: metrics.items['ses'],
-    yMetric: metrics.items[metric],
+    stops: getStopsForMetric(metric), 
+    colors: getChoroplethColors(),
+    xMetric: getMetricById('ses'),
+    yMetric: getMetricById(metric),
     selectedIds: selected[region],
     selectedColors: selected.colors,
     scatterplotData: data[region],

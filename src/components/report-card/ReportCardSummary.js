@@ -1,9 +1,9 @@
 import React from 'react'
-import { demographics } from '../../constants/dataOptions';
 import Select from '../base/Select';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { getDemographics } from '../../modules/config';
 
 
 const ReportCardSummary = ({
@@ -20,7 +20,7 @@ const ReportCardSummary = ({
             fullWidth
             label="Showing data for demographic:"
             value={ demographic }
-            items={ demographics }
+            items={ getDemographics() }
             onChange={onDemographicChange}
           />
         </ListItem>

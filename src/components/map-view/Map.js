@@ -4,15 +4,16 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import * as _isEqual from 'lodash.isequal';
+import * as _debounce from 'lodash.debounce';
+
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
 import { updateCurrentState, onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
-// import mapboxgl from 'mapbox-gl';
-import { getStops } from '../../modules/metrics';
+import { getMetricById, getStopsForMetric } from '../../modules/config';
 import { isPropEqual, getRegionFromId, intToRegionId } from '../../utils';
 import { updateViewportRoute, getViewportFromRoute } from '../../modules/router';
-import * as _isEqual from 'lodash.isequal';
-import * as _debounce from 'lodash.debounce';
+
 class Map extends Component {
 
   state = {
@@ -315,7 +316,6 @@ Map.propTypes = {
 const mapStateToProps = ({ 
   map: { viewport },
   hovered: { feature },
-  metrics,
   selected
 }, 
 {
@@ -326,10 +326,9 @@ const mapStateToProps = ({
   viewport,
   demographic,
   dataProp: getChoroplethProperty({metric, demographic}),
-  stops: getStops(metrics, metric),
+  stops: getStopsForMetric(metric),
   hoveredFeature: feature,
-  metricItem: metrics.items && metrics.items[metric] ?
-    metrics.items[metric] : {},
+  metricItem: getMetricById(metric),
   colors: selected.colors,
   selectedIds: selected[region]
 });
