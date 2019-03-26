@@ -8,6 +8,8 @@ import {
   BASE_VARS
 } from '../constants/dataOptions';
 import { underscoreCombine, underscoreSplit } from '../utils';
+import { getStateSelectOptions } from '../constants/statesFips';
+
 
 /**
  * Gets the configuration for base variables
@@ -180,3 +182,42 @@ export const getMetricIdFromVarName = (varName) =>
 
 export const getDemographicIdFromVarName = (varName) =>
   varName.split('_')[0]
+
+
+export const getMetricControl = (metric, id = 'metric') => ({
+  id,
+  label: 'Data Metric',
+  value: metric,
+  options: getMetrics()
+})
+
+export const getDemographicControl = (
+  demographic, 
+  id = 'demographic', 
+  label = 'Demographics'
+) => ({
+  id,
+  label,
+  value: demographic,
+  options: getDemographics()
+})
+
+export const getHighlightControl = (highlight) => ({
+  id: 'highlight',
+  label: 'Highlight',
+  value: highlight ? highlight : 'none',
+  options: [
+    {
+      id: 'none',
+      label: 'None'
+    },
+    ...getStateSelectOptions()
+  ]
+})
+
+export const getGapControl = (gap) => ({
+  id: 'gap',
+  label: 'Gap Type',
+  value: gap,
+  options: getGaps()
+})

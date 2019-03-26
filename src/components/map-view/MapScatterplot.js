@@ -103,6 +103,7 @@ export class MapScatterplot extends Component {
   _onReady = (e) => {
     this.echart = e;
     window.echartInstance = e
+    this.props.onLoaded && this.props.onLoaded(e)
   }
   
   _onHover = (location) => {
@@ -165,7 +166,7 @@ export class MapScatterplot extends Component {
               yVar={this.props.yVar}
               zVar={this.props.zVar}
               prefix={this.props.region}
-              data={this.props.scatterplotData}
+              data={this.props.scatterplotData || {}}
               options={this.state.baseScatterplot}
               hovered={this.props.hoveredId}
               highlighted={this.props.highlightState ? this.props.highlighted : []}
@@ -176,9 +177,7 @@ export class MapScatterplot extends Component {
               onHover={this._onHover}
               onClick={this.props.onSelectLocation}
               onMouseMove={this._onMouseMove}
-              onData={(e) => {this.props.onData(e, this.props.region)}}
-              onLoaded={this.props.onLoaded}
-
+              onData={(e) => { this.props.onData(e, this.props.region)}}
             /> 
           }
           <Typography variant="body2" classes={{root: "tmp__axis-overlay" }}>
@@ -237,7 +236,7 @@ const mapStateToProps = (
     yMetric: getMetricById(metric),
     selectedIds: selected[region],
     selectedColors: selected.colors,
-    scatterplotData: data[region],
+    scatterplotData: data,
     highlightState: map.viewport && map.viewport.zoom > 6 ? map.highlightState : false,
     showState: map.usState && map.viewport && map.viewport.zoom > 6 ? getStateName(map.usState) : '',
     highlighted: data && data[region] && 

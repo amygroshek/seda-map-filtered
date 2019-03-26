@@ -9,7 +9,7 @@ export const onScatterplotData = (data, region) => {
   return ({
     type: 'SCATTERPLOT_DATA_RECEIVED',
     region,
-    data: data[region]
+    data
   })
 }
 

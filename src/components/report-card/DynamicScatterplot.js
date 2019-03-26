@@ -4,7 +4,7 @@ import SedaScatterplot from 'react-seda-scatterplot'
 import Controls from '../base/Controls';
 import { theme } from '../../style/echartTheme';
 import * as scatterplotStyle from '../../style/scatterplot-style';
-import { getMetricById, getBaseVars } from '../../modules/config'
+import { getMetricById, getBaseVars, getSelectedColors } from '../../modules/config'
 import { underscoreSplit } from '../../utils';
 
 /**
@@ -87,7 +87,6 @@ const getOverrides = (
   yVar, 
   variant, 
   highlightedState, 
-  selectedColors,
   options = {}
 ) => {
   const [yDemId, yMetricId] = underscoreSplit(yVar);
@@ -98,7 +97,7 @@ const getOverrides = (
   const series = [
     getBaseSeries(hl),
     getHighlightedSeries(hl),
-    getSelectedSeries(selectedColors)
+    getSelectedSeries(getSelectedColors())
   ];
   const overlays = scatterplotStyle.overlays(yMetricId, variant);
   if (overlays) {
@@ -130,7 +129,6 @@ function DynamicScatterplot({
   options,
   highlightedState,
   selected,
-  selectedColors,
   variant,
   onOptionChange,
   onHover,
@@ -138,8 +136,8 @@ function DynamicScatterplot({
   onData
 }) {
   const scatterplotOptions = useMemo(
-    () => getOverrides(data[region], xVar, yVar, variant, highlightedState, selectedColors, options),
-    [xVar, yVar, zVar, highlightedState, options, selectedColors, region]
+    () => getOverrides(data[region], xVar, yVar, variant, highlightedState, options),
+    [xVar, yVar, zVar, highlightedState, options, region]
   );
   const highlighted = useMemo(
     () => getStateHighlights(highlightedState, data && data[region]),

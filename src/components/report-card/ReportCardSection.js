@@ -37,21 +37,7 @@ export class ReportCardSection extends Component {
   }
 
   render() {
-    const { 
-      region, 
-      data,
-      controls, 
-      xVar, 
-      yVar, 
-      zVar, 
-      highlight, 
-      onOptionChange,
-      title,
-      description,
-      variant,
-      selected,
-      selectedColors
-    } = this.props;
+    const { title, description, ...rest } = this.props;
     return (
       <div className="report-card-section">
         <Typography classes={{root: "report-card-section__heading" }}>
@@ -62,17 +48,7 @@ export class ReportCardSection extends Component {
             {description}
           </Typography>
           <DynamicScatterplot
-            data={data}
-            xVar={xVar}
-            yVar={yVar}
-            zVar={zVar}
-            controls={controls}
-            selected={selected}
-            selectedColors={selectedColors}
-            highlightedState={highlight === 'none' ? null : highlight}
-            region={region}
-            onOptionChange={onOptionChange}
-            variant={variant}
+            {...rest}
           />
         </div>
       </div>
