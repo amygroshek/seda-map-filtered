@@ -8,22 +8,84 @@ export const BASE_VARS = {
   'schools': ['id', 'name', 'lat', 'lon', 'all_avg', 'frl_pct', 'sz' ]
 }
 
-export const metrics = [
+export const SELECTED_COLORS = [
+  '#ff0d00', 
+  '#cc4f14', 
+  '#ff9233', 
+  '#e5a800', 
+  '#fbff00', 
+  '#32e617', 
+  '#3dcc82', 
+  '#00e2e6', 
+  '#2967cc', 
+  '#171ae6', 
+  '#a329cc', 
+  '#e6179a', 
+  '#ff3369'
+].reverse();
+
+export const CHOROPLETH_COLORS = [
+  '#37469C', 
+  '#3561A8', 
+  '#519DD4', 
+  '#68C5D0', 
+  '#A2E2D4', 
+  '#E5F8C1', 
+  '#F9FECC'
+];
+
+export const METRICS = [
   {
     id: 'avg',
     label: 'Average Test Scores',
+    short_label: 'Avg. Test Score',
+    description: 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
+    help: 'Average test scores for grades 3-8 explainer',
+    min: -4,
+    max: 4,
+    map: true,
+    scatterplot: true,
   },
   {
     id: 'grd',
     label: 'Growth of test scores',
+    short_label: 'Growth Rate',
+    descriptive_label: 'Grow %value% grade levels each year',
+    description: 'Shows how much students learn on average while they are in school',
+    min: 0.4,
+    max: 1.6,
+    map: true,
+    scatterplot: true,
   },
   {
     id: 'coh',
     label: 'Trend of test scores',
+    short_label: 'Trend',
+    description: 'Indicates the extent to which a community is getting better at providing educational opportunities over time',
+    min: -0.3,
+    max: 0.3,
+    map: true,
+    scatterplot: true,
+  },
+  {
+    id: 'ses',
+    label: 'Socioeconomic Status',
+    short_label: 'SES',
+    description: 'Socioeconomic status helper',
+    map: false,
+    scatterplot: true
+  },
+  {
+    id: 'seg',
+    label: 'Segregation Measure',
+    short_label: 'Segregation',
+    description: 'Segregation status helper',
+    map: false,
+    scatterplot: true
   }
 ]
 
-export const regions = [
+export const REGIONS = [
   {
     id: 'counties',
     label: 'Counties'
@@ -38,10 +100,10 @@ export const regions = [
   }
 ];
 
-export const demographics = [
+export const DEMOGRAPHICS = [
   {
     id: 'all',
-    label: 'Total Population'
+    label: 'All'
   },
   {
     id: 'w',
@@ -77,8 +139,7 @@ export const demographics = [
   },
 ]
 
-
-export const gaps = [
+export const GAPS = [
   {
     id: 'wb',
     label: 'White / Black Gap'
@@ -96,14 +157,3 @@ export const gaps = [
     label: 'Poor / Non-poor Gap'
   }
 ]
-
-export const getDemographicLabel = (id) => {
-  let dem = demographics.find(d => d.id === id);
-  if (!dem) {
-    dem = gaps.find(d => d.id === id)
-  }
-  if (!dem) {
-    throw new Error('no demographic found for ' + id)
-  }
-  return dem.label;
-}

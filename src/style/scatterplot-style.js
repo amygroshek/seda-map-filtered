@@ -1,6 +1,8 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import { getDemographicLabel, getLabelFromVarName } from '../modules/config';
+import { getStateName } from '../constants/statesFips';
 
-import { getDemographicLabel } from '../constants/dataOptions';
+
 /**
  * Gets `series.markPoints` echart options based on an
  * array of points.
@@ -122,7 +124,7 @@ export const grid = {
   left: '24',
 }
 
-export const overlays = (metric, variant = '') => {
+export const overlays = (metricId, variant = '') => {
   const overlayConfig = {
     'avg': getOverlay(
       new Array(7).fill().map((v, i) => {
@@ -216,7 +218,7 @@ export const overlays = (metric, variant = '') => {
     }
   }
   const configKey = variant ? 
-    metric.id + '_' + variant : metric.id
+    metricId + '_' + variant : metricId
   return overlayConfig[configKey] ? overlayConfig[configKey] : null
 }
 
@@ -404,5 +406,26 @@ export const yAxis = (metric, demographic = '') => {
         nameGap: 32,
         nameLocation: 'middle'
       }
+  }
+}
+
+export const tooltip = (placeNames, xVar, yVar) => {
+  const xLabel = getLabelFromVarName(xVar);
+  const yLabel = getLabelFromVarName(yVar);
+  return {
+    show:true,
+    trigger: 'item',
+    formatter: ({value}) => {
+      const name = placeNames && placeNames[value[3]] ? 
+        placeNames[value[3]] : 'Unknown'
+      const stateName = getStateName(value[3])
+      const line1 = xLabel + ': ' + value[0];
+      const line2 = yLabel + ': ' + value[1];
+      return `
+        <strong>${name}, ${stateName}</strong><br />
+        ${line1}<br />
+        ${line2}
+      `
+    }
   }
 }

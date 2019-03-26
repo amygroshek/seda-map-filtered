@@ -48,7 +48,12 @@ export const theme = {
   },
 
   tooltip: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    borderRadius: 2,
+    padding: 8,
+    textStyle: {
+      fontSize: 12,
+    },
     axisPointer: { // Axis indicator, coordinate trigger effective
       type: 'line', // The default is a straight lineï¼š 'line' | 'shadow'
       lineStyle: { // Straight line indicator style settings

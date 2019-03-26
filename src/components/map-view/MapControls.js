@@ -3,13 +3,12 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from '../base/Select';
-import { regions, demographics } from '../../constants/dataOptions';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { updateRoute } from '../../modules/router';
+import { getMetrics, getRegions, getDemographics } from '../../modules/config';
 
 const MapControls = ({
-  metrics,
   metric, 
   region, 
   demographic,  
@@ -25,7 +24,7 @@ const MapControls = ({
             fullWidth
             label="Data Metric"
             value={ metric }
-            items={ metrics }
+            items={ getMetrics() }
             onChange={ onMetricChange }
           />
         </Grid>
@@ -34,7 +33,7 @@ const MapControls = ({
             fullWidth
             label="Region"
             value={ region }
-            items={ regions }
+            items={ getRegions() }
             onChange={ onRegionChange }
           />
         </Grid>
@@ -43,7 +42,7 @@ const MapControls = ({
             fullWidth
             label="Demographic"
             value={ demographic }
-            items={ demographics }
+            items={ getDemographics() }
             onChange={ onDemographicChange }
           />
         </Grid>
@@ -62,14 +61,7 @@ MapControls.propTypes = {
   onDemographicChange: PropTypes.func
 }
 
-const mapStateToProps = (
-  { metrics }, 
-  { match: { params } }
-) => ({
-  ...params,
-  metrics: Object.keys(metrics.items)
-    .map(k => metrics.items[k])
-})
+const mapStateToProps = (state, { match: { params } }) => params
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onMetricChange: (value) => updateRoute(ownProps, { metric: value }),

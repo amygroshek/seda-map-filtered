@@ -1,12 +1,17 @@
 import { combineReducers } from "redux";
 
+const defaultData = {
+  'schools': {},
+  'districts': {},
+  'counties': {}
+}
 
 /**
  * Manages state that tracks all scatterplot data
  * @param {*} state 
  * @param {*} action 
  */
-const data = (state = {}, action) => {
+const data = (state = defaultData, action) => {
   switch(action.type) {
     case 'SCATTERPLOT_DATA_RECEIVED':
       return {

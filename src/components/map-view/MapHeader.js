@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import Hint from '../../components/base/Hint';
-import { regions, demographics } from '../../constants/dataOptions';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Dialog from '@material-ui/core/Dialog';
 
 import { updateRoute } from '../../modules/router';
+import { getRegions, getDemographics, getDemographicById, getMetrics, getMetricById, getRegionById } from '../../modules/config';
 
 
 
@@ -51,11 +51,18 @@ class MenuDialog extends Component {
 
 export class MapHeader extends Component {
   static propTypes = {
-    region: PropTypes.string,
-    demographic: PropTypes.object,
-    metrics: PropTypes.array,
-    metric: PropTypes.object,
-    regionLabel: PropTypes.string,
+    demographic: PropTypes.shape({
+      id: PropTypes.string,
+      label: PropTypes.string
+    }),
+    region: PropTypes.shape({
+      id: PropTypes.string,
+      label: PropTypes.string
+    }),
+    metric: PropTypes.shape({
+      id: PropTypes.string,
+      label: PropTypes.string
+    }),
     onRegionChange: PropTypes.func,
     onDemographicChange: PropTypes.func,
     onMetricChange: PropTypes.func
@@ -75,7 +82,7 @@ export class MapHeader extends Component {
           open: true,
           type,
           selectedValue: this.props.demographic.id,
-          items: demographics
+          items: getDemographics()
         });
         break;
       case 'metric':
@@ -83,15 +90,15 @@ export class MapHeader extends Component {
           open: true,
           type,
           selectedValue: this.props.metric.id,
-          items: this.props.metrics.filter(m => m.map)
+          items: getMetrics().filter(m => m.map)
         });
         break;
       case 'region':
         this.setState({
           open: true,
           type,
-          selectedValue: this.props.region,
-          items: regions
+          selectedValue: this.props.region.id,
+          items: getRegions()
         });
         break;
       default:
@@ -117,7 +124,7 @@ export class MapHeader extends Component {
   };
 
   render() {
-    const { demographic, metric, regionLabel } = this.props;
+    const { demographic, metric, region } = this.props;
     return (
       <div className="map-header">
         <Typography variant="h6">
@@ -143,7 +150,7 @@ export class MapHeader extends Component {
             cursor="pointer"
             onClick={() => this._triggerMenu('region')}
           >
-            {regionLabel}
+            {region.label.toLowerCase()}
           </Hint>
         </Typography>
         <MenuDialog
@@ -158,16 +165,13 @@ export class MapHeader extends Component {
 }
 
 const mapStateToProps = (
-  { metrics }, 
+  state, 
   { match: { params: { region, metric, demographic } } }
 ) => { 
   return ({
-    region: region,
-    regionLabel: region === 'districts' ? 'school districts': region,
-    demographic: demographics.find(d => d.id === demographic),
-    metric: metrics.items[metric],
-    metrics: Object.keys(metrics.items)
-      .map(k => metrics.items[k])
+    region: getRegionById(region),
+    demographic: getDemographicById(demographic),
+    metric: getMetricById(metric),
   })
 }
 

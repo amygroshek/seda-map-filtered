@@ -65,3 +65,7 @@ export const getSingularRegion = (region) => {
       throw new Error(`region ${region} does not have singular`)
   }
 }
+
+export const underscoreCombine = (...values) => values.join('_')
+
+export const underscoreSplit = (value) => value.split('_')
