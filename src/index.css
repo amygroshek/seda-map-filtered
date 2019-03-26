@@ -114,6 +114,16 @@ body {
 
 }
 
+.map-view__scatterplot-overlay .dynamic-scatterplot__graph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
 @media(min-width: 960px) {
   .map-view__scatterplot-overlay {
     position: absolute;
@@ -572,6 +582,10 @@ body {
   line-height: 1.2;
   font-weight: bold;
   margin-bottom: 4px;
+}
+
+.tooltip__content {
+  line-height: 16px;
 }
 
 /* .mapboxgl-ctrl-bottom-left {

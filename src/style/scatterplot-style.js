@@ -415,12 +415,6 @@ export const tooltip = (placeNames, xVar, yVar) => {
   return {
     show:true,
     trigger: 'item',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    borderRadius: 2,
-    padding: 8,
-    textStyle: {
-      fontSize: 12,
-    },
     formatter: ({value}) => {
       const name = placeNames && placeNames[value[3]] ? 
         placeNames[value[3]] : 'Unknown'
@@ -435,5 +429,3 @@ export const tooltip = (placeNames, xVar, yVar) => {
     }
   }
 }
-
-// export const series = (id, highlightOn, )

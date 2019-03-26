@@ -127,13 +127,15 @@ function DynamicScatterplot({
   zVar,
   region,
   options,
+  hovered,
   highlightedState,
   selected,
   variant,
   onOptionChange,
   onHover,
   onClick,
-  onData
+  onData,
+  onReady
 }) {
   const scatterplotOptions = useMemo(
     () => getOverrides(data[region], xVar, yVar, variant, highlightedState, options),
@@ -157,6 +159,8 @@ function DynamicScatterplot({
           xVar={xVar}
           yVar={yVar}
           zVar={zVar}
+          hovered={hovered}
+          onReady={onReady}
           onHover={onHover}
           onClick={onClick}
           onData={onData}
