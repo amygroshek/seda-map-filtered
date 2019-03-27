@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadRouteLocations } from '../../actions/featuresActions';
 
-
 export class MapView extends Component {
   static propTypes = {
     loadRouteLocations: PropTypes.any,
