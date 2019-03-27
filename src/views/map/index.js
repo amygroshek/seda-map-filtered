@@ -31,30 +31,47 @@ export class MapView extends Component {
 
   render() {
     return (
-      <div className="map-view">
+      <div className="map-tool">
         <MapTooltip />
-        <div className="map-view__header">
-          <MapHeader />
-          <MapSearch />
+        <div className="map-intro">
+          <h1 className="map-intro-heading">
+            <span>
+              Explore educational opportunity in
+            </span> 
+            <MapSearch />
+          </h1>
+          <p>
+            Use the search or data visualizations below to explore our data set of over 330 million test scores.
+          </p>
+          
         </div>
-        <div className="map-view__container">
-          <div className="map-view__map">
-            <Map />
-            <MapLegend />
+        <div className="map-view">
+          <div className="map-view__header">
+            <MapHeader />
+            <MapSearch />
           </div>
-          <div className="map-view__scatterplot-overlay">
-            <MapScatterplot />
-            <MapSelectedLocations />
-          </div>
-        </div>
-        {
-          // show report card once map scatterplot is loaded
-          this.props.mapScatterplotLoaded &&
-            <div className="map-view__report-card">
-              <ReportCard />
+          <div className="map-view__container">
+            <div className="map-view__map">
+              <Map />
+              <MapLegend />
             </div>
-        }
+            <div className="map-view__scatterplot-overlay">
+              <MapScatterplot />
+              <MapSelectedLocations />
+            </div>
+          </div>
+        </div>
+        <div className="report-card-view">
+          {
+            // show report card once map scatterplot is loaded
+            this.props.mapScatterplotLoaded &&
+              <div className="map-view__report-card">
+                <ReportCard />
+              </div>
+          }
+        </div>
       </div>
+      
     )
   }
 }
