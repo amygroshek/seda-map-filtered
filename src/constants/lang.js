@@ -4,7 +4,9 @@ const LANG = {
   'OPP_DIFF_TITLE': 'Opportunity Differences',
   'OPP_DIFF_DESCRIPTION': 'This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.',
   'ACH_GAPS_TITLE': 'Achievement Gaps',
-  'ACH_GAPS_DESCRIPTION': 'This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.'
+  'ACH_GAPS_DESCRIPTION': 'This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.',
+  
+  'MAP_SEARCH_PLACEHOLDER': 'Enter a city, county, district, or school',
 }
 
 export default LANG;

@@ -1,0 +1,194 @@
+
+/** Location Card Root */
+
+.location-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
+  box-shadow: 0 1px 2px #ccc;
+  transition: transform 0.2s ease;
+  position:relative;
+}
+.location-card:nth-child(1) {  
+  z-index:2;
+}
+.location-card:nth-child(2) {
+  z-index:3;
+}
+.location-card:nth-child(3) {
+  z-index:4;
+}
+.location-card:nth-child(4) {
+  z-index:5;
+}
+.location-card:nth-child(5) {
+  z-index:6;
+}
+.location-card:nth-child(6) {
+  z-index:7;
+}
+.location-card:nth-child(7) {
+  z-index:8;
+}
+.location-card:nth-child(8) {
+  z-index:9;
+}
+.location-card:nth-child(9) {
+  z-index:10;
+}
+
+.location-card:nth-child(1) .location-card__marker {
+  background: #ff3369;
+  z-index:2;
+}
+.location-card:nth-child(2) .location-card__marker {
+  background: #e6179a;
+  z-index:3;
+}
+.location-card:nth-child(3) .location-card__marker {
+  background: #a329cc;
+  z-index:4;
+}
+.location-card:nth-child(4) .location-card__marker {
+  background: #171ae6;
+  z-index:5;
+}
+.location-card:nth-child(5) .location-card__marker {
+  background: #2967cc;
+  z-index:6;
+}
+.location-card:nth-child(6) .location-card__marker {
+  background: #00e2e6;
+  z-index:7;
+}
+.location-card:nth-child(7) .location-card__marker {
+  background: #3dcc82;
+  z-index:8;
+}
+
+.location-card .location-card__close {
+  position:absolute;
+  right:8px;
+  top:10px;
+  z-index:10;
+  padding: 4px;
+  font-size: 10px;
+}
+
+/** Location Stats Header */
+
+.location-card__header {
+  position:relative;
+  z-index:9;
+  width: 100%;
+  flex: 0;
+  text-align:left;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16px 16px 8px 16px;
+}
+
+.location-card:hover {
+  background:#ffe;
+  z-index:20;
+  cursor:pointer;
+}
+
+.location-card__marker {
+  order:2;
+  display: block;
+  min-width:12px;
+  min-height: 12px;
+  height: 12px;
+  width:12px;
+  margin-left: 8px;
+  flex:0;
+  background:transparent;
+  border-radius: 10px;
+  margin-top:2px;
+}
+
+.location-card__marker-text {
+  display: none;
+  font-size:10px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 20px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.64);
+}
+
+.location-card__title {
+  order: 1;
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-bottom: 4px;
+  max-width: calc(100% - 44px);
+}
+
+.location-card__subtitle {
+  order:3;
+  width: 100%;
+  color: #666;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/** List of stats for the location */
+
+.location-card__stats {
+  padding: 0px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: stretch;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.location-stat {
+  flex: 1;
+  font-weight: 500;
+  margin: 6px 0 6px 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.location-stat__label {
+  text-align: left;
+  font-size: 0.825em;
+  padding-right: 8px;
+  width: calc(100% - 32px);
+}
+
+.location-stat__value {
+  font-weight: bold;
+  font-size: 0.825rem;
+  text-align: right;
+}
+
+.location-stat__primary-label {
+  display:block;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+.location-stat__secondary-label {
+  display: block;
+  color: #666;
+  font-weight: normal;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: calc(100% + 32px);
+}

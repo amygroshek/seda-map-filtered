@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography';
-import DynamicScatterplot from './DynamicScatterplot';
+import DynamicScatterplot from '../base/DynamicScatterplot';
+import MapLocationCards from '../map/MapLocationCards';
 
-export class ReportCardSection extends Component {
+export class ScatterplotSection extends Component {
   static propTypes = {
     controls: PropTypes.arrayOf(
       PropTypes.shape({
@@ -39,14 +40,32 @@ export class ReportCardSection extends Component {
   render() {
     const { title, description, ...rest } = this.props;
     return (
-      <div className="report-card-section">
-        <Typography classes={{root: "report-card-section__heading" }}>
-          {title}
-        </Typography>
-        <div className="report-card-section__body">
-          <Typography variant="body2">
+      <div className="section section--scatterplot">
+        <div className="section__header">
+          <Typography 
+            variant="h5" 
+            component="div" 
+            className="section__heading"
+          >
+            {title}
+          </Typography>
+          <Typography 
+            component="div" 
+            className="section__description"
+          >
             {description}
           </Typography>
+        </div>
+
+        { rest.selected && rest.selected.length > 0 &&
+          <div className="section__places">
+            <MapLocationCards 
+              metrics={[rest.xVar, rest.yVar]}
+            />
+          </div>
+        }
+
+        <div className="section__component">
           <DynamicScatterplot
             {...rest}
           />
@@ -56,4 +75,4 @@ export class ReportCardSection extends Component {
   }
 }
 
-export default ReportCardSection
+export default ScatterplotSection

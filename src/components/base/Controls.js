@@ -8,8 +8,6 @@ import Select from '../base/Select';
 function Controls({controls, onOptionChange, children }) {
   return (
     <div className='controls'>
-      
-      
       { 
         controls.map(c =>
           <div key={c.id + '-select'} className="controls__control">

@@ -1,44 +1,36 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/config';
+import { getGapControl, getHighlightControl } from '../../modules/config';
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
 import { onScatterplotData } from '../../actions/scatterplotActions';
-import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
+import { getDemographicIdFromVarName } from '../../modules/config';
 import LANG from '../../constants/lang.js';
-import ReportCardSection from './ReportCardSection';
+import ScatterplotSection from './ScatterplotSection';
 
 const mapStateToProps = (
   { 
     scatterplot: { data }, 
     selected, 
     map: { usState, highlightState }, 
-    report: { opportunity } 
+    report: { achievement } 
   },
   { match: { params: { region } } }
 ) => {
   return ({
-    title: LANG['OPP_DIFF_TITLE'],
-    description: LANG['OPP_DIFF_DESCRIPTION'],
-    variant: 'opp',
+    title: LANG['ACH_GAPS_TITLE'],
+    description: LANG['ACH_GAPS_DESCRIPTION'],
+    variant: 'ach',
     region,
     data,
     selected: selected && selected[region],
     highlightedState: highlightState && usState ? usState : null,
-    ...opportunity,
+    ...achievement,
     controls: [
-      getMetricControl(
-        getMetricIdFromVarName(opportunity.xVar)
-      ),
-      getDemographicControl(
-        getDemographicIdFromVarName(opportunity.xVar),
-        'subgroupX',
-        'Subgroup 1'
-      ),
-      getDemographicControl(
-        getDemographicIdFromVarName(opportunity.yVar), 
-        'subgroupY',
-        'Subgroup 2'
+      getGapControl(
+        getDemographicIdFromVarName(achievement.xVar), 
+        'gap',
+        'Achievement Gap'
       ),
       getHighlightControl(highlightState && usState ? usState : 'none')
     ],
@@ -60,7 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
       default:
         return dispatch({
           type: 'SET_REPORT_OPTION',
-          section: 'opportunity',
+          section: 'achievement',
           ...option
         })
     }
@@ -72,5 +64,5 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(ReportCardSection)
+)(ScatterplotSection)
 

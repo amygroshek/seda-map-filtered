@@ -6,7 +6,7 @@ import { getMetricControl, getDemographicControl, getHighlightControl } from '..
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
 import { onScatterplotData } from '../../actions/scatterplotActions';
 import LANG from '../../constants/lang.js';
-import ReportCardSection from './ReportCardSection';
+import ScatterplotSection from './ScatterplotSection';
 
 const mapStateToProps = (
   { scatterplot: { data }, selected, map: { usState, highlightState } },
@@ -58,5 +58,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(ReportCardSection)
+)(ScatterplotSection)
 

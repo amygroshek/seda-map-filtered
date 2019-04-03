@@ -46,7 +46,7 @@ export const mapObjectKeys = (obj, keyMap) =>
  * @param {string} id 
  */
 export const getRegionFromId = (id) => {
-  
+  if (!id) { return null; }
   if (!idLengths[id.length]) {
     throw new Error('No region corresponding to provided ID');
   }

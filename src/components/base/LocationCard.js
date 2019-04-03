@@ -1,0 +1,80 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { IconButton } from '@material-ui/core';
+import Close from '@material-ui/icons/Close';
+import { getMetricLabel, getDemographicLabel } from '../../modules/config';
+
+function LocationCard({
+  order, 
+  name, 
+  state, 
+  metrics, 
+  feature,
+  onDismiss,
+  onHover,
+  onClick
+}) {
+  const data = feature.properties;
+  return (
+    <div 
+      className='location-card'
+      onMouseEnter={(e) => onHover(feature, e)}
+      onMouseLeave={(e) => onHover(null, e)}
+      onClick={(e) => onClick(feature, e)}
+    >
+      { 
+        onDismiss &&
+        <IconButton 
+          className='location-card__close'
+          onClick={(e) => { onDismiss(feature, e); e.stopPropagation(); }}
+        >
+          <Close fontSize='small' />
+        </IconButton>
+      }
+      <div className='location-card__header'>
+        <div className='location-card__marker'>
+          <span className='location-card__marker-text'>
+            {order}
+          </span>
+        </div>
+
+        <div className="location-card__title">{name}</div>
+        <div className='location-card__subtitle'>{state}</div>      
+      </div>
+      <div className='location-card__stats'>
+        {
+          metrics.map(k =>
+            data[k] &&
+            <div key={'stat_' + k} className='location-stat'>
+              <div className='location-stat__label'>
+                <span className='location-stat__primary-label'>
+                  {getMetricLabel(k.split('_')[1])}
+                </span>
+                <span className='location-stat__secondary-label'>
+                  { getDemographicLabel(k.split('_')[0]) } Students
+                </span>
+              </div>
+              
+              <span className='location-stat__value'>{data[k] && data[k] !== -9999 ? Math.round(data[k]*100)/100 : 'Unavailable'}</span>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  )
+}
+
+LocationCard.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  state: PropTypes.string,
+  metrics: PropTypes.array,
+  feature: PropTypes.object,
+  order: PropTypes.number,
+  onDismiss: PropTypes.func,
+  onClick: PropTypes.func,
+  onHover: PropTypes.func
+}
+
+export default LocationCard
+

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
-import Hint from '../../components/base/Hint';
+import Hint from '../base/Hint';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -49,7 +48,7 @@ class MenuDialog extends Component {
 }
 
 
-export class MapHeader extends Component {
+export class MapSectionHeader extends Component {
   static propTypes = {
     demographic: PropTypes.shape({
       id: PropTypes.string,
@@ -124,35 +123,25 @@ export class MapHeader extends Component {
   };
 
   render() {
-    const { demographic, metric, region } = this.props;
+    const { demographic, metric } = this.props;
     return (
-      <div className="map-header">
-        <Typography variant="h6">
-          Showing {' '}
-          <Hint 
-            text="press to change data metric" 
-            cursor="pointer"
-            onClick={() => this._triggerMenu('metric')}
-          >
-            {metric.label.toLowerCase()}
-          </Hint>
-          {' '}for{' '}
-          <Hint 
-            text="press to change demographic" 
-            cursor="pointer"
-            onClick={() => this._triggerMenu('demographic')}
-          >
-            {demographic.id === 'all' ? 'all' : demographic.label.toLowerCase()} students
-          </Hint>
-          {' '}in{' '}
-          <Hint 
-            text="press to change region" 
-            cursor="pointer"
-            onClick={() => this._triggerMenu('region')}
-          >
-            {region.label.toLowerCase()}
-          </Hint>
-        </Typography>
+      <div className="section-header">
+        Map of {' '}
+        <Hint 
+          text="press to change data metric" 
+          cursor="pointer"
+          onClick={() => this._triggerMenu('metric')}
+        >
+          {metric.label.toLowerCase()}
+        </Hint>
+        {' '}for{' '}
+        <Hint 
+          text="press to change demographic" 
+          cursor="pointer"
+          onClick={() => this._triggerMenu('demographic')}
+        >
+          {demographic.id === 'all' ? 'all' : demographic.label.toLowerCase()} students
+        </Hint>
         <MenuDialog
           selectedValue={this.state.selectedValue}
           open={this.state.open}
@@ -184,4 +173,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(MapHeader)
+)(MapSectionHeader)

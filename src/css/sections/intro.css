@@ -1,0 +1,56 @@
+.map-intro__description .hint__text {
+  height: 1.4rem;
+}
+
+
+.section.section--intro {
+  height: 80vh;
+  background: #efefef; 
+  background-image: linear-gradient(#f0f0f0 50%, #ddd);
+  min-height: 440px;
+  position:fixed;
+  z-index:1;
+  top:0;
+  left:0;
+}
+
+.section--intro .section__image {
+  width: 320px;
+  display: block;
+  margin-bottom: 24px;
+}
+
+.section--intro .section__header .section__heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section--intro .map-search {
+  position: relative;
+  margin: 8px;
+  width: 300px;
+}
+
+.section--intro .ais-InstantSearch__root,
+.section--intro .react-autosuggest__input {
+  background: none;
+}
+
+.section--intro .react-autosuggest__input {
+  border-bottom: 1px solid #666;
+  padding: 8px;
+}
+
+
+.section--intro .section__description {
+  max-width: 660px;
+  margin: 16px auto;
+  text-align: center;
+  line-height: 1.666
+}
+
+.section--intro .react-autosuggest__suggestions-container {
+  max-height: 300px;
+  top: 36px;
+}

@@ -128,11 +128,9 @@ export const getStopsForMetric = (id) => {
  * @param {array} metricIds an array of metric IDs
  * @param {string} demographic the demographic for the metrics
  */
-export const getMetricLabels = (metricIds, demographic) => {
-  return metricIds.reduce((labelCollection, metricId) => {
-    const demKey = demographic ? 
-      underscoreCombine(demographic, metricId) : metricId
-    labelCollection[demKey] = getMetricLabel(metricId);
+export const getLabelsFromVarNames = (varNames) => {
+  return varNames.reduce((labelCollection, varName) => {
+    labelCollection[varName] = getLabelFromVarName(varName);
     return labelCollection;
   }, {})
 }
@@ -189,6 +187,13 @@ export const getMetricControl = (metric, id = 'metric') => ({
   label: 'Data Metric',
   value: metric,
   options: getMetrics()
+})
+
+export const getRegionControl = (region, id = 'region') => ({
+  id,
+  label: 'Region',
+  value: region,
+  options: getRegions()
 })
 
 export const getDemographicControl = (

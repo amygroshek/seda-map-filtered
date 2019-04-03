@@ -1,0 +1,42 @@
+
+.hint .hint__container {
+  margin-top: -8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  max-width: 300px;
+
+  padding: 8px;
+  border-radius: 2px;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.hint .hint__container:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-top: 8px solid rgba(0, 0, 0, 0.8);
+  bottom: -16px;
+  left: 50%;
+  margin-left: -8px;
+}
+
+.hint {
+  pointer-events: none;
+}
+
+.hint .hint__container p {
+  font-size: 0.825rem;
+  color: #fff;
+}
+
+.hint__text {
+  display: inline-block;
+  border-bottom: 2px dotted #8dd7d3;
+  font-weight: bold;
+  height: 1.4em;
+  color: #364e9f;
+}

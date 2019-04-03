@@ -1,17 +1,17 @@
-import Map from '../../components/map-view/Map';
-import MapHeader from '../../components/map-view/MapHeader';
-import MapLegend from '../../components/map-view/MapLegend';
-import MapScatterplot from '../../components/map-view/MapScatterplot';
-import MapSearch from '../../components/map-view/MapSearch';
-import MapTooltip from '../../components/map-view/MapTooltip';
-import MapSelectedLocations from '../../components/map-view/MapSelectedLocations';
-import ReportCard from '../../components/report-card/ReportCard';
+
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadRouteLocations } from '../../actions/featuresActions';
+
+import SocioeconomicConditions from '../../components/sections/SocioeconomicConditionsSection';
+import OpportunityDifferences from '../../components/sections/OpportunityDifferencesSection';
+import AchievementGaps from '../../components/sections/AchievementGapSection';
+import MapIntro from '../../components/sections/IntroSection';
+import MapSection from '../../components/sections/MapSection';
+import MapTooltip from '../../components/map/MapTooltip';
 
 
 export class MapView extends Component {
@@ -33,40 +33,17 @@ export class MapView extends Component {
     return (
       <div className="map-tool">
         <MapTooltip />
-        <div className="map-intro">
-          <h1 className="map-intro-heading">
-            <span>
-              Explore educational opportunity in
-            </span> 
-            <MapSearch />
-          </h1>
-          <p>
-            Use the search or data visualizations below to explore our data set of over 330 million test scores.
-          </p>
-          
-        </div>
-        <div className="map-view">
-          <div className="map-view__header">
-            <MapHeader />
-            <MapSearch />
-          </div>
-          <div className="map-view__container">
-            <div className="map-view__map">
-              <Map />
-              <MapLegend />
-            </div>
-            <div className="map-view__scatterplot-overlay">
-              <MapScatterplot />
-              <MapSelectedLocations />
-            </div>
-          </div>
-        </div>
+        <MapIntro />
+        <MapSection />
+        <SocioeconomicConditions />
+        <OpportunityDifferences />
+        <AchievementGaps />
         <div className="report-card-view">
           {
             // show report card once map scatterplot is loaded
             this.props.mapScatterplotLoaded &&
               <div className="map-view__report-card">
-                <ReportCard />
+                {/* <ReportCard /> */}
               </div>
           }
         </div>
@@ -76,8 +53,10 @@ export class MapView extends Component {
   }
 }
 
-const mapStateToProps = ({ scatterplot: { loaded } }) => ({
-  mapScatterplotLoaded: loaded && loaded['map']
+const mapStateToProps = (
+  { scatterplot: { loaded }}
+) => ({
+  mapScatterplotLoaded: loaded && loaded['map'],
 })
 
 const mapDispatchToProps = (dispatch) => ({
