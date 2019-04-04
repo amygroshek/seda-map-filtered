@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, Element , Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import * as Scroll from 'react-scroll'
  
 
 import { loadRouteLocations } from '../../actions/featuresActions';
@@ -15,7 +15,14 @@ import AchievementGaps from '../../components/sections/AchievementGapSection';
 import MapIntro from '../../components/sections/IntroSection';
 import MapSection from '../../components/sections/MapSection';
 
-
+const ScrollElement = Scroll.ScrollElement;
+const ScrollLink = Scroll.Link;
+const sectionIdComponentMap = { 
+  'map': ScrollElement(MapSection), 
+  'socioeconomic': ScrollElement(SocioeconomicConditions), 
+  'opportunity': ScrollElement(OpportunityDifferences), 
+  'achievement': ScrollElement(AchievementGaps)
+};
 
 export class MapView extends Component {
   static propTypes = {
@@ -30,37 +37,52 @@ export class MapView extends Component {
     this.props.loadRouteLocations(
       this.props.match.params.locations
     );
+
+    Scroll.scrollSpy.update();
+  }
+
+  onSectionEnter(sectionId, sectionEl) {
+    console.log('enter: ', sectionId)
+  }
+
+  onSectionExit(sectionId, sectionEl) {
+    console.log('exit: ', sectionId)
   }
 
   render() {
     return (
       <div className="map-tool">
+        <div>
+        {
+          Object.keys(sectionIdComponentMap).map(
+            (k) => 
+              <ScrollLink 
+                key={k+'-link'}
+                to={k}
+                onSetActive={this.onSectionEnter}
+                onSetInactive={this.onSectionExit}
+                spy={true}
+              />
+          )
+        }
+        </div>
         <MapIntro 
           onSearchSelect={() => {
-            scroller.scrollTo('mapSection', {
+            Scroll.scroller.scrollTo('mapSection', {
               duration: 400,
               smooth: true,
             })
           }}
         />
-        <Element name="mapSection">
-          <MapSection />
-        </Element>
-        
-        <SocioeconomicConditions />
-        <OpportunityDifferences />
-        <AchievementGaps />
-        <div className="report-card-view">
-          {
-            // show report card once map scatterplot is loaded
-            this.props.mapScatterplotLoaded &&
-              <div className="map-view__report-card">
-                {/* <ReportCard /> */}
-              </div>
-          }
-        </div>
+        {
+          Object.keys(sectionIdComponentMap).map(
+            (k) => {
+              const Section = sectionIdComponentMap[k];
+              return <Section key={k+'-section'} id={k} name={k} />
+            }
+          )
+        }
       </div>
-      
     )
   }
 }

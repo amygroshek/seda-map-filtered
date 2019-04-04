@@ -6,6 +6,8 @@ import MapLocationCards from '../map/MapLocationCards';
 
 export class ScatterplotSection extends Component {
   static propTypes = {
+    id: PropTypes.string,
+    name: PropTypes.string,
     controls: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
@@ -38,9 +40,9 @@ export class ScatterplotSection extends Component {
   }
 
   render() {
-    const { title, description, ...rest } = this.props;
+    const { title, description, id, name, ...rest } = this.props;
     return (
-      <div className="section section--scatterplot">
+      <div id={id} name={name} className="section section--scatterplot">
         <div className="section__header">
           <Typography 
             variant="h5" 

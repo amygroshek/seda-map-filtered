@@ -6,11 +6,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import Map from '../map/Map';
-import MapSectionHeader from '../map/MapSectionHeader';
 import MapScatterplot from '../map/MapScatterplot';
 import MapSearch from '../map/MapSearch';
 import { loadRouteLocations } from '../../actions/featuresActions';
-import { getHighlightControl, getRegionControl, getMetricControl, getDemographicControl } from '../../modules/config';
+import { getRegionControl, getMetricControl, getDemographicControl } from '../../modules/config';
 import MapLocationCards from '../map/MapLocationCards';
 import MenuSentence from '../base/MenuSentence';
 import MapTooltip from '../map/MapTooltip';
@@ -19,6 +18,8 @@ import { updateCurrentState, toggleHighlightState } from '../../actions/mapActio
 
 
 const MapSection = ({
+  id,
+  name,
   controls = [],
   hasLocationsSelected,
   xVar,
@@ -27,8 +28,7 @@ const MapSection = ({
   onOptionChange
 }) => {
   return (
-    <div className="section section--map">
-
+    <div id={id} name={name} className="section section--map">
       <MapTooltip />
       <div className="section__header">
         <MenuSentence
@@ -96,10 +96,14 @@ const MapSection = ({
 }
 
 MapSection.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
   controls: PropTypes.array,
   hasLocationsSelected: PropTypes.bool,
   xVar: PropTypes.string,
   yVar: PropTypes.string,
+  region: PropTypes.string,
+  onOptionChange: PropTypes.func
 }
 
 const mapStateToProps = ({ 
