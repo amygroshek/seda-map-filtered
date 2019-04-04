@@ -68,7 +68,7 @@ export class MapView extends Component {
         </div>
         <MapIntro 
           onSearchSelect={() => {
-            Scroll.scroller.scrollTo('mapSection', {
+            Scroll.scroller.scrollTo('map', {
               duration: 400,
               smooth: true,
             })
