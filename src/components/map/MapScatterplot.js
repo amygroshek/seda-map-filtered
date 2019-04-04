@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core';
 import { getMetricById, getChoroplethColors } from '../../modules/config';
 import { onHoverFeature, onViewportChange, toggleHighlightState } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
-import { getSingularRegion, underscoreCombine } from '../../utils/index'
+import { underscoreCombine } from '../../utils/index'
 import * as scatterplotStyle from '../../style/scatterplot-style';
 import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
 import { getStateName } from '../../constants/statesFips';

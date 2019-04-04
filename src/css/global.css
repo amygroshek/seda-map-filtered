@@ -33,6 +33,8 @@
   src: url(/assets/fonts/SharpGrotesk-MediumItalic20.otf)
 }
 
+body { overflow-y: scroll!important; padding-right:0!important; }
+
 html {
   font-size: 100%;
 }
@@ -446,7 +448,6 @@ h6,
 
 .dynamic-scatterplot__graph {
   position: relative;
-  padding-top: 56.25%
 }
 
 
@@ -457,9 +458,9 @@ p.tmp__axis-overlay {
   align-items: center;
   justify-content: space-between;
   position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: 55px;
+  left: 16px;
+  right: 16px;
+  bottom: 7px;
   font-size: 13px;
 }
 

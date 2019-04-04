@@ -57,6 +57,10 @@
   margin: 0px auto 24px
 }
 
+.section__heading .hint__text {
+  font-weight: normal;
+}
+
 @media(min-width: 960px) {
   .section__header .section__heading {
     font-size: 1.3333rem;
@@ -77,6 +81,11 @@
 
 .section__places {
   height: 268px;
+  transition: height 0.2s ease 0.1s;
+}
+
+.section__places--none {
+  height: 160px;
 }
 
 .section__places .location-card-list {
@@ -111,7 +120,7 @@
 
 .section__controls {
   position: absolute;
-  top:-8px;
+  top:16px;
   left:16px;
   right: 0px;
   z-index: 500;
@@ -120,6 +129,7 @@
 .section__controls .map-search {
   position: absolute;
   right: 8px;
+  top:-8px;
 }
 
 .section__controls .react-autosuggest__container {
@@ -188,5 +198,6 @@
     min-height: 1px;
     height: auto;
     z-index: 100;
+    box-shadow: -1px 0 0#f4f4f4;
   }
 }

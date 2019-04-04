@@ -35,8 +35,26 @@
 
 .hint__text {
   display: inline-block;
+  border: none;
   border-bottom: 2px dotted #8dd7d3;
   font-weight: bold;
   height: 1.4em;
   color: #364e9f;
+  background: none;
+  padding:0;
+  font-size: 1em;
+  text-transform: lowercase;
+}
+
+.hint__text--select:after {
+  content: "\25BC";
+  position: relative;
+  top: -0.15em;
+  font-size: 0.6em;
+  display: inline-block;
+  margin: 0 0.333em;
+}
+
+button.hint__text:focus {
+  outline: none;
 }

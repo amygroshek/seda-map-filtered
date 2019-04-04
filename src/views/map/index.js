@@ -4,6 +4,9 @@ import React, { Component } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link, Element , Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+ 
+
 import { loadRouteLocations } from '../../actions/featuresActions';
 
 import SocioeconomicConditions from '../../components/sections/SocioeconomicConditionsSection';
@@ -11,7 +14,7 @@ import OpportunityDifferences from '../../components/sections/OpportunityDiffere
 import AchievementGaps from '../../components/sections/AchievementGapSection';
 import MapIntro from '../../components/sections/IntroSection';
 import MapSection from '../../components/sections/MapSection';
-import MapTooltip from '../../components/map/MapTooltip';
+
 
 
 export class MapView extends Component {
@@ -32,9 +35,18 @@ export class MapView extends Component {
   render() {
     return (
       <div className="map-tool">
-        <MapTooltip />
-        <MapIntro />
-        <MapSection />
+        <MapIntro 
+          onSearchSelect={() => {
+            scroller.scrollTo('mapSection', {
+              duration: 400,
+              smooth: true,
+            })
+          }}
+        />
+        <Element name="mapSection">
+          <MapSection />
+        </Element>
+        
         <SocioeconomicConditions />
         <OpportunityDifferences />
         <AchievementGaps />

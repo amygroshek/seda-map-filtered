@@ -9,47 +9,79 @@ import Map from '../map/Map';
 import MapSectionHeader from '../map/MapSectionHeader';
 import MapScatterplot from '../map/MapScatterplot';
 import MapSearch from '../map/MapSearch';
-import Controls from '../base/Controls';
 import { loadRouteLocations } from '../../actions/featuresActions';
-import { getHighlightControl, getRegionControl } from '../../modules/config';
+import { getHighlightControl, getRegionControl, getMetricControl, getDemographicControl } from '../../modules/config';
 import MapLocationCards from '../map/MapLocationCards';
+import MenuSentence from '../base/MenuSentence';
+import MapTooltip from '../map/MapTooltip';
+import { updateRoute } from '../../modules/router';
+import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
+
 
 const MapSection = ({
   controls = [],
   hasLocationsSelected,
   xVar,
   yVar,
+  region,
+  onOptionChange
 }) => {
   return (
     <div className="section section--map">
 
+      <MapTooltip />
       <div className="section__header">
-        <Typography variant="h5" component="div" className="section__heading">
-          <MapSectionHeader />
-        </Typography>
+        <MenuSentence
+          className="section__heading"
+          text="Map of $1 for $2 by $3"
+          controls={controls}
+          variant="h5"
+          onChange={onOptionChange}
+        />
         <Typography className="section__description">
-          This paragraph gives an overview of what is shown on
-          the scatterplot and map below.  It is dynamic text that
-          can change based on the selections above.
+          { xVar.split('_')[1] === 'avg' ?
+            <span>
+              The average test scores of children in a community reveal the total 
+              set of educational opportunities they have had from birth to the time 
+              they take the tests. The map and scatterplot below shows how educational
+              opportunity is correlated with socioeconomic status.  How does your 
+              area compare?
+            </span> :
+            <span>Description for metric unavailable.</span>
+          }
+          
+
         </Typography>
       </div>
       
-      { hasLocationsSelected &&
-        <div className="section__places">
-          <MapLocationCards
-            metrics={[yVar, xVar]}
-          />
-        </div>
+      <div 
+        className={
+          "section__places" + 
+          (hasLocationsSelected ?
+            '' : ' section__places--none')
+        }
+      >
+      { hasLocationsSelected ?
+        <MapLocationCards 
+          metrics={[yVar, xVar]}
+        />
+        :
+        <Typography variant="body2">
+          No {region} selected. Use search or the map to select a location.
+        </Typography>
       }
+      </div>
+      
     
       <div className="section__component">
 
         <div className="section__controls">
-          <Controls
+          <MenuSentence
+            text="Showing $1 for $2 by $3"
             controls={controls}
-          >
-            <MapSearch />
-          </Controls>
+            onChange={onOptionChange}
+          />
+          <MapSearch />
         </div>
         
         <div className="section__right">
@@ -65,7 +97,9 @@ const MapSection = ({
 
 MapSection.propTypes = {
   controls: PropTypes.array,
-  hasLocationsSelected: PropTypes.bool
+  hasLocationsSelected: PropTypes.bool,
+  xVar: PropTypes.string,
+  yVar: PropTypes.string,
 }
 
 const mapStateToProps = ({ 
@@ -75,6 +109,7 @@ const mapStateToProps = ({
 },
 { match: { params: { region, metric, demographic } } }
 ) => ({
+  region,
   xVar: demographic + '_' + metric,
   yVar: demographic + '_ses',
   hasLocationsSelected: 
@@ -82,16 +117,37 @@ const mapStateToProps = ({
     selected[region].length > 0, 
   mapScatterplotLoaded: loaded && loaded['map'],
   controls: [
-    getRegionControl(region),
-    getHighlightControl(
-      highlightState && usState ? usState : 'none'
-    )
+    getMetricControl(metric),
+    getDemographicControl(demographic),
+    getRegionControl(region)
+
   ],
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
-    dispatch(loadRouteLocations(locations))
+    dispatch(loadRouteLocations(locations)),
+  onOptionChange: (id, option) => {
+    switch(id) {
+      case 'metric':
+        return updateRoute(ownProps, { metric: option.id })
+      case 'demographic':
+        return updateRoute(ownProps, { demographic: option.id })
+      case 'region':
+        return updateRoute(ownProps, { region: option.id })
+      case 'highlight':
+        if (option.value === 'none') {
+          dispatch(toggleHighlightState(false))
+          dispatch(updateCurrentState(null))
+        } else {
+          dispatch(toggleHighlightState(true))
+          dispatch(updateCurrentState(option.id))
+        }
+        return;
+      default:
+        return;
+    }
+  },
 })
 
 export default compose(

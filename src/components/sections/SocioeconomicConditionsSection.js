@@ -1,4 +1,3 @@
-import { updateRoute } from '../../modules/router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { updateCurrentState, toggleHighlightState } from '../../actions/mapActio
 import { onScatterplotData } from '../../actions/scatterplotActions';
 import LANG from '../../constants/lang.js';
 import ScatterplotSection from './ScatterplotSection';
+import { updateRoute } from '../../modules/router';
 
 const mapStateToProps = (
   { scatterplot: { data }, selected, map: { usState, highlightState } },

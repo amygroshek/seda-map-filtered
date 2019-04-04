@@ -21,6 +21,7 @@ const Select = ({ items, onChange, ...props }) => (
 Select.propTypes = {
   onChange: PropTypes.func,
   label: PropTypes.string,
+  items: PropTypes.array
 }
 
 export default Select;

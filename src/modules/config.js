@@ -7,7 +7,7 @@ import {
   CHOROPLETH_COLORS, 
   BASE_VARS
 } from '../constants/dataOptions';
-import { underscoreCombine, underscoreSplit } from '../utils';
+import { underscoreSplit, getSingularRegion } from '../utils';
 import { getStateSelectOptions } from '../constants/statesFips';
 
 
@@ -186,14 +186,18 @@ export const getMetricControl = (metric, id = 'metric') => ({
   id,
   label: 'Data Metric',
   value: metric,
+  hint: 'press to change data metric',
   options: getMetrics()
+    .filter(m => ['avg', 'grd', 'coh'].indexOf(m.id) > -1)
 })
 
 export const getRegionControl = (region, id = 'region') => ({
   id,
   label: 'Region',
   value: region,
-  options: getRegions()
+  options: getRegions(),
+  hint: 'press to change region',
+  formatter: (option) => getSingularRegion(option.id)
 })
 
 export const getDemographicControl = (
@@ -204,7 +208,9 @@ export const getDemographicControl = (
   id,
   label,
   value: demographic,
-  options: getDemographics()
+  options: getDemographics(),
+  hint: 'press to change demographic',
+  formatter: (option) => option.label + ' students'
 })
 
 export const getHighlightControl = (highlight) => ({

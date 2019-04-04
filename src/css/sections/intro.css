@@ -12,6 +12,8 @@
   z-index:1;
   top:0;
   left:0;
+  transform: translate3d(0,0,0);
+  will-change: scroll-position;
 }
 
 .section--intro .section__image {

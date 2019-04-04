@@ -3,7 +3,7 @@ import Hint from '../base/Hint';
 import MapSearch from '../map/MapSearch';
 import { Typography } from '@material-ui/core';
 
-function MapIntro() {
+function MapIntro({onSearchSelect}) {
   return (
     <div className="section section--intro ">
       <img 
@@ -20,7 +20,9 @@ function MapIntro() {
           <span>
             Explore educational opportunity in
           </span> 
-          <MapSearch />
+          <MapSearch
+            onSelected={onSearchSelect}
+          />
         </Typography>
         <Typography component="div" className="section__description">
           <span>
