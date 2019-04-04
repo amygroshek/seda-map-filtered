@@ -35,14 +35,17 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-const MapSearch = ({selectSearchResult}) => {
+const MapSearch = ({selectSearchResult, onSelected}) => {
   return (
     <div className="map-search">
       <SedaSearch
         algoliaId={process.env.REACT_APP_ALGOLIA_ID}
         algoliaKey={process.env.REACT_APP_ALGOLIA_KEY}
         indices={['cities', 'counties', 'districts', 'schools']}
-        onSuggestionSelected={selectSearchResult}
+        onSuggestionSelected={(hit) => {
+          selectSearchResult(hit);
+          onSelected && onSelected(hit);
+        }}
         inputProps={{
           placeholder: LANG['MAP_SEARCH_PLACEHOLDER']
         }}

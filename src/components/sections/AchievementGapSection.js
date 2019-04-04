@@ -1,43 +1,45 @@
-import { updateRoute } from '../../modules/router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/config';
+import { getGapControl, getHighlightControl } from '../../modules/config';
 import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
 import { onScatterplotData } from '../../actions/scatterplotActions';
+import { getDemographicIdFromVarName } from '../../modules/config';
 import LANG from '../../constants/lang.js';
-import ReportCardSection from './ReportCardSection';
+import ScatterplotSection from './ScatterplotSection';
 
 const mapStateToProps = (
-  { scatterplot: { data }, selected, map: { usState, highlightState } },
-  { match: { params: { demographic, region, metric } } }
+  { 
+    scatterplot: { data }, 
+    selected, 
+    map: { usState, highlightState }, 
+    report: { achievement } 
+  },
+  { match: { params: { region } } }
 ) => {
   return ({
-    title: LANG['SES_COND_TITLE'],
-    description: LANG['SES_COND_DESCRIPTION'],
-    variant: 'ses',
+    title: LANG['ACH_GAPS_TITLE'],
+    description: LANG['ACH_GAPS_DESCRIPTION'],
+    variant: 'ach',
     region,
     data,
     selected: selected && selected[region],
     highlightedState: highlightState && usState ? usState : null,
-    xVar: demographic + '_ses',
-    yVar: demographic + '_' + metric,
-    zVar: 'sz',
+    ...achievement,
     controls: [
-      getMetricControl(metric),
-      getDemographicControl(demographic),
+      getGapControl(
+        getDemographicIdFromVarName(achievement.xVar), 
+        'gap',
+        'Achievement Gap'
+      ),
       getHighlightControl(highlightState && usState ? usState : 'none')
     ],
   })
 } 
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onOptionChange: (option) => {
     switch(option.id) {
-      case 'metric':
-        return updateRoute(ownProps, { metric: option.value })
-      case 'demographic':
-        return updateRoute(ownProps, { demographic: option.value })
       case 'highlight':
         if (option.value === 'none') {
           dispatch(toggleHighlightState(false))
@@ -48,7 +50,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         }
         return;
       default:
-        return;
+        return dispatch({
+          type: 'SET_REPORT_OPTION',
+          section: 'achievement',
+          ...option
+        })
     }
   },
   onData: (data, region) =>
@@ -58,5 +64,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(ReportCardSection)
+)(ScatterplotSection)
 

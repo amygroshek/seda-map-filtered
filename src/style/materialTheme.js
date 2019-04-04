@@ -10,6 +10,20 @@ const materialTheme = createMuiTheme({
       main: '#17d3a3',
     },
   },
+  typography: {
+    useNextVariants: true,
+    fontFamily: "maisonneue-book,lato,helvetica neue,Arial,sans-serif,-apple-system",
+    body2: {
+      fontFamily: "maisonneue-book,lato,helvetica neue,Arial,sans-serif,-apple-system"
+    },
+    ...['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+      .reduce((obj, item) => ({
+        ...obj,
+        [item]: {
+          fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system"
+        }
+      }))
+  },
   overrides: {
     MuiInputBase: {
       root: {
@@ -54,9 +68,6 @@ const materialTheme = createMuiTheme({
         right: 8
       }
     },
-  },
-  typography: {
-    useNextVariants: true,
   },
   shape: {
     borderRadius: 0,

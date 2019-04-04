@@ -1,0 +1,18 @@
+.location-card-list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0;
+  width:100%;
+}
+
+.location-card-list .location-card {
+  flex:1;
+  width: 10%;
+  transition: flex 0.2s ease-out;
+  max-width: 33.333%;
+}
+
+.location-card-list .location-card--active {
+  flex:3;
+}

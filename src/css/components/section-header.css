@@ -1,0 +1,17 @@
+.section-header {
+  line-height: 1.666;
+}
+
+.section-header .hint__text {
+  font-weight: normal;
+  margin:0 0.1em;
+}
+.section-header .hint__text:after {
+  content: "\25BC";
+  position: relative;
+  top: -2px;
+  font-size: 14px;
+  display: inline-block;
+  margin: 0px 8px;
+  text-align:middle;
+}

@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Typography, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+
 import { getMetricById, getChoroplethColors } from '../../modules/config';
 import { onHoverFeature, onViewportChange, toggleHighlightState } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
-import { getSingularRegion, underscoreCombine } from '../../utils/index'
+import { underscoreCombine } from '../../utils/index'
 import * as scatterplotStyle from '../../style/scatterplot-style';
 import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
 import { getStateName } from '../../constants/statesFips';
 import { getDemographicById } from '../../modules/config';
-import DynamicScatterplot from '../report-card/DynamicScatterplot';
+import DynamicScatterplot from '../base/DynamicScatterplot';
 import { getMetricTooltip } from '../../modules/config';
 
 
@@ -140,7 +141,6 @@ export class MapScatterplot extends Component {
   }
 
   render() {
-    const { region, activeState } = this.props;
     return (
       <div className='map-scatterplot'>
         <div className="map-scatterplot__container">
@@ -166,26 +166,6 @@ export class MapScatterplot extends Component {
             <span>← poorer</span>
             <span>richer →</span>
           </Typography>
-          <Typography classes={{root: 'map-scatterplot__hint'}} variant="caption">
-            Each circle represents {this.props.demographic.id === 'all' ? 'all' : this.props.demographic.label.toLowerCase()}
-            {' '}students in one {getSingularRegion(this.props.region)}. Larger circles represent {this.props.region} with more students.
-          </Typography>
-          { activeState &&
-            <div className="checkbox-overlay">
-              <FormControlLabel
-                control={
-                  <Checkbox 
-                    checked={this.props.highlightOn} 
-                    onChange={(e) => this._toggleHighlight(e.target.checked)}
-                  />
-                }
-                label={
-                  <span>Highlight {region} in <strong>{activeState}</strong></span>
-                }
-                labelPlacement="start"
-              />
-            </div>
-          }
         </div>
       </div>
     )

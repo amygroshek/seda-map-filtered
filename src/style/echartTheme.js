@@ -7,6 +7,10 @@ export const theme = {
 
   color: colorPalette,
 
+  textStyle: {
+    fontFamily: "maisonneue-book,lato,helvetica neue,Arial,sans-serif,-apple-system",
+  },
+
   title: {
     textStyle: {
       fontWeight: 'normal',

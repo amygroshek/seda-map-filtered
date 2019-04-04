@@ -1,0 +1,203 @@
+
+/** Section overrides */
+
+@import "intro.css";
+@import "map.css";
+@import "scatterplot.css";
+
+
+/** Section Container */
+
+.section {
+  background: #f6f6f6;
+  width:100%;
+  position: relative;
+  height: auto;
+  text-align: center;
+  padding: 64px 24px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index:10;
+  box-shadow: 0 -1px 6px rgba(0,0,0,0.1);
+}
+
+@media(min-width: 960px) {
+  .section {
+    min-height: 100vh;
+  }
+}
+
+
+/** Section Header */
+
+.section__header {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin: auto;
+  padding: 16px;
+  z-index: 10;
+  width:100%;
+}
+
+@media(min-width: 960px) {
+  .section__header {
+    position: relative;
+    padding: 0 24px 16px 24px;
+    flex-direction: column;
+  }
+}
+
+.section__header .section__heading {
+  width: 100%;
+  font-size: 1.2rem;
+  margin: 0px auto 24px
+}
+
+.section__heading .hint__text {
+  font-weight: normal;
+}
+
+@media(min-width: 960px) {
+  .section__header .section__heading {
+    font-size: 1.3333rem;
+  }
+}
+
+.section__header .section__description {
+  max-width: 480px;
+  width:100%;
+  margin: 8px auto 24px;
+  font-size: 1em;
+  line-height: 1.64;
+  font-weight: 500;
+}
+
+
+/** Section Location List */
+
+.section__places {
+  height: 268px;
+  transition: height 0.2s ease 0.1s;
+}
+
+.section__places--none {
+  height: 160px;
+}
+
+.section__places .location-card-list {
+  position:sticky;
+  top:16px;
+}
+
+
+/** Section Component Wrapper */
+
+.section__component {
+  z-index: 1;
+  position: relative;
+  top: 0;
+  height: auto;
+  text-align: left; 
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 1px 2px #ccc, 0 -1px 0px rgba(0,0,0,0.05);
+}
+
+@media(min-width: 960px) {
+  .section__component {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 96px);
+  }
+  .section__places + .section__component {
+    margin-top: -104px;
+  }
+}
+
+.section__controls {
+  position: absolute;
+  top:16px;
+  left:16px;
+  right: 0px;
+  z-index: 500;
+}
+
+.section__controls .map-search {
+  position: absolute;
+  right: 8px;
+  top:-8px;
+}
+
+.section__controls .react-autosuggest__container {
+  background: #fff;
+  box-shadow: 0px 1px 0 rgba(0,0,0,0.15);
+}
+
+.section__controls .react-autosuggest__input {
+  height: 40px;
+  width: 300px;
+  text-align:left;
+  font-size: 0.825em;
+  padding: 8px;
+}
+
+
+/** Section Split View */
+
+.section__left {
+  position: relative;
+  padding-top: calc(100vh - 80px);
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+@media(min-width: 960px) {
+  .section__left {
+    position: absolute;
+    padding: 16px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    z-index: 200;
+    height: auto;
+    box-sizing: border-box;  
+  }
+}
+
+.section__right {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: calc(100vh - 72px - 80px);
+  margin: auto;
+  overflow: hidden;
+  z-index: 200;
+}
+
+
+@media(min-width: 960px) {
+  .section__right {
+    position: absolute;
+    left: auto;
+    right: 0px;
+    bottom: 0;
+    top: 0;
+    margin-top: 0;
+    max-width: none;
+    width: 50%;
+    min-height: 1px;
+    height: auto;
+    z-index: 100;
+    box-shadow: -1px 0 0#f4f4f4;
+  }
+}
