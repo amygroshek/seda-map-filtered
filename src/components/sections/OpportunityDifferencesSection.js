@@ -1,9 +1,8 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/config';
-import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
-import { onScatterplotData } from '../../actions/scatterplotActions';
+import { getMetricControl, getDemographicControl, getHighlightControl, getRegionControl } from '../../modules/config';
+import { onScatterplotData, getDispatchForSection } from '../../actions/scatterplotActions';
 import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
 import LANG from '../../constants/lang.js';
 import ScatterplotSection from './ScatterplotSection';
@@ -12,7 +11,7 @@ const mapStateToProps = (
   { 
     scatterplot: { data }, 
     selected, 
-    map: { usState, highlightState }, 
+    map: { usState }, 
     report: { opportunity } 
   },
   { match: { params: { region } } }
@@ -24,8 +23,9 @@ const mapStateToProps = (
     region,
     data,
     selected: selected && selected[region],
-    highlightedState: highlightState && usState ? usState : null,
+    highlightedState: usState,
     ...opportunity,
+    controlText: 'Showing $1 for $2 vs. $3 by $4 in $5',
     controls: [
       getMetricControl(
         getMetricIdFromVarName(opportunity.xVar)
@@ -40,31 +40,15 @@ const mapStateToProps = (
         'subgroupY',
         'Subgroup 2'
       ),
-      getHighlightControl(highlightState && usState ? usState : 'none')
+      getRegionControl(region),
+      getHighlightControl(usState)
     ],
   })
 } 
 
-const mapDispatchToProps = (dispatch) => ({
-  onOptionChange: (option) => {
-    switch(option.id) {
-      case 'highlight':
-        if (option.value === 'none') {
-          dispatch(toggleHighlightState(false))
-          dispatch(updateCurrentState(null))
-        } else {
-          dispatch(toggleHighlightState(true))
-          dispatch(updateCurrentState(option.value))
-        }
-        return;
-      default:
-        return dispatch({
-          type: 'SET_REPORT_OPTION',
-          section: 'opportunity',
-          ...option
-        })
-    }
-  },
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onOptionChange: 
+    getDispatchForSection(dispatch, 'opportunity', ownProps),
   onData: (data, region) =>
     dispatch(onScatterplotData(data, region)),
 })

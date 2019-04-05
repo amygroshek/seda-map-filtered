@@ -118,7 +118,7 @@ export const getAxisLine = ({axis, position, style}) => {
 }
 
 export const grid = {
-  top: '24',
+  top: '0',
   right: '80',
   bottom: '48',
   left: '24',

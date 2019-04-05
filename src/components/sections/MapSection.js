@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 
 import Map from '../map/Map';
 import MapScatterplot from '../map/MapScatterplot';
-import MapSearch from '../map/MapSearch';
 import { loadRouteLocations } from '../../actions/featuresActions';
-import { getRegionControl, getMetricControl, getDemographicControl } from '../../modules/config';
+import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/config';
 import MapLocationCards from '../map/MapLocationCards';
 import MenuSentence from '../base/MenuSentence';
 import MapTooltip from '../map/MapTooltip';
 import { updateRoute } from '../../modules/router';
-import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
+import { updateCurrentState, onViewportChange } from '../../actions/mapActions';
+import { getStateProp } from '../../constants/statesFips';
 
 
 const MapSection = ({
@@ -25,6 +25,7 @@ const MapSection = ({
   xVar,
   yVar,
   region,
+  controlText,
   onOptionChange
 }) => {
   return (
@@ -49,8 +50,6 @@ const MapSection = ({
             </span> :
             <span>Description for metric unavailable.</span>
           }
-          
-
         </Typography>
       </div>
       
@@ -77,11 +76,10 @@ const MapSection = ({
 
         <div className="section__controls">
           <MenuSentence
-            text="Showing $1 for $2 by $3"
+            text={controlText}
             controls={controls}
             onChange={onOptionChange}
           />
-          <MapSearch />
         </div>
         
         <div className="section__right">
@@ -112,21 +110,30 @@ const mapStateToProps = ({
   map: { usState, highlightState },
 },
 { match: { params: { region, metric, demographic } } }
-) => ({
-  region,
-  xVar: demographic + '_' + metric,
-  yVar: demographic + '_ses',
-  hasLocationsSelected: 
-    selected && selected[region] && 
-    selected[region].length > 0, 
-  mapScatterplotLoaded: loaded && loaded['map'],
-  controls: [
-    getMetricControl(metric),
-    getDemographicControl(demographic),
-    getRegionControl(region)
-
-  ],
-})
+) => {
+  const highlightedState = 
+    highlightState && usState ? 
+      usState : 'us'
+  return ({
+    region,
+    xVar: demographic + '_' + metric,
+    yVar: demographic + '_ses',
+    hasLocationsSelected: 
+      selected && selected[region] && 
+      selected[region].length > 0, 
+    mapScatterplotLoaded: loaded && loaded['map'],
+    highlightedState,
+    controlText: highlightedState === 'us' ?
+      "Showing $1 for $2 by $3 in the $4" :
+      "Showing $1 for $2 by $3 in $4",
+    controls: [
+      getMetricControl(metric),
+      getDemographicControl(demographic),
+      getRegionControl(region),
+      getHighlightControl(usState)
+    ],
+  })
+}
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
@@ -140,12 +147,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       case 'region':
         return updateRoute(ownProps, { region: option.id })
       case 'highlight':
-        if (option.value === 'none') {
-          dispatch(toggleHighlightState(false))
+        if (option.value === 'us') {
           dispatch(updateCurrentState(null))
         } else {
-          dispatch(toggleHighlightState(true))
+          const vp = {
+            latitude: getStateProp(option.id, 'lat'),
+            longitude: getStateProp(option.id, 'lon'),
+            zoom: 5
+          }
           dispatch(updateCurrentState(option.id))
+          dispatch(onViewportChange(vp, true))
         }
         return;
       default:

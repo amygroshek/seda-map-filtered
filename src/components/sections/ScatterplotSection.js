@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography';
 import DynamicScatterplot from '../base/DynamicScatterplot';
 import MapLocationCards from '../map/MapLocationCards';
+import MenuSentence from '../base/MenuSentence';
 
 export class ScatterplotSection extends Component {
   static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
+    controlText: PropTypes.string,
     controls: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
@@ -40,7 +42,7 @@ export class ScatterplotSection extends Component {
   }
 
   render() {
-    const { title, description, id, name, ...rest } = this.props;
+    const { title, description, id, name, controls, onOptionChange, controlText, ...rest } = this.props;
     return (
       <div id={id} name={name} className="section section--scatterplot">
         <div className="section__header">
@@ -66,8 +68,16 @@ export class ScatterplotSection extends Component {
             />
           </div>
         }
-
         <div className="section__component">
+
+          <div className="section__controls">
+            <MenuSentence 
+              text={controlText}
+              controls={controls}
+              onChange={onOptionChange}
+            />
+          </div>
+
           <DynamicScatterplot
             {...rest}
           />

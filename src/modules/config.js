@@ -186,9 +186,18 @@ export const getMetricControl = (metric, id = 'metric') => ({
   id,
   label: 'Data Metric',
   value: metric,
-  hint: 'press to change data metric',
+  hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
   options: getMetrics()
     .filter(m => ['avg', 'grd', 'coh'].indexOf(m.id) > -1)
+})
+
+export const getSecondaryMetricControl = (metric, id = 'metric') => ({
+  id,
+  label: 'Data Metric',
+  value: metric,
+  hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
+  options: getMetrics()
+    .filter(m => ['ses', 'seg'].indexOf(m.id) > -1)
 })
 
 export const getRegionControl = (region, id = 'region') => ({
@@ -196,7 +205,7 @@ export const getRegionControl = (region, id = 'region') => ({
   label: 'Region',
   value: region,
   options: getRegions(),
-  hint: 'press to change region',
+  hint: 'press to change between counties, school districts, or schools',
   formatter: (option) => getSingularRegion(option.id)
 })
 
@@ -209,18 +218,18 @@ export const getDemographicControl = (
   label,
   value: demographic,
   options: getDemographics(),
-  hint: 'press to change demographic',
+  hint: 'press to select a demographic or gap ',
   formatter: (option) => option.label + ' students'
 })
 
 export const getHighlightControl = (highlight) => ({
   id: 'highlight',
   label: 'Highlight',
-  value: highlight ? highlight : 'none',
+  value: highlight ? highlight : 'us',
   options: [
     {
-      id: 'none',
-      label: 'None'
+      id: 'us',
+      label: 'U.S.'
     },
     ...getStateSelectOptions()
   ]

@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { getMetricIdFromVarName, getDemographicIdFromVarName } from "./config";
 
 const defaultSocioeconomic = {
   xVar: 'all_ses',
@@ -20,7 +21,7 @@ const socioeconomic =
               action.value + '_' + state.xVar.split('_')[1] : 
               state.xVar,
             yVar: action.id === 'demographic' ? 
-              action.value + '_' + state.xVar.split('_')[1] : 
+              action.value + '_' + state.yVar.split('_')[1] : 
               action.id === 'metric' ?
                 state.yVar.split('_')[0] + '_' + action.value :
                 state.yVar
@@ -79,7 +80,10 @@ const achievement =
           {
             ...state,
             xVar: action.id === 'gap' ? 
-              action.value + '_ses' : state.xVar,
+              action.value + '_' + getMetricIdFromVarName(state.xVar) : 
+              action.id === 'secondary' ? 
+                getDemographicIdFromVarName(state.xVar) + '_' + action.value :
+                state.xVar,
             yVar: action.id === 'gap' ? 
               action.value + '_avg' : state.yVar,
           } : state

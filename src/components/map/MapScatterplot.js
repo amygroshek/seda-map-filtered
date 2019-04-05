@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 
 import { getMetricById, getChoroplethColors } from '../../modules/config';
-import { onHoverFeature, onViewportChange, toggleHighlightState } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
 import { underscoreCombine } from '../../utils/index'
 import * as scatterplotStyle from '../../style/scatterplot-style';
@@ -38,7 +38,6 @@ export class MapScatterplot extends Component {
     onData: PropTypes.func,
     onError: PropTypes.func,
     activeState: PropTypes.string,
-    onToggleHighlight: PropTypes.func,
     onLoaded: PropTypes.func,
   }
 
@@ -49,14 +48,6 @@ export class MapScatterplot extends Component {
       baseScatterplot: null,
       restore: false,
     }
-  }
-
-  _toggleHighlight = (highlightState, restore = false) => {
-    this.props.onToggleHighlight(highlightState);
-    this.setState(
-      { restore }, 
-      () => this.setState({ baseScatterplot: this._getOverrides() })
-    )
   }
 
   /**
@@ -182,9 +173,8 @@ const mapStateToProps = (
   { match: { params: { region, metric, demographic } } }
 ) => { 
   region = (region === 'schools' ? 'districts' : region);
-  const activeState = 
-    map.usState && map.viewport && map.viewport.zoom > 6 ? 
-      getStateName(map.usState) : ''
+  const activeState = map.highlightState && map.usState ? 
+    map.usState : '';
   return ({
     region,
     data,
@@ -196,11 +186,8 @@ const mapStateToProps = (
     colors: getChoroplethColors(),
     yMetric: getMetricById(metric),
     selected: selected && selected[region],
-    highlightOn: map.viewport && map.viewport.zoom > 6 ? 
-      map.highlightState : false,
-    highlightedState: 
-      Boolean(activeState) && map.highlightState && map.usState ? 
-        map.usState : null,
+    highlightOn: map.highlightState && map.usState,
+    highlightedState: activeState,
     hoveredId: feature && 
       feature.properties && 
       feature.properties.id ?
@@ -209,8 +196,6 @@ const mapStateToProps = (
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onToggleHighlight: (on) =>
-    dispatch(toggleHighlightState(on)),
   onData: (data, region) => 
     dispatch(onScatterplotData(data, region)),
   onLoaded: () => 
