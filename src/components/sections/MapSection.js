@@ -107,13 +107,10 @@ MapSection.propTypes = {
 const mapStateToProps = ({ 
   scatterplot: { loaded },
   selected,
-  map: { usState, highlightState },
+  map: { usState },
 },
 { match: { params: { region, metric, demographic } } }
 ) => {
-  const highlightedState = 
-    highlightState && usState ? 
-      usState : 'us'
   return ({
     region,
     xVar: demographic + '_' + metric,
@@ -122,10 +119,10 @@ const mapStateToProps = ({
       selected && selected[region] && 
       selected[region].length > 0, 
     mapScatterplotLoaded: loaded && loaded['map'],
-    highlightedState,
-    controlText: highlightedState === 'us' ?
-      "Showing $1 for $2 by $3 in the $4" :
-      "Showing $1 for $2 by $3 in $4",
+    highlightedState: usState,
+    controlText: usState ?
+      "Showing $1 for $2 by $3 in $4" :
+      "Showing $1 for $2 by $3 in the $4",
     controls: [
       getMetricControl(metric),
       getDemographicControl(demographic),

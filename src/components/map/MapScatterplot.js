@@ -37,7 +37,6 @@ export class MapScatterplot extends Component {
     onMouseMove: PropTypes.func,
     onData: PropTypes.func,
     onError: PropTypes.func,
-    activeState: PropTypes.string,
     onLoaded: PropTypes.func,
   }
 
@@ -121,14 +120,6 @@ export class MapScatterplot extends Component {
         baseScatterplot: this._getOverrides()
       })
     }
-    // turn off highlight if no state available
-    if (prevProps.activeState !== this.props.activeState) {
-      if (!this.props.activeState) {
-        this._toggleHighlight(false, this.props.highlightOn)
-      } else {
-        this.state.restore && this._toggleHighlight(true)
-      }
-    }
   }
 
   render() {
@@ -173,12 +164,11 @@ const mapStateToProps = (
   { match: { params: { region, metric, demographic } } }
 ) => { 
   region = (region === 'schools' ? 'districts' : region);
-  const activeState = map.highlightState && map.usState ? 
-    map.usState : '';
+
   return ({
     region,
     data,
-    activeState,
+    highlightOn: Boolean(map.usState),
     demographic: getDemographicById(demographic),
     yVar: underscoreCombine(demographic, metric),
     xVar: underscoreCombine(demographic, 'ses'),
@@ -186,8 +176,7 @@ const mapStateToProps = (
     colors: getChoroplethColors(),
     yMetric: getMetricById(metric),
     selected: selected && selected[region],
-    highlightOn: map.highlightState && map.usState,
-    highlightedState: activeState,
+    highlightedState: map.usState,
     hoveredId: feature && 
       feature.properties && 
       feature.properties.id ?
