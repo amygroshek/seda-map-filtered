@@ -76,6 +76,10 @@
   font-weight: 500;
 }
 
+.section__body {
+  position:relative;
+}
+
 
 /** Section Location List */
 
@@ -84,13 +88,36 @@
   transition: height 0.2s ease 0.1s;
 }
 
-.section__places--none {
-  height: 160px;
+.section__places .location-card.location-card--search {
+  padding-top: 72px;
+  max-width: 300px;
+}
+
+.section__places--overlay {
+  pointer-events:none;
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  width:100%;
+  z-index:2;
+}
+
+.section__places--overlay .location-card {
+  visibility:hidden;
+}
+.section__places--overlay .location-card.location-card--search {
+  pointer-events:all;
+  visibility: visible;
+  background:none;
+  box-shadow:none;
+  padding-top: 8px;
 }
 
 .section__places .location-card-list {
   position:sticky;
   top:16px;
+  min-height: 164px;
 }
 
 

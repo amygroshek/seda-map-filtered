@@ -12,16 +12,18 @@ import { getRegionControl, getMetricControl, getDemographicControl, getHighlight
 import MapLocationCards from '../map/MapLocationCards';
 import MenuSentence from '../base/MenuSentence';
 import MapTooltip from '../map/MapTooltip';
+import MapSearch from '../map/MapSearch';
 import { updateRoute } from '../../modules/router';
 import { updateCurrentState, onViewportChange } from '../../actions/mapActions';
 import { getStateProp } from '../../constants/statesFips';
+import LANG from '../../constants/lang';
 
 
 const MapSection = ({
   id,
   name,
   controls = [],
-  hasLocationsSelected,
+  selectedLocationCount,
   xVar,
   yVar,
   region,
@@ -40,7 +42,7 @@ const MapSection = ({
           onChange={onOptionChange}
         />
         <Typography className="section__description">
-          { xVar.split('_')[1] === 'avg' ?
+          { yVar.split('_')[1] === 'avg' ?
             <span>
               The average test scores of children in a community reveal the total 
               set of educational opportunities they have had from birth to the time 
@@ -52,43 +54,57 @@ const MapSection = ({
           }
         </Typography>
       </div>
-      
-      <div 
-        className={
-          "section__places" + 
-          (hasLocationsSelected ?
-            '' : ' section__places--none')
-        }
-      >
-      { hasLocationsSelected ?
-        <MapLocationCards 
-          metrics={[yVar, xVar]}
-        />
-        :
-        <Typography variant="body2">
-          No {region} selected. Use search or the map to select a location.
-        </Typography>
-      }
-      </div>
-      
-    
-      <div className="section__component">
+      <div className="section__body">
 
-        <div className="section__controls">
-          <MenuSentence
-            text={controlText}
-            controls={controls}
-            onChange={onOptionChange}
-          />
+        <div className="section__places">
+          <MapLocationCards metrics={[yVar, xVar]}>
+            <div className="location-card location-card--search">
+              <Typography component="p" className="helper helper--card-search">
+                { LANG['CARD_SEARCH_HELPER'] }
+              </Typography>
+            </div>
+          </MapLocationCards>
+        </div>
+
+        {/* Hack approach to overlay search on top of visualization */}
+        <div className="section__places section__places--overlay">
+          <div className="location-card-list">
+            {
+              Boolean(selectedLocationCount) && 
+              [...Array(selectedLocationCount)].map((_, i) =>
+                <div key={'pchld-'+i} className="location-card"></div>
+              )
+            }
+            <div className="location-card location-card--search">
+              <MapSearch
+                inputProps={{
+                  placeholder: LANG['CARD_SEARCH_PLACEHOLDER']
+                }}
+              />
+            </div>
+          </div>
         </div>
         
-        <div className="section__right">
-          <Map />
-        </div>
-        <div className="section__left section__left--scatterplot">
-          <MapScatterplot />
+      
+        <div className="section__component">
+
+          <div className="section__controls">
+            <MenuSentence
+              text={controlText}
+              controls={controls}
+              onChange={onOptionChange}
+            />
+          </div>
+          
+          <div className="section__right">
+            <Map />
+          </div>
+          <div className="section__left section__left--scatterplot">
+            <MapScatterplot />
+          </div>
         </div>
       </div>
+      
     </div>
   )
 }
@@ -97,7 +113,7 @@ MapSection.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   controls: PropTypes.array,
-  hasLocationsSelected: PropTypes.bool,
+  selectedLocationCount: PropTypes.number,
   xVar: PropTypes.string,
   yVar: PropTypes.string,
   region: PropTypes.string,
@@ -113,11 +129,11 @@ const mapStateToProps = ({
 ) => {
   return ({
     region,
-    xVar: demographic + '_' + metric,
-    yVar: demographic + '_ses',
-    hasLocationsSelected: 
-      selected && selected[region] && 
-      selected[region].length > 0, 
+    yVar: demographic + '_' + metric,
+    xVar: demographic + '_ses',
+    selectedLocationCount: 
+      selected && selected[region] && selected[region].length ?
+        selected[region].length : 0, 
     mapScatterplotLoaded: loaded && loaded['map'],
     highlightedState: usState,
     controlText: usState ?

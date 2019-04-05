@@ -1,6 +1,6 @@
 .location-card-list {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
   margin: 0;
   width:100%;

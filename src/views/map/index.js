@@ -30,7 +30,8 @@ export class MapView extends Component {
     match: PropTypes.object,
     demographic: PropTypes.string, 
     onDemographicChange: PropTypes.func,
-    mapScatterplotLoaded: PropTypes.bool
+    mapScatterplotLoaded: PropTypes.bool,
+    selectedLocationCount: PropTypes.number,
   }
 
   componentDidMount() { 
@@ -78,7 +79,12 @@ export class MapView extends Component {
           Object.keys(sectionIdComponentMap).map(
             (k) => {
               const Section = sectionIdComponentMap[k];
-              return <Section key={k+'-section'} id={k} name={k} />
+              return <Section 
+                key={k+'-section'} 
+                id={k} 
+                name={k} 
+                selectedLocationCount={this.props.selectedLocationCount}
+              />
             }
           )
         }
@@ -88,9 +94,13 @@ export class MapView extends Component {
 }
 
 const mapStateToProps = (
-  { scatterplot: { loaded }}
+  { scatterplot: { loaded }, selected },
+  { match: { params: { region } } }
 ) => ({
   mapScatterplotLoaded: loaded && loaded['map'],
+  selectedLocationCount: 
+    selected && selected[region] && selected[region].length ?
+      selected[region].length : 0, 
 })
 
 const mapDispatchToProps = (dispatch) => ({
