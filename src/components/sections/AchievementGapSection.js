@@ -1,9 +1,8 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getGapControl, getHighlightControl } from '../../modules/config';
-import { updateCurrentState, toggleHighlightState } from '../../actions/mapActions';
-import { onScatterplotData } from '../../actions/scatterplotActions';
+import { getRegionControl, getGapControl, getHighlightControl, getSecondaryMetricControl, getMetricIdFromVarName } from '../../modules/config';
+import { onScatterplotData, getDispatchForSection } from '../../actions/scatterplotActions';
 import { getDemographicIdFromVarName } from '../../modules/config';
 import LANG from '../../constants/lang.js';
 import ScatterplotSection from './ScatterplotSection';
@@ -12,7 +11,7 @@ const mapStateToProps = (
   { 
     scatterplot: { data }, 
     selected, 
-    map: { usState, highlightState }, 
+    map: { usState }, 
     report: { achievement } 
   },
   { match: { params: { region } } }
@@ -24,39 +23,28 @@ const mapStateToProps = (
     region,
     data,
     selected: selected && selected[region],
-    highlightedState: highlightState && usState ? usState : null,
+    highlightedState: usState,
     ...achievement,
+    controlText: 'Showing the $1 of $2 vs. average test scores by $3 in $4',
     controls: [
       getGapControl(
         getDemographicIdFromVarName(achievement.xVar), 
         'gap',
         'Achievement Gap'
       ),
-      getHighlightControl(highlightState && usState ? usState : 'none')
+      getSecondaryMetricControl(
+        getMetricIdFromVarName(achievement.xVar),
+        'secondary'
+      ),
+      getRegionControl(region),
+      getHighlightControl(usState)
     ],
   })
 } 
 
-const mapDispatchToProps = (dispatch) => ({
-  onOptionChange: (option) => {
-    switch(option.id) {
-      case 'highlight':
-        if (option.value === 'none') {
-          dispatch(toggleHighlightState(false))
-          dispatch(updateCurrentState(null))
-        } else {
-          dispatch(toggleHighlightState(true))
-          dispatch(updateCurrentState(option.value))
-        }
-        return;
-      default:
-        return dispatch({
-          type: 'SET_REPORT_OPTION',
-          section: 'achievement',
-          ...option
-        })
-    }
-  },
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onOptionChange: 
+    getDispatchForSection(dispatch, 'achievement', ownProps),
   onData: (data, region) =>
     dispatch(onScatterplotData(data, region)),
 })

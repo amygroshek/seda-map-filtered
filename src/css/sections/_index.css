@@ -111,7 +111,7 @@
   .section__component {
     position: relative;
     top: 0;
-    height: calc(100vh - 96px);
+    height: calc(100vh - 120px);
   }
   .section__places + .section__component {
     margin-top: -104px;
@@ -120,10 +120,16 @@
 
 .section__controls {
   position: absolute;
-  top:16px;
-  left:16px;
+  top:0;
+  left:0;
   right: 0px;
   z-index: 500;
+  box-shadow: 0 1px 0#f4f4f4;
+  height: 40px;
+  padding: 0 16px;
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
 }
 
 .section__controls .map-search {
@@ -134,7 +140,6 @@
 
 .section__controls .react-autosuggest__container {
   background: #fff;
-  box-shadow: 0px 1px 0 rgba(0,0,0,0.15);
 }
 
 .section__controls .react-autosuggest__input {
@@ -162,8 +167,8 @@
 @media(min-width: 960px) {
   .section__left {
     position: absolute;
-    padding: 16px;
-    top: 0;
+    padding: 0;
+    top: 40px;
     left: 0;
     bottom: 0;
     right: 0;
@@ -191,7 +196,7 @@
     left: auto;
     right: 0px;
     bottom: 0;
-    top: 0;
+    top: 40px;
     margin-top: 0;
     max-width: none;
     width: 50%;

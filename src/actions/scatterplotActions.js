@@ -1,3 +1,5 @@
+import { updateCurrentState } from './mapActions';
+import { updateRoute } from '../modules/router';
 
 /**
  * Action to dispatch when receiving fetched scatterplot data
@@ -30,3 +32,25 @@ export const onScatterplotUnloaded = (scatterplotId) => ({
   type: 'SCATTERPLOT_UNLOADED',
   scatterplotId
 });
+
+export const getDispatchForSection = (dispatch, section, ownProps) =>
+  (id, option) => {
+    switch(id) {
+      case 'highlight':
+        if (option.value === 'us') {
+          dispatch(updateCurrentState(null))
+        } else {
+          dispatch(updateCurrentState(option.id))
+        }
+        return;
+      case 'region':
+        return updateRoute(ownProps, { region: option.id })
+      default:
+        return dispatch({
+          type: 'SET_REPORT_OPTION',
+          section,
+          id,
+          value: option.id
+        })
+    }
+  }

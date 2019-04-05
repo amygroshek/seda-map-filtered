@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import SedaScatterplot from 'react-seda-scatterplot'
-import Controls from '../base/Controls';
 import { theme } from '../../style/echartTheme';
 import * as scatterplotStyle from '../../style/scatterplot-style';
 import { getMetricById, getBaseVars, getSelectedColors } from '../../modules/config'
@@ -121,7 +120,6 @@ const getOverrides = (
 
 function DynamicScatterplot({
   data,
-  controls,
   xVar,
   yVar,
   zVar,
@@ -131,7 +129,6 @@ function DynamicScatterplot({
   highlightedState,
   selected,
   variant,
-  onOptionChange,
   onHover,
   onClick,
   onData,
@@ -147,12 +144,6 @@ function DynamicScatterplot({
   );
   return (
     <div className='dynamic-scatterplot'>
-      { controls &&
-        <Controls 
-          controls={controls}
-          onOptionChange={onOptionChange}
-        />
-      }
       <div className='dynamic-scatterplot__graph'>
         <SedaScatterplot
           endpoint={process.env.REACT_APP_VARS_ENDPOINT}

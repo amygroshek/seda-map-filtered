@@ -5,13 +5,12 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as _isEqual from 'lodash.isequal';
-import * as _debounce from 'lodash.debounce';
 
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
-import { updateCurrentState, onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
 import { getChoroplethProperty } from '../../modules/map';
 import { getMetricById, getStopsForMetric } from '../../modules/config';
-import { isPropEqual, getRegionFromId, intToRegionId } from '../../utils';
+import { isPropEqual, getRegionFromId } from '../../utils';
 import { updateViewportRoute, getViewportFromRoute } from '../../modules/router';
 
 class Map extends Component {
@@ -38,31 +37,12 @@ class Map extends Component {
   }
 
   /**
-   * Updates the current US state at the center of the map
-   */
-  _updateCurrentState = _debounce((vp) => {
-    if (this.map && vp.width && vp.height && vp.zoom && vp.zoom > 6) {
-      const features = this.map.queryRenderedFeatures(
-        [vp.width/2, vp.height/2],
-        {layers: ['states-fills']}
-      )
-      if (features.length) {
-        return this.props.updateCurrentState(
-          intToRegionId(features[0].id, 'states')
-        )
-      }
-    }
-    return this.props.updateCurrentState(null)
-  }, 1000)
-
-  /**
    * Update viewport route and update currently viewed US state
    * @param {object} vp viewport object 
    */
   _updateViewport(vp = this._getContainerSize()) {
     this.props.onViewportChange(vp);
     updateViewportRoute(this.props, vp);
-    this._updateCurrentState(vp);
   }
 
   /**
@@ -158,7 +138,6 @@ class Map extends Component {
     this.map = event.target;
     // this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left');
     this._updateOutlineSelected([], this.props.selectedIds)
-    this._updateCurrentState(this.props.viewport);
   }
 
   /**
@@ -310,7 +289,6 @@ Map.propTypes = {
   onViewportChange: PropTypes.func,
   onHoverFeature: PropTypes.func,
   onSelectFeature: PropTypes.func,
-  updateCurrentState: PropTypes.func,
 }
 
 const mapStateToProps = ({ 
@@ -340,7 +318,6 @@ const mapDispatchToProps = (dispatch) => ({
   ),
   onViewportChange: (vp) => dispatch(onViewportChange(vp)),
   onSelectFeature: (feature, region) => dispatch(onSelectFeature(feature, region)),
-  updateCurrentState: (stateId) => dispatch(updateCurrentState(stateId))
 });
 
 export default compose(

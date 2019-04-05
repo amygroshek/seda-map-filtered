@@ -18,11 +18,6 @@ export const updateCurrentState = (stateId) => ({
   stateId
 });
 
-export const toggleHighlightState = (on) => ({
-  type: 'TOGGLE_STATE_HIGHLIGHT',
-  on: on === 'none' ? false : on
-});
-
 export const onViewportChange = (viewport, transition = false) => {
   if (transition) {
     viewport = { 
