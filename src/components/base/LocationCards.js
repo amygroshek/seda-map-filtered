@@ -5,6 +5,7 @@ import { getStateName } from '../../constants/statesFips';
 import LocationCard from './LocationCard';
 
 function LocationCards({
+  children,
   features = [], 
   metrics,
   onCardDismiss,
@@ -12,30 +13,31 @@ function LocationCards({
   onCardHover
 }) {
   return (
-    Boolean(features.length) > 0 &&
-      <div className='location-card-list'>
-        { 
-          features.map(
-            (f, i) =>
-              <LocationCard 
-                key={'loc' + f.properties.id}
-                id={f.properties.id}
-                order={i+1}
-                name={f.properties.name}
-                state={getStateName(f.properties.id)}
-                metrics={metrics}
-                feature={f}
-                onDismiss={onCardDismiss}
-                onClick={onCardClick}
-                onHover={onCardHover}
-              />
-          )
-        }
-      </div> 
+    <div className='location-card-list'>
+      { 
+        Boolean(features.length) && features.map(
+          (f, i) =>
+            <LocationCard 
+              key={'loc' + f.properties.id}
+              id={f.properties.id}
+              order={i+1}
+              name={f.properties.name}
+              state={getStateName(f.properties.id)}
+              metrics={metrics}
+              feature={f}
+              onDismiss={onCardDismiss}
+              onClick={onCardClick}
+              onHover={onCardHover}
+            />
+        )
+      }
+      { children }
+    </div> 
   )
 }
 
 LocationCards.propTypes = {
+  children: PropTypes.node,
   features: PropTypes.array,
   metrics: PropTypes.array,
   onCardClick: PropTypes.func,

@@ -21,7 +21,7 @@ function MapIntro({onSearchSelect}) {
             Explore educational opportunity in
           </span> 
           <MapSearch
-            onSelected={onSearchSelect}
+            onSuggestionSelected={onSearchSelect}
           />
         </Typography>
         <Typography component="div" className="section__description">

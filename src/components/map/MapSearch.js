@@ -1,16 +1,15 @@
-import React from 'react'
 import { connect } from 'react-redux';
-import { onViewportChange, onRegionChange } from '../../actions/mapActions';
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
+
+import { onViewportChange, onRegionChange } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
-import SedaSearch from 'react-seda-search';
-import LANG from '../../constants/lang';
 import { getRegionFromId } from '../../utils';
+import Search from '../base/Search';
 
 
-const mapDispatchToProps = (dispatch) => ({
-  selectSearchResult: (hit) => {
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSuggestionSelected: (hit) => {
     if (hit) {
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
@@ -31,29 +30,12 @@ const mapDispatchToProps = (dispatch) => ({
           lon: hit.lon
         }))
       }
+      ownProps.onSuggestionSelected &&
+        ownProps.onSuggestionSelected(hit)
     }
   }
 })
 
-const MapSearch = ({selectSearchResult, onSelected}) => {
-  return (
-    <div className="map-search">
-      <SedaSearch
-        algoliaId={process.env.REACT_APP_ALGOLIA_ID}
-        algoliaKey={process.env.REACT_APP_ALGOLIA_KEY}
-        indices={['cities', 'counties', 'districts', 'schools']}
-        onSuggestionSelected={(hit) => {
-          selectSearchResult(hit);
-          onSelected && onSelected(hit);
-        }}
-        inputProps={{
-          placeholder: LANG['MAP_SEARCH_PLACEHOLDER']
-        }}
-      />
-    </div>
-  )
-}
-
-export default connect(null, mapDispatchToProps)(MapSearch)
+export default connect(null, mapDispatchToProps)(Search)
 
 
