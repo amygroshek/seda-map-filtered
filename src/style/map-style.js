@@ -27,6 +27,7 @@ export const getDotLayer = (region, dataProp) => fromJS({
   source: 'composite',
   'source-layer': region,
   type: 'circle',
+  minzoom: 2,
   interactive: true,
   paint: {
     'circle-color': getFillStyle(dataProp),
@@ -35,18 +36,22 @@ export const getDotLayer = (region, dataProp) => fromJS({
       "interpolate",
       [ "linear" ],
       [ "zoom" ],
-      0,
+      2,
+      1,
+      4,
       2,
       14,
-      16
+      12
     ],
-    'circle-stroke-color': '#dce0de',
+    'circle-stroke-color': '#fff',
     'circle-stroke-width': [
       "interpolate",
       [ "linear" ],
       [ "zoom" ],
-      6,
+      4,
       0,
+      6,
+      0.5,
       14,
       2
     ]
@@ -131,6 +136,7 @@ export const getBackgroundChoroplethLayer = (region, dataProp) => fromJS({
   source: 'composite',
   'source-layer': region,
   type: 'fill',
+  minzoom: 2,
   interactive: true,
   paint: {
     'fill-color': getFillStyle(dataProp),
@@ -138,9 +144,9 @@ export const getBackgroundChoroplethLayer = (region, dataProp) => fromJS({
       "interpolate",
       [ "linear" ],
       [ "zoom" ],
-      4,
-      0,
-      12,
+      2,
+      0.1,
+      10,
       0.666
     ]
   }

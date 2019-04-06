@@ -38,6 +38,35 @@
   z-index:10;
 }
 
+.location-card:hover {
+  background:#ffe;
+  z-index:20;
+  cursor:pointer;
+}
+
+.location-card.location-card--search {
+  padding: 8px 16px 16px;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.location-card.location-card--search:hover {
+  cursor: default;
+  background: #fff;
+}
+.location-card.location-card--search .map-search {
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-bottom: 16px;
+}
+
+.location-card--search .react-autosuggest__input {
+  background:#f4f4f4;
+  border-bottom: 1px solid #ccc;
+  padding:14px 16px 13px;
+}
+
+
+
 .location-card:nth-child(1) .location-card__marker {
   background: #ff3369;
   z-index:2;
@@ -87,12 +116,6 @@
   display: flex;
   flex-wrap: wrap;
   padding: 16px 16px 8px 16px;
-}
-
-.location-card:hover {
-  background:#ffe;
-  z-index:20;
-  cursor:pointer;
 }
 
 .location-card__marker {

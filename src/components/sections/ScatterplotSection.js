@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography';
 import DynamicScatterplot from '../base/DynamicScatterplot';
 import MapLocationCards from '../map/MapLocationCards';
+import MapSearch from '../map/MapSearch';
 import MenuSentence from '../base/MenuSentence';
+import LANG from '../../constants/lang';
 
 export class ScatterplotSection extends Component {
   static propTypes = {
@@ -35,6 +37,7 @@ export class ScatterplotSection extends Component {
     classes: PropTypes.object,
     title: PropTypes.string,
     description: PropTypes.string,
+    selectedLocationCount: PropTypes.number,
     /**
      * Determines the graph config variant
      */
@@ -42,7 +45,17 @@ export class ScatterplotSection extends Component {
   }
 
   render() {
-    const { title, description, id, name, controls, onOptionChange, controlText, ...rest } = this.props;
+    const { 
+      title, 
+      description, 
+      id, 
+      name, 
+      controls, 
+      onOptionChange, 
+      controlText,
+      selectedLocationCount,
+      ...rest 
+    } = this.props;
     return (
       <div id={id} name={name} className="section section--scatterplot">
         <div className="section__header">
@@ -61,26 +74,51 @@ export class ScatterplotSection extends Component {
           </Typography>
         </div>
 
-        { rest.selected && rest.selected.length > 0 &&
+        <div className="section__body">
+        
           <div className="section__places">
-            <MapLocationCards 
-              metrics={[rest.xVar, rest.yVar]}
-            />
-          </div>
-        }
-        <div className="section__component">
-
-          <div className="section__controls">
-            <MenuSentence 
-              text={controlText}
-              controls={controls}
-              onChange={onOptionChange}
-            />
+            <MapLocationCards metrics={[rest.xVar, rest.yVar]}>
+              <div className="location-card location-card--search">
+                <Typography component="p" className="helper helper--card-search">
+                  { LANG['CARD_SEARCH_HELPER'] }
+                </Typography>
+              </div>
+            </MapLocationCards>
           </div>
 
-          <DynamicScatterplot
-            {...rest}
-          />
+          {/* Hack approach to overlay search on top of visualization */}
+          <div className="section__places section__places--overlay">
+            <div className="location-card-list">
+              {
+                Boolean(selectedLocationCount) && 
+                [...Array(selectedLocationCount)].map((_, i) =>
+                  <div key={'pchld-'+i} className="location-card"></div>
+                )
+              }
+              <div className="location-card location-card--search">
+                <MapSearch
+                  inputProps={{
+                    placeholder: LANG['CARD_SEARCH_PLACEHOLDER']
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="section__component">
+
+            <div className="section__controls">
+              <MenuSentence 
+                text={controlText}
+                controls={controls}
+                onChange={onOptionChange}
+              />
+            </div>
+
+            <DynamicScatterplot
+              {...rest}
+            />
+          </div>
         </div>
       </div>
     )

@@ -7,6 +7,8 @@ const LANG = {
   'ACH_GAPS_DESCRIPTION': 'This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.',
   
   'MAP_SEARCH_PLACEHOLDER': 'Enter a city, county, district, or school',
+  'CARD_SEARCH_PLACEHOLDER': 'Add a county, district, or school',
+  'CARD_SEARCH_HELPER': 'Use the search above to add and view data for a school, district, or county. You can select up to 7 locations.'
 }
 
 export default LANG;
