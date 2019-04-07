@@ -57,7 +57,8 @@ const getHighlightedSeries = (isOn) => {
     type: 'scatter',
     show: isOn,
     itemStyle: {
-      borderColor: 'rgba(6, 29, 86, 0.4)',
+      borderWidth: 0,
+      borderColor: 'rgba(0,0,0,0)'
     }
   }
 }
@@ -69,10 +70,30 @@ const getSelectedSeries = (colors = ['#f00']) => {
   return {
     id: 'selected',
     type: 'scatter',
+    label: {
+      show:true,
+      formatter: ({dataIndex}) => {
+        return dataIndex+1
+      },
+      color: '#fff',
+      textBorderColor: 'rgba(6, 29, 86, 1)',
+      textBorderWidth: 3,
+      fontWeight: 'bolder',
+      fontSize: 16,
+      position: 'top',
+      
+    },
+    'emphasis': {
+      label: { textBorderColor: '#f00' }
+    },
     itemStyle: {
       color: ({dataIndex}) => {
         return colors[dataIndex % colors.length]
-      }
+      },
+      borderWidth: 0,
+      borderColor: 'rgba(0,0,0,0)',
+      shadowColor: '#fff',
+      shadowBlur: 1,
     }
   }
 }

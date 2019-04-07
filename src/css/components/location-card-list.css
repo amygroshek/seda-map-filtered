@@ -12,7 +12,3 @@
   transition: flex 0.2s ease-out;
   max-width: 33.333%;
 }
-
-.location-card-list .location-card--active {
-  flex:3;
-}

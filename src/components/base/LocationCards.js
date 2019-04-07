@@ -8,6 +8,7 @@ function LocationCards({
   children,
   features = [], 
   metrics,
+  hovered,
   onCardDismiss,
   onCardClick,
   onCardHover
@@ -21,6 +22,7 @@ function LocationCards({
               key={'loc' + f.properties.id}
               id={f.properties.id}
               order={i+1}
+              active={f.properties.id === hovered}
               name={f.properties.name}
               state={getStateName(f.properties.id)}
               metrics={metrics}
@@ -38,6 +40,7 @@ function LocationCards({
 
 LocationCards.propTypes = {
   children: PropTypes.node,
+  hovered: PropTypes.string,
   features: PropTypes.array,
   metrics: PropTypes.array,
   onCardClick: PropTypes.func,

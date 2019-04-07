@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { IconButton } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 import { getMetricLabel, getDemographicLabel } from '../../modules/config';
 
 function LocationCard({
+  active,
   order, 
   name, 
   state, 
@@ -17,7 +19,12 @@ function LocationCard({
   const data = feature.properties;
   return (
     <div 
-      className='location-card'
+      className={
+        classNames(
+          'location-card', 
+          { 'location-card--active': active }
+        )
+      }
       onMouseEnter={(e) => onHover(feature, e)}
       onMouseLeave={(e) => onHover(null, e)}
       onClick={(e) => onClick(feature, e)}
@@ -66,6 +73,7 @@ function LocationCard({
 
 LocationCard.propTypes = {
   id: PropTypes.string,
+  active: PropTypes.bool,
   name: PropTypes.string,
   state: PropTypes.string,
   metrics: PropTypes.array,

@@ -41,10 +41,13 @@ export const theme = {
       borderWidth: 1,
       borderColor: 'rgba(6, 29, 86, 0.4)'      
     },
-    'emphasis': { itemStyle: {
-      borderWidth: 2,
-      borderColor: 'rgba(255,0,0,1)'
-    }}
+    'emphasis': { 
+      itemStyle: {
+        borderWidth: 2,
+        borderColor: 'rgba(255,0,0,1)',
+        color: 'rgba(255,0,0,0.6)'
+      }
+    }
   },
 
   toolbox: {
