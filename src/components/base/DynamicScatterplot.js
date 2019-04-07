@@ -57,8 +57,7 @@ const getHighlightedSeries = (isOn) => {
     type: 'scatter',
     show: isOn,
     itemStyle: {
-      borderWidth: 0,
-      borderColor: 'rgba(0,0,0,0)'
+      borderColor: 'rgba(6, 29, 86, 0.4)'
     }
   }
 }
@@ -173,7 +172,10 @@ function DynamicScatterplot({
           zVar={zVar}
           hovered={hovered}
           onReady={onReady}
-          onHover={onHover}
+          onHover={(loc) => loc && loc.id ?
+              onHover({ id: loc.id, properties: loc }) :
+              null
+          }
           onClick={onClick}
           onData={onData}
           data={data}

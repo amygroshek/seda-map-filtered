@@ -2,14 +2,15 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getDemographicIdFromVarName, getRegionControl, getMetricControl, getDemographicControl, getHighlightControl, getMetricIdFromVarName } from '../../modules/config';
-import { onScatterplotData, getDispatchForSection } from '../../actions/scatterplotActions';
+
 import LANG from '../../constants/lang.js';
-import ScatterplotSection from './ScatterplotSection';
+import ScatterplotSection, { sectionMapDispatchToProps } from './ScatterplotSection';
 
 const mapStateToProps = (
   { 
-    scatterplot: { data }, 
-    selected, 
+    scatterplot: { data, loaded }, 
+    selected,
+    hovered: { feature },
     map: { usState },
     report: { socioeconomic } 
   },
@@ -21,7 +22,12 @@ const mapStateToProps = (
     variant: 'ses',
     region,
     data,
+    ready: Boolean(loaded['map']),
     selected: selected && selected[region],
+    hovered: feature && 
+      feature.properties && 
+      feature.properties.id ?
+        feature.properties.id : '',
     highlightedState: usState,
     ...socioeconomic,
     controlText: usState ?
@@ -40,12 +46,8 @@ const mapStateToProps = (
   })
 } 
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onOptionChange: 
-    getDispatchForSection(dispatch, 'socioeconomic', ownProps),
-  onData: (data, region) =>
-    dispatch(onScatterplotData(data, region)),
-})
+const mapDispatchToProps = 
+  sectionMapDispatchToProps('socioeconmic')
 
 export default compose(
   withRouter,

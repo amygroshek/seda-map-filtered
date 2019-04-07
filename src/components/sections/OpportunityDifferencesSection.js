@@ -2,15 +2,15 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMetricControl, getDemographicControl, getHighlightControl, getRegionControl } from '../../modules/config';
-import { onScatterplotData, getDispatchForSection } from '../../actions/scatterplotActions';
 import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
 import LANG from '../../constants/lang.js';
-import ScatterplotSection from './ScatterplotSection';
+import ScatterplotSection, { sectionMapDispatchToProps } from './ScatterplotSection';
 
 const mapStateToProps = (
   { 
-    scatterplot: { data }, 
-    selected, 
+    scatterplot: { data, loaded }, 
+    selected,
+    hovered: { feature },
     map: { usState }, 
     report: { opportunity } 
   },
@@ -23,6 +23,11 @@ const mapStateToProps = (
     region,
     data,
     selected: selected && selected[region],
+    hovered: feature && 
+      feature.properties && 
+      feature.properties.id ?
+        feature.properties.id : '',
+    ready: Boolean(loaded['map']),
     highlightedState: usState,
     ...opportunity,
     controlText: 'Showing $1 for $2 vs. $3 by $4 in $5',
@@ -46,12 +51,8 @@ const mapStateToProps = (
   })
 } 
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onOptionChange: 
-    getDispatchForSection(dispatch, 'opportunity', ownProps),
-  onData: (data, region) =>
-    dispatch(onScatterplotData(data, region)),
-})
+const mapDispatchToProps = 
+  sectionMapDispatchToProps('opportunity')
 
 export default compose(
   withRouter,
