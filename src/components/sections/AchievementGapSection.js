@@ -11,8 +11,7 @@ const mapStateToProps = (
     scatterplot: { data, loaded }, 
     selected, 
     map: { usState }, 
-    report: { achievement },
-    hovered: { feature }
+    sections: { achievement: { hovered, vars } },
   },
   { match: { params: { region } } }
 ) => {
@@ -24,21 +23,21 @@ const mapStateToProps = (
     data,
     ready: Boolean(loaded['map']),
     selected: selected && selected[region],
-    hovered: feature && 
-      feature.properties && 
-      feature.properties.id ?
-        feature.properties.id : '',
+    hovered: hovered && 
+      hovered.properties && 
+      hovered.properties.id ?
+        hovered.properties.id : '',
     highlightedState: usState,
-    ...achievement,
+    ...vars,
     controlText: 'Showing the $1 of $2 vs. average test scores by $3 in $4',
     controls: [
       getGapControl(
-        getDemographicIdFromVarName(achievement.xVar), 
+        getDemographicIdFromVarName(vars.xVar), 
         'gap',
         'Achievement Gap'
       ),
       getSecondaryMetricControl(
-        getMetricIdFromVarName(achievement.xVar),
+        getMetricIdFromVarName(vars.xVar),
         'secondary'
       ),
       getRegionControl(region),

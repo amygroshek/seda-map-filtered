@@ -3,9 +3,10 @@ import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRegionInRoute } from '../modules/router';
 
-export const onHoverFeature = (feature) => ({
+export const onHoverFeature = (feature, sectionId) => ({
   type: 'SET_HOVERED_FEATURE',
-  feature
+  feature,
+  sectionId
 });
 
 export const onCoordsChange = (coords) => ({

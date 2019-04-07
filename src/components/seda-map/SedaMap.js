@@ -38,16 +38,16 @@ const getMapViewport = (vp, routeParams) => {
 
 const mapStateToProps = ({ 
   map: { viewport },
-  hovered: { feature },
+  sections: { map: { hovered } },
   selected
 }, 
 {
   match: { params: { metric, demographic, region, ...rest } }
 }) => ({
   region,
+  hovered,
   viewport: getMapViewport(viewport, rest),
   choroplethVar: demographic + '_' + metric,
-  hovered: feature,
   colors: selected.colors,
   selected: selected && selected[region] ? 
     selected[region] : []
@@ -55,7 +55,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onHover: (feature, coords) => (
-    dispatch(onHoverFeature(feature)) &&
+    dispatch(onHoverFeature(feature, 'map')) &&
     dispatch(onCoordsChange(coords))
   ),
   onViewportChange: (vp) => {

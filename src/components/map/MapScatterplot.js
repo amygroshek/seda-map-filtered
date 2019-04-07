@@ -145,7 +145,7 @@ export class MapScatterplot extends Component {
 const mapStateToProps = (
   { 
     map, 
-    hovered: { feature }, 
+    sections: { map: { hovered } }, 
     selected, 
     scatterplot: { data } 
   }, 
@@ -165,10 +165,10 @@ const mapStateToProps = (
     yMetric: getMetricById(metric),
     selected: selected && selected[region],
     highlightedState: map.usState,
-    hoveredId: feature && 
-      feature.properties && 
-      feature.properties.id ?
-        feature.properties.id : ''
+    hoveredId: hovered && 
+      hovered.properties && 
+      hovered.properties.id ?
+        hovered.properties.id : ''
   })
 }
 
@@ -178,7 +178,7 @@ const mapDispatchToProps = (dispatch) => ({
   onLoaded: () => 
     dispatch(onScatterplotLoaded('map')),
   onHover: (feature) =>
-    dispatch(onHoverFeature(feature)),
+    dispatch(onHoverFeature(feature, 'map')),
   onSelectLocation: (location) => {
     dispatch(loadLocation(location))
     dispatch(onViewportChange({ 

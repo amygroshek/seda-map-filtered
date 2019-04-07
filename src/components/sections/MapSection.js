@@ -57,7 +57,7 @@ const MapSection = ({
       <div className="section__body">
 
         <div className="section__places">
-          <MapLocationCards metrics={[yVar, xVar]}>
+          <MapLocationCards section="map" metrics={[yVar, xVar]}>
             <div className="location-card location-card--search">
               <Typography component="p" className="helper helper--card-search">
                 { LANG['CARD_SEARCH_HELPER'] }
