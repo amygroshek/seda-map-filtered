@@ -38,6 +38,7 @@
   z-index:10;
 }
 
+.location-card.location-card--active,
 .location-card:hover {
   background:#ffe;
   z-index:20;

@@ -2,17 +2,17 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getRegionControl, getGapControl, getHighlightControl, getSecondaryMetricControl, getMetricIdFromVarName } from '../../modules/config';
-import { onScatterplotData, getDispatchForSection } from '../../actions/scatterplotActions';
 import { getDemographicIdFromVarName } from '../../modules/config';
 import LANG from '../../constants/lang.js';
-import ScatterplotSection from './ScatterplotSection';
+import ScatterplotSection, { sectionMapDispatchToProps } from './ScatterplotSection';
 
 const mapStateToProps = (
   { 
-    scatterplot: { data }, 
+    scatterplot: { data, loaded }, 
     selected, 
     map: { usState }, 
-    report: { achievement } 
+    report: { achievement },
+    hovered: { feature }
   },
   { match: { params: { region } } }
 ) => {
@@ -22,7 +22,12 @@ const mapStateToProps = (
     variant: 'ach',
     region,
     data,
+    ready: Boolean(loaded['map']),
     selected: selected && selected[region],
+    hovered: feature && 
+      feature.properties && 
+      feature.properties.id ?
+        feature.properties.id : '',
     highlightedState: usState,
     ...achievement,
     controlText: 'Showing the $1 of $2 vs. average test scores by $3 in $4',
@@ -42,12 +47,8 @@ const mapStateToProps = (
   })
 } 
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onOptionChange: 
-    getDispatchForSection(dispatch, 'achievement', ownProps),
-  onData: (data, region) =>
-    dispatch(onScatterplotData(data, region)),
-})
+const mapDispatchToProps = 
+  sectionMapDispatchToProps('achievement')
 
 export default compose(
   withRouter,

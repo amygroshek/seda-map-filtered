@@ -31,7 +31,7 @@ export class MapScatterplot extends Component {
     highlightedState: PropTypes.string,
     highlightOn: PropTypes.bool,
     data: PropTypes.object,
-    onHoverFeature: PropTypes.func,
+    onHover: PropTypes.func,
     updateMapViewport: PropTypes.func,
     onSelectLocation: PropTypes.func,
     onMouseMove: PropTypes.func,
@@ -89,18 +89,6 @@ export class MapScatterplot extends Component {
     window.echartInstance = e
     this.props.onLoaded && this.props.onLoaded(e)
   }
-  
-  _onHover = (location) => {
-    if (location && location.id) {
-      const feature = {
-        id: location.id,
-        properties: location,
-      }
-      this.props.onHoverFeature(feature);
-    } else {
-      this.props.onHoverFeature(null);
-    }
-  }
 
   componentDidMount() {
     this.setState({
@@ -139,7 +127,7 @@ export class MapScatterplot extends Component {
               highlightedState={this.props.highlightedState}
               selected={this.props.selected}
               onReady={this._onReady}
-              onHover={this._onHover}
+              onHover={this.props.onHover}
               onClick={this.props.onSelectLocation}
               onData={this.props.onData}
             /> 
@@ -189,7 +177,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onScatterplotData(data, region)),
   onLoaded: () => 
     dispatch(onScatterplotLoaded('map')),
-  onHoverFeature: (feature) =>
+  onHover: (feature) =>
     dispatch(onHoverFeature(feature)),
   onSelectLocation: (location) => {
     dispatch(loadLocation(location))

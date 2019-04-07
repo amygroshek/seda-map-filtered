@@ -7,11 +7,13 @@ import { getLocationFromFeature, parseLocationsString } from '../../modules/rout
 import { onHoverFeature } from '../../actions/mapActions';
 
 const mapStateToProps = (
-  { selected, features },
+  { selected, features, hovered: { feature } },
   { 
     match: { params: { region } } 
   }
 ) => ({
+  hovered: feature && feature.properties && feature.properties.id ?
+    feature.properties.id : null,
   features: selected[region]
     .map(l => 
       features[l] && features[l].properties ? 

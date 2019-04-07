@@ -6,6 +6,10 @@ import MapLocationCards from '../map/MapLocationCards';
 import MapSearch from '../map/MapSearch';
 import MenuSentence from '../base/MenuSentence';
 import LANG from '../../constants/lang';
+import { onScatterplotData, onScatterplotLoaded, getDispatchForSection } from '../../actions/scatterplotActions';
+import { onHoverFeature } from '../../actions/mapActions';
+import { loadLocation } from '../../actions/featuresActions';
+
 
 export class ScatterplotSection extends Component {
   static propTypes = {
@@ -25,6 +29,7 @@ export class ScatterplotSection extends Component {
         )
       })
     ),
+    ready: PropTypes.bool,
     region: PropTypes.string,
     xVar: PropTypes.string,
     yVar: PropTypes.string,
@@ -54,6 +59,7 @@ export class ScatterplotSection extends Component {
       onOptionChange, 
       controlText,
       selectedLocationCount,
+      ready = true,
       ...rest 
     } = this.props;
     return (
@@ -114,10 +120,11 @@ export class ScatterplotSection extends Component {
                 onChange={onOptionChange}
               />
             </div>
-
-            <DynamicScatterplot
-              {...rest}
-            />
+            { ready &&
+              <DynamicScatterplot
+                {...rest}
+              />
+            }
           </div>
         </div>
       </div>
@@ -126,3 +133,17 @@ export class ScatterplotSection extends Component {
 }
 
 export default ScatterplotSection
+
+export const sectionMapDispatchToProps = (sectionId) =>
+  (dispatch, ownProps) => ({
+    onOptionChange: 
+      getDispatchForSection(dispatch, sectionId, ownProps),
+    onData: (data, region) =>
+      dispatch(onScatterplotData(data, region)),
+    onReady: () => 
+      dispatch(onScatterplotLoaded(sectionId)),
+    onHover: (feature) =>
+      dispatch(onHoverFeature(feature)),
+    onClick: (location) =>
+      dispatch(loadLocation(location))
+  })
