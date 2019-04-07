@@ -1,4 +1,10 @@
 
+export const DEFAULT_VIEWPORT = {
+  latitude: 37.39,
+  longitude: -96.78,
+  zoom: 3.15
+}
+
 /**
  * Variables contained in the base csv file for each region
  */

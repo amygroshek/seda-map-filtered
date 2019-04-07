@@ -127,6 +127,21 @@ export const getViewportFromRoute = ({ params }) =>
       [curr]: parseFloat(params[curr !== 'zoom' ? curr.substr(0,3) : curr])
     }), {})
 
+
+/**
+ * Gets the viewport from the window location pathname
+ * @param {string} path 
+ * @returns {object} e.g. { latitude: 37, longitude: -97, zoom: 5 }
+ */
+export const getViewportFromPathname = (path) => {
+  const params = getParamsFromPathname(path);
+  return {
+    latitude: params.lat,
+    longitude: params.lon,
+    zoom: params.zoom
+  }
+}
+
 /**
  * Pushes an updated route to history
  * @param {object} props props from a component connected to the router

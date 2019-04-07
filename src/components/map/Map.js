@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
 import ReactMapGL, {NavigationControl} from 'react-map-gl';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import * as _isEqual from 'lodash.isequal';
-
-import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer } from '../../style/map-style';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
-import { getChoroplethProperty } from '../../modules/map';
-import { getMetricById, getStopsForMetric } from '../../modules/config';
+import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing } from '../../style/map-style';
 import { isPropEqual, getRegionFromId } from '../../utils';
-import { updateViewportRoute, getViewportFromRoute } from '../../modules/router';
 
 class Map extends Component {
 
@@ -40,10 +32,13 @@ class Map extends Component {
    * Update viewport route and update currently viewed US state
    * @param {object} vp viewport object 
    */
-  _updateViewport(vp = this._getContainerSize()) {
-    this.props.onViewportChange(vp);
-    updateViewportRoute(this.props, vp);
+  _updateViewport(vp = this.props.viewport) {
+    this.props.onViewportChange({
+      ...vp,
+      ...this._getContainerSize()
+    });
   }
+
 
   /**
    * Sets the feature state for rendering styles
@@ -104,26 +99,31 @@ class Map extends Component {
    * Updates the map choropleths based on props
    * @param {boolean} init inserts the layers instead of replacing when true
    */
-  _updateChoropleth(init = false) {
-    const { region, dataProp, stops } = this.props;
+  _updateChoropleth() {
+    const { region, choroplethVar } = this.props;
     let updatedLayers;
     if (region !== 'schools') {
       const choroplethLayer = 
-        getChoroplethLayer(region, dataProp, stops);
+        getChoroplethLayer(region, choroplethVar);
       const choroplethOutline = 
         getChoroplethOutline(region);
+      const choroplethOutlineCasing = 
+        getChoroplethOutlineCasing(region);
       updatedLayers = 
         defaultMapStyle
           .get('layers')
-          .splice(4, (init ? 0 : 1), choroplethLayer)
-          .splice(59, (init ? 0 : 1), choroplethOutline)
+          .splice(4, 0, choroplethLayer)
+          .splice(59, 0, choroplethOutline)
+          .splice(59, 0, choroplethOutlineCasing)
     } else {
-      const choroplethLayer = getBackgroundChoroplethLayer('districts', dataProp, stops);
-      const dotLayer = getDotLayer(region, dataProp, stops);
+      const choroplethLayer = 
+        getBackgroundChoroplethLayer('districts', choroplethVar);
+      const dotLayer = 
+        getDotLayer(region, choroplethVar);
       updatedLayers = defaultMapStyle
         .get('layers')
-        .splice(4, (init ? 0 : 1), choroplethLayer)
-        .splice(59, (init ? 0 : 1), dotLayer)
+        .splice(4, 0, choroplethLayer)
+        .splice(59, 0, dotLayer)
     }
 
     const mapStyle = defaultMapStyle
@@ -137,26 +137,13 @@ class Map extends Component {
   _onLoad = event => {
     this.map = event.target;
     // this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left');
-    this._updateOutlineSelected([], this.props.selectedIds)
+    this._updateOutlineSelected([], this.props.selected)
   }
 
   /**
-   * Takes an array of features and removes dupliates based on property
-   * @param {array<Feature>} array 
-   * @param {string} comparatorProperty 
+   * Get the clicked on the relevant layers that and
+   * pass to the handler prop
    */
-  _getUniqueFeatures(array, comparatorProperty) {
-    const existingFeatureKeys = {};
-    return array.filter((el) => {
-      if (existingFeatureKeys[el.properties[comparatorProperty]]) {
-        return false;
-      } else {
-        existingFeatureKeys[el.properties[comparatorProperty]] = true;
-        return true;
-      }
-    });
-  }
-
   _onClick = event => {
     const { features } = event;
     const { region } = this.props;
@@ -168,9 +155,13 @@ class Map extends Component {
       ));
     // dispatch selected feature event if selected
     return selectedFeature &&
-      this.props.onSelectFeature(selectedFeature, region)
+      this.props.onClick(selectedFeature)
   }
 
+  /**
+   * Get the hovered features on the relevant layers and
+   * pass to the handler
+   */
   _onHover = event => {
     const { features, srcEvent: { clientX, clientY } } = event;
     const { region } = this.props;
@@ -184,90 +175,72 @@ class Map extends Component {
     const coords = { x: clientX, y: clientY };
     // trigger hover feature actions, padding the featue and
     // mouse coordinates
-    this.props.onHoverFeature(hoveredFeature, coords);
+    this.props.onHover(hoveredFeature, coords);
   };
 
+  /**
+   * Clear the hovered feature when leaving the map component
+   */
   _onHoverOut = () => {
-    this.props.onHoverFeature(undefined, null);
+    this.props.onHover(undefined, null);
   }
 
+  /** Initialize choropleth layer */
   componentDidMount() {
-    // set the viewport from the route on initial load
-    const initialViewport = {
-      ...this.props.viewport,
-      ...getViewportFromRoute(this.props.match)
-    }
-    this.props.onViewportChange(initialViewport);
-    // listen to window resize events to resize the map accordingly
-    window.addEventListener(
-      'resize', this._handleResize.bind(this)
-    );
-    // call update viewport to update the width / height to fill the container
-    this._updateViewport();
-    // initialize the choropleth layer
-    this._updateChoropleth(true);
-
+    // this._updateViewport(this.props.initialViewport);
+    this._updateChoropleth();
   }
-
 
   componentDidUpdate(prevProps) {
-    const { metric, region, demographic, hoveredFeature, selectedIds } = this.props;
-    const oldFeature = prevProps.hoveredFeature;
+    const { region, hovered, selected, choroplethVar } = this.props;
+    const oldFeature = prevProps.hovered;
     // update the choropleth if any of the map data has changed
     if (
-      prevProps.metric !== metric ||
-      prevProps.region !== region ||
-      prevProps.demographic !== demographic
+      prevProps.choroplethVar !== choroplethVar ||
+      prevProps.region !== region
     ) {
       this._updateChoropleth();
     }
     // update the highlight if the hovered feature has changed
     if (
-      !isPropEqual(oldFeature, hoveredFeature, 'id')
+      !isPropEqual(oldFeature, hovered, 'id')
     ) {
       this._updateOutlineHighlight(
         oldFeature, 
-        hoveredFeature, 
+        hovered, 
         region
       )
     }
-    // update selected outlines
-    const oldSelected = prevProps.selectedIds;
-    if (!_isEqual(oldSelected, selectedIds)) {
+    // update selected outlines on change
+    const oldSelected = prevProps.selected;
+    if (!_isEqual(oldSelected, selected)) {
       this._updateOutlineSelected(
         oldSelected, 
-        selectedIds
+        selected
       )
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener(
-      'resize', this._handleResize.bind(this)
-    );
-  }
-
   render() {
-    const { mapStyle } = this.state;
-    const { viewport } = this.props;
+    const { viewport, onViewportChange, onHover, attributionControl = false } = this.props;
     return (
       <div 
         className="map"
         ref={ (el) => this.mapContainer = el }
-        onMouseLeave={this._onHoverOut}
+        onMouseLeave={() => onHover(null, null)}
       >
         <div className="map__container">
           <ReactMapGL
             { ...viewport }
-            mapStyle={mapStyle}
-            onViewportChange={ (vp) => this._updateViewport(vp) }
+            mapStyle={this.state.mapStyle}
+            onViewportChange={(vp) => this._updateViewport(vp)}
             onHover={this._onHover}
             onClick={this._onClick}
             onLoad={this._onLoad}
-            attributionControl={false}
+            attributionControl={attributionControl}
           >
             <div className="map__zoom">
-              <NavigationControl onViewportChange={ (vp) => this._updateViewport(vp)} />
+              <NavigationControl onViewportChange={onViewportChange} />
             </div>
           </ReactMapGL>
         </div>
@@ -277,50 +250,18 @@ class Map extends Component {
 }
 
 Map.propTypes = {
-  metric: PropTypes.string,
-  demographic: PropTypes.string,
+  choroplethVar: PropTypes.string,
   region: PropTypes.string,
   colors: PropTypes.array,
   viewport: PropTypes.object,
-  hoveredFeature: PropTypes.object,
-  stops: PropTypes.array,
-  selectedIds: PropTypes.array,
-  dataProp: PropTypes.string,
+  initialViewport: PropTypes.object,
+  hovered: PropTypes.object,
+  selected: PropTypes.array,
   onViewportChange: PropTypes.func,
-  onHoverFeature: PropTypes.func,
-  onSelectFeature: PropTypes.func,
+  onHover: PropTypes.func,
+  onClick: PropTypes.func,
+  attributionControl: PropTypes.bool,
 }
 
-const mapStateToProps = ({ 
-  map: { viewport },
-  hovered: { feature },
-  selected
-}, 
-{
-  match: { params: { metric, demographic, region } }
-}) => ({
-  metric,
-  region,
-  viewport,
-  demographic,
-  dataProp: getChoroplethProperty({metric, demographic}),
-  stops: getStopsForMetric(metric),
-  hoveredFeature: feature,
-  metricItem: getMetricById(metric),
-  colors: selected.colors,
-  selectedIds: selected[region]
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  onHoverFeature: (feature, coords) => (
-    dispatch(onHoverFeature(feature)) &&
-    dispatch(onCoordsChange(coords))
-  ),
-  onViewportChange: (vp) => dispatch(onViewportChange(vp)),
-  onSelectFeature: (feature, region) => dispatch(onSelectFeature(feature, region)),
-});
-
-export default compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(Map);
+export default Map;

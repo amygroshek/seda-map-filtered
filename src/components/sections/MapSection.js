@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Map from '../map/Map';
+import SedaMap from '../seda-map/SedaMap';
 import MapScatterplot from '../map/MapScatterplot';
 import { loadRouteLocations } from '../../actions/featuresActions';
 import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/config';
@@ -97,7 +97,7 @@ const MapSection = ({
           </div>
           
           <div className="section__right">
-            <Map />
+            <SedaMap />
           </div>
           <div className="section__left section__left--scatterplot">
             <MapScatterplot />
