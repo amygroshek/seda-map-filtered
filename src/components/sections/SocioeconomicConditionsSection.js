@@ -10,9 +10,8 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
-    hovered: { feature },
     map: { usState },
-    report: { socioeconomic } 
+    sections: { socioeconomic: { hovered, vars } } 
   },
   { match: { params: { region } } }
 ) => {
@@ -24,21 +23,21 @@ const mapStateToProps = (
     data,
     ready: Boolean(loaded['map']),
     selected: selected && selected[region],
-    hovered: feature && 
-      feature.properties && 
-      feature.properties.id ?
-        feature.properties.id : '',
+    hovered: hovered && 
+      hovered.properties && 
+      hovered.properties.id ?
+        hovered.properties.id : '',
     highlightedState: usState,
-    ...socioeconomic,
+    ...vars,
     controlText: usState ?
       "Showing $1 for $2 by $3 in $4" :
       "Showing $1 for $2 by $3 in the $4",
     controls: [
       getMetricControl(
-        getMetricIdFromVarName(socioeconomic.yVar)
+        getMetricIdFromVarName(vars.yVar)
       ),
       getDemographicControl(
-        getDemographicIdFromVarName(socioeconomic.yVar)
+        getDemographicIdFromVarName(vars.yVar)
       ),
       getRegionControl(region),
       getHighlightControl(usState)
@@ -47,7 +46,7 @@ const mapStateToProps = (
 } 
 
 const mapDispatchToProps = 
-  sectionMapDispatchToProps('socioeconmic')
+  sectionMapDispatchToProps('socioeconomic')
 
 export default compose(
   withRouter,

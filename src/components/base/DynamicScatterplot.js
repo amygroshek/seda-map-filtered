@@ -83,7 +83,16 @@ const getSelectedSeries = (colors = ['#f00']) => {
       
     },
     'emphasis': {
-      label: { textBorderColor: '#f00' }
+      label: { 
+        textBorderColor: '#f00',
+        show:true,
+        color: '#fff',
+        textBorderWidth: 3,
+        fontWeight: 'bolder',
+        fontSize: 16,
+        position: 'top',
+        distance: 5,
+      }
     },
     itemStyle: {
       color: ({dataIndex}) => {

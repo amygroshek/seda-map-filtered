@@ -6,9 +6,10 @@ import MapLocationCards from '../map/MapLocationCards';
 import MapSearch from '../map/MapSearch';
 import MenuSentence from '../base/MenuSentence';
 import LANG from '../../constants/lang';
-import { onScatterplotData, onScatterplotLoaded, getDispatchForSection } from '../../actions/scatterplotActions';
-import { onHoverFeature } from '../../actions/mapActions';
+import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
+import { onHoverFeature, updateCurrentState } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
+import { updateRoute } from '../../modules/router';
 
 
 export class ScatterplotSection extends Component {
@@ -83,7 +84,10 @@ export class ScatterplotSection extends Component {
         <div className="section__body">
         
           <div className="section__places">
-            <MapLocationCards metrics={[rest.xVar, rest.yVar]}>
+            <MapLocationCards 
+              section={id}
+              metrics={[rest.xVar, rest.yVar]}
+            >
               <div className="location-card location-card--search">
                 <Typography component="p" className="helper helper--card-search">
                   { LANG['CARD_SEARCH_HELPER'] }
@@ -134,6 +138,28 @@ export class ScatterplotSection extends Component {
 
 export default ScatterplotSection
 
+const getDispatchForSection = (dispatch, section, ownProps) =>
+  (id, option) => {
+    switch(id) {
+      case 'highlight':
+        if (option.value === 'us') {
+          dispatch(updateCurrentState(null))
+        } else {
+          dispatch(updateCurrentState(option.id))
+        }
+        return;
+      case 'region':
+        return updateRoute(ownProps, { region: option.id })
+      default:
+        return dispatch({
+          type: 'SET_REPORT_VARS',
+          sectionId: section,
+          optionId: id,
+          value: option.id
+        })
+    }
+  }
+
 export const sectionMapDispatchToProps = (sectionId) =>
   (dispatch, ownProps) => ({
     onOptionChange: 
@@ -143,7 +169,7 @@ export const sectionMapDispatchToProps = (sectionId) =>
     onReady: () => 
       dispatch(onScatterplotLoaded(sectionId)),
     onHover: (feature) =>
-      dispatch(onHoverFeature(feature)),
+      dispatch(onHoverFeature(feature, sectionId)),
     onClick: (location) =>
       dispatch(loadLocation(location))
   })

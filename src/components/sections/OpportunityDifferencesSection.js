@@ -10,9 +10,8 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
-    hovered: { feature },
     map: { usState }, 
-    report: { opportunity } 
+    sections: { opportunity: { hovered, vars }  } 
   },
   { match: { params: { region } } }
 ) => {
@@ -23,25 +22,25 @@ const mapStateToProps = (
     region,
     data,
     selected: selected && selected[region],
-    hovered: feature && 
-      feature.properties && 
-      feature.properties.id ?
-        feature.properties.id : '',
+    hovered: hovered && 
+      hovered.properties && 
+      hovered.properties.id ?
+        hovered.properties.id : '',
     ready: Boolean(loaded['map']),
     highlightedState: usState,
-    ...opportunity,
+    ...vars,
     controlText: 'Showing $1 for $2 vs. $3 by $4 in $5',
     controls: [
       getMetricControl(
-        getMetricIdFromVarName(opportunity.xVar)
+        getMetricIdFromVarName(vars.xVar)
       ),
       getDemographicControl(
-        getDemographicIdFromVarName(opportunity.xVar),
+        getDemographicIdFromVarName(vars.xVar),
         'subgroupX',
         'Subgroup 1'
       ),
       getDemographicControl(
-        getDemographicIdFromVarName(opportunity.yVar), 
+        getDemographicIdFromVarName(vars.yVar), 
         'subgroupY',
         'Subgroup 2'
       ),

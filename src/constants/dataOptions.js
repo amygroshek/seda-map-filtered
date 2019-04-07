@@ -5,6 +5,29 @@ export const DEFAULT_VIEWPORT = {
   zoom: 3.15
 }
 
+export const SECTIONS = {
+  'map': {
+    xVar: 'all_ses',
+    yVar: 'all_avg',
+    zVar: 'sz',
+  },
+  'socioeconomic': {
+    xVar: 'all_ses',
+    yVar: 'all_avg',
+    zVar: 'sz',
+  },
+  'opportunity': {
+    xVar: 'np_avg',
+    yVar: 'p_avg',
+    zVar: 'sz',
+  },
+  'achievement': {
+    xVar: 'wb_ses',
+    yVar: 'wb_avg',
+    zVar: 'sz',
+  }
+}
+
 /**
  * Variables contained in the base csv file for each region
  */

@@ -7,13 +7,16 @@ import { getLocationFromFeature, parseLocationsString } from '../../modules/rout
 import { onHoverFeature } from '../../actions/mapActions';
 
 const mapStateToProps = (
-  { selected, features, hovered: { feature } },
+  { selected, features, sections },
   { 
-    match: { params: { region } } 
+    match: { params: { region } },
+    section 
   }
 ) => ({
-  hovered: feature && feature.properties && feature.properties.id ?
-    feature.properties.id : null,
+  hovered: sections[section] && sections[section].hovered && 
+    sections[section].hovered.properties && 
+    sections[section].hovered.properties.id ?
+      sections[section].hovered.properties.id : null,
   features: selected[region]
     .map(l => 
       features[l] && features[l].properties ? 
@@ -22,13 +25,13 @@ const mapStateToProps = (
     .filter(l => l)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   onCardDismiss: (feature) => 
     dispatch(onRemoveSelectedFeature(
       feature
     )),
   onCardHover: (feature) => {
-    dispatch(onHoverFeature(feature))
+    dispatch(onHoverFeature(feature, ownProps.section))
   },
   onCardClick: (feature) => {
     const l = parseLocationsString(

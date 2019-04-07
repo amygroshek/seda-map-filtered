@@ -31,7 +31,16 @@ const usState = (state = null, action) => {
   }
 }
 
-const map = combineReducers({ viewport, usState, highlightState })
+const coords = (state = { x: 0, y: 0 }, action) => {
+  switch (action.type) {
+    case 'SET_COORDS':
+      return action.coords
+    default:
+      return state;
+  }
+}
+
+const map = combineReducers({ coords, viewport, usState, highlightState })
 
 export const getChoroplethProperty = (options) => {
   const { metric, demographic } = options;
