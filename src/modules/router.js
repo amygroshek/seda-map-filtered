@@ -176,6 +176,11 @@ export const updateRegionInRoute = (dispatch, pathname, region) => {
   dispatch(push(getPathnameFromParams(currentRoute, { region })))
 }
 
+const isFeatureInPathname = (feature, pathname) => {
+  const id = feature.properties.id;
+  return pathname.indexOf(id+',') > -1
+}
+
 /**
  * Pushes a location to the route based on a feature
  * @param {*} dispatch 
@@ -183,6 +188,9 @@ export const updateRegionInRoute = (dispatch, pathname, region) => {
  * @param {object} feature 
  */
 export const addFeatureToRoute = (dispatch, pathname, feature) => {
+  if (isFeatureInPathname(feature, pathname)) {
+    return;
+  }
   const newRoute = addFeatureToPathname(pathname, feature)
   dispatch(push(newRoute))
 }
