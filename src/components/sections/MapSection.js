@@ -149,7 +149,7 @@ const mapStateToProps = ({
     highlightedState: usState,
     legend: {
       colors: getChoroplethColors(),
-      markerPosition: hovered ?
+      markerPosition: hovered && hovered.properties ?
         getValuePositionForMetric(
           getFeatureProperty(hovered, demographic + '_' + metric),
           metric
