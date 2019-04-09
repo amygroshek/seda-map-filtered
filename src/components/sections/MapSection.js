@@ -5,10 +5,10 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import SedaMap from '../seda-map/SedaMap';
+import SedaMap from '../map/SedaMap';
 import MapScatterplot from '../map/MapScatterplot';
 import { loadRouteLocations } from '../../actions/featuresActions';
-import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/config';
+import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl, getChoroplethColors, getValuePositionForMetric } from '../../modules/config';
 import MapLocationCards from '../map/MapLocationCards';
 import MenuSentence from '../base/MenuSentence';
 import MapTooltip from '../map/MapTooltip';
@@ -17,17 +17,18 @@ import { updateRoute } from '../../modules/router';
 import { updateCurrentState, onViewportChange } from '../../actions/mapActions';
 import { getStateProp } from '../../constants/statesFips';
 import LANG from '../../constants/lang';
+import GradientLegend from '../base/GradientLegend';
+import { getFeatureProperty } from '../../modules/features';
 
 
 const MapSection = ({
   id,
   name,
-  controls = [],
+  headerMenu,
   selectedLocationCount,
   xVar,
   yVar,
-  region,
-  controlText,
+  legend,
   onOptionChange
 }) => {
   return (
@@ -37,7 +38,7 @@ const MapSection = ({
         <MenuSentence
           className="section__heading"
           text="Map of $1 for $2 by $3"
-          controls={controls}
+          controls={headerMenu.controls}
           variant="h5"
           onChange={onOptionChange}
         />
@@ -90,10 +91,10 @@ const MapSection = ({
 
           <div className="section__controls">
             <MenuSentence
-              text={controlText}
-              controls={controls}
+              {...headerMenu}
               onChange={onOptionChange}
             />
+            
           </div>
           
           <div className="section__right">
@@ -101,6 +102,9 @@ const MapSection = ({
           </div>
           <div className="section__left section__left--scatterplot">
             <MapScatterplot />
+            <GradientLegend
+              {...legend}
+            />
           </div>
         </div>
       </div>
@@ -112,23 +116,30 @@ const MapSection = ({
 MapSection.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  controls: PropTypes.array,
+  headerMenu: PropTypes.shape({
+    text: PropTypes.string,
+    controls: PropTypes.array,
+  }),
   selectedLocationCount: PropTypes.number,
   xVar: PropTypes.string,
   yVar: PropTypes.string,
-  region: PropTypes.string,
-  onOptionChange: PropTypes.func
+  onOptionChange: PropTypes.func,
+  legend: PropTypes.shape({
+    colors: PropTypes.array.isRequired,
+    startLabel: PropTypes.string,
+    endLabel: PropTypes.string,
+  })
 }
 
 const mapStateToProps = ({ 
   scatterplot: { loaded },
   selected,
+  sections: { map: { hovered } },
   map: { usState },
 },
 { match: { params: { region, metric, demographic } } }
 ) => {
   return ({
-    region,
     yVar: demographic + '_' + metric,
     xVar: demographic + '_ses',
     selectedLocationCount: 
@@ -136,15 +147,26 @@ const mapStateToProps = ({
         selected[region].length : 0, 
     mapScatterplotLoaded: loaded && loaded['map'],
     highlightedState: usState,
-    controlText: usState ?
-      "Showing $1 for $2 by $3 in $4" :
-      "Showing $1 for $2 by $3 in the $4",
-    controls: [
-      getMetricControl(metric),
-      getDemographicControl(demographic),
-      getRegionControl(region),
-      getHighlightControl(usState)
-    ],
+    legend: {
+      colors: getChoroplethColors(),
+      markerPosition: hovered ?
+        getValuePositionForMetric(
+          getFeatureProperty(hovered, demographic + '_' + metric),
+          metric
+        ) : null,
+      vertical: true
+    },
+    headerMenu: {
+      text: usState ?
+        "Showing $1 for $2 by $3 in $4" :
+        "Showing $1 for $2 by $3 in the $4",
+      controls: [
+        getMetricControl(metric),
+        getDemographicControl(demographic),
+        getRegionControl(region),
+        getHighlightControl(usState)
+      ],
+    }
   })
 }
 
