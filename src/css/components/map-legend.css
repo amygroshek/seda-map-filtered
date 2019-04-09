@@ -74,13 +74,25 @@
 }
 
 .map-legend--vertical .map-legend__tick {
-  width: 100%;
   height: 4px;
-  bottom: -6px;
-  left:0;
-  right:0;
+  bottom: -2px;
+  left:-8px;
+  right:8px;
+  width:auto;
   top:auto;
   border: none;
-  border-top:4px solid #fff;
-  border-bottom: 4px solid #fff;
+  box-shadow: 0 0 0 4px #fff;
+
+}
+
+.map-legend--vertical .map-legend__tick:after {
+  content: '';
+  display:block;
+  width:0;
+  height:0;
+  border: 6px solid transparent;
+  border-right-color:#f00;
+  position:absolute;
+  left:-12px;
+  top:-4px;
 }
