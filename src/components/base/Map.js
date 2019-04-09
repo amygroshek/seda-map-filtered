@@ -158,7 +158,7 @@ class Map extends Component {
    * pass to the handler
    */
   _onHover = event => {
-    const { features, srcEvent: { offsetX, offsetY } } = event;
+    const { features } = event;
     const { region } = this.props;
     // find features on the active region
     const hoveredFeature = features && 
@@ -167,7 +167,7 @@ class Map extends Component {
         (region === 'schools' && f.layer.id === 'dots')
       ));
     // set the mouse coords
-    const coords = { x: offsetX, y: offsetY };
+    const coords = { x: event.point[0], y: event.point[1] };
     // trigger hover feature actions, padding the featue and
     // mouse coordinates
     this.props.onHover(hoveredFeature, coords);

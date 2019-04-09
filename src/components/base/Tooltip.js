@@ -15,11 +15,11 @@ const Tooltip = ({
   offset = {x: 0, y:0}
 }) => {
   const xPos = left ?
-    `calc(-110% + ${x + offset.x}px)` :
-    `calc(10% + ${x + offset.x}px)`;
+    `calc(-115% + ${x + offset.x}px)` :
+    `calc(15% + ${x + offset.x}px)`;
   const yPos = above ?
-    `calc(-150% + ${y + offset.y}px)` :
-    `calc(50% + ${y + offset.y}px)`
+    `calc(-133% + ${y + offset.y}px)` :
+    `calc(33% + ${y + offset.y}px)`
   return visible && 
   (
     <div 
