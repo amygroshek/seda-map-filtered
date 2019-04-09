@@ -32,12 +32,14 @@ const mapStateToProps = ({
   return {
     x: coords && coords.x,
     y: coords && coords.y,
-    visible: Boolean(hovered) && Boolean(coords),
+    visible: Boolean(hovered) && coords && coords.x && coords.y,
     title: getFeatureTitle(hovered),
     content: hovered && hovered.properties && hovered.properties[varName] ? 
       getMetricTooltip(metric, hovered.properties[varName]) :  '',
-    above: viewport && viewport.height && coords && coords.y > (viewport.height / 2),
-    left: viewport && viewport.width && coords && coords.x > (viewport.width / 2) 
+    above: viewport && viewport.height && 
+      coords && coords.y > (viewport.height / 1.25),
+    left: viewport && viewport.width && 
+      coords && coords.x > (viewport.width / 1.5) 
   }
 }
 

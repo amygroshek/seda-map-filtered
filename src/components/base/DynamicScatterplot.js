@@ -2,9 +2,8 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import SedaScatterplot from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
-import * as scatterplotStyle from '../../style/scatterplot-style';
-import { getMetricById, getBaseVars, getSelectedColors } from '../../modules/config'
-import { underscoreSplit } from '../../utils';
+import { getBaseVars } from '../../modules/config'
+import { getScatterplotOptions } from '../../style/scatterplot-style';
 
 /**
  * Gets the state IDs that belong to a certain state
@@ -29,131 +28,12 @@ const getStateHighlights = (stateId, data) => {
     getStateIds(Object.keys(data['name']), stateId) : []
 }
 
-/**
- * Get the style overrides for the base series
- * @param {boolean} highlightedOn 
- */
-const getBaseSeries = (highlightedOn) => {
-  return {
-    id: 'base',
-    type: 'scatter',
-    animation: false,
-    silent: highlightedOn ? true : false,
-    itemStyle: {
-      color: highlightedOn ? 
-        'rgba(0,0,0,0.1)' : '#76ced2cc',
-      borderColor: highlightedOn ? 
-        'rgba(0,0,0,0.1)' : 'rgba(6, 29, 86, 0.4)',
-    },
-  }
-}
-
-/**
- * Get the style overrides for the highlight series
- */
-const getHighlightedSeries = (isOn) => {
-  return {
-    id: 'highlighted',
-    type: 'scatter',
-    show: isOn,
-    itemStyle: {
-      borderColor: 'rgba(6, 29, 86, 0.4)'
-    }
-  }
-}
-
-/**
- * Get the style overrides for the selected series
- */
-const getSelectedSeries = (colors = ['#f00']) => {
-  return {
-    id: 'selected',
-    type: 'scatter',
-    label: {
-      show:true,
-      formatter: ({dataIndex}) => {
-        return dataIndex+1
-      },
-      color: '#fff',
-      textBorderColor: 'rgba(6, 29, 86, 1)',
-      textBorderWidth: 3,
-      fontWeight: 'bolder',
-      fontSize: 16,
-      position: 'top',
-      
-    },
-    'emphasis': {
-      label: { 
-        textBorderColor: '#f00',
-        show:true,
-        color: '#fff',
-        textBorderWidth: 3,
-        fontWeight: 'bolder',
-        fontSize: 16,
-        position: 'top',
-        distance: 5,
-      }
-    },
-    itemStyle: {
-      color: ({dataIndex}) => {
-        return colors[dataIndex % colors.length]
-      },
-      borderWidth: 0,
-      borderColor: 'rgba(0,0,0,0)',
-      shadowColor: '#fff',
-      shadowBlur: 1,
-    }
-  }
-}
-
-/**
- * Gets the configuration overrides for the base scatterplot
- */
-const getOverrides = (
-  data,
-  xVar, 
-  yVar, 
-  variant, 
-  highlightedState, 
-  options = {}
-) => {
-  const [yDemId, yMetricId] = underscoreSplit(yVar);
-  const [xDemId, xMetricId] = underscoreSplit(xVar);
-  const yMetric = getMetricById(yMetricId);
-  const xMetric = getMetricById(xMetricId);
-  const hl = Boolean(highlightedState);
-  const series = [
-    getBaseSeries(hl),
-    getHighlightedSeries(hl),
-    getSelectedSeries(getSelectedColors())
-  ];
-  const overlays = scatterplotStyle.overlays(yMetricId, variant);
-  if (overlays) {
-    series.push(overlays);
-  }
-  const overrides = {
-    grid: { top:24, bottom:48, left:0, right:48 },
-    xAxis: scatterplotStyle.xAxis(xMetric, xDemId),
-    yAxis: scatterplotStyle.yAxis(yMetric, yDemId),
-    series
-  };
-  if (data) {
-    overrides['tooltip'] = 
-      scatterplotStyle.tooltip(data.name, xVar, yVar)
-  }
-  return { 
-    ...overrides,
-    ...options
-  };
-}
-
 function DynamicScatterplot({
   data,
   xVar,
   yVar,
   zVar,
   region,
-  options,
   hovered,
   highlightedState,
   selected,
@@ -164,8 +44,13 @@ function DynamicScatterplot({
   onReady
 }) {
   const scatterplotOptions = useMemo(
-    () => getOverrides(data[region], xVar, yVar, variant, highlightedState, options),
-    [xVar, yVar, zVar, highlightedState, options, region]
+    () => getScatterplotOptions(
+      variant, 
+      data[region], 
+      { xVar, yVar }, 
+      highlightedState
+    ),
+    [xVar, yVar, zVar, highlightedState, data[region]]
   );
   const highlighted = useMemo(
     () => getStateHighlights(highlightedState, data && data[region]),
@@ -205,29 +90,15 @@ DynamicScatterplot.propTypes = {
   yVar: PropTypes.string,
   zVar: PropTypes.string,
   region: PropTypes.string,
-  controls: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      label: PropTypes.string,
-      value: PropTypes.string,
-      options: PropTypes.arrayOf(
-        PropTypes.shape({ 
-          id: PropTypes.string, 
-          label: PropTypes.string 
-        })
-      )
-    })
-  ),
-  options: PropTypes.object,
   data: PropTypes.object,
   highlightedState: PropTypes.string,
   selected: PropTypes.array,
   hovered: PropTypes.string,
   variant: PropTypes.string,
-  onOptionChange: PropTypes.func,
   onHover: PropTypes.func,
   onClick: PropTypes.func,
   onData: PropTypes.func,
+  onReady: PropTypes.func
 }
 
 export default DynamicScatterplot

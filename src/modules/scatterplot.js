@@ -61,3 +61,4 @@ export default scatterplot;
 export const getRegionData = ({ data }, region, prop) =>
   data[region] && data[region][prop] ?
     data[region][prop] : null
+
