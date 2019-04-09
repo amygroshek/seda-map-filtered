@@ -3,7 +3,7 @@ import ReactMapGL, {NavigationControl} from 'react-map-gl';
 import PropTypes from 'prop-types';
 import * as _isEqual from 'lodash.isequal';
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing } from '../../style/map-style';
-import { isPropEqual, getRegionFromId } from '../../utils';
+import { getRegionFromId } from '../../utils';
 
 class Map extends Component {
 
@@ -82,16 +82,11 @@ class Map extends Component {
    * @param {*} region source layer
    */
   _updateOutlineHighlight(oldFeature, newFeature, region) {
-    const featureId = newFeature ? newFeature.id : null;
-    if (oldFeature && oldFeature.id) {
-      this._setFeatureState(
-        region, oldFeature.id, { hover: false}
-      );
+    if (oldFeature) {
+      this._setFeatureState(region, oldFeature, { hover: false});
     }
-    if (featureId) {
-      this._setFeatureState(
-        region, featureId, { hover: true}
-      );
+    if (newFeature) {
+      this._setFeatureState(region, newFeature, { hover: true});
     }
   }
 
@@ -187,13 +182,11 @@ class Map extends Component {
 
   /** Initialize choropleth layer */
   componentDidMount() {
-    // this._updateViewport(this.props.initialViewport);
     this._updateChoropleth();
   }
 
   componentDidUpdate(prevProps) {
     const { region, hovered, selected, choroplethVar } = this.props;
-    const oldFeature = prevProps.hovered;
     // update the choropleth if any of the map data has changed
     if (
       prevProps.choroplethVar !== choroplethVar ||
@@ -202,11 +195,9 @@ class Map extends Component {
       this._updateChoropleth();
     }
     // update the highlight if the hovered feature has changed
-    if (
-      !isPropEqual(oldFeature, hovered, 'id')
-    ) {
+    if (prevProps.hovered !== hovered) {
       this._updateOutlineHighlight(
-        oldFeature, 
+        prevProps.hovered, 
         hovered, 
         region
       )
@@ -255,7 +246,7 @@ Map.propTypes = {
   colors: PropTypes.array,
   viewport: PropTypes.object,
   initialViewport: PropTypes.object,
-  hovered: PropTypes.object,
+  hovered: PropTypes.string,
   selected: PropTypes.array,
   onViewportChange: PropTypes.func,
   onHover: PropTypes.func,

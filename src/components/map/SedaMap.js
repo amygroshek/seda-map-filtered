@@ -45,7 +45,10 @@ const mapStateToProps = ({
   match: { params: { metric, demographic, region, ...rest } }
 }) => ({
   region,
-  hovered,
+  hovered: hovered && 
+    hovered.properties && 
+    hovered.properties.id ?
+      hovered.properties.id : null,
   viewport: getMapViewport(viewport, rest),
   choroplethVar: demographic + '_' + metric,
   colors: selected.colors,

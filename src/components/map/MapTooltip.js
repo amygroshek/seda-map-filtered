@@ -23,7 +23,7 @@ const getFeatureTitle = (feature) => {
 }
 
 const mapStateToProps = ({ 
-  map: { coords },
+  map: { coords, viewport },
   sections: { map: { hovered } }
 }, {
   match: { params: { metric, demographic } }
@@ -35,7 +35,9 @@ const mapStateToProps = ({
     visible: Boolean(hovered) && Boolean(coords),
     title: getFeatureTitle(hovered),
     content: hovered && hovered.properties && hovered.properties[varName] ? 
-      getMetricTooltip(metric, hovered.properties[varName]) :  ''
+      getMetricTooltip(metric, hovered.properties[varName]) :  '',
+    above: viewport && viewport.height && coords && coords.y > (viewport.height / 2),
+    left: viewport && viewport.width && coords && coords.x > (viewport.width / 2) 
   }
 }
 

@@ -204,13 +204,11 @@ h6,
   max-width: 188px;
   font-size: 10px;
   z-index: 9;
-  margin-top: -20px;
-  margin-left: 16px;
   border-radius: 2px;
   pointer-events: none;
   text-align: left;
   font-size: 12px;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.4s cubic-bezier(0,.5,.5,1);
   transform-origin: top left;
 }
 
