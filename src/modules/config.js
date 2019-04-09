@@ -234,6 +234,21 @@ export const getDemographicControl = (
   formatter: (option) => option.label + ' students'
 })
 
+export const getDemographicGapControl = (
+  value, 
+  id = 'demographic', 
+  label = 'Demographics'
+) => ({
+  id,
+  label,
+  value,
+  options: [...getDemographics(), ...getGaps()],
+  hint: 'press to select a demographic or gap ',
+  formatter: (option) => option.label + (
+    value.length === 1 || value === 'all' ? ' students' : ''
+  )
+})
+
 export const getHighlightControl = (highlight) => ({
   id: 'highlight',
   label: 'Highlight',

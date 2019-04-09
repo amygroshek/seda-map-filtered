@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SedaMap from '../map/SedaMap';
 import MapScatterplot from '../map/MapScatterplot';
 import { loadRouteLocations } from '../../actions/featuresActions';
-import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl, getChoroplethColors, getValuePositionForMetric } from '../../modules/config';
+import { getRegionControl, getMetricControl, getDemographicGapControl, getHighlightControl, getChoroplethColors, getValuePositionForMetric } from '../../modules/config';
 import MapLocationCards from '../map/MapLocationCards';
 import MenuSentence from '../base/MenuSentence';
 import MapTooltip from '../map/MapTooltip';
@@ -162,7 +162,7 @@ const mapStateToProps = ({
         "Showing $1 for $2 by $3 in the $4",
       controls: [
         getMetricControl(metric),
-        getDemographicControl(demographic),
+        getDemographicGapControl(demographic),
         getRegionControl(region),
         getHighlightControl(usState)
       ],
