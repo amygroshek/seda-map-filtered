@@ -16,32 +16,36 @@ const mapStateToProps = (
   { match: { params: { region } } }
 ) => {
   return ({
+    ready: Boolean(loaded['map']),
     title: LANG['SES_COND_TITLE'],
     description: LANG['SES_COND_DESCRIPTION'],
-    variant: 'ses',
-    region,
-    data,
-    ready: Boolean(loaded['map']),
-    selected: selected && selected[region],
-    hovered: hovered && 
-      hovered.properties && 
-      hovered.properties.id ?
-        hovered.properties.id : '',
-    highlightedState: usState,
-    ...vars,
-    controlText: usState ?
-      "Showing $1 for $2 by $3 in $4" :
-      "Showing $1 for $2 by $3 in the $4",
-    controls: [
-      getMetricControl(
-        getMetricIdFromVarName(vars.yVar)
-      ),
-      getDemographicControl(
-        getDemographicIdFromVarName(vars.yVar)
-      ),
-      getRegionControl(region),
-      getHighlightControl(usState)
-    ],
+    headerMenu: {
+      text: usState ?
+        "Showing $1 for $2 by $3 in $4" :
+        "Showing $1 for $2 by $3 in the $4",
+      controls: [
+        getMetricControl(
+          getMetricIdFromVarName(vars.yVar)
+        ),
+        getDemographicControl(
+          getDemographicIdFromVarName(vars.yVar)
+        ),
+        getRegionControl(region),
+        getHighlightControl(usState)
+      ],
+    },
+    scatterplot: {
+      ...vars,
+      selected: selected && selected[region],
+      hovered: hovered && 
+        hovered.properties && 
+        hovered.properties.id ?
+          hovered.properties.id : '',
+      highlightedState: usState,
+      variant: 'ses',
+      region,
+      data,
+    }
   })
 } 
 

@@ -33,7 +33,7 @@ const MapSection = ({
 }) => {
   return (
     <div id={id} name={name} className="section section--map">
-      <MapTooltip />
+      
       <div className="section__header">
         <MenuSentence
           className="section__heading"
@@ -99,6 +99,7 @@ const MapSection = ({
           
           <div className="section__right">
             <SedaMap />
+            <MapTooltip />
           </div>
           <div className="section__left section__left--scatterplot">
             <MapScatterplot />

@@ -193,7 +193,9 @@ h6,
 /** END COMPONENTS */
 
 .tooltip {
-  position: fixed;
+  position: absolute;
+  top:0;
+  left:0;
   z-index: 9999;
   margin: 8px;
   padding: 8px;
@@ -203,12 +205,13 @@ h6,
   font-size: 10px;
   z-index: 9;
   margin-top: -20px;
-  margin-left: -2px;
-  transform: translate(-50%, -100%);
+  margin-left: 16px;
   border-radius: 2px;
   pointer-events: none;
   text-align: left;
   font-size: 12px;
+  transition: transform 0.2s ease-out;
+  transform-origin: top left;
 }
 
 .tooltip__title {

@@ -222,7 +222,7 @@ DynamicScatterplot.propTypes = {
   data: PropTypes.object,
   highlightedState: PropTypes.string,
   selected: PropTypes.array,
-  selectedColors: PropTypes.array,
+  hovered: PropTypes.string,
   variant: PropTypes.string,
   onOptionChange: PropTypes.func,
   onHover: PropTypes.func,

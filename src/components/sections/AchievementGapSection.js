@@ -18,31 +18,35 @@ const mapStateToProps = (
   return ({
     title: LANG['ACH_GAPS_TITLE'],
     description: LANG['ACH_GAPS_DESCRIPTION'],
-    variant: 'ach',
-    region,
-    data,
     ready: Boolean(loaded['map']),
-    selected: selected && selected[region],
-    hovered: hovered && 
-      hovered.properties && 
-      hovered.properties.id ?
-        hovered.properties.id : '',
-    highlightedState: usState,
-    ...vars,
-    controlText: 'Showing the $1 of $2 vs. average test scores by $3 in $4',
-    controls: [
-      getGapControl(
-        getDemographicIdFromVarName(vars.xVar), 
-        'gap',
-        'Achievement Gap'
-      ),
-      getSecondaryMetricControl(
-        getMetricIdFromVarName(vars.xVar),
-        'secondary'
-      ),
-      getRegionControl(region),
-      getHighlightControl(usState)
-    ],
+    headerMenu: {
+      text: 'Showing the $1 of $2 vs. average test scores by $3 in $4',
+      controls: [
+        getGapControl(
+          getDemographicIdFromVarName(vars.xVar), 
+          'gap',
+          'Achievement Gap'
+        ),
+        getSecondaryMetricControl(
+          getMetricIdFromVarName(vars.xVar),
+          'secondary'
+        ),
+        getRegionControl(region),
+        getHighlightControl(usState)
+      ],
+    },
+    scatterplot: {
+      ...vars,
+      selected: selected && selected[region],
+      hovered: hovered && 
+        hovered.properties && 
+        hovered.properties.id ?
+          hovered.properties.id : '',
+      highlightedState: usState,
+      variant: 'ach',
+      region,
+      data,
+    }
   })
 } 
 

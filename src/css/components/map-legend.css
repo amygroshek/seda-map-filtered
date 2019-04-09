@@ -76,12 +76,12 @@
 .map-legend--vertical .map-legend__tick {
   height: 4px;
   bottom: -2px;
-  left:-8px;
+  left:-6px;
   right:8px;
   width:auto;
   top:auto;
   border: none;
-  box-shadow: 0 0 0 4px #fff;
+  box-shadow: 0 0 0 2px #fff;
 
 }
 

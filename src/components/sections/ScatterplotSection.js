@@ -16,38 +16,43 @@ export class ScatterplotSection extends Component {
   static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
-    controlText: PropTypes.string,
-    controls: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        label: PropTypes.string,
-        value: PropTypes.string,
-        options: PropTypes.arrayOf(
-          PropTypes.shape({ 
-            id: PropTypes.string, 
-            label: PropTypes.string 
-          })
-        )
-      })
-    ),
-    ready: PropTypes.bool,
-    region: PropTypes.string,
-    xVar: PropTypes.string,
-    yVar: PropTypes.string,
-    zVar: PropTypes.string,
-    highlight: PropTypes.string,
-    selected: PropTypes.array,
-    selectedColors: PropTypes.array,
-    data: PropTypes.object,
-    onOptionChange: PropTypes.func,
     classes: PropTypes.object,
+    renderScatterplot: PropTypes.bool,
     title: PropTypes.string,
     description: PropTypes.string,
+    headerMenu: PropTypes.shape({
+      text: PropTypes.string,
+      controls: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+          value: PropTypes.string,
+          options: PropTypes.arrayOf(
+            PropTypes.shape({ 
+              id: PropTypes.string, 
+              label: PropTypes.string 
+            })
+          )
+        })
+      ),
+    }),
+    scatterplot: PropTypes.shape({
+      region: PropTypes.string,
+      xVar: PropTypes.string,
+      yVar: PropTypes.string,
+      zVar: PropTypes.string,
+      highlight: PropTypes.string,
+      selected: PropTypes.array,
+      data: PropTypes.object,
+      highlightedState: PropTypes.string,
+      variant: PropTypes.string,
+    }),
     selectedLocationCount: PropTypes.number,
-    /**
-     * Determines the graph config variant
-     */
-    variant: PropTypes.string,
+    onOptionChange: PropTypes.func,
+    onData: PropTypes.func,
+    onHover: PropTypes.func,
+    onClick: PropTypes.func,
+    onReady: PropTypes.func
   }
 
   render() {
@@ -56,12 +61,15 @@ export class ScatterplotSection extends Component {
       description, 
       id, 
       name, 
-      controls, 
+      headerMenu,
       onOptionChange, 
-      controlText,
       selectedLocationCount,
-      ready = true,
-      ...rest 
+      renderScatterplot = true,
+      scatterplot,
+      onData,
+      onHover,
+      onClick,
+      onReady
     } = this.props;
     return (
       <div id={id} name={name} className="section section--scatterplot">
@@ -86,7 +94,7 @@ export class ScatterplotSection extends Component {
           <div className="section__places">
             <MapLocationCards 
               section={id}
-              metrics={[rest.xVar, rest.yVar]}
+              metrics={[scatterplot.xVar, scatterplot.yVar]}
             >
               <div className="location-card location-card--search">
                 <Typography component="p" className="helper helper--card-search">
@@ -119,14 +127,17 @@ export class ScatterplotSection extends Component {
 
             <div className="section__controls">
               <MenuSentence 
-                text={controlText}
-                controls={controls}
+                {...headerMenu}
                 onChange={onOptionChange}
               />
             </div>
-            { ready &&
+            { renderScatterplot &&
               <DynamicScatterplot
-                {...rest}
+                {...scatterplot}
+                onData={onData}
+                onReady={onReady}
+                onHover={onHover}
+                onClick={onClick}
               />
             }
           </div>
