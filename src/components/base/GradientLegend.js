@@ -17,10 +17,15 @@ const getColorGradient = (colors, vertical = false) => {
 /**
  * Get the transform for the marker
  */
-const getTransform = (value = 0, vertical = false) =>
-  vertical ?
+const getTransform = (value = 0.5, vertical = false) => {
+  if (!value && value !== 0) {
+    value = 0.5
+  }
+  return vertical ?
     `translateY(-${value*100}%)` :
     `translateX(${value*100}%)`
+}
+  
 
 /**
  * Displays a gradient with start / end labels

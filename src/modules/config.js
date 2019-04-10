@@ -7,9 +7,6 @@ import {
   CHOROPLETH_COLORS, 
   BASE_VARS
 } from '../constants/dataOptions';
-import { underscoreSplit, getSingularRegion } from '../utils';
-import { getStateSelectOptions } from '../constants/statesFips';
-
 
 /**
  * Gets the configuration for base variables
@@ -66,6 +63,14 @@ export const getRegionById = (id) =>
   REGIONS.find(r => r.id === id)
 
 /**
+ * Gets the region object corresponding to the provided ID
+ */
+export const getGapById = (id) =>
+  GAPS.find(r => r.id === id)
+
+
+
+/**
  * Gets the label for the provided metric ID
  * @param {string} id 
  * @return {string}
@@ -112,10 +117,12 @@ export const getRegionLabel = (id) => {
  * @param {string} id 
  * @returns {array}
  */
-export const getStopsForMetric = (id) => {
-  const metric = getMetricById(id)
+export const getStopsForVarName = (varName) => {
+  const isGap = isGapVar(varName);
+  const metric = getMetricFromVarName(varName);
   const colors = getChoroplethColors()
-  const { min, max } = metric;
+  const min = isGap ? metric.gapMin : metric.min;
+  const max = isGap ? metric.gapMax : metric.max;
   const range = Math.abs(max - min);
   const stepSize = range / (colors.length);
   return colors.map((c, i) =>
@@ -182,7 +189,7 @@ export const getPaddedStops = (stops, amount) => {
 }
 
 export const getLabelFromVarName = (varName) => {
-  const [demId, metricId] = underscoreSplit(varName);
+  const [demId, metricId] = varName.split('_');
   return getMetricLabel(metricId) 
     + ' (' + getDemographicLabel(demId) + ')'
 }
@@ -190,69 +197,27 @@ export const getLabelFromVarName = (varName) => {
 export const getMetricIdFromVarName = (varName) =>
   varName.split('_')[1]
 
+export const getMetricFromVarName = (varName) =>
+  getMetricById(getMetricIdFromVarName(varName))
+
 export const getDemographicIdFromVarName = (varName) =>
   varName.split('_')[0]
 
+export const getDemographicFromVarName = (varName) => {
+  const id = getDemographicIdFromVarName(varName)
+  const dem = getDemographicById(id);
+  return dem ? dem : getGapById(id)
+}
 
-export const getMetricControl = (metric, id = 'metric') => ({
-  id,
-  label: 'Data Metric',
-  value: metric,
-  hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
-  options: getMetrics()
-    .filter(m => ['avg', 'grd', 'coh'].indexOf(m.id) > -1)
-})
 
-export const getSecondaryMetricControl = (metric, id = 'metric') => ({
-  id,
-  label: 'Data Metric',
-  value: metric,
-  hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
-  options: getMetrics()
-    .filter(m => ['ses', 'seg'].indexOf(m.id) > -1)
-})
+export const isGapVar = (varName) => {
+  const id = getDemographicIdFromVarName(varName)
+  return Boolean(getGapById(id))
+}
 
-export const getRegionControl = (region, id = 'region') => ({
-  id,
-  label: 'Region',
-  value: region,
-  options: getRegions(),
-  hint: 'press to change between counties, school districts, or schools',
-  formatter: (option) => getSingularRegion(option.id)
-})
-
-export const getDemographicControl = (
-  demographic, 
-  id = 'demographic', 
-  label = 'Demographics'
-) => ({
-  id,
-  label,
-  value: demographic,
-  options: getDemographics(),
-  hint: 'press to select a demographic or gap ',
-  formatter: (option) => option.label + ' students'
-})
-
-export const getHighlightControl = (highlight) => ({
-  id: 'highlight',
-  label: 'Highlight',
-  value: highlight ? highlight : 'us',
-  options: [
-    {
-      id: 'us',
-      label: 'U.S.'
-    },
-    ...getStateSelectOptions()
-  ]
-})
-
-export const getGapControl = (gap) => ({
-  id: 'gap',
-  label: 'Gap Type',
-  value: gap,
-  options: getGaps()
-})
+export const isGapDemographic = (id) => {
+  return Boolean(getGapById(id))
+}
 
 
 /**

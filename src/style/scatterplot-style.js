@@ -1,6 +1,123 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getDemographicLabel, getLabelFromVarName } from '../modules/config';
+import { isGapDemographic, isGapVar, getMetricTooltip, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
+
+/** GRID CONFIGURATION  */
+
+export const grid = (variant) => {
+  switch(variant) {
+    case 'map':
+      return {
+        top: 0,
+        right: 80,
+        bottom: 48,
+        left: 24,
+      }
+    default:
+      return { 
+        top: 24, 
+        right: 48,
+        bottom: 48, 
+        left: 0, 
+      }
+  }
+}
+
+/** SERIES CONFIGURATION */
+
+/**
+ * Gets an echart series
+ */
+const getSeries = (seriesId, type, options) => ({
+  id: seriesId,
+  type: type,
+  ...options
+})
+
+
+/**
+ * Get the style overrides for the base series
+ * @param {boolean} highlightedOn 
+ */
+const getBaseSeries = ({ highlightedState }) => 
+  getSeries('base', 'scatter', {
+    animation: false,
+    silent: highlightedState ? true : false,
+    itemStyle: {
+      color: highlightedState ? 
+        'rgba(0,0,0,0.1)' : '#76ced2cc',
+      borderColor: highlightedState ? 
+        'rgba(0,0,0,0.1)' : 'rgba(6, 29, 86, 0.4)',
+    },
+  })
+
+/**
+ * Get the style overrides for the highlight series
+ */
+const getHighlightedSeries = ({ highlightedState }) =>
+  getSeries('highlighted', 'scatter', {
+    show: highlightedState,
+    itemStyle: {
+      borderColor: 'rgba(6, 29, 86, 0.4)'
+    }
+  })
+
+/**
+ * Get the style overrides for the selected series
+ */
+const getSelectedSeries = ({ colors = getSelectedColors() }) =>
+  getSeries('selected', 'scatter', {
+    label: {
+      show:true,
+      formatter: ({dataIndex}) => {
+        return dataIndex+1
+      },
+      color: '#fff',
+      textBorderColor: 'rgba(6, 29, 86, 1)',
+      textBorderWidth: 3,
+      fontWeight: 'bolder',
+      fontSize: 16,
+      position: 'top',
+      
+    },
+    'emphasis': {
+      label: { 
+        textBorderColor: '#f00',
+        show:true,
+        color: '#fff',
+        textBorderWidth: 3,
+        fontWeight: 'bolder',
+        fontSize: 16,
+        position: 'top',
+        distance: 5,
+      }
+    },
+    itemStyle: {
+      color: ({dataIndex}) => {
+        return colors[dataIndex % colors.length]
+      },
+      borderWidth: 0,
+      borderColor: 'rgba(0,0,0,0)',
+      shadowColor: '#fff',
+      shadowBlur: 1,
+    }
+  })
+
+
+export const series = (seriesId, variant, options = {}) => {
+  switch(seriesId) {
+    case 'base':
+      return getBaseSeries(options)
+    case 'highlighted':
+      return getHighlightedSeries(options)
+    case 'selected':
+      return getSelectedSeries(options)
+    default:
+      return getSeries(seriesId, variant, options)
+  }
+}
+
+/** SCATTERPLOT OVERLAY CONFIGURATION */
 
 
 /**
@@ -8,7 +125,7 @@ import { getStateName } from '../constants/statesFips';
  * array of points.
  * @param {array<{axis, x, y, label, options}>} points
  */
-export const getMarkPoints = (points) => {
+const getMarkPoints = (points) => {
   return {
     animation: false,
     silent: true,
@@ -24,7 +141,7 @@ export const getMarkPoints = (points) => {
  * @param {array} points 
  * @param {array} lines 
  */
-export const getOverlay = (points, lines) => {
+const getOverlay = (points, lines) => {
   return {
     type: 'scatter',
     animation: false,
@@ -46,7 +163,7 @@ export const getOverlay = (points, lines) => {
  * Gets a point that falls on the x or y axis
  * @param {object} point 
  */
-export const getAxisPoint = ({axis, x, y, label, options }) => {
+const getAxisPoint = ({axis, x, y, label, options }) => {
   const position = axis === 'y' ?
     { x: x, yAxis: y } :
     { y: y, xAxis: x };
@@ -80,7 +197,7 @@ export const getAxisPoint = ({axis, x, y, label, options }) => {
  * array of lines.
  * @param {array<{axis, position, style}>} lines 
  */
-export const getMarkLines = (lines) => {
+const getMarkLines = (lines) => {
   return {
     animation: false,
     silent: true,
@@ -94,7 +211,7 @@ export const getMarkLines = (lines) => {
  * Gets line data that spans the graph on the x or y axis
  * @param {object} line 
  */
-export const getAxisLine = ({axis, position, style}) => {
+const getAxisLine = ({axis, position, style}) => {
   const startPosition = axis === 'y' ?
     { x: 0, yAxis: position } :
     { y: 24, xAxis: position };
@@ -117,122 +234,202 @@ export const getAxisLine = ({axis, position, style}) => {
   ]
 }
 
-export const grid = {
-  top: '0',
-  right: '80',
-  bottom: '48',
-  left: '24',
-}
 
-export const overlays = (metricId, variant = '') => {
-  const overlayConfig = {
-    'avg': getOverlay(
-      new Array(7).fill().map((v, i) => {
-        const position = -3 + i;
-        const grades = Math.abs(position) === 1 ? 'grade' : 'grades'
-        const label = position === 0 ? 'average\nperformance' :
-          position > 0 ? 
-            `${Math.abs(position)} ${grades}\nahead` : 
-            `${Math.abs(position)} ${grades}\nbehind`
-        return {
-          value: [0, position], 
-          name: label,
-          visualMap: false
-        }
-      }),
-      new Array(7).fill().map((v, i) => ({
-        axis: 'y',
-        position: -3 + i
-      }))
-    ),
-    'grd': getOverlay(
-      new Array(5).fill().map((v, i) => {
-        const position = 0.6 + (i * (1)/5);
-        const label = position === 1 ? 'average\ngrowth' :
-          position > 1 ? 
-            `${Math.abs(position)} grade levels\nper year` : 
-            `${Math.abs(position)} grade levels\nper year`
-        return {
-          value: [0, position], 
-          name: label,
-          visualMap: false
-        }
-      }),
-      new Array(5).fill().map((v, i) => ({
-        axis: 'y',
-        position: 0.6 + (i * 1/5)
-      }))
-    ),
-    'coh': getOverlay(
-      new Array(5).fill().map((v, i) => {
-        const position = Math.round((-0.2 + (i * 0.1))*10)/10;
-        const label = position === 0 ? 'no change\nin test scores' :
-          position > 0 ? 
-            `${Math.abs(position)} grade level\nincrease` : 
-            `${Math.abs(position)} grade level\ndecrease`
-        return {
-          value: [0, position], 
-          name: label,
-          visualMap: false
-        }
-      }),
-      new Array(5).fill().map((v, i) => ({
-        axis: 'y',
-        position: -0.2 + (i * 0.1)
-      }))
-    ),
-    'avg_opp': {
-      type: 'line',
-      animation: false,
-      silent: true,
-      visualMap: false,
-      data: [[-4, -4], [4, 4]],
-      symbolSize: 0.1,
-      label: {
-        show:false
-      },
-      markLine: {
-        animation: false,
-        silent: true,
-        label: {
-          position: 'middle',
-          formatter: function(value) {
-            return value.name
-          } 
-        },
-        lineStyle: {
-          type: 'dashed',
-          color: '#999'
-        },
-        data: [
-          [
-            { 
-              name: 'equal opportunity', 
-              coord: [-4, -4], 
-              symbol: 'none',
-            },
-            { coord: [ 4,  4], symbol: 'none' },
-          ]
-        ]
-      }
+const getMapAverageOverlay = () => getOverlay(
+  new Array(7).fill().map((v, i) => {
+    const position = -3 + i;
+    const grades = Math.abs(position) === 1 ? 'grade' : 'grades'
+    const label = position === 0 ? 'average\nperformance' :
+      position > 0 ? 
+        `${Math.abs(position)} ${grades}\nahead` : 
+        `${Math.abs(position)} ${grades}\nbehind`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
     }
+  }),
+  new Array(7).fill().map((v, i) => ({
+    axis: 'y',
+    position: -3 + i
+  }))
+)
+
+const getMapAverageGapOverlay = () => getOverlay(
+  new Array(8).fill().map((v, i) => {
+    const position = 0 - i;
+    const grades = Math.abs(position) === 1 ? 'grade' : 'grades'
+    const label = position === 0 ? 'no\ndifference' :
+      `${Math.abs(position)} ${grades}\ndifference`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(8).fill().map((v, i) => ({
+    axis: 'y',
+    position: 0 - i
+  }))
+)
+
+const getMapGrowthOverlay = () => getOverlay(
+  new Array(5).fill().map((v, i) => {
+    const position = 0.6 + (i * (1)/5);
+    const label = position === 1 ? 'average\ngrowth' :
+      position > 1 ? 
+        `${Math.abs(position)} grade levels\nper year` : 
+        `${Math.abs(position)} grade levels\nper year`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(5).fill().map((v, i) => ({
+    axis: 'y',
+    position: 0.6 + (i * 1/5)
+  }))
+)
+
+const getMapGrowthGapOverlay = () => getOverlay(
+  new Array(5).fill().map((v, i) => {
+    const position = Math.round((-0.4 + (i * (1)/5)) * 10) / 10;
+    const label =
+      position >= 0 ? 
+        `${Math.abs(position)} grade\ngrowth gap` : 
+        `-${Math.abs(position)} grade\ngrowth gap`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(5).fill().map((v, i) => ({
+    axis: 'y',
+    position: -0.4 + (i * 1/5)
+  }))
+)
+
+const getMapTrendOverlay = () => getOverlay(
+  new Array(5).fill().map((v, i) => {
+    const position = Math.round((-0.2 + (i * 0.1))*10)/10;
+    const label = position === 0 ? 'no change\nin test scores' :
+      position > 0 ? 
+        `${Math.abs(position)} grade level\nincrease` : 
+        `${Math.abs(position)} grade level\ndecrease`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(5).fill().map((v, i) => ({
+    axis: 'y',
+    position: -0.2 + (i * 0.1)
+  }))
+)
+
+const getMapTrendGapOverlay = () => getOverlay(
+  new Array(5).fill().map((v, i) => {
+    const position = Math.round((-0.2 + (i * 0.1))*10)/10;
+    const label = position === 0 ? 'no gap\nin trend' :
+      position > 0 ? 
+        `${Math.abs(position)} gap\nin trend` : 
+        `-${Math.abs(position)} gap\nin trend`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(5).fill().map((v, i) => ({
+    axis: 'y',
+    position: -0.2 + (i * 0.1)
+  }))
+)
+
+const getOpportunityAverageOverlay = () => ({
+  type: 'line',
+  animation: false,
+  silent: true,
+  visualMap: false,
+  data: [[-4, -4], [4, 4]],
+  symbolSize: 0.1,
+  label: {
+    show:false
+  },
+  itemStyle: {
+    color: '#999'
+  },
+  markLine: {
+    animation: false,
+    silent: true,
+    label: {
+      position: 'middle',
+      formatter: function(value) {
+        return value.name
+      } 
+    },
+    lineStyle: {
+      type: 'dashed',
+      color: '#999'
+    },
+    data: [
+      [
+        { 
+          name: 'equal opportunity', 
+          coord: [-4, -4], 
+          symbol: 'none',
+        },
+        { coord: [ 4,  4], symbol: 'none' },
+      ]
+    ]
   }
-  const configKey = variant ? 
-    metricId + '_' + variant : metricId
-  return overlayConfig[configKey] ? overlayConfig[configKey] : null
+})
+
+const overlays = (variant, { xVar, yVar }) => {
+  const yMetricId = getMetricIdFromVarName(yVar);
+  switch(yMetricId + '_' + variant) {
+    case 'avg_map':
+      if (isGapVar(yVar))
+        return [ getMapAverageGapOverlay() ]
+      else
+        return [ getMapAverageOverlay() ]
+    case 'grd_map':
+      if (isGapVar(yVar))
+        return [ getMapGrowthGapOverlay() ]
+      else
+        return [ getMapGrowthOverlay() ]
+    case 'coh_map':
+      if (isGapVar(yVar))
+        return [ getMapTrendGapOverlay() ]
+      else
+        return [ getMapTrendOverlay() ]
+    case 'avg_opp':
+      return [ getOpportunityAverageOverlay() ]
+    default:
+      return []
+  }
 }
 
-export const visualMap = (metric, colors, highlightIndex = 0) => {
-  const baseConfig = {
+/** VISUAL MAP CONFIGURATION */
+
+const getMapVisualMap = ({
+  varName,
+  colors = getChoroplethColors(), 
+  highlightedState
+}) => {
+  const metric = getMetricFromVarName(varName);
+  return {
     type: 'continuous',
-    min: metric.min,
-    max: metric.max,
-    range: [metric.min, metric.max],
+    min: isGapVar(varName) ? metric.gapMin : metric.min,
+    max: isGapVar(varName) ? metric.gapMax : metric.max,
     inRange: {
       color: colors.map(c => fade(c, 0.9))
     },
     show:false,
-    seriesIndex: highlightIndex,
+    seriesIndex: highlightedState ? 2 : 0,
     calculable: true,
     right:0,
     bottom:'auto',
@@ -243,98 +440,123 @@ export const visualMap = (metric, colors, highlightIndex = 0) => {
     itemWidth: 24,
     precision: 1,
   }
-  const visualMapConfig = {
-    'avg': {},
-    'grd': {},
-    'coh': {}
-  }
-  return visualMapConfig[metric.id] ? 
-    [{
-      ...baseConfig,
-      ...visualMapConfig[metric.id]
-    }] : [{}]
 }
 
-export const xAxis = (metric, demographic = '') => {
-  const baseConfig = {
-    axisLabel: {
-      show: true
-    },
-    axisLine: {
-      show: false
-    },
-    splitLine: {
-      show: true
-    },
+const visualMap = (
+  variant,
+  options,
+) => {
+  switch (variant) {
+    case 'map':
+      return [ getMapVisualMap(options) ]
+    default:
+      return []
+  }
+}
+
+/** X AXIS CONFIGURATION */
+
+const getXAxis = ({ metric, demographic, ...rest }) => (
+  {
+    axisLabel: { show: true },
+    axisLine: { show: false },
+    splitLine: { show: true },
     splitNumber: 7,
     nameGap: 32,
-    nameLocation: 'middle'
-  };
-  const configKey = demographic ? 
-    demographic +'_'+ metric.id : metric.id;
-  switch (configKey) {
-    case 'ses':
-      return {
-        splitLine: { show: false },
-        axisLabel: {
-          formatter: function (val) {
-            if (val === 0) {
-              return 'average\nsocioeconomic status'
-            }
-            return null;
-          },
-          fontSize: 14,
-          inside: false,
-          margin: 10,
-        },
+    nameLocation: 'middle',
+    min: metric.min,
+    max: metric.max,
+    name: metric.label + (
+      demographic && demographic.label ? 
+        ' (' + demographic.label + ' students)' : 
+        ''
+    ),
+    ...rest
+  }
+)
+
+const getMapXAxis = ({ metric, demographic }) => ({
+  splitLine: { show: false },
+  axisLabel: {
+    formatter: function (val) {
+      if (val === 0) {
+        return isGapDemographic(demographic.id) ?
+          'no gap in\nsocioeconomic status' : 
+          'average\nsocioeconomic status'
       }
-    // gap axis labels
-    case 'p_grd':
-    case 'np_grd':
-    case 'b_grd':
-      return {
-        ...baseConfig,
-        min: metric.min,
-        max: metric.max,
-        name: metric.label + (
-          demographic ? 
-            ' (' + getDemographicLabel(demographic) + ' students)' : 
-            ''
-        ),
-        splitLine: {
-          show: true
-        },
-        splitNumber: 5,
-        interval: 0.2,
-      }
-    case 'wb_ses':
-    case 'wh_ses':
-    case 'wa_ses':
-    case 'pn_ses':
-      return {
-        ...baseConfig,
-        name: metric.label + (
-          demographic ? 
-            ' (' + getDemographicLabel(demographic) + ')' : 
-            ''
-        ),
-      }
+      return null;
+    },
+    fontSize: 14,
+    inside: false,
+    margin: 10,
+  }
+})
+
+const getGrowthXAxis = (options) => getXAxis({
+  ...options,
+  splitNumber: 5,
+  interval: 0.2,
+})
+
+const getSocioeconomicXAxis = ({ metric, demographic }) => getXAxis({
+  metric,
+  demographic,
+  name: metric.label + (
+    demographic && demographic.label ? 
+      ' (' + demographic.label + ')' : 
+      ''
+  ),
+})
+
+const xAxis = (variant, { varName }) => {
+  const metric = getMetricFromVarName(varName);
+  const demographic = getDemographicFromVarName(varName);
+  if (!metric || !demographic) { return {} }
+  switch (variant) {
+    case 'map':
+      return getMapXAxis({ metric, demographic })
     default:
-      return {
-        ...baseConfig,
-        min: metric.min,
-        max: metric.max,
-        name: metric.label + (
-          demographic ? 
-            ' (' + getDemographicLabel(demographic) + ' students)' : 
-            ''
-        ),
-      }
+      if (
+        metric.id === 'grd' && 
+        ['p','np','b'].indexOf(demographic.id) > -1
+      )
+        return getGrowthXAxis({metric, demographic})
+      else if (
+        metric.id === 'ses' && 
+        ['wb','wh','wa','pn'].indexOf(demographic.id) > -1
+      )
+        return getSocioeconomicXAxis({ metric, demographic })
+      else
+        return getXAxis({metric, demographic})
   }
 }
 
-export const yAxis = (metric, demographic = '') => {
-  const baseConfig = {
+/** Y AXIS CONFIGURATION */
+
+const getYAxis = ({metric, demographic, ...rest}) => ({
+  position: 'right',
+  min: isGapDemographic(demographic.id) ? metric.gapMin : metric.min,
+  max: isGapDemographic(demographic.id) ? metric.gapMax : metric.max,
+  axisLabel: { 
+    show: true,
+    showMinLabel: false,
+    showMaxLabel: false,
+  },
+  axisLine: { show: false },
+  splitLine: { show: true },
+  splitNumber: 7,
+  name: metric.label + (
+    demographic && demographic.label ? 
+      ' (' + demographic.label + ' students)' : 
+      ''
+  ),
+  nameGap: 32,
+  nameLocation: 'middle',
+  ...rest
+})
+
+const getMapYAxis = ({metric, demographic, ...rest}) => {
+  return {
     position: 'right',
     axisLabel: { 
       show: false,
@@ -349,69 +571,30 @@ export const yAxis = (metric, demographic = '') => {
       }
     },
     splitLine: { show: false },
-    min: metric.min,
-    max: metric.max,
-  }
-  const configKey = demographic ? 
-    demographic +'_'+ metric.id : metric.id;
-  switch (configKey) {
-    case 'avg':
-    case 'grd':
-    case 'coh':
-      return baseConfig
-    case 'wb_avg':
-    case 'wh_avg':
-    case 'wa_avg':
-    case 'pn_avg':
-      return {
-        ...baseConfig,
-        max: 0,
-        min: -6,
-        axisLabel: {
-          show: true
-        },
-        axisLine: {
-          show: false
-        },
-        splitLine: {
-          show: true
-        },
-        splitNumber: 7,
-        name: metric.label + (
-          demographic ? 
-            ' (' + getDemographicLabel(demographic) + ')' : 
-            ''
-        ),
-        nameGap: 32,
-        nameLocation: 'middle'
-      }
-    default:
-      return {
-        ...baseConfig,
-        axisLabel: {
-          show: true
-        },
-        axisLine: {
-          show: false
-        },
-        splitLine: {
-          show: true
-        },
-        splitNumber: 7,
-        name: metric.label + (
-          demographic ? 
-            ' (' + getDemographicLabel(demographic) + ' students)' : 
-            ''
-        ),
-        nameGap: 32,
-        nameLocation: 'middle'
-      }
+    min: isGapDemographic(demographic.id) ? metric.gapMin : metric.min,
+    max: isGapDemographic(demographic.id) ? metric.gapMax : metric.max,
+    ...rest
   }
 }
 
-export const tooltip = (placeNames, xVar, yVar) => {
+const yAxis = (variant, { varName }) => {
+  const metric = getMetricFromVarName(varName);
+  const demographic = getDemographicFromVarName(varName);
+  if (!metric || !demographic) { return {} }
+  switch (variant) {
+    case 'map':
+      return getMapYAxis({ metric, demographic })
+    default:
+      return getYAxis({ metric, demographic })
+  }
+}
+
+/** TOOLTIP CONFIGURATION */
+
+const getTooltip = ({ data, xVar, yVar, ...rest }) => {
   const xLabel = getLabelFromVarName(xVar);
   const yLabel = getLabelFromVarName(yVar);
+  const placeNames = data && data.name ? data.name : {};
   return {
     show:true,
     trigger: 'item',
@@ -422,10 +605,61 @@ export const tooltip = (placeNames, xVar, yVar) => {
       const line1 = xLabel + ': ' + value[0];
       const line2 = yLabel + ': ' + value[1];
       return `
-        <strong>${name}, ${stateName}</strong><br />
-        ${line1}<br />
-        ${line2}
+        <div class="tooltip__title">${name}, ${stateName}</div>
+        <div class="tooltip__content">
+          ${line1}<br />
+          ${line2}
+        </div>        
       `
-    }
+    },
+    ...rest
   }
 }
+
+const getMapTooltip = ({data, xVar, yVar}) => getTooltip({
+  data,
+  xVar,
+  yVar, 
+  extraCssText: 'max-width: 188px; white-space: normal',
+  formatter: ({value}) => {
+    const placeNames = data && data.name ? data.name : {};
+    const name = placeNames && placeNames[value[3]] ? 
+      placeNames[value[3]] : 'Unknown'
+    const stateName = getStateName(value[3])
+    return `
+      <div class="tooltip__title">${name}, ${stateName}</div>
+      <div class="tooltip__content">
+        ${getMetricTooltip(getMetricIdFromVarName(yVar), value[1])}
+      </div>
+    `
+  }
+})
+
+const tooltip = (variant, { data, xVar, yVar }) => {
+  switch(variant) {
+    case 'map':
+      return getMapTooltip({ data, xVar, yVar })
+    default:
+      return getTooltip({ data, xVar, yVar })
+  }
+}
+
+
+export const getScatterplotOptions = (
+  variant,
+  data = {},
+  { xVar, yVar },
+  highlightedState, 
+) => ({
+    grid: grid(variant),
+    visualMap: visualMap(variant, { varName: yVar, highlightedState }),
+    xAxis: xAxis(variant, { varName: xVar }),
+    yAxis: yAxis(variant, { varName: yVar }),
+    series: [
+      series('base', variant, { highlightedState }),
+      series('highlighted', variant, { highlightedState }),
+      series('selected', variant),
+      ...overlays(variant, { xVar, yVar })
+    ],
+    tooltip: tooltip(variant, { data, xVar, yVar })
+  })
