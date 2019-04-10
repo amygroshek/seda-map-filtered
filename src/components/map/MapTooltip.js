@@ -3,8 +3,7 @@ import Tooltip from '../base/Tooltip';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { getStateName } from '../../constants/statesFips';
-import { underscoreCombine } from '../../utils';
-import { getMetricTooltip } from '../../modules/config';
+import { getTooltipText } from '../../style/scatterplot-style';
 
 /**
  * Gets the location name for the title of the tooltip
@@ -28,14 +27,16 @@ const mapStateToProps = ({
 }, {
   match: { params: { metric, demographic } }
 }) => {
-  const varName = underscoreCombine(demographic, metric)
+  const varName = [demographic, metric].join('_')
   return {
     x: coords && coords.x,
     y: coords && coords.y,
     visible: Boolean(hovered) && coords && coords.x && coords.y,
     title: getFeatureTitle(hovered),
     content: hovered && hovered.properties && hovered.properties[varName] ? 
-      getMetricTooltip(metric, hovered.properties[varName]) :  '',
+      getTooltipText({
+        [varName]: hovered.properties[varName]
+      }) : '',
     above: viewport && viewport.height && 
       coords && coords.y > (viewport.height / 1.25),
     left: viewport && viewport.width && 

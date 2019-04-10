@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getMetricTooltip, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors } from '../modules/config';
+import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 
 /** GRID CONFIGURATION  */
@@ -295,10 +295,8 @@ const getMapGrowthOverlay = () => getOverlay(
 const getMapGrowthGapOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
     const position = Math.round((-0.4 + (i * (1)/5)) * 10) / 10;
-    const label =
-      position >= 0 ? 
-        `${Math.abs(position)} grade\ngrowth gap` : 
-        `-${Math.abs(position)} grade\ngrowth gap`
+    const label = position === 0 ? 'no change\nin growth gap' :
+      `${Math.abs(position)} ${position > 0 ? 'increase' : 'decrease'}\nin growth gap`
     return {
       value: [0, position], 
       name: label,
@@ -333,10 +331,8 @@ const getMapTrendOverlay = () => getOverlay(
 const getMapTrendGapOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
     const position = Math.round((-0.2 + (i * 0.1))*10)/10;
-    const label = position === 0 ? 'no gap\nin trend' :
-      position > 0 ? 
-        `${Math.abs(position)} gap\nin trend` : 
-        `-${Math.abs(position)} gap\nin trend`
+    const label = position === 0 ? 'no trend\nin gap' :
+      `${Math.abs(position)} ${position > 0 ? 'increase' : 'decrease'}\nin gap`
     return {
       value: [0, position], 
       name: label,
@@ -591,6 +587,75 @@ const yAxis = (variant, { varName }) => {
 
 /** TOOLTIP CONFIGURATION */
 
+const getGapLabel = (gapId) => {
+  const dem1 = 
+    getDemographicById(gapId[0])
+  const dem2 = 
+    getDemographicById(gapId[1] === 'n' ? 'np' : gapId[1])
+  return `${dem1.label} and ${dem2.label}`.toLowerCase()
+}
+
+const getAverageScoreDescription = (value, varName) => {
+  const demographicId = getDemographicIdFromVarName(varName)
+  const isGap = isGapDemographic(demographicId);
+  const amount = Math.round(value*100)/100
+  return isGap ?
+    `Difference of ${amount} grade levels between
+      ${getGapLabel(demographicId)} students`
+    :
+    `Students score ${Math.abs(amount)} grade levels 
+      ${amount > 0 ? 'above' : 'below'} average`
+}
+
+const getGrowthDescription = (value, varName) => {
+  const demographicId = getDemographicIdFromVarName(varName)
+  const isGap = isGapDemographic(demographicId);
+  const amount = Math.round(value*100)/100
+  return isGap ?
+    `Difference in growth ${amount > 0 ? 'increased' : 'decreased'} 
+      ${Math.abs(amount)} grade levels between
+      ${getGapLabel(demographicId)} students`
+    :
+    `Students grow ${amount} grade levels each year`;
+}
+
+const getTrendDescription = (value, varName) => {
+  const demographicId = getDemographicIdFromVarName(varName)
+  const isGap = isGapDemographic(demographicId);
+  const amount = Math.round(value*100)/100
+  return isGap ?
+    `Difference in test scores ${amount > 0 ? 'increased' : 'decreased'}
+      ${Math.abs(amount)} grade levels between
+      ${getGapLabel(demographicId)} students`
+    :
+    `Test scores ${amount > 0 ? 'raising' : 'falling'} 
+      ${Math.abs(amount)} grade levels over time`;
+}
+
+const getDescriptionForVarName = (varName, value) => {
+  if (!value || value === -9999) { return ''; }
+  const metric = getMetricFromVarName(varName);
+  switch(metric.id) {
+    case 'avg':
+      return getAverageScoreDescription(value, varName)
+    case 'grd':
+      return getGrowthDescription(value, varName)
+    case 'coh':
+      return getTrendDescription(value, varName)
+    default:
+      return ''
+  }
+}
+
+/**
+ * Get the label for the provided varnames and values
+ * @param {*} values 
+ */
+export const getTooltipText = (values) =>
+  Object.keys(values).reduce((str, varName) => {
+    return str + getDescriptionForVarName(varName, values[varName])
+  }, '')
+
 const getTooltip = ({ data, xVar, yVar, ...rest }) => {
   const xLabel = getLabelFromVarName(xVar);
   const yLabel = getLabelFromVarName(yVar);
@@ -629,7 +694,7 @@ const getMapTooltip = ({data, xVar, yVar}) => getTooltip({
     return `
       <div class="tooltip__title">${name}, ${stateName}</div>
       <div class="tooltip__content">
-        ${getMetricTooltip(getMetricIdFromVarName(yVar), value[1])}
+        ${getTooltipText({ [xVar]: value[0], [yVar]: value[1] })}
       </div>
     `
   }

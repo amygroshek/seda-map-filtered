@@ -137,8 +137,11 @@ export const getStopsForVarName = (varName) => {
  * @param {*} metricId 
  * @returns {number} between 0 - 1
  */
-export const getValuePositionForMetric = (value, metricId) => {
-  const { min, max } = getMetricById(metricId);
+export const getValuePositionForMetric = (value, varName) => {
+  const isGap = isGapVar(varName);
+  const metric = getMetricFromVarName(varName);
+  const min = isGap ? metric.gapMin : metric.min;
+  const max = isGap ? metric.gapMax : metric.max;
   return Math.min(1, Math.max(0, (value - min) / (max - min)))
 }
 
@@ -220,23 +223,3 @@ export const isGapDemographic = (id) => {
 }
 
 
-/**
- * Get the label for the provided metric and value
- * @param {*} metric 
- * @param {*} value 
- */
-export const getMetricTooltip = (metric, value) => {
-  if (!value || value <= -9999) { return 'Data unavailable' }
-  switch (metric) {
-    case 'avg':
-      return `Students score ${Math.round(Math.abs(value)*100)/100} grade levels 
-        ${value > 0 ? 'above' : 'below'} average`;
-    case 'grd':
-      return `Students grow ${Math.round(value*100)/100} grade levels each year`;
-    case 'coh':
-      return `Test scores ${value > 0 ? 'raising' : 'falling'} ${Math.round(Math.abs(value)*100)/100} 
-        grade levels over time`;
-    default:
-      throw new Error(`no label for ${metric}`)
-  }
-}

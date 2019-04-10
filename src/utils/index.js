@@ -54,9 +54,5 @@ export const getSingularRegion = (region) => {
   }
 }
 
-export const underscoreCombine = (...values) => values.join('_')
-
-export const underscoreSplit = (value) => value.split('_')
-
 export const makeId = () =>
   '_' + Math.random().toString(36).substr(2, 9)
