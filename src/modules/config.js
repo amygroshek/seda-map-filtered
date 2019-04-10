@@ -68,6 +68,8 @@ export const getRegionById = (id) =>
 export const getGapById = (id) =>
   GAPS.find(r => r.id === id)
 
+
+
 /**
  * Gets the label for the provided metric ID
  * @param {string} id 
@@ -115,10 +117,12 @@ export const getRegionLabel = (id) => {
  * @param {string} id 
  * @returns {array}
  */
-export const getStopsForMetric = (id) => {
-  const metric = getMetricById(id)
+export const getStopsForVarName = (varName) => {
+  const isGap = isGapVar(varName);
+  const metric = getMetricFromVarName(varName);
   const colors = getChoroplethColors()
-  const { min, max } = metric;
+  const min = isGap ? metric.gapMin : metric.min;
+  const max = isGap ? metric.gapMax : metric.max;
   const range = Math.abs(max - min);
   const stepSize = range / (colors.length);
   return colors.map((c, i) =>
@@ -204,7 +208,16 @@ export const getDemographicFromVarName = (varName) => {
   const dem = getDemographicById(id);
   return dem ? dem : getGapById(id)
 }
-  
+
+
+export const isGapVar = (varName) => {
+  const id = getDemographicIdFromVarName(varName)
+  return Boolean(getGapById(id))
+}
+
+export const isGapDemographic = (id) => {
+  return Boolean(getGapById(id))
+}
 
 
 /**

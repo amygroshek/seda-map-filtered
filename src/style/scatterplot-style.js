@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getMetricTooltip, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors } from '../modules/config';
+import { isGapDemographic, isGapVar, getMetricTooltip, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 
 /** GRID CONFIGURATION  */
@@ -255,6 +255,24 @@ const getMapAverageOverlay = () => getOverlay(
   }))
 )
 
+const getMapAverageGapOverlay = () => getOverlay(
+  new Array(8).fill().map((v, i) => {
+    const position = 0 - i;
+    const grades = Math.abs(position) === 1 ? 'grade' : 'grades'
+    const label = position === 0 ? 'no\ndifference' :
+      `${Math.abs(position)} ${grades}\ndifference`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(8).fill().map((v, i) => ({
+    axis: 'y',
+    position: 0 - i
+  }))
+)
+
 const getMapGrowthOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
     const position = 0.6 + (i * (1)/5);
@@ -274,6 +292,25 @@ const getMapGrowthOverlay = () => getOverlay(
   }))
 )
 
+const getMapGrowthGapOverlay = () => getOverlay(
+  new Array(5).fill().map((v, i) => {
+    const position = Math.round((-0.4 + (i * (1)/5)) * 10) / 10;
+    const label =
+      position >= 0 ? 
+        `${Math.abs(position)} grade\ngrowth gap` : 
+        `-${Math.abs(position)} grade\ngrowth gap`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(5).fill().map((v, i) => ({
+    axis: 'y',
+    position: -0.4 + (i * 1/5)
+  }))
+)
+
 const getMapTrendOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
     const position = Math.round((-0.2 + (i * 0.1))*10)/10;
@@ -281,6 +318,25 @@ const getMapTrendOverlay = () => getOverlay(
       position > 0 ? 
         `${Math.abs(position)} grade level\nincrease` : 
         `${Math.abs(position)} grade level\ndecrease`
+    return {
+      value: [0, position], 
+      name: label,
+      visualMap: false
+    }
+  }),
+  new Array(5).fill().map((v, i) => ({
+    axis: 'y',
+    position: -0.2 + (i * 0.1)
+  }))
+)
+
+const getMapTrendGapOverlay = () => getOverlay(
+  new Array(5).fill().map((v, i) => {
+    const position = Math.round((-0.2 + (i * 0.1))*10)/10;
+    const label = position === 0 ? 'no gap\nin trend' :
+      position > 0 ? 
+        `${Math.abs(position)} gap\nin trend` : 
+        `-${Math.abs(position)} gap\nin trend`
     return {
       value: [0, position], 
       name: label,
@@ -336,11 +392,20 @@ const overlays = (variant, { xVar, yVar }) => {
   const yMetricId = getMetricIdFromVarName(yVar);
   switch(yMetricId + '_' + variant) {
     case 'avg_map':
-      return [ getMapAverageOverlay() ]
+      if (isGapVar(yVar))
+        return [ getMapAverageGapOverlay() ]
+      else
+        return [ getMapAverageOverlay() ]
     case 'grd_map':
-      return [ getMapGrowthOverlay() ]
+      if (isGapVar(yVar))
+        return [ getMapGrowthGapOverlay() ]
+      else
+        return [ getMapGrowthOverlay() ]
     case 'coh_map':
-      return [ getMapTrendOverlay() ]
+      if (isGapVar(yVar))
+        return [ getMapTrendGapOverlay() ]
+      else
+        return [ getMapTrendOverlay() ]
     case 'avg_opp':
       return [ getOpportunityAverageOverlay() ]
     default:
@@ -358,8 +423,8 @@ const getMapVisualMap = ({
   const metric = getMetricFromVarName(varName);
   return {
     type: 'continuous',
-    min: metric.min,
-    max: metric.max,
+    min: isGapVar(varName) ? metric.gapMin : metric.min,
+    max: isGapVar(varName) ? metric.gapMax : metric.max,
     inRange: {
       color: colors.map(c => fade(c, 0.9))
     },
@@ -410,12 +475,14 @@ const getXAxis = ({ metric, demographic, ...rest }) => (
   }
 )
 
-const getMapXAxis = () => ({
+const getMapXAxis = ({ metric, demographic }) => ({
   splitLine: { show: false },
   axisLabel: {
     formatter: function (val) {
       if (val === 0) {
-        return 'average\nsocioeconomic status'
+        return isGapDemographic(demographic.id) ?
+          'no gap in\nsocioeconomic status' : 
+          'average\nsocioeconomic status'
       }
       return null;
     },
@@ -447,7 +514,7 @@ const xAxis = (variant, { varName }) => {
   if (!metric || !demographic) { return {} }
   switch (variant) {
     case 'map':
-      return getMapXAxis()
+      return getMapXAxis({ metric, demographic })
     default:
       if (
         metric.id === 'grd' && 
@@ -468,8 +535,8 @@ const xAxis = (variant, { varName }) => {
 
 const getYAxis = ({metric, demographic, ...rest}) => ({
   position: 'right',
-  min: metric.min,
-  max: metric.max,
+  min: isGapDemographic(demographic.id) ? metric.gapMin : metric.min,
+  max: isGapDemographic(demographic.id) ? metric.gapMax : metric.max,
   axisLabel: { 
     show: true,
     showMinLabel: false,
@@ -488,7 +555,7 @@ const getYAxis = ({metric, demographic, ...rest}) => ({
   ...rest
 })
 
-const getMapYAxis = ({metric, demographic}) => {
+const getMapYAxis = ({metric, demographic, ...rest}) => {
   return {
     position: 'right',
     axisLabel: { 
@@ -504,8 +571,9 @@ const getMapYAxis = ({metric, demographic}) => {
       }
     },
     splitLine: { show: false },
-    min: metric.min,
-    max: metric.max,
+    min: isGapDemographic(demographic.id) ? metric.gapMin : metric.min,
+    max: isGapDemographic(demographic.id) ? metric.gapMax : metric.max,
+    ...rest
   }
 }
 
@@ -515,12 +583,9 @@ const yAxis = (variant, { varName }) => {
   if (!metric || !demographic) { return {} }
   switch (variant) {
     case 'map':
-      return getMapYAxis({metric, demographic})
+      return getMapYAxis({ metric, demographic })
     default:
-      if (['wb', 'wh', 'wa', 'pn'].indexOf(demographic.id) > -1)
-        return getYAxis({ metric, demographic, min: -6, max: 0 })
-      else
-        return getYAxis({ metric, demographic })
+      return getYAxis({ metric, demographic })
   }
 }
 

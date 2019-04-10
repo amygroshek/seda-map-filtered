@@ -1,20 +1,20 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
-import { getStopsForMetric } from '../modules/config.js';
+import { getStopsForVarName } from '../modules/config.js';
 
 
-const noDataFill = "#cccccc";
+const noDataFill = "#ccc";
 
-const getFillStyle = (dataProp) => {
-  const stops = getStopsForMetric(dataProp.split('_')[1]).reduce(
+const getFillStyle = (varName) => {
+  const stops = getStopsForVarName(varName).reduce(
     (acc, curr) => [ ...acc, ...curr ], []
   );
   return [ 
     "case",
-    [ "has", dataProp ],
+    [ "has", varName ],
     [
       "interpolate", ["linear"],
-      [ "get", dataProp ],
+      [ "get", varName ],
       -9999, noDataFill,
       ...stops
     ],
