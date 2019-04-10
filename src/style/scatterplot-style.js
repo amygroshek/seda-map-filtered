@@ -331,8 +331,8 @@ const getMapTrendOverlay = () => getOverlay(
 const getMapTrendGapOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
     const position = Math.round((-0.2 + (i * 0.1))*10)/10;
-    const label = position === 0 ? 'no trend\nin gap' :
-      `${Math.abs(position)} ${position > 0 ? 'increase' : 'decrease'}\nin gap`
+    const label = position === 0 ? 'no change\nin trend gap' :
+      `${Math.abs(position)} ${position > 0 ? 'increase' : 'decrease'}\nin trend gap`
     return {
       value: [0, position], 
       name: label,
