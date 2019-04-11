@@ -117,6 +117,7 @@
   display: flex;
   flex-wrap: wrap;
   padding: 16px 16px 8px 16px;
+  min-height: 56px;
 }
 
 .location-card__marker {

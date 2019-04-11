@@ -302,8 +302,8 @@ const statesFips = {
   "09": {
     "full": "Connecticut",
     "abbr": "CT",
-    "lat": 32.6010112,
-    "lon": -86.6807365
+    "lat": 41.6219,
+    "lon": -72.7273
   }
 }
 
