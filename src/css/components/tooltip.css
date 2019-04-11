@@ -14,7 +14,7 @@
   pointer-events: none;
   text-align: left;
   font-size: 12px;
-  transition: transform 0.4s cubic-bezier(0,.5,.5,1);
+  transition: transform 0.4s cubic-bezier(0,.5,.5,1) 0.01s;
   transform-origin: top left;
 }
 
