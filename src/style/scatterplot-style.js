@@ -46,7 +46,7 @@ const getBaseSeries = ({ highlightedState }) =>
     silent: highlightedState ? true : false,
     itemStyle: {
       color: highlightedState ? 
-        'rgba(0,0,0,0.1)' : '#76ced2cc',
+        'rgba(220,220,220,0.5)' : '#76ced2cc',
       borderColor: highlightedState ? 
         'rgba(0,0,0,0.1)' : 'rgba(6, 29, 86, 0.4)',
     },
