@@ -62,3 +62,12 @@ export const getRegionData = ({ data }, region, prop) =>
   data[region] && data[region][prop] ?
     data[region][prop] : null
 
+
+export const getDataForId = (id, data) => {
+  return Object.keys(data).reduce((obj, varName) => {
+    if (data[varName][id]) {
+      obj[varName] = data[varName][id]
+    }
+    return obj;
+  }, {})
+}

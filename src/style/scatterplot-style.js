@@ -1,7 +1,8 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName } from '../modules/config';
+import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRange } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
+import { getSizerFunction } from '../utils';
 
 /** GRID CONFIGURATION  */
 
@@ -40,27 +41,32 @@ const getSeries = (seriesId, type, options) => ({
  * Get the style overrides for the base series
  * @param {boolean} highlightedOn 
  */
-const getBaseSeries = ({ highlightedState }) => 
+const getBaseSeries = ({ highlightedState, sizer }) => 
   getSeries('base', 'scatter', {
-    animation: false,
     silent: highlightedState ? true : false,
+    large: highlightedState ? true : false,
+    largeThreshold: 0,
     itemStyle: {
       color: highlightedState ? 
-        'rgba(220,220,220,0.5)' : '#76ced2cc',
+        '#eee' : '#76ced2cc',
       borderColor: highlightedState ? 
-        'rgba(0,0,0,0.1)' : 'rgba(6, 29, 86, 0.4)',
+        'transparent' : 'rgba(6, 29, 86, 0.4)',
+      borderWidth: highlightedState ? 0 : 0.75
     },
+    symbolSize: highlightedState ? 
+      6 : (value) => sizer(value[2])
   })
 
 /**
  * Get the style overrides for the highlight series
  */
-const getHighlightedSeries = ({ highlightedState }) =>
+const getHighlightedSeries = ({ highlightedState, sizer }) =>
   getSeries('highlighted', 'scatter', {
     show: highlightedState,
     itemStyle: {
       borderColor: 'rgba(6, 29, 86, 0.4)'
-    }
+    },
+    symbolSize: (value) => sizer(value[2])
   })
 
 /**
@@ -103,6 +109,8 @@ const getSelectedSeries = ({ colors = getSelectedColors() }) =>
       shadowBlur: 1,
     }
   })
+
+
 
 
 export const series = (seriesId, variant, options = {}) => {
@@ -423,15 +431,17 @@ const getMapVisualMap = ({
   colors = getChoroplethColors(), 
   highlightedState
 }) => {
-  const metric = getMetricFromVarName(varName);
+  const metricId = getMetricIdFromVarName(varName);
+  const demId = getDemographicIdFromVarName(varName);
+  const [ min, max ] = getMetricRange(metricId, demId)
   return {
     type: 'continuous',
-    min: isGapVar(varName) ? metric.gapMin : metric.min,
-    max: isGapVar(varName) ? metric.gapMax : metric.max,
+    min,
+    max,
     inRange: {
       color: colors.map(c => fade(c, 0.9))
     },
-    show:false,
+    show: false,
     seriesIndex: highlightedState ? 2 : 0,
     calculable: true,
     right:0,
@@ -459,16 +469,17 @@ const visualMap = (
 
 /** X AXIS CONFIGURATION */
 
-const getXAxis = ({ metric, demographic, ...rest }) => (
-  {
+const getXAxis = ({ metric, demographic, ...rest }) => {
+  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+  return {
+    min,
+    max,
     axisLabel: { show: true },
     axisLine: { show: false },
     splitLine: { show: true },
     splitNumber: 7,
     nameGap: 32,
     nameLocation: 'middle',
-    min: metric.min,
-    max: metric.max,
     name: metric.label + (
       demographic && demographic.label ? 
         ' (' + demographic.label + ' students)' : 
@@ -476,24 +487,30 @@ const getXAxis = ({ metric, demographic, ...rest }) => (
     ),
     ...rest
   }
-)
+}
 
-const getMapXAxis = ({ metric, demographic }) => ({
-  splitLine: { show: false },
-  axisLabel: {
-    formatter: function (val) {
-      if (val === 0) {
-        return isGapDemographic(demographic.id) ?
-          getLang('AXIS_SES_ZERO_GAP') : 
-          getLang('AXIS_SES_ZERO')
-      }
-      return null;
-    },
-    fontSize: 14,
-    inside: false,
-    margin: 10,
+const getMapXAxis = ({ metric, demographic }) => {
+  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+  return {
+    min, 
+    max,
+    splitLine: { show: false },
+    axisLabel: {
+      formatter: function (val) {
+        if (val === 0) {
+          return isGapDemographic(demographic.id) ?
+            getLang('AXIS_SES_ZERO_GAP') : 
+            getLang('AXIS_SES_ZERO')
+        }
+        return null;
+      },
+      fontSize: 14,
+      inside: false,
+      margin: 10,
+    }
   }
-})
+}  
+
 
 const getGrowthXAxis = (options) => getXAxis({
   ...options,
@@ -536,30 +553,36 @@ const xAxis = (variant, { varName }) => {
 
 /** Y AXIS CONFIGURATION */
 
-const getYAxis = ({metric, demographic, ...rest}) => ({
-  position: 'right',
-  min: isGapDemographic(demographic.id) ? metric.gapMin : metric.min,
-  max: isGapDemographic(demographic.id) ? metric.gapMax : metric.max,
-  axisLabel: { 
-    show: true,
-    showMinLabel: false,
-    showMaxLabel: false,
-  },
-  axisLine: { show: false },
-  splitLine: { show: true },
-  splitNumber: 7,
-  name: metric.label + (
-    demographic && demographic.label ? 
-      ' (' + demographic.label + ' students)' : 
-      ''
-  ),
-  nameGap: 32,
-  nameLocation: 'middle',
-  ...rest
-})
+const getYAxis = ({metric, demographic, ...rest}) => {
+  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+  return {
+    min,
+    max,
+    position: 'right',
+    axisLabel: { 
+      show: true,
+      showMinLabel: false,
+      showMaxLabel: false,
+    },
+    axisLine: { show: false },
+    splitLine: { show: true },
+    splitNumber: 7,
+    name: metric.label + (
+      demographic && demographic.label ? 
+        ' (' + demographic.label + ' students)' : 
+        ''
+    ),
+    nameGap: 32,
+    nameLocation: 'middle',
+    ...rest
+  }
+}
 
 const getMapYAxis = ({metric, demographic, ...rest}) => {
+  const [ min, max ] = getMetricRange(metric.id, demographic.id)
   return {
+    min,
+    max,
     position: 'right',
     axisLabel: { 
       show: false,
@@ -574,8 +597,6 @@ const getMapYAxis = ({metric, demographic, ...rest}) => {
       }
     },
     splitLine: { show: false },
-    min: isGapDemographic(demographic.id) ? metric.gapMin : metric.min,
-    max: isGapDemographic(demographic.id) ? metric.gapMax : metric.max,
     ...rest
   }
 }
@@ -733,18 +754,23 @@ const tooltip = (variant, { data, xVar, yVar }) => {
 export const getScatterplotOptions = (
   variant,
   data = {},
-  { xVar, yVar },
+  { xVar, yVar, zVar },
   highlightedState, 
-) => ({
+) => {
+  if (!data[xVar] || !data[yVar] || !data[zVar]) { return {} }
+  const sizer = getSizerFunction(data[zVar], { range: [ 8, 48 ]})
+  const options = {
     grid: grid(variant),
     visualMap: visualMap(variant, { varName: yVar, highlightedState }),
     xAxis: xAxis(variant, { varName: xVar }),
     yAxis: yAxis(variant, { varName: yVar }),
     series: [
-      series('base', variant, { highlightedState }),
-      series('highlighted', variant, { highlightedState }),
-      series('selected', variant),
+      series('base', variant, { highlightedState, sizer }),
+      series('highlighted', variant, { highlightedState, sizer }),
       ...overlays(variant, { xVar, yVar })
     ],
     tooltip: tooltip(variant, { data, xVar, yVar })
-  })
+  }
+  return options;
+}
+
