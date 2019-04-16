@@ -107,7 +107,6 @@
   visibility:hidden;
 }
 .section__places--overlay .location-card.location-card--search {
-  pointer-events:all;
   visibility: visible;
   background:none;
   box-shadow:none;

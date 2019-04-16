@@ -351,15 +351,25 @@ export const getStateLatLon = (id) =>
     getStateProp(id, 'lon')
   ]
 
-
 /**
  * Gets a list of state options for `<Select />`
  */
 export const getStateSelectOptions = () =>
   Object.keys(statesFips).map(fips => ({
-    id: fips,
+    id: statesFips[fips]['abbr'].toLowerCase(),
     label: statesFips[fips]['full']
   })).sort((a, b) => (
     a.label < b.label ? -1 : 
       a.label > b.label ? 1 : 0
   ))
+
+export const getStateFipsFromAbbr = (abbr) => {
+  return Object.keys(statesFips).find(fips => 
+    statesFips[fips].abbr.toUpperCase() === abbr.toUpperCase()  
+  )
+}
+
+export const getStatePropByAbbr = (abbr, prop) => {
+  const stateFips = getStateFipsFromAbbr(abbr)
+  return getStateProp(stateFips, prop)
+}

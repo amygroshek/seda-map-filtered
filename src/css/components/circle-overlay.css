@@ -21,6 +21,7 @@
   border-radius: 100%;
   background: transparent;
   border: 2px solid #fff;
+  
   transition: transform 0.1s cubic-bezier(0,1,.5,1);
   cursor: pointer;
 }
@@ -31,6 +32,7 @@
   animation-duration: 0.2s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
+  box-shadow: 0 0 0 2px #f00;
 }
 
 .circle-overlay__circle:nth-child(1) .circle {

@@ -6,6 +6,7 @@ import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modul
 import { getLang } from '../../constants/lang.js';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
+import { getStateFipsFromAbbr } from '../../constants/statesFips';
 
 /**
  * Gets an array of controls for the section
@@ -31,10 +32,9 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected, 
-    map: { usState }, 
     sections: { achievement: { hovered, vars } },
   },
-  { match: { params: { region } } }
+  { match: { params: { region, highlightedState } } }
 ) => {
   return ({
     active: Boolean(loaded['map']),
@@ -45,7 +45,7 @@ const mapStateToProps = (
       description: getLang('ACH_GAPS_DESCRIPTION'),
       headerMenu: {
         text: getLang('ACH_GAPS_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, usState),
+        controls: getSectionControls(region, vars, highlightedState),
       },
       selected: (selected && selected[region]) || [],
       cardMetrics: [ vars.xVar, vars.yVar ],
@@ -57,7 +57,7 @@ const mapStateToProps = (
         hovered.properties && 
         hovered.properties.id ?
           hovered.properties.id : '',
-      highlightedState: usState,
+      highlightedState: getStateFipsFromAbbr(highlightedState),
       variant: 'ach',
       region,
       data,

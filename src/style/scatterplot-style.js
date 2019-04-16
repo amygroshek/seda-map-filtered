@@ -25,6 +25,9 @@ export const grid = (variant) => {
   }
 }
 
+const isStateHighlighed = (highlightedState) =>
+  highlightedState && highlightedState !== 'us'
+
 /** SERIES CONFIGURATION */
 
 /**
@@ -41,28 +44,28 @@ const getSeries = (seriesId, type, options) => ({
  * Get the style overrides for the base series
  * @param {boolean} highlightedOn 
  */
-const getBaseSeries = ({ highlightedState, sizer }) => 
-  getSeries('base', 'scatter', {
-    silent: highlightedState ? true : false,
-    large: highlightedState ? true : false,
+const getBaseSeries = ({ highlightedState, sizer }) => {
+  const hl = isStateHighlighed(highlightedState)
+  return getSeries('base', 'scatter', {
+    silent: hl,
+    large: hl,
     largeThreshold: 0,
     itemStyle: {
-      color: highlightedState ? 
-        '#eee' : '#76ced2cc',
-      borderColor: highlightedState ? 
-        'transparent' : 'rgba(6, 29, 86, 0.4)',
-      borderWidth: highlightedState ? 0 : 0.75
+      color: hl ? '#ddd' : '#76ced2cc',
+      borderColor: hl ? 'transparent' : 'rgba(6, 29, 86, 0.4)',
+      borderWidth: hl ? 0 : 0.75
     },
-    symbolSize: highlightedState ? 
-      6 : (value) => sizer(value[2])
+    symbolSize: hl ? 6 : (value) => sizer(value[2])
   })
+}
+
 
 /**
  * Get the style overrides for the highlight series
  */
 const getHighlightedSeries = ({ highlightedState, sizer }) =>
   getSeries('highlighted', 'scatter', {
-    show: highlightedState,
+    show: isStateHighlighed(highlightedState),
     itemStyle: {
       borderColor: 'rgba(6, 29, 86, 0.4)'
     },
@@ -442,7 +445,7 @@ const getMapVisualMap = ({
       color: colors.map(c => fade(c, 0.9))
     },
     show: false,
-    seriesIndex: highlightedState ? 2 : 0,
+    seriesIndex: isStateHighlighed(highlightedState) ? 2 : 0,
     calculable: true,
     right:0,
     bottom:'auto',

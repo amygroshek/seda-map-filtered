@@ -6,9 +6,9 @@ import { loadLocation } from '../../actions/featuresActions';
 import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
 import { getRegionControl, getMetricControl, getDemographicGapControl, getHighlightControl } from '../../modules/controls';
 import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, updateCurrentState } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
-import { getStateProp } from '../../constants/statesFips';
+import { getStatePropByAbbr, getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import SplitSection from '../base/SplitSection';
 import { getMapViewport } from '../../modules/map';
@@ -19,9 +19,9 @@ const mapStateToProps = ({
   scatterplot: { data },
   selected,
   sections: { map: { hovered } },
-  map: { usState, viewport },
+  map: { viewport },
 },
-{ match: { params: { region, metric, demographic, ...params } } }
+{ match: { params: { region, metric, demographic, highlightedState, ...params } } }
 ) => {
   const vars = {
     yVar: demographic + '_' + metric,
@@ -36,7 +36,7 @@ const mapStateToProps = ({
     getMetricControl(metric),
     getDemographicGapControl(demographic),
     getRegionControl(region),
-    getHighlightControl(usState)
+    getHighlightControl(highlightedState)
   ];
   const selectedArray = selected && selected[region] ? 
     selected[region] : []
@@ -65,7 +65,7 @@ const mapStateToProps = ({
       variant: 'map',
       colors: getChoroplethColors(),
       selected: selectedArray,
-      highlightedState: usState,
+      highlightedState: getStateFipsFromAbbr(highlightedState),
       hovered: hoveredId
     },
     map: {
@@ -122,17 +122,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       case 'region':
         return updateRoute(ownProps, { region: option.id })
       case 'highlight':
-        if (option.value === 'us') {
-          dispatch(updateCurrentState(null))
-        } else {
-          const vp = {
-            latitude: getStateProp(option.id, 'lat'),
-            longitude: getStateProp(option.id, 'lon'),
-            zoom: 5
-          }
-          dispatch(updateCurrentState(option.id))
-          dispatch(onViewportChange(vp, true))
-        }
+        updateRoute(ownProps, { 
+          highlightedState: option.id
+        })
+        dispatch(onViewportChange({
+          latitude: getStatePropByAbbr(option.id, 'lat'),
+          longitude: getStatePropByAbbr(option.id, 'lon'),
+          zoom: 5
+        }, true))
         return;
       default:
         return;

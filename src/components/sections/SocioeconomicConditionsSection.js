@@ -6,6 +6,7 @@ import { getRegionControl, getMetricControl, getDemographicControl, getHighlight
 import { getLang } from '../../constants/lang.js';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
 import ScatterplotSection from '../base/ScatterplotSection';
+import { getStateFipsFromAbbr } from '../../constants/statesFips';
 
 /**
  * Gets an array of controls for the section
@@ -28,10 +29,9 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
-    map: { usState },
     sections: { socioeconomic: { hovered, vars } } 
   },
-  { match: { params: { region } } }
+  { match: { params: { region, highlightedState } } }
 ) => {
   return ({
     active: Boolean(loaded['map']),
@@ -42,7 +42,7 @@ const mapStateToProps = (
       description: getLang('SES_COND_DESCRIPTION'),
       headerMenu: {
         text: getLang('SES_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, usState),
+        controls: getSectionControls(region, vars, highlightedState),
       },
       selected: selected && selected[region],
       cardMetrics: [ vars.xVar, vars.yVar ],
@@ -54,7 +54,7 @@ const mapStateToProps = (
         hovered.properties && 
         hovered.properties.id ?
           hovered.properties.id : '',
-      highlightedState: usState,
+      highlightedState: getStateFipsFromAbbr(highlightedState),
       variant: 'ses',
       region,
       data,

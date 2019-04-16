@@ -14,11 +14,6 @@ export const onCoordsChange = (coords) => ({
   coords
 });
 
-export const updateCurrentState = (stateId) => ({
-  type: 'SET_US_STATE',
-  stateId
-});
-
 export const onViewportChange = (viewport, transition = false) => {
   if (transition) {
     viewport = { 

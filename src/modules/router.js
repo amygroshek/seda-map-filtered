@@ -6,6 +6,7 @@ import { push } from 'connected-react-router';
  * Variables stored in the root, in order
  */
 export const routeVars = [ 
+  'highlightedState',
   'region', 
   'metric', 
   'demographic', 
@@ -148,6 +149,9 @@ export const getViewportFromPathname = (path) => {
  * @param {object} updates an object of route params to update
  */
 export const updateRoute = (props, updates) => {
+  if (updates && updates['highlightedState']) {
+    updates['highlightedState'] = updates['highlightedState'].toLowerCase()
+  }
   props.history.push(
     getPathnameFromParams(props.match.params, updates)
   );
