@@ -5,10 +5,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Scroll from 'react-scroll'
- 
 
 import { loadRouteLocations } from '../../actions/featuresActions';
-
 import SocioeconomicConditions from '../../components/sections/SocioeconomicConditionsSection';
 import OpportunityDifferences from '../../components/sections/OpportunityDifferencesSection';
 import AchievementGaps from '../../components/sections/AchievementGapSection';

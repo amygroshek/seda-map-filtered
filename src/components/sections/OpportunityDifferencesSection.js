@@ -6,6 +6,7 @@ import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modul
 import { getLang } from '../../constants/lang.js';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
+import { getStateFipsFromAbbr } from '../../constants/statesFips';
 
 /**
  * Gets an array of controls for the section
@@ -35,10 +36,9 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
-    map: { usState },
     sections: { opportunity: { hovered, vars }  } 
   },
-  { match: { params: { region } } }
+  { match: { params: { region, highlightedState } } }
 ) => {
   return ({
     active: Boolean(loaded['map']),
@@ -49,14 +49,14 @@ const mapStateToProps = (
       description: getLang('OPP_DIFF_DESCRIPTION'),
       headerMenu: {
         text: getLang('OPP_DIFF_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, usState)
+        controls: getSectionControls(region, vars, highlightedState)
       },
       selected: selected && selected[region],
       cardMetrics: [ vars.xVar, vars.yVar ],
     },
     scatterplot: {
       ...vars,
-      highlightedState: usState,
+      highlightedState: getStateFipsFromAbbr(highlightedState),
       variant: 'opp',
       region,
       data,

@@ -57,7 +57,7 @@ function DynamicScatterplot({
   );
   const highlighted = useMemo(
     () => getStateHighlights(highlightedState, data && data[region]),
-    [highlightedState, region]
+    [highlightedState, region, data[region]]
   );
   const [circleOverlay, setCircleOverlay] = useState({});
   useEffect(() => {

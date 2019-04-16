@@ -1,4 +1,3 @@
-import { updateCurrentState } from "./mapActions";
 import { updateRoute } from "../modules/router";
 import { onScatterplotData, onScatterplotLoaded } from "./scatterplotActions";
 import { loadLocation } from "./featuresActions";
@@ -13,12 +12,9 @@ const getDispatchForSection = (dispatch, section, ownProps) =>
   (id, option) => {
     switch(id) {
       case 'highlight':
-        if (option.value === 'us') {
-          dispatch(updateCurrentState(null))
-        } else {
-          dispatch(updateCurrentState(option.id))
-        }
-        return;
+        return updateRoute(ownProps, { 
+          highlightedState: option.id
+        })
       case 'region':
         return updateRoute(ownProps, { region: option.id })
       default:
