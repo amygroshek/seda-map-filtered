@@ -91,6 +91,7 @@
 .section__places {
   height: 268px;
   transition: height 0.2s ease 0.1s;
+  z-index:0;
 }
 
 .section__places .location-card.location-card--search {
@@ -105,9 +106,8 @@
   left:0;
   right:0;
   width:100%;
-  z-index:2;
+  z-index:999;
 }
-
 .section__places--overlay .location-card {
   visibility:hidden;
 }
@@ -116,19 +116,21 @@
   background:none;
   box-shadow:none;
   padding-top: 8px;
+  overflow:visible;
 }
 
 .section__places .location-card-list {
   position:sticky;
   top:16px;
   min-height: 164px;
+  z-index:0;
 }
 
 
 /** Section Component Wrapper */
 
 .section__component {
-  z-index: 1;
+  z-index: 20;
   position: relative;
   top: 0;
   height: auto;

@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import SedaScatterplot from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
 import { getBaseVars, getRangeFromVarName } from '../../modules/config'
@@ -44,7 +45,8 @@ function DynamicScatterplot({
   onHover,
   onClick,
   onData,
-  onReady
+  onReady,
+  freeze
 }) {
   const scatterplotOptions = useMemo(
     () => getScatterplotOptions(
@@ -80,6 +82,9 @@ function DynamicScatterplot({
   return (
     <div className='dynamic-scatterplot'>
       <div className='dynamic-scatterplot__graph'>
+        <div className={classNames(
+          "blocker", "blocker--freeze", { 'blocker--show': freeze }
+        ) }></div>
         <SedaScatterplot
           endpoint={process.env.REACT_APP_VARS_ENDPOINT}
           xVar={xVar}
@@ -99,6 +104,7 @@ function DynamicScatterplot({
           highlighted={highlighted}
           theme={theme}
           baseVars={getBaseVars()}
+          freeze={freeze}
         />
         <CircleOverlay
           {...circleOverlay}
@@ -140,7 +146,8 @@ DynamicScatterplot.propTypes = {
   onHover: PropTypes.func,
   onClick: PropTypes.func,
   onData: PropTypes.func,
-  onReady: PropTypes.func
+  onReady: PropTypes.func,
+  freeze: PropTypes.bool,
 }
 
 export default DynamicScatterplot

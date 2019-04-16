@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Scroll from 'react-scroll'
+import * as _debounce from 'lodash.debounce';
 
 import { loadRouteLocations } from '../../actions/featuresActions';
 import SocioeconomicConditions from '../../components/sections/SocioeconomicConditionsSection';
@@ -32,6 +33,7 @@ export class MapView extends Component {
     mapScatterplotLoaded: PropTypes.bool,
     selectedLocationCount: PropTypes.number,
     setMetric: PropTypes.func,
+    setActiveSection: PropTypes.func,
   }
 
   componentDidMount() { 
@@ -40,14 +42,6 @@ export class MapView extends Component {
     );
 
     Scroll.scrollSpy.update();
-  }
-
-  onSectionEnter(sectionId, sectionEl) {
-    console.log('enter: ', sectionId)
-  }
-
-  onSectionExit(sectionId, sectionEl) {
-    console.log('exit: ', sectionId)
   }
 
   render() {
@@ -61,8 +55,8 @@ export class MapView extends Component {
                 containerId="scrollWrapper"
                 key={k+'-link'}
                 to={k}
-                onSetActive={this.onSectionEnter}
-                onSetInactive={this.onSectionExit}
+                onSetActive={this.props.setActiveSection}
+                onSetInactive={this.props.clearActiveSection}
                 spy={true}
               />
           )
@@ -96,10 +90,13 @@ export class MapView extends Component {
   }
 }
 
+let scrollListener;
+
 const mapStateToProps = (
-  { scatterplot: { loaded }, selected },
+  { scatterplot: { loaded }, selected, sections: { active } },
   { match: { params: { region } } }
 ) => ({
+  active,
   mapScatterplotLoaded: loaded && loaded['map'],
   selectedLocationCount: 
     selected && selected[region] && selected[region].length ?
@@ -111,6 +108,20 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loadRouteLocations(locations)),
   setMetric: (metricId) => {
     updateRoute(ownProps, { metric: metricId })
+  },
+  setActiveSection: _debounce((sectionId) => {
+    console.log('setting active', sectionId)
+    dispatch({
+      type: 'SET_ACTIVE_SECTION',
+      sectionId
+    })
+  },1000),
+  clearActiveSection: (sectionId) => {
+    console.log('setting inactive', sectionId)
+    dispatch({
+      type: 'SET_ACTIVE_SECTION',
+      sectionId: null
+    })
   }
 })
 

@@ -149,6 +149,7 @@ const getUpdatedAchievementVars = (optionId, value, { xVar, yVar }) => {
   }
 }
 
+// create an object containing all section reducers
 const reducers = Object.keys(SECTIONS).reduce(
   (obj, key) => {
     obj[key] = combineReducers({
@@ -159,4 +160,16 @@ const reducers = Object.keys(SECTIONS).reduce(
   }, {}
 );
 
-export default combineReducers(reducers)
+const active = (state = 'intro', action) => {
+  switch(action.type) {
+    case 'SET_ACTIVE_SECTION':
+      return action.sectionId
+    default:
+      return state
+  }
+}
+
+export default combineReducers({
+  ...reducers,
+  active
+})
