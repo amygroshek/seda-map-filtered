@@ -29,6 +29,11 @@
   }
 }
 
+.section__anchor {
+  position: relative;
+  top: -56px;
+}
+
 
 /** Section Header */
 
@@ -231,4 +236,8 @@
     z-index: 100;
     box-shadow: -1px 0 0#f4f4f4;
   }
+}
+
+.section__footer {
+
 }
