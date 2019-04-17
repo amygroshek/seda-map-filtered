@@ -76,7 +76,8 @@ const mapStateToProps = ({
       selected: selectedArray,
       colors: getSelectedColors(),
       viewport: getMapViewport(viewport, params),
-      freeze: (active !== 'map')
+      freeze: (active !== 'map'),
+      attributionControl: true
     },
     legend: {
       colors: getChoroplethColors(),
