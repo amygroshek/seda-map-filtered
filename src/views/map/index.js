@@ -46,7 +46,7 @@ export class MapView extends Component {
 
   render() {
     return (
-      <div id="scrollWrapper" className="map-tool">
+      <div id="scrollWrapper" className="map-tool map-tool--parallax">
         <div>
         {
           Object.keys(sectionIdComponentMap).map(
@@ -66,7 +66,7 @@ export class MapView extends Component {
           onMeasureClick={(metricId) => {
             this.props.setMetric(metricId);
             Scroll.scroller.scrollTo('map', {
-              duration: 400,
+              duration: 1000,
               smooth: true,
               containerId: 'scrollWrapper'
             })
@@ -89,8 +89,6 @@ export class MapView extends Component {
     )
   }
 }
-
-let scrollListener;
 
 const mapStateToProps = (
   { scatterplot: { loaded }, selected, sections: { active } },

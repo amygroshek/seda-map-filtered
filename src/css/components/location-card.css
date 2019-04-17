@@ -55,6 +55,7 @@
   pointer-events:none;
   max-height: 180px;
   overflow: hidden;
+  
 }
 .location-card.location-card--search:hover {
   cursor: default;

@@ -21,12 +21,20 @@
   flex-direction: column;
   z-index:10;
   box-shadow: 0 -1px 6px rgba(0,0,0,0.1);
+  
+  /** z-index fix for sticky cards */
+  -webkit-transform: translate3d(0,0,0);
 }
 
 @media(min-width: 960px) {
   .section {
     min-height: 100vh;
   }
+}
+
+.section__parallax {
+  transform: translateZ(-1px) scale(1.5);
+  z-index: -1;
 }
 
 .section__anchor {
@@ -92,6 +100,9 @@
   height: 268px;
   transition: height 0.2s ease 0.1s;
   z-index:0;
+
+  /** z-index fix for sticky cards */
+  -webkit-transform: translate3d(0,0,0);
 }
 
 .section__places .location-card.location-card--search {
@@ -124,6 +135,9 @@
   top:16px;
   min-height: 164px;
   z-index:0;
+
+  /** z-index fix for sticky cards */
+  -webkit-transform: translate3d(0,0,0);
 }
 
 
@@ -138,6 +152,9 @@
   width: 100%;
   background: #fff;
   box-shadow: 0 1px 2px #ccc, 0 -1px 0px rgba(0,0,0,0.05);
+
+  /** z-index fix for sticky cards */
+  -webkit-transform: translate3d(0,0,0);
 }
 
 @media(min-width: 960px) {

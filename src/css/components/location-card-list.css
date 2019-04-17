@@ -4,6 +4,8 @@
   justify-content: center;
   margin: 0;
   width:100%;
+  transform-style: preserve-3d;
+
 }
 
 .location-card-list .location-card {
