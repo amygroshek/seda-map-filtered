@@ -29,7 +29,7 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
-    sections: { socioeconomic: { hovered, vars } } 
+    sections: { socioeconomic: { hovered, vars }, active } 
   },
   { match: { params: { region, highlightedState } } }
 ) => {
@@ -58,6 +58,7 @@ const mapStateToProps = (
       variant: 'ses',
       region,
       data,
+      freeze: (active !== 'socioeconomic')
     }
   })
 } 

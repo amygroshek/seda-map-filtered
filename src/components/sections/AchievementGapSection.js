@@ -32,7 +32,7 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected, 
-    sections: { achievement: { hovered, vars } },
+    sections: { achievement: { hovered, vars }, active },
   },
   { match: { params: { region, highlightedState } } }
 ) => {
@@ -61,6 +61,7 @@ const mapStateToProps = (
       variant: 'ach',
       region,
       data,
+      freeze: (active !== 'achievement')
     }
   })
 } 

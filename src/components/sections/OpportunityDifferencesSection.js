@@ -36,7 +36,7 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
-    sections: { opportunity: { hovered, vars }  } 
+    sections: { opportunity: { hovered, vars }, active  } 
   },
   { match: { params: { region, highlightedState } } }
 ) => {
@@ -65,6 +65,7 @@ const mapStateToProps = (
         hovered.properties && 
         hovered.properties.id ?
           hovered.properties.id : '',
+      freeze: active !== 'opportunity'
     }
   })
 } 

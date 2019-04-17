@@ -3,14 +3,8 @@
   background-image: linear-gradient(#081F54, #081F54);
   min-height: 440px;
   color: #fff;
-  /* Display and position the pseudo-element */
   position: absolute;
   height: 80vh;
-  top:-50px;
-  transform: translateZ(-1px) scale(1.5);
-  /* Force the background image to fill the whole element. */
-  /* Keep the image from overlapping sibling elements. */
-  z-index: -1;
 }
 
 .section--intro .section__image {

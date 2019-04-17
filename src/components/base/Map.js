@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import * as _isEqual from 'lodash.isequal';
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing } from '../../style/map-style';
 import { getRegionFromId } from '../../utils';
+import classNames from 'classnames'
+
 
 class Map extends Component {
 
@@ -159,7 +161,8 @@ class Map extends Component {
    */
   _onHover = event => {
     const { features } = event;
-    const { region } = this.props;
+    const { region, freeze } = this.props;
+    if (freeze) { return; }
     // find features on the active region
     const hoveredFeature = features && 
       features.find(f => (
@@ -182,20 +185,25 @@ class Map extends Component {
 
   /** Initialize choropleth layer */
   componentDidMount() {
-    this._updateChoropleth();
+    if (!this.props.freeze) { this._updateChoropleth(); }
   }
 
   componentDidUpdate(prevProps) {
-    const { region, hovered, selected, choroplethVar } = this.props;
+    const { region, hovered, selected, choroplethVar, freeze } = this.props;
     // update the choropleth if any of the map data has changed
+    if (freeze) { return; }
     if (
       prevProps.choroplethVar !== choroplethVar ||
-      prevProps.region !== region
+      prevProps.region !== region ||
+      (!freeze && prevProps.freeze !== freeze)
     ) {
       this._updateChoropleth();
     }
     // update the highlight if the hovered feature has changed
-    if (prevProps.hovered !== hovered) {
+    if (
+      prevProps.hovered !== hovered ||
+      (!freeze && prevProps.freeze !== freeze)
+    ) {
       this._updateOutlineHighlight(
         prevProps.hovered, 
         hovered, 
@@ -204,7 +212,10 @@ class Map extends Component {
     }
     // update selected outlines on change
     const oldSelected = prevProps.selected;
-    if (!_isEqual(oldSelected, selected)) {
+    if (
+      !_isEqual(oldSelected, selected) ||
+      (!freeze && prevProps.freeze !== freeze)
+    ) {
       this._updateOutlineSelected(
         oldSelected, 
         selected
@@ -213,7 +224,7 @@ class Map extends Component {
   }
 
   render() {
-    const { viewport, onViewportChange, onHover, attributionControl = false } = this.props;
+    const { viewport, freeze, onViewportChange, onHover, attributionControl = false } = this.props;
     return (
       <div 
         className="map"
@@ -221,8 +232,12 @@ class Map extends Component {
         onMouseLeave={() => onHover(null, null)}
       >
         <div className="map__container">
+        <div className={classNames(
+          "blocker", "blocker--freeze", { 'blocker--show': freeze }
+        ) }></div>
           <ReactMapGL
             { ...viewport }
+            scrollZoom={freeze ? false : true}
             mapStyle={this.state.mapStyle}
             onViewportChange={(vp) => this._updateViewport(vp)}
             onHover={this._onHover}
@@ -252,6 +267,7 @@ Map.propTypes = {
   onHover: PropTypes.func,
   onClick: PropTypes.func,
   attributionControl: PropTypes.bool,
+  freeze: PropTypes.bool,
 }
 
 

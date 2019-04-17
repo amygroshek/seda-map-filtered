@@ -18,7 +18,7 @@ import { getLang } from '../../constants/lang';
 const mapStateToProps = ({ 
   scatterplot: { data },
   selected,
-  sections: { map: { hovered } },
+  sections: { map: { hovered }, active },
   map: { viewport },
 },
 { match: { params: { region, metric, demographic, highlightedState, ...params } } }
@@ -66,7 +66,8 @@ const mapStateToProps = ({
       colors: getChoroplethColors(),
       selected: selectedArray,
       highlightedState: getStateFipsFromAbbr(highlightedState),
-      hovered: hoveredId
+      hovered: hoveredId,
+      freeze: (active !== 'map')
     },
     map: {
       region,
@@ -74,7 +75,8 @@ const mapStateToProps = ({
       hovered: hoveredId,
       selected: selectedArray,
       colors: getSelectedColors(),
-      viewport: getMapViewport(viewport, params)
+      viewport: getMapViewport(viewport, params),
+      freeze: (active !== 'map')
     },
     legend: {
       colors: getChoroplethColors(),
