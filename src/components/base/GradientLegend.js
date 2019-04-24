@@ -31,7 +31,13 @@ const getTransform = (value = 0.5, vertical = false) => {
  * Displays a gradient with start / end labels
  * @param {object} props 
  */
-const GradientLegend = ({ startLabel, endLabel, markerPosition, colors, vertical = false}) => {
+const GradientLegend = ({ 
+  startLabel, 
+  endLabel, 
+  markerPosition, 
+  colors, 
+  vertical = false
+}) => {
   if (!colors) { return <div />; }
   const gradientString = getColorGradient(colors, vertical)
   return (

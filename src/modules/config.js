@@ -86,7 +86,6 @@ export const getMetricLabel = (id) => {
 export const getRangeFromVarName = (varName, region) => {
   const metricId = getMetricIdFromVarName(varName)
   const demId = getDemographicIdFromVarName(varName)
-  console.log('getRangeFromVarName', varName, region);
   return getMetricRange(metricId, demId, region);
 }
 
@@ -169,10 +168,8 @@ export const getStopsForVarName = (varName) => {
  * @param {*} metricId 
  * @returns {number} between 0 - 1
  */
-export const getValuePositionForMetric = (value, varName) => {
-  const demId = getDemographicIdFromVarName(varName);
-  const metricId = getMetricIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId)
+export const getValuePositionForMetric = (value, varName, region) => {
+  const [ min, max ] = getRangeFromVarName(varName, region)
   return Math.min(1, Math.max(0, (value - min) / (max - min)))
 }
 

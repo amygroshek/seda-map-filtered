@@ -10,6 +10,7 @@ const LANG = {
   'LABEL_COH': 'Trend of test scores',
   'LABEL_SEG': 'Segregation Measure',
   'LABEL_SES': 'Socioeconomic Status',
+  'LABEL_PCT': 'Percent',
 
   // Demographic Labels
   'LABEL_ALL': 'All',
@@ -21,7 +22,7 @@ const LANG = {
   'LABEL_F': 'Female',
   'LABEL_P': 'Poor',
   'LABEL_NP': 'Non-Poor',
-  'LABEL_FRL': 'Free lunch program',
+  'LABEL_FRL': 'free / reduced lunch program',
 
   // Gap Labels
   'LABEL_WB': 'White / Black Gap',
@@ -56,6 +57,11 @@ const LANG = {
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
 
+  // Axis Names
+  'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
+  'AXIS_NAME_SES': '',
+
+
   // Axis Labels
   'AXIS_AVG_ZERO': 'average\nperformance',
   'AXIS_AVG_LOW_SINGLE': '$[value] grade\nbehind',
@@ -63,17 +69,17 @@ const LANG = {
   'AXIS_AVG_HIGH_SINGLE': '$[value] grade\nahead',
   'AXIS_AVG_HIGH': '$[value] grades\nahead',
 
-  'AXIS_GRD_ZERO': 'average\ngrowth',
-  'AXIS_GRD_LOW_SINGLE': '$[value] grade level\nbehind',
-  'AXIS_GRD_LOW': '$[value] grade levels\nbehind',
-  'AXIS_GRD_HIGH_SINGLE': '$[value] grade level\nahead',
-  'AXIS_GRD_HIGH': '$[value] grade levels\nahead',
+  'AXIS_GRD_ZERO': 'no\ngrowth',
+  'AXIS_GRD_LOW_SINGLE': 'grew $[value]\ngrade level',
+  'AXIS_GRD_LOW': 'grew $[value]\ngrade levels',
+  'AXIS_GRD_HIGH_SINGLE': 'grew $[value]\ngrade level',
+  'AXIS_GRD_HIGH': 'grew $[value]\ngrade levels',
 
   'AXIS_COH_ZERO': 'no change\nin test scores',
-  'AXIS_COH_LOW_SINGLE': '$[value] grade level\nbehind',
-  'AXIS_COH_LOW': '$[value] grade levels\nbehind',
-  'AXIS_COH_HIGH_SINGLE': '$[value] grade level\nahead',
-  'AXIS_COH_HIGH': '$[value] grade levels\nahead',
+  'AXIS_COH_LOW_SINGLE': 'dropped $[value]\ngrade level',
+  'AXIS_COH_LOW': 'dropped $[value]\ngrade levels',
+  'AXIS_COH_HIGH_SINGLE': 'improved $[value]\ngrade level',
+  'AXIS_COH_HIGH': 'improved $[value]\ngrade levels',
 
   'AXIS_AVG_GAP_ZERO': 'no gap\nin opportunity',
   'AXIS_AVG_GAP_LOW_SINGLE': '-$[value] grade level\ndifference',
@@ -89,9 +95,10 @@ const LANG = {
   'AXIS_COH_GAP_LOW': '$[value] decrease\nin trend gap',
   'AXIS_COH_GAP_HIGH': '$[value] increase\nin trend gap',
 
-  'AXIS_SES_ZERO': 'average\nsocioeconomic status',
+  'AXIS_SES_ZERO': 'average socioeconomic status',
   'AXIS_SES_LOW': 'poorer',
   'AXIS_SES_HIGH': 'richer',
+
 
   'AXIS_SES_ZERO_GAP': 'no gap in\nsocioeconomic status',
   'AXIS_SES_LOW_GAP': '$[demographic1] richer',

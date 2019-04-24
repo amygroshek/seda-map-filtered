@@ -84,6 +84,8 @@ export const METRICS = [
     range: {
       'default': [ -4, 4 ],
       'gap': [ -8, 1 ],
+      'counties': [ -4, 2.5 ],
+      'districts': [ -5, 4 ],
       'schools': [ -8, 8 ]
     },
     map: true,
@@ -94,7 +96,7 @@ export const METRICS = [
     label: LANG['LABEL_GRD'],
     description: LANG['EXPLAINER_GRD'],
     range: {
-      'default': [ 0.4, 1.6 ],
+      'default': [ 0, 2 ],
       'gap': [ -0.5, 0.5 ],
       'schools': [ -0.6, 2.6 ]
     },
@@ -106,7 +108,8 @@ export const METRICS = [
     label: LANG['LABEL_COH'],
     description: LANG['EXPLAINER_COH'],
     range: {
-      'default': [ -0.3, 0.3 ]
+      'default': [ -0.5, 0.5 ],
+      'schools': [-1.5, 1.5]
     },
     map: true,
     scatterplot: true,
@@ -118,9 +121,11 @@ export const METRICS = [
     map: false,
     scatterplot: true,
     range: {
-      'default': [ -5, 4 ],
+      'default': [ -6, 4 ],
       'b': [ -14, 5 ],
-      'h': [ -16, 5 ]
+      'h': [ -16, 5 ],
+      'wb': [ -4, 14 ],
+      'wh': [ -5, 16 ]
     }
   },
   {

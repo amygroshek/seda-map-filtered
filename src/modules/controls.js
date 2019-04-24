@@ -38,7 +38,8 @@ export const getDemographicControl = (
   id,
   label,
   value: demographic,
-  options: getDemographics(),
+  // filter free lunch program
+  options: getDemographics().filter(d => d.id !== 'frl'),
   hint: 'press to select a demographic or gap ',
   formatter: (option) => option.label + ' students'
 })
@@ -51,7 +52,10 @@ export const getDemographicGapControl = (
   id,
   label,
   value,
-  options: [...getDemographics(), ...getGaps()],
+  options: [
+    ...getDemographics().filter(d => d.id !== 'frl'), 
+    ...getGaps()
+  ],
   hint: 'press to select a demographic or gap ',
   formatter: (option) => option.label + (
     value.length === 1 || value === 'all' ? ' students' : ''

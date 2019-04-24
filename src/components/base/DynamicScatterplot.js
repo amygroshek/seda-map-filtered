@@ -91,7 +91,7 @@ function DynamicScatterplot({
         [xVar,yVar,zVar], 
         'schools', 
         endpoint, 
-        getBaseVars(),
+        getBaseVars()['schools'],
         getStateFipsFromAbbr(highlightedState)
       ).then((data) => {
         console.log(data);

@@ -117,7 +117,8 @@ const mapStateToProps = ({
       markerPosition: hovered && hovered.properties ?
         getValuePositionForMetric(
           getFeatureProperty(hovered, demographic + '_' + metric),
-          demographic + '_' + metric
+          demographic + '_' + metric,
+          region
         ) : null,
       vertical: true
     }
