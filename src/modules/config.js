@@ -86,6 +86,7 @@ export const getMetricLabel = (id) => {
 export const getRangeFromVarName = (varName, region) => {
   const metricId = getMetricIdFromVarName(varName)
   const demId = getDemographicIdFromVarName(varName)
+  console.log('getRangeFromVarName', varName, region);
   return getMetricRange(metricId, demId, region);
 }
 
@@ -100,7 +101,7 @@ export const getMetricRange = (id, demographic, region) => {
   if (!metric || !metric.range ) {
     throw new Error(`no range specified for metric ${id}`)
   }
-  if (region && demographic) {
+  if (region && demographic && metric.range[[demographic, region].join('_')]) {
     const key = [demographic, region].join('_')
     if (metric.range[key]) {
       return metric.range[key]

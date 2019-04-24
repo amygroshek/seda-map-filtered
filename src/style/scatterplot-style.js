@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRange } from '../modules/config';
+import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRange, getRangeFromVarName } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
 import { getSizerFunction } from '../utils';
@@ -432,15 +432,16 @@ const overlays = (variant, { xVar, yVar }) => {
 const getMapVisualMap = ({
   varName,
   colors = getChoroplethColors(), 
-  highlightedState
+  highlightedState,
+  region
 }) => {
-  const metricId = getMetricIdFromVarName(varName);
-  const demId = getDemographicIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId)
+  console.log('getting range', varName, region)
+  const range = getRangeFromVarName(varName, region)
+  console.log(range)
   return {
     type: 'continuous',
-    min,
-    max,
+    min: range.min,
+    max: range.max,
     inRange: {
       color: colors.map(c => fade(c, 0.9))
     },
@@ -462,6 +463,7 @@ const visualMap = (
   variant,
   options,
 ) => {
+  console.log('getting visual map', options, variant)
   switch (variant) {
     case 'map':
       return [ getMapVisualMap(options) ]
@@ -472,8 +474,8 @@ const visualMap = (
 
 /** X AXIS CONFIGURATION */
 
-const getXAxis = ({ metric, demographic, ...rest }) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+const getXAxis = ({ metric, demographic, region, ...rest }) => {
+  const [ min, max ] = getRangeFromVarName([demographic.id, metric.id].join('_'), region);
   return {
     min,
     max,
@@ -492,8 +494,8 @@ const getXAxis = ({ metric, demographic, ...rest }) => {
   }
 }
 
-const getMapXAxis = ({ metric, demographic }) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+const getMapXAxis = ({ metric, demographic, region }) => {
+  const [ min, max ] = getRangeFromVarName([demographic.id, metric.id].join('_'), region);
   return {
     min, 
     max,
@@ -521,7 +523,7 @@ const getGrowthXAxis = (options) => getXAxis({
   interval: 0.2,
 })
 
-const getSocioeconomicXAxis = ({ metric, demographic }) => getXAxis({
+const getSocioeconomicXAxis = ({ metric, demographic, region }) => getXAxis({
   metric,
   demographic,
   name: metric.label + (
@@ -529,35 +531,38 @@ const getSocioeconomicXAxis = ({ metric, demographic }) => getXAxis({
       ' (' + demographic.label + ')' : 
       ''
   ),
+  region
 })
 
-const xAxis = (variant, { varName }) => {
+const xAxis = (variant, { varName, region }) => {
   const metric = getMetricFromVarName(varName);
   const demographic = getDemographicFromVarName(varName);
   if (!metric || !demographic) { return {} }
   switch (variant) {
     case 'map':
-      return getMapXAxis({ metric, demographic })
+      return getMapXAxis({ metric, demographic, region })
     default:
       if (
         metric.id === 'grd' && 
         ['p','np','b'].indexOf(demographic.id) > -1
       )
-        return getGrowthXAxis({metric, demographic})
+        return getGrowthXAxis({metric, demographic, region})
       else if (
         metric.id === 'ses' && 
         ['wb','wh','wa','pn'].indexOf(demographic.id) > -1
       )
-        return getSocioeconomicXAxis({ metric, demographic })
+        return getSocioeconomicXAxis({ metric, demographic, region })
       else
-        return getXAxis({metric, demographic})
+        return getXAxis({metric, demographic, region})
   }
 }
 
 /** Y AXIS CONFIGURATION */
 
-const getYAxis = ({metric, demographic, ...rest}) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+const getYAxis = ({metric, demographic, region, ...rest}) => {
+  const [ min, max ] = getRangeFromVarName(
+    [demographic.id, metric.id].join('_'), region
+  )
   return {
     min,
     max,
@@ -581,8 +586,10 @@ const getYAxis = ({metric, demographic, ...rest}) => {
   }
 }
 
-const getMapYAxis = ({metric, demographic, ...rest}) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id)
+const getMapYAxis = ({metric, demographic, region, ...rest}) => {
+  const [ min, max ] = getRangeFromVarName(
+    [demographic.id, metric.id].join('_'), region
+  )
   return {
     min,
     max,
@@ -604,15 +611,15 @@ const getMapYAxis = ({metric, demographic, ...rest}) => {
   }
 }
 
-const yAxis = (variant, { varName }) => {
+const yAxis = (variant, { varName, region }) => {
   const metric = getMetricFromVarName(varName);
   const demographic = getDemographicFromVarName(varName);
   if (!metric || !demographic) { return {} }
   switch (variant) {
     case 'map':
-      return getMapYAxis({ metric, demographic })
+      return getMapYAxis({ metric, demographic, region })
     default:
-      return getYAxis({ metric, demographic })
+      return getYAxis({ metric, demographic, region })
   }
 }
 
@@ -758,15 +765,16 @@ export const getScatterplotOptions = (
   variant,
   data = {},
   { xVar, yVar, zVar },
-  highlightedState, 
+  highlightedState,
+  region
 ) => {
   if (!data[xVar] || !data[yVar] || !data[zVar]) { return {} }
   const sizer = getSizerFunction(data[zVar], { range: [ 8, 48 ]})
   const options = {
     grid: grid(variant),
-    visualMap: visualMap(variant, { varName: yVar, highlightedState }),
-    xAxis: xAxis(variant, { varName: xVar }),
-    yAxis: yAxis(variant, { varName: yVar }),
+    visualMap: visualMap(variant, { varName: yVar, highlightedState, region }),
+    xAxis: xAxis(variant, { varName: xVar, region }),
+    yAxis: yAxis(variant, { varName: yVar, region }),
     series: [
       series('base', variant, { highlightedState, sizer }),
       series('highlighted', variant, { highlightedState, sizer }),
@@ -774,6 +782,7 @@ export const getScatterplotOptions = (
     ],
     tooltip: tooltip(variant, { data, xVar, yVar })
   }
+  console.log(options)
   return options;
 }
 

@@ -15,6 +15,44 @@ import { getMapViewport } from '../../modules/map';
 import { updateViewportRoute } from '../../modules/router';
 import { getLang } from '../../constants/lang';
 
+/**
+ * Gets the variables for the map section
+ * @param {string} region 
+ * @param {string} metric 
+ * @param {string} demographic 
+ */
+const getVars = (region, metric, demographic) => ({
+  yVar: region === 'schools' ? 
+    'all_' + metric : 
+    demographic + '_' + metric,
+  xVar: region === 'schools' ? 
+    'frl_pct' : 
+    demographic + '_ses',
+  zVar: 'all_sz'
+})
+
+/**
+ * Gets the controls for the map section
+ * @param {string} metric 
+ * @param {string} demographic 
+ * @param {string} region 
+ * @param {string} highlightedState 
+ */
+const getControls = 
+  (metric, demographic, region, highlightedState) => {
+    const controls = [
+      getMetricControl(metric),
+      getRegionControl(region),
+      getHighlightControl(highlightedState)
+    ];
+    // add demographic control if not schools
+    if (region !== 'schools') {
+      controls.splice( 1, 0, getDemographicGapControl(demographic));
+    }
+    return controls
+  }
+
+
 const mapStateToProps = ({ 
   scatterplot: { data },
   selected,
@@ -23,28 +61,21 @@ const mapStateToProps = ({
 },
 { match: { params: { region, metric, demographic, highlightedState, ...params } } }
 ) => {
-  const vars = {
-    yVar: demographic + '_' + metric,
-    xVar: demographic + '_ses',
-    zVar: 'sz'
-  };
+  const vars = getVars(region, metric, demographic)
+  const controls = getControls(metric, demographic, region, highlightedState)
   const hoveredId = hovered && 
     hovered.properties && 
     hovered.properties.id ?
       hovered.properties.id : ''
-  const controls = [
-    getMetricControl(metric),
-    getDemographicGapControl(demographic),
-    getRegionControl(region),
-    getHighlightControl(highlightedState)
-  ];
   const selectedArray = selected && selected[region] ? 
     selected[region] : []
   return ({
     section: {
       id: 'map',
       title: {
-        text: getLang('MAP_TITLE'),
+        text: region === 'schools' ? 
+          getLang('MAP_TITLE_SCHOOLS') : 
+          getLang('MAP_TITLE'),
         controls
       },
       description: 
@@ -54,7 +85,9 @@ const mapStateToProps = ({
       selected: selected && selected[region],
       cardMetrics: [ vars.xVar, vars.yVar ],
       headerMenu: {
-        text: getLang('MAP_CONTROL_TEXT'),
+        text: region === 'schools' ? 
+          getLang('MAP_CONTROL_TEXT_SCHOOLS') :
+          getLang('MAP_CONTROL_TEXT'),
         controls,
       }
     },

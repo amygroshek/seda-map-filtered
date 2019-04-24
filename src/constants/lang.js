@@ -21,6 +21,7 @@ const LANG = {
   'LABEL_F': 'Female',
   'LABEL_P': 'Poor',
   'LABEL_NP': 'Non-Poor',
+  'LABEL_FRL': 'Free lunch program',
 
   // Gap Labels
   'LABEL_WB': 'White / Black Gap',
@@ -121,6 +122,7 @@ const LANG = {
 
   // Map Section
   'MAP_TITLE': 'Map of $[metric] for $[demographic] by $[region]',
+  'MAP_TITLE_SCHOOLS': 'Map of $[metric] by $[region]',
   'MAP_DESCRIPTION': 'The map and scatterplot below shows how educational opportunity is correlated with socioeconomic status.  How does your area compare?',
   'MAP_DESCRIPTION_AVG': 'The average test scores of children in a community reveal the total set of educational opportunities they have had from birth to the time they take the tests.',
   'MAP_DESCRIPTION_GRD': 'Growth metric description.',
@@ -132,6 +134,7 @@ const LANG = {
   'MAP_DESCRIPTION_COH_GAP': 'Trend gap description.',
   'MAP_DESCRIPTION_SES_GAP': 'SES gap description.',
   'MAP_CONTROL_TEXT': 'Showing $[metric] for $[demographic] by $[region] in $[state]',
+  'MAP_CONTROL_TEXT_SCHOOLS': 'Showing $[metric] by $[region] in $[state]',
 
   // Socioeconomic Section
   'SES_COND_TITLE': 'Socioeconomic Conditions',
