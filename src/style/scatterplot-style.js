@@ -464,8 +464,8 @@ const getMapVisualMap = ({
   const range = getRangeFromVarName(varName, region)
   return {
     type: 'continuous',
-    min: range.min,
-    max: range.max,
+    min: range[0],
+    max: range[1],
     inRange: {
       color: colors.map(c => fade(c, 0.9))
     },

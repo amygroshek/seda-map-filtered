@@ -83,6 +83,10 @@ export const getMetricLabel = (id) => {
   return metric.label;
 }
 
+/**
+ * Returns an array containing the min and max for the
+ * provided varname and region
+ */
 export const getRangeFromVarName = (varName, region) => {
   const metricId = getMetricIdFromVarName(varName)
   const demId = getDemographicIdFromVarName(varName)
