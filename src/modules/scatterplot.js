@@ -76,7 +76,7 @@ export const getRegionData = ({ data }, region, prop) =>
 
 export const getDataForId = (id, data) => {
   return Object.keys(data).reduce((obj, varName) => {
-    if (data[varName][id]) {
+    if (data[varName][id] || data[varName][id] === 0) {
       obj[varName] = data[varName][id]
     }
     return obj;

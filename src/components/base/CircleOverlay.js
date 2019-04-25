@@ -27,7 +27,10 @@ const CircleOverlay = ({
       {...rest}
     >
       {
-        circles && circles.map((c,i) => c.x && c.y && c.z ?
+        circles && circles.map((c,i) => 
+          (c.x || c.x === 0) && 
+          (c.y || c.y === 0) && 
+          (c.z || c.z === 0) ?
           <div 
             key={'circle-' + variant + i}
             className={
