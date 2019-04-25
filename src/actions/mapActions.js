@@ -1,20 +1,45 @@
 import {FlyToInterpolator} from 'react-map-gl';
-// 3rd-party easing functions
 import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRegionInRoute } from '../modules/router';
 import { getStateViewport } from '../constants/statesFips';
 
+/** ACTIONS */
+
+/**
+ * Returns an action to map school ids
+ * in the feature properties to the feature ids
+ * @param {*} features 
+ */
+export const addToFeatureIdMap = (features) => ({
+  type: 'ADD_TO_FEATURE_ID_MAP',
+  features
+})
+
+/**
+ * Returns an action to set the hovered feature for
+ * a section.
+ */
 export const onHoverFeature = (feature, sectionId) => ({
   type: 'SET_HOVERED_FEATURE',
   feature,
   sectionId
 });
 
+/**
+ * Returns an action to set the coordinates
+ * for the map tooltip.
+ * @param {object} coords e.g. { x: 10, y: 20 }
+ */
 export const onCoordsChange = (coords) => ({
   type: 'SET_COORDS',
   coords
 });
 
+/**
+ * Returns an action to update the map viewport.
+ * @param {object} viewport new viewport to go to
+ * @param {boolean} transition true if the viewport should fly to the new viewport
+ */
 export const onViewportChange = (viewport, transition = false) => {
   if (transition) {
     viewport = { 
@@ -30,6 +55,12 @@ export const onViewportChange = (viewport, transition = false) => {
   });
 }
 
+/** THUNKS */
+
+/**
+ * Thunk that will navigate to the provided state bounding box
+ * @param {string} abbr state abbreviation (e.g. "CA")
+ */
 export const navigateToStateByAbbr = (abbr) =>
   (dispatch, getState) => {
     const state = getState()
@@ -37,16 +68,10 @@ export const navigateToStateByAbbr = (abbr) =>
     return dispatch(onViewportChange(vp, true))
   }
 
-export const onDemographicChange = (demographic) => ({
-  type: 'SET_MAP_DEMOGRAPHIC',
-  demographic
-});
-
-export const onMetricChange = (metric) => ({
-  type: 'SET_MAP_METRIC',
-  metric
-});
-
+/**
+ * Thunk that updates the region in the route
+ * @param {*} region 
+ */
 export const onRegionChange = (region) => 
   (dispatch, getState) =>
     updateRegionInRoute(
@@ -55,6 +80,12 @@ export const onRegionChange = (region) =>
       region
     )
 
+/**
+ * Thunk that adds a feature to the selected list
+ * and updates the route
+ * @param {object} feature  
+ * @param {string} region e.g. "counties" 
+ */
 export const onSelectFeature = (feature, region) => 
   (dispatch, getState) => {
     dispatch({
@@ -65,7 +96,11 @@ export const onSelectFeature = (feature, region) =>
     addFeatureToRoute(dispatch, getState().router.location.pathname, feature)
   }
 
-
+/**
+ * Thunk that dispatches remove action and
+ * removes the feature from the route.
+ * @param {object} feature
+ */
 export const onRemoveSelectedFeature = (feature) => 
   (dispatch, getState) => {
     dispatch({

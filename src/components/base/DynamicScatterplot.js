@@ -77,9 +77,9 @@ function DynamicScatterplot({
         yRange: getRangeFromVarName(yVar, region),
         sizer: getSizerFunction(data[region][zVar], { range: [ 12, 52 ]}),
         circles: selected.map(s => ({
-          x: data[region][xVar][s],
-          y: data[region][yVar][s],
-          z: data[region][zVar][s],
+          x: parseFloat(data[region][xVar][s]),
+          y: parseFloat(data[region][yVar][s]),
+          z: parseFloat(data[region][zVar][s]),
           active: hovered === s,
           id: s
         }))

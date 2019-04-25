@@ -3,7 +3,7 @@ import ReactMapGL, {NavigationControl} from 'react-map-gl';
 import PropTypes from 'prop-types';
 import * as _isEqual from 'lodash.isequal';
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getDotHighlightLayer } from '../../style/map-style';
-import { getRegionFromId } from '../../utils';
+import { getRegionFromId, getKeysInObject } from '../../utils';
 import classNames from 'classnames'
 
 
@@ -11,7 +11,6 @@ class Map extends Component {
 
   state = {
     mapStyle: defaultMapStyle,
-    idMap: {}
   };
 
   /**
@@ -52,8 +51,8 @@ class Map extends Component {
   _setFeatureState(region, featureId, state) {
     const id = 
       region === 'schools' && 
-      this.state.idMap[featureId] ?
-        this.state.idMap[featureId] : featureId
+      this.props.idMap[featureId] ?
+        this.props.idMap[featureId] : featureId
     this.map && this.map.setFeatureState({
       source: 'composite', 
       sourceLayer: region, 
@@ -177,24 +176,6 @@ class Map extends Component {
         (region !== 'schools' && f.layer.id === 'choropleth') ||
         (region === 'schools' && f.layer.id === 'dots')
       ));
-    // if the feature is a school, we need to map the 
-    // school ID to the feature id
-    if (
-      region === 'schools' &&
-      hoveredFeature && hoveredFeature.id &&
-      hoveredFeature.properties && hoveredFeature.properties.id &&
-      !this.state.idMap[hoveredFeature.properties.id]
-    ) {
-      this.setState({ 
-        idMap: { 
-          ...this.state.idMap, 
-          [hoveredFeature.properties.id]: hoveredFeature.id
-        }
-      })
-    }
-    
-
-
     // set the mouse coords
     const coords = { x: event.point[0], y: event.point[1] };
     // trigger hover feature actions, padding the featue and
@@ -228,7 +209,8 @@ class Map extends Component {
     // update the highlight if the hovered feature has changed
     if (
       prevProps.hovered !== hovered ||
-      (!freeze && prevProps.freeze !== freeze)
+      (!freeze && prevProps.freeze !== freeze) ||
+      prevProps.idMap[hovered] !== this.props.idMap[hovered]
     ) {
       this._updateOutlineHighlight(
         prevProps.hovered, 
@@ -240,7 +222,11 @@ class Map extends Component {
     const oldSelected = prevProps.selected;
     if (
       !_isEqual(oldSelected, selected) ||
-      (!freeze && prevProps.freeze !== freeze)
+      (!freeze && prevProps.freeze !== freeze) ||
+      !_isEqual(
+        getKeysInObject(selected, prevProps.idMap),
+        getKeysInObject(selected, this.props.idMap)
+      )
     ) {
       this._updateOutlineSelected(
         oldSelected, 
@@ -294,6 +280,7 @@ Map.propTypes = {
   onClick: PropTypes.func,
   attributionControl: PropTypes.bool,
   freeze: PropTypes.bool,
+  idMap: PropTypes.object,
 }
 
 

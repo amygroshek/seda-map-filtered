@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
 import { getRegionControl, getMetricControl, getDemographicGapControl, getHighlightControl } from '../../modules/controls';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
@@ -58,7 +58,7 @@ const mapStateToProps = ({
   selected,
   features,
   sections: { map: { hovered }, active },
-  map: { viewport },
+  map: { viewport, idMap },
 },
 { match: { params: { region, metric, demographic, highlightedState, ...params } } }
 ) => {
@@ -112,7 +112,8 @@ const mapStateToProps = ({
       colors: getSelectedColors(),
       viewport: getMapViewport(viewport, params),
       freeze: (active !== 'map'),
-      attributionControl: true
+      attributionControl: true,
+      idMap
     },
     legend: {
       colors: getChoroplethColors(),
@@ -130,10 +131,11 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   ...getCardDispatchForSection(dispatch, 'map'),
   ...getScatterplotDispatchForSection(dispatch, 'map'),
-  onMapHover: (feature, coords) => (
-    dispatch(onHoverFeature(feature, 'map')) &&
+  onMapHover: (feature, coords) => {
+    dispatch(onHoverFeature(feature, 'map'))
     dispatch(onCoordsChange(coords))
-  ),
+    dispatch(addToFeatureIdMap([ feature ]))
+  },
   onMapViewportChange: (vp) => {
     dispatch(onViewportChange(vp))
     updateViewportRoute(ownProps, vp);

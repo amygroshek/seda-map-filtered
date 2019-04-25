@@ -2,9 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+/**
+ * Returns a percent based on where the value falls 
+ * within the range
+ * @param {number} value 
+ * @param {array<number>} range 
+ */
 const getPercentOfRange = (value, range) =>
   ( (value - range[0]) / (range[1] - range[0]) ) * 100
-
 
 const CircleOverlay = ({ 
   circles, 
@@ -65,6 +70,7 @@ CircleOverlay.propTypes = {
       active: PropTypes.bool
     })
   ),
+  variant: PropTypes.string,
   xRange: PropTypes.array,
   yRange: PropTypes.array,
   sizer: PropTypes.func,

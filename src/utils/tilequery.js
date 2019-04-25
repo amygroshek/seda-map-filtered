@@ -45,7 +45,6 @@ export const loadFeatureFromCoords = ({ id, lat, lon }) => {
     id.length === 12 ? 'schools' : 'districts';
   return axios.get(getTilequeryUrl(region, lat, lon))
     .then((res) => {
-      console.log(res.data.features)
       return getFeatureFromCollection(id, res.data.features)
     })
 }

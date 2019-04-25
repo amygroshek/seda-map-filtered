@@ -484,6 +484,5 @@ export const getStateViewport = (abbr, { width, height }) => {
     getStateBoundingBoxByAbbr(abbr),
     { padding: 20 }
   );
-  console.log('VIEWPORT', bound)
   return bound;
 }
