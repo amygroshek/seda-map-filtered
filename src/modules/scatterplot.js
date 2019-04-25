@@ -1,9 +1,26 @@
 import { combineReducers } from "redux";
+import * as _merge from 'lodash.merge';
 
 const defaultData = {
   'schools': {},
   'districts': {},
   'counties': {}
+}
+
+const handleReceivedData = (state, data, region) => {
+  if (region === 'schools') {
+    return {
+      ...state,
+      [region]: _merge({}, state[region], data)
+    }
+  }
+  return {
+    ...state,
+    [region]: {
+      ...state[region],
+      ...data
+    }
+  }
 }
 
 /**
@@ -14,13 +31,7 @@ const defaultData = {
 const data = (state = defaultData, action) => {
   switch(action.type) {
     case 'SCATTERPLOT_DATA_RECEIVED':
-      return {
-        ...state,
-        [action.region]: {
-          ...state[action.region],
-          ...action.data
-        }
-      }
+      return handleReceivedData(state, action.data, action.region)
     default:
       return state;
   }

@@ -2,18 +2,18 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { loadLocation } from '../../actions/featuresActions';
 import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
 import { getRegionControl, getMetricControl, getDemographicGapControl, getHighlightControl } from '../../modules/controls';
-import { onScatterplotData, onScatterplotLoaded } from '../../actions/scatterplotActions';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
-import { getStatePropByAbbr, getStateFipsFromAbbr } from '../../constants/statesFips';
+import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import SplitSection from '../base/SplitSection';
 import { getMapViewport } from '../../modules/map';
 import { updateViewportRoute } from '../../modules/router';
 import { getLang } from '../../constants/lang';
+import { getScatterplotDispatchForSection, getCardDispatchForSection } from '../../actions/sectionActions';
+import { getHoveredId, getCards } from '../../modules/sections';
 
 /**
  * Gets the variables for the map section
@@ -56,6 +56,7 @@ const getControls =
 const mapStateToProps = ({ 
   scatterplot: { data },
   selected,
+  features,
   sections: { map: { hovered }, active },
   map: { viewport },
 },
@@ -63,10 +64,7 @@ const mapStateToProps = ({
 ) => {
   const vars = getVars(region, metric, demographic)
   const controls = getControls(metric, demographic, region, highlightedState)
-  const hoveredId = hovered && 
-    hovered.properties && 
-    hovered.properties.id ?
-      hovered.properties.id : ''
+  const hoveredId = getHoveredId(hovered)
   const selectedArray = selected && selected[region] ? 
     selected[region] : []
   return ({
@@ -82,14 +80,18 @@ const mapStateToProps = ({
         getLang('MAP_DESCRIPTION_' + metric + (isGapDemographic(demographic) ? '_GAP': '')) + ' ' +
         getLang('MAP_DESCRIPTION_SES' + (isGapDemographic(demographic) ? '_GAP': '')) + ' ' +
         getLang('MAP_DESCRIPTION'),
-      selected: selected && selected[region],
-      cardMetrics: [ vars.xVar, vars.yVar ],
       headerMenu: {
         text: region === 'schools' ? 
           getLang('MAP_CONTROL_TEXT_SCHOOLS') :
           getLang('MAP_CONTROL_TEXT'),
         controls,
-      }
+      },
+      cards: getCards({ 
+        hovered,
+        features,
+        selected: selected[region] || [],
+        metrics: [ vars.xVar, vars.yVar ]
+      }),
     },
     scatterplot: {
       ...vars,
@@ -126,20 +128,8 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onScatterplotClick: (location) => {
-    dispatch(loadLocation(location))
-    dispatch(onViewportChange({ 
-      latitude: location.lat, 
-      longitude: location.lon,
-      zoom: location.id.length+2
-    }, true))
-  },
-  onScatterplotData: (data, region) => 
-    dispatch(onScatterplotData(data, region)),
-  onScatterplotHover: (feature) =>
-    dispatch(onHoverFeature(feature, 'map')),
-  onScatterplotReady: () => 
-    dispatch(onScatterplotLoaded('map')),
+  ...getCardDispatchForSection(dispatch, 'map'),
+  ...getScatterplotDispatchForSection(dispatch, 'map'),
   onMapHover: (feature, coords) => (
     dispatch(onHoverFeature(feature, 'map')) &&
     dispatch(onCoordsChange(coords))
@@ -162,18 +152,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         updateRoute(ownProps, { 
           highlightedState: option.id
         })
-        dispatch(onViewportChange({
-          latitude: getStatePropByAbbr(option.id, 'lat'),
-          longitude: getStatePropByAbbr(option.id, 'lon'),
-          zoom: 5
-        }, true))
+        if (option.id !== 'us') {
+          dispatch(navigateToStateByAbbr(option.id))
+        }
         return;
       default:
         return;
     }
   },
 })
-
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)

@@ -8,7 +8,6 @@ import { getScatterplotOptions } from '../../style/scatterplot-style';
 import CircleOverlay from './CircleOverlay';
 import { getSizerFunction } from '../../utils';
 import { getDataForId } from '../../modules/scatterplot';
-import { getStateFipsFromAbbr } from '../../constants/statesFips';
 
 const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
 
@@ -52,13 +51,15 @@ function DynamicScatterplot({
   freeze
 }) {
   const scatterplotOptions = useMemo(
-    () => getScatterplotOptions(
-      variant, 
-      data[region], 
-      { xVar, yVar, zVar }, 
-      highlightedState,
-      region
-    ),
+    () => {
+      return getScatterplotOptions(
+        variant, 
+        data[region], 
+        { xVar, yVar, zVar }, 
+        highlightedState,
+        region
+      )
+    },
     [xVar, yVar, zVar, highlightedState, data[region]]
   );
   const highlighted = useMemo(
@@ -66,7 +67,10 @@ function DynamicScatterplot({
     [highlightedState, region, data[region]]
   );
   const [circleOverlay, setCircleOverlay] = useState({});
-  useEffect(() => {
+  
+  // setup circle overlay
+  useEffect(
+    () => {
       data[region][xVar] && data[region][yVar] && data[region][zVar] &&
       setCircleOverlay({
         xRange: getRangeFromVarName(xVar, region),
@@ -83,22 +87,22 @@ function DynamicScatterplot({
     },
     [xVar, yVar, data[region], selected, hovered]
   )
+  // fetch any additional school level data for highlighted states
   useEffect(() => {
-    if (region === 'schools' && highlightedState && highlightedState !== 'us') {
+    if (!freeze && region === 'schools' && highlightedState && highlightedState !== 'us') {
       // load school data for state
-      console.log('getting school data', highlightedState)
       fetchScatterplotVars(
-        [xVar,yVar,zVar], 
+        [ xVar, yVar, zVar ], 
         'schools', 
         endpoint, 
         getBaseVars()['schools'],
-        getStateFipsFromAbbr(highlightedState)
+        `${highlightedState}`.padStart(2, "0")
       ).then((data) => {
-        console.log(data);
+        onData && onData(data, 'schools');
+        return data
       })
-      
     }
-  }, [xVar, yVar, region, highlightedState])
+  }, [xVar, yVar, zVar, region, highlightedState, freeze])
   return (
     <div className='dynamic-scatterplot'>
       <div className='dynamic-scatterplot__graph'>

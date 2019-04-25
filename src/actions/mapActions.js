@@ -2,6 +2,7 @@ import {FlyToInterpolator} from 'react-map-gl';
 // 3rd-party easing functions
 import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRegionInRoute } from '../modules/router';
+import { getStateViewport } from '../constants/statesFips';
 
 export const onHoverFeature = (feature, sectionId) => ({
   type: 'SET_HOVERED_FEATURE',
@@ -28,6 +29,13 @@ export const onViewportChange = (viewport, transition = false) => {
     viewport
   });
 }
+
+export const navigateToStateByAbbr = (abbr) =>
+  (dispatch, getState) => {
+    const state = getState()
+    const vp = getStateViewport(abbr, state.map.viewport);
+    return dispatch(onViewportChange(vp, true))
+  }
 
 export const onDemographicChange = (demographic) => ({
   type: 'SET_MAP_DEMOGRAPHIC',

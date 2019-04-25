@@ -7,23 +7,29 @@ const ScatterplotSection = ({
   section,
   active = true,
   scatterplot,
-  onData,
-  onHover,
-  onClick,
-  onReady,
+  onScatterplotData,
+  onScatterplotHover,
+  onScatterplotClick,
+  onScatterplotReady,
+  onCardClick,
+  onCardHover,
+  onCardDismiss,
   onOptionChange,
 }) => {
   return (
     <Section 
       onOptionChange={onOptionChange}
+      onCardClick={onCardClick}
+      onCardHover={onCardHover}
+      onCardDismiss={onCardDismiss}
       {...section}
     >
       { active &&
         <DynamicScatterplot
-          onData={onData}
-          onReady={onReady}
-          onHover={onHover}
-          onClick={onClick}
+          onData={onScatterplotData}
+          onReady={onScatterplotReady}
+          onHover={onScatterplotHover}
+          onClick={onScatterplotClick}
           {...scatterplot}
         />
       }
@@ -36,10 +42,13 @@ ScatterplotSection.propTypes = {
   section: PropTypes.shape(Section.propTypes),
   scatterplot: PropTypes.shape(DynamicScatterplot.propTypes),
   onOptionChange: PropTypes.func,
-  onData: PropTypes.func,
-  onHover: PropTypes.func,
-  onClick: PropTypes.func,
-  onReady: PropTypes.func
+  onScatterplotData: PropTypes.func,
+  onScatterplotHover: PropTypes.func,
+  onScatterplotClick: PropTypes.func,
+  onScatterplotReady: PropTypes.func,
+  onCardClick: PropTypes.func,
+  onCardHover: PropTypes.func,
+  onCardDismiss: PropTypes.func,
 }
 
 export default ScatterplotSection

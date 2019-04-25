@@ -18,6 +18,9 @@ const SplitSection = ({
   onScatterplotData,
   onScatterplotHover,
   onScatterplotReady,
+  onCardClick,
+  onCardHover,
+  onCardDismiss,
   onMapViewportChange,
   onMapHover,
   onMapClick
@@ -25,6 +28,9 @@ const SplitSection = ({
   return (
     <Section 
       onOptionChange={onOptionChange}
+      onCardClick={onCardClick}
+      onCardHover={onCardHover}
+      onCardDismiss={onCardDismiss}
       {...section}
     >
       <div className="section__right">
@@ -62,6 +68,9 @@ SplitSection.propTypes = {
   onScatterplotData: PropTypes.func,
   onScatterplotReady: PropTypes.func,
   onScatterplotHover: PropTypes.func,
+  onCardClick: PropTypes.func,
+  onCardHover: PropTypes.func,
+  onCardDismiss: PropTypes.func,
   onMapViewportChange: PropTypes.func,
   onMapHover: PropTypes.func,
   onMapClick: PropTypes.func

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from '@material-ui/core/Typography';
-import MapLocationCards from '../map/MapLocationCards';
+import LocationCards from '../base/LocationCards';
 import MapSearch from '../map/MapSearch';
 import MenuSentence from '../base/MenuSentence';
 import { getLang } from '../../constants/lang';
@@ -13,10 +13,12 @@ function Section({
   title, 
   description,
   headerMenu,
-  cardMetrics,
-  selected,
+  cards,
   children,
-  onOptionChange, 
+  onOptionChange,
+  onCardDismiss,
+  onCardHover,
+  onCardClick
 }) {
   return (
     <div id={id} name={id} className={"section section--" + (type || id)}>
@@ -50,19 +52,21 @@ function Section({
       <div className="section__body">
       
         <div className="section__places">
-          <MapLocationCards 
+          <LocationCards
             section={id}
-            metrics={cardMetrics}
+            onCardDismiss={onCardDismiss}
+            onCardHover={onCardHover}
+            onCardClick={onCardClick}
+            {...cards}
           >
-            { selected.length < 7 &&
+            { cards.features.length < 7 &&
               <div key={'section-search'} className="location-card location-card--search">
                 <Typography component="p" className="helper helper--card-search">
                   { getLang('CARD_SEARCH_HELPER') }
                 </Typography>
               </div>
             }
-            
-          </MapLocationCards>
+          </LocationCards>
         </div>
 
         {/* Hack approach to overlay search on top of visualization */}
@@ -70,19 +74,19 @@ function Section({
           
           <CSSTransitionGroup
             component="div"
-            className={"location-card-list location-card-list--" + selected.length}
+            className={"location-card-list location-card-list--" + cards.features.length}
             transitionName="location-card"
             transitionEnterTimeout={500}
             transitionLeaveTimeout={500}
           >
             {
-              Boolean(selected) && Boolean(selected.length) && 
-                [...Array(selected.length)].map((_, i) =>
+              Boolean(cards.features) && Boolean(cards.features.length) && 
+                [...Array(cards.features.length)].map((_, i) =>
                   <div key={'pchld-'+i} className="location-card"></div>
                 )
             }
             {
-              selected.length < 7 &&
+              cards.features.length < 7 &&
                 <div key={'section-search-overlay'} className="location-card location-card--search">
                   <MapSearch
                     inputProps={{
@@ -114,14 +118,19 @@ Section.propTypes = {
   type: PropTypes.string,
   title: PropTypes.any,
   description: PropTypes.string,
-  selected: PropTypes.array,
-  cardMetrics: PropTypes.array,
   children: PropTypes.node,
   headerMenu: PropTypes.shape({
     text: PropTypes.string,
     controls: PropTypes.array,
   }),
+  cards: PropTypes.shape({
+    features: PropTypes.array,
+    metrics: PropTypes.array,
+  }),
   onOptionChange: PropTypes.func,
+  onCardClick: PropTypes.func,
+  onCardHover: PropTypes.func,
+  onCardDismiss: PropTypes.func,
 }
 
 export default Section
