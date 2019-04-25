@@ -16,6 +16,11 @@ const onLoadFeaturesError = (error) => ({
   error
 })
 
+const addToMap = (features) => ({
+  type: 'SET_FEATURE_MAP',
+  features
+})
+
 export const loadLocation = (location) =>
   (dispatch, getState) => {
     const pathname = getState().router.location.pathname;

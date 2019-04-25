@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactMapGL, {NavigationControl} from 'react-map-gl';
 import PropTypes from 'prop-types';
 import * as _isEqual from 'lodash.isequal';
-import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing } from '../../style/map-style';
+import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getDotHighlightLayer } from '../../style/map-style';
 import { getRegionFromId } from '../../utils';
 import classNames from 'classnames'
 
@@ -10,7 +10,8 @@ import classNames from 'classnames'
 class Map extends Component {
 
   state = {
-    mapStyle: defaultMapStyle
+    mapStyle: defaultMapStyle,
+    idMap: {}
   };
 
   /**
@@ -49,10 +50,14 @@ class Map extends Component {
    * @param {object} state 
    */
   _setFeatureState(region, featureId, state) {
+    const id = 
+      region === 'schools' && 
+      this.state.idMap[featureId] ?
+        this.state.idMap[featureId] : featureId
     this.map && this.map.setFeatureState({
       source: 'composite', 
       sourceLayer: region, 
-      id: featureId
+      id 
     }, state);
   }
 
@@ -117,10 +122,13 @@ class Map extends Component {
         getBackgroundChoroplethLayer('districts', choroplethVar);
       const dotLayer = 
         getDotLayer(region, choroplethVar);
+      const dotHighlight =
+        getDotHighlightLayer(region, choroplethVar);
       updatedLayers = defaultMapStyle
         .get('layers')
         .splice(4, 0, choroplethLayer)
         .splice(59, 0, dotLayer)
+        .splice(60, 0, dotHighlight)
     }
 
     const mapStyle = defaultMapStyle
@@ -169,6 +177,24 @@ class Map extends Component {
         (region !== 'schools' && f.layer.id === 'choropleth') ||
         (region === 'schools' && f.layer.id === 'dots')
       ));
+    // if the feature is a school, we need to map the 
+    // school ID to the feature id
+    if (
+      region === 'schools' &&
+      hoveredFeature && hoveredFeature.id &&
+      hoveredFeature.properties && hoveredFeature.properties.id &&
+      !this.state.idMap[hoveredFeature.properties.id]
+    ) {
+      this.setState({ 
+        idMap: { 
+          ...this.state.idMap, 
+          [hoveredFeature.properties.id]: hoveredFeature.id
+        }
+      })
+    }
+    
+
+
     // set the mouse coords
     const coords = { x: event.point[0], y: event.point[1] };
     // trigger hover feature actions, padding the featue and

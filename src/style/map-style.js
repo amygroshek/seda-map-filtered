@@ -22,6 +22,53 @@ const getFillStyle = (varName) => {
   ]
 }
 
+export const getDotHighlightLayer = (region, dataProp) => fromJS({
+  id: 'dots-highlight',
+  source: 'composite',
+  'source-layer': region,
+  type: 'circle',
+  minzoom: 2,
+  interactive: true,
+  paint: {
+    'circle-color': [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      '#f00',
+      ["string", ["feature-state", "selected"], 'rgba(0,0,0,0)']
+    ],
+    'circle-radius': [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      2,
+      2,
+      4,
+      5,
+      14,
+      16
+    ],
+    'circle-stroke-color': [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      '#fff',
+      ["boolean", ["feature-state", "selected"], false],
+      '#fff',
+      'rgba(0,0,0,0)'
+    ],
+    'circle-stroke-width': [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      4,
+      0,
+      6,
+      1,
+      14,
+      4
+    ]
+  }
+})
+
 export const getDotLayer = (region, dataProp) => fromJS({
   id: 'dots',
   source: 'composite',
@@ -31,7 +78,7 @@ export const getDotLayer = (region, dataProp) => fromJS({
   interactive: true,
   paint: {
     'circle-color': getFillStyle(dataProp),
-    'circle-opacity': 0.8,
+    'circle-opacity': 1,
     'circle-radius': [
       "interpolate",
       [ "linear" ],
