@@ -1,13 +1,15 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import SedaScatterplot from 'react-seda-scatterplot'
+import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
 import { getBaseVars, getRangeFromVarName } from '../../modules/config'
 import { getScatterplotOptions } from '../../style/scatterplot-style';
 import CircleOverlay from './CircleOverlay';
 import { getSizerFunction } from '../../utils';
 import { getDataForId } from '../../modules/scatterplot';
+
+const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
 
 /**
  * Gets the state IDs that belong to a certain state
@@ -49,12 +51,15 @@ function DynamicScatterplot({
   freeze
 }) {
   const scatterplotOptions = useMemo(
-    () => getScatterplotOptions(
-      variant, 
-      data[region], 
-      { xVar, yVar, zVar }, 
-      highlightedState
-    ),
+    () => {
+      return getScatterplotOptions(
+        variant, 
+        data[region], 
+        { xVar, yVar, zVar }, 
+        highlightedState,
+        region
+      )
+    },
     [xVar, yVar, zVar, highlightedState, data[region]]
   );
   const highlighted = useMemo(
@@ -62,16 +67,19 @@ function DynamicScatterplot({
     [highlightedState, region, data[region]]
   );
   const [circleOverlay, setCircleOverlay] = useState({});
-  useEffect(() => {
+  
+  // setup circle overlay
+  useEffect(
+    () => {
       data[region][xVar] && data[region][yVar] && data[region][zVar] &&
       setCircleOverlay({
-        xRange: getRangeFromVarName(xVar),
-        yRange: getRangeFromVarName(yVar),
+        xRange: getRangeFromVarName(xVar, region),
+        yRange: getRangeFromVarName(yVar, region),
         sizer: getSizerFunction(data[region][zVar], { range: [ 12, 52 ]}),
         circles: selected.map(s => ({
-          x: data[region][xVar][s],
-          y: data[region][yVar][s],
-          z: data[region][zVar][s],
+          x: parseFloat(data[region][xVar][s]),
+          y: parseFloat(data[region][yVar][s]),
+          z: parseFloat(data[region][zVar][s]),
           active: hovered === s,
           id: s
         }))
@@ -79,6 +87,22 @@ function DynamicScatterplot({
     },
     [xVar, yVar, data[region], selected, hovered]
   )
+  // fetch any additional school level data for highlighted states
+  useEffect(() => {
+    if (!freeze && region === 'schools' && highlightedState && highlightedState !== 'us') {
+      // load school data for state
+      fetchScatterplotVars(
+        [ xVar, yVar, zVar ], 
+        'schools', 
+        endpoint, 
+        getBaseVars()['schools'],
+        `${highlightedState}`.padStart(2, "0")
+      ).then((data) => {
+        onData && onData(data, 'schools');
+        return data
+      })
+    }
+  }, [xVar, yVar, zVar, region, highlightedState, freeze])
   return (
     <div className='dynamic-scatterplot'>
       <div className='dynamic-scatterplot__graph'>
@@ -86,7 +110,7 @@ function DynamicScatterplot({
           "blocker", "blocker--freeze", { 'blocker--show': freeze }
         ) }></div>
         <SedaScatterplot
-          endpoint={process.env.REACT_APP_VARS_ENDPOINT}
+          endpoint={endpoint}
           xVar={xVar}
           yVar={yVar}
           zVar={zVar}
@@ -103,7 +127,7 @@ function DynamicScatterplot({
           options={scatterplotOptions}
           highlighted={highlighted}
           theme={theme}
-          baseVars={getBaseVars()}
+          metaVars={getBaseVars()}
           freeze={freeze}
         />
         <CircleOverlay

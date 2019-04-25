@@ -173,3 +173,21 @@ export default combineReducers({
   ...reducers,
   active
 })
+
+
+export const getHoveredId = (hovered) =>
+  hovered && hovered.properties && hovered.properties.id ?
+    hovered.properties.id : ''
+
+export const getCards = ({ hovered, selected, features, metrics }) => {
+  return {
+    hovered: getHoveredId(hovered),
+    features: selected
+      .map(l => 
+        features[l] && features[l].properties ? 
+          features[l] : null
+      )
+      .filter(l => l),
+    metrics,
+  }
+}

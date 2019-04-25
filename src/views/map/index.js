@@ -29,7 +29,6 @@ export class MapView extends Component {
     loadRouteLocations: PropTypes.any,
     match: PropTypes.object,
     demographic: PropTypes.string, 
-    onDemographicChange: PropTypes.func,
     mapScatterplotLoaded: PropTypes.bool,
     selectedLocationCount: PropTypes.number,
     setMetric: PropTypes.func,

@@ -7,6 +7,7 @@ import { getLang } from '../../constants/lang.js';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
+import { getCards } from '../../modules/sections';
 
 /**
  * Gets an array of controls for the section
@@ -29,10 +30,12 @@ const mapStateToProps = (
   { 
     scatterplot: { data, loaded }, 
     selected,
+    features,
     sections: { socioeconomic: { hovered, vars }, active } 
   },
   { match: { params: { region, highlightedState } } }
 ) => {
+  region = (region === 'schools' ? 'districts' : region);
   return ({
     active: Boolean(loaded['map']),
     section: {
@@ -44,8 +47,12 @@ const mapStateToProps = (
         text: getLang('SES_CONTROL_TEXT'),
         controls: getSectionControls(region, vars, highlightedState),
       },
-      selected: selected && selected[region],
-      cardMetrics: [ vars.xVar, vars.yVar ],
+      cards: getCards({ 
+        hovered,
+        features,
+        selected: selected[region] || [],
+        metrics: [ vars.xVar, vars.yVar ]
+      }),
     },
     scatterplot: {
       ...vars,

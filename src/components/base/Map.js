@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import ReactMapGL, {NavigationControl} from 'react-map-gl';
 import PropTypes from 'prop-types';
 import * as _isEqual from 'lodash.isequal';
-import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing } from '../../style/map-style';
-import { getRegionFromId } from '../../utils';
+import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getDotHighlightLayer } from '../../style/map-style';
+import { getRegionFromId, getKeysInObject } from '../../utils';
 import classNames from 'classnames'
 
 
 class Map extends Component {
 
   state = {
-    mapStyle: defaultMapStyle
+    mapStyle: defaultMapStyle,
   };
 
   /**
@@ -49,10 +49,14 @@ class Map extends Component {
    * @param {object} state 
    */
   _setFeatureState(region, featureId, state) {
+    const id = 
+      region === 'schools' && 
+      this.props.idMap[featureId] ?
+        this.props.idMap[featureId] : featureId
     this.map && this.map.setFeatureState({
       source: 'composite', 
       sourceLayer: region, 
-      id: featureId
+      id 
     }, state);
   }
 
@@ -117,10 +121,13 @@ class Map extends Component {
         getBackgroundChoroplethLayer('districts', choroplethVar);
       const dotLayer = 
         getDotLayer(region, choroplethVar);
+      const dotHighlight =
+        getDotHighlightLayer(region, choroplethVar);
       updatedLayers = defaultMapStyle
         .get('layers')
         .splice(4, 0, choroplethLayer)
         .splice(59, 0, dotLayer)
+        .splice(60, 0, dotHighlight)
     }
 
     const mapStyle = defaultMapStyle
@@ -202,7 +209,8 @@ class Map extends Component {
     // update the highlight if the hovered feature has changed
     if (
       prevProps.hovered !== hovered ||
-      (!freeze && prevProps.freeze !== freeze)
+      (!freeze && prevProps.freeze !== freeze) ||
+      prevProps.idMap[hovered] !== this.props.idMap[hovered]
     ) {
       this._updateOutlineHighlight(
         prevProps.hovered, 
@@ -214,7 +222,11 @@ class Map extends Component {
     const oldSelected = prevProps.selected;
     if (
       !_isEqual(oldSelected, selected) ||
-      (!freeze && prevProps.freeze !== freeze)
+      (!freeze && prevProps.freeze !== freeze) ||
+      !_isEqual(
+        getKeysInObject(selected, prevProps.idMap),
+        getKeysInObject(selected, this.props.idMap)
+      )
     ) {
       this._updateOutlineSelected(
         oldSelected, 
@@ -268,6 +280,7 @@ Map.propTypes = {
   onClick: PropTypes.func,
   attributionControl: PropTypes.bool,
   freeze: PropTypes.bool,
+  idMap: PropTypes.object,
 }
 
 

@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRange } from '../modules/config';
+import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getRangeFromVarName } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
 import { getSizerFunction } from '../utils';
@@ -255,23 +255,33 @@ const getLangKeyForAxisLabel = (value, metric) => {
   return base + position + single;
 }
 
-const getMapAverageOverlay = () => getOverlay(
-  new Array(7).fill().map((v, i) => {
-    const position = -3 + i;
-    const labelKey =
-      getLangKeyForAxisLabel(position, 'avg')
-    const label = getLang(labelKey, { value: Math.abs(position) })
-    return {
-      value: [0, position], 
-      name: label,
-      visualMap: false
-    }
-  }),
-  new Array(7).fill().map((v, i) => ({
-    axis: 'y',
-    position: -3 + i
-  }))
-)
+const getMapAverageOverlay = (region) => {
+  // show lines and labels every 2 grades for schools
+  const increment = region === 'schools' ? 2 : 1
+  // schools go from -7 : 7, others go -3 : 3
+  const start = region === 'schools' ? -6 : -3
+  // number of lines to overlay
+  const numLines = 7
+  return getOverlay(
+    new Array(numLines).fill().map((v, i) => {
+      const position = start + (i * increment);
+      const labelKey =
+        getLangKeyForAxisLabel(position, 'avg')
+      const label = getLang(labelKey, { value: Math.abs(position) })
+      return {
+        value: [0, position], 
+        name: label,
+        visualMap: false
+      }
+    }),
+    new Array(numLines).fill().map((v, i) => ({
+      axis: 'y',
+      position: start + (i * increment)
+    }))
+  )
+}
+
+
 
 const getMapAverageGapOverlay = () => getOverlay(
   new Array(8).fill().map((v, i) => {
@@ -291,23 +301,32 @@ const getMapAverageGapOverlay = () => getOverlay(
   }))
 )
 
-const getMapGrowthOverlay = () => getOverlay(
-  new Array(5).fill().map((v, i) => {
-    const position = 0.6 + (i * (1)/5);
-    const labelKey =
-      getLangKeyForAxisLabel(position, 'grd')
-    const label = getLang(labelKey, { value: Math.abs(position) })
-    return {
-      value: [0, position], 
-      name: label,
-      visualMap: false
-    }
-  }),
-  new Array(5).fill().map((v, i) => ({
-    axis: 'y',
-    position: 0.6 + (i * 1/5)
-  }))
-)
+const getMapGrowthOverlay = (region) => {
+  // show lines and labels every 2 grades for schools
+  const increment = region === 'schools' ? 0.5 : 0.2
+  // schools go from -7 : 7, others go -3 : 3
+  const start = region === 'schools' ? 0 : 0.4
+  const numLines = region === 'schools' ? 5 : 7
+  return getOverlay(
+    new Array(numLines).fill().map((v, i) => {
+      const position = Math.round((start + (i * increment)) * 10)/10;
+      const labelKey =
+        getLangKeyForAxisLabel(position, 'grd')
+      const label = getLang(labelKey, { value: Math.abs(position) })
+      return {
+        value: [0, position], 
+        name: label,
+        visualMap: false
+      }
+    }),
+    new Array(numLines).fill().map((v, i) => ({
+      axis: 'y',
+      position: Math.round((start + (i * increment)) * 10)/10
+    }))
+  )
+}
+
+
 
 const getMapGrowthGapOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
@@ -327,23 +346,30 @@ const getMapGrowthGapOverlay = () => getOverlay(
   }))
 )
 
-const getMapTrendOverlay = () => getOverlay(
-  new Array(5).fill().map((v, i) => {
-    const position = Math.round((-0.2 + (i * 0.1))*10)/10;
-    const labelKey =
-      getLangKeyForAxisLabel(position, 'coh')
-    const label = getLang(labelKey, { value: Math.abs(position) })
-    return {
-      value: [0, position], 
-      name: label,
-      visualMap: false
-    }
-  }),
-  new Array(5).fill().map((v, i) => ({
-    axis: 'y',
-    position: -0.2 + (i * 0.1)
-  }))
-)
+const getMapTrendOverlay = (region) => {
+  // show lines and labels every 2 grades for schools
+  const increment = region === 'schools' ? 0.5 : 0.2
+  // schools go from -7 : 7, others go -3 : 3
+  const start = region === 'schools' ? -1 : -0.4
+  const numLines = 5
+  return getOverlay(
+    new Array(numLines).fill().map((v, i) => {
+      const position = Math.round((start + (i * increment))*10)/10;
+      const labelKey =
+        getLangKeyForAxisLabel(position, 'coh')
+      const label = getLang(labelKey, { value: Math.abs(position) })
+      return {
+        value: [0, position], 
+        name: label,
+        visualMap: false
+      }
+    }),
+    new Array(numLines).fill().map((v, i) => ({
+      axis: 'y',
+      position: start + (i * increment)
+    }))
+  )
+}
 
 const getMapTrendGapOverlay = () => getOverlay(
   new Array(5).fill().map((v, i) => {
@@ -402,24 +428,24 @@ const getOpportunityAverageOverlay = () => ({
   }
 })
 
-const overlays = (variant, { xVar, yVar }) => {
+const overlays = (variant, { xVar, yVar, region }) => {
   const yMetricId = getMetricIdFromVarName(yVar);
   switch(yMetricId + '_' + variant) {
     case 'avg_map':
       if (isGapVar(yVar))
         return [ getMapAverageGapOverlay() ]
       else
-        return [ getMapAverageOverlay() ]
+        return [ getMapAverageOverlay(region) ]
     case 'grd_map':
       if (isGapVar(yVar))
         return [ getMapGrowthGapOverlay() ]
       else
-        return [ getMapGrowthOverlay() ]
+        return [ getMapGrowthOverlay(region) ]
     case 'coh_map':
       if (isGapVar(yVar))
         return [ getMapTrendGapOverlay() ]
       else
-        return [ getMapTrendOverlay() ]
+        return [ getMapTrendOverlay(region) ]
     case 'avg_opp':
       return [ getOpportunityAverageOverlay() ]
     default:
@@ -432,15 +458,14 @@ const overlays = (variant, { xVar, yVar }) => {
 const getMapVisualMap = ({
   varName,
   colors = getChoroplethColors(), 
-  highlightedState
+  highlightedState,
+  region
 }) => {
-  const metricId = getMetricIdFromVarName(varName);
-  const demId = getDemographicIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId)
+  const range = getRangeFromVarName(varName, region)
   return {
     type: 'continuous',
-    min,
-    max,
+    min: range[0],
+    max: range[1],
     inRange: {
       color: colors.map(c => fade(c, 0.9))
     },
@@ -472,8 +497,8 @@ const visualMap = (
 
 /** X AXIS CONFIGURATION */
 
-const getXAxis = ({ metric, demographic, ...rest }) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+const getXAxis = ({ metric, demographic, region, ...rest }) => {
+  const [ min, max ] = getRangeFromVarName([demographic.id, metric.id].join('_'), region);
   return {
     min,
     max,
@@ -492,25 +517,28 @@ const getXAxis = ({ metric, demographic, ...rest }) => {
   }
 }
 
-const getMapXAxis = ({ metric, demographic }) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+
+
+const getMapXAxis = ({ metric, demographic, region }) => {
+  const [ min, max ] = getRangeFromVarName([demographic.id, metric.id].join('_'), region);
   return {
     min, 
     max,
-    splitLine: { show: false },
     axisLabel: {
-      formatter: function (val) {
-        if (val === 0) {
-          return isGapDemographic(demographic.id) ?
-            getLang('AXIS_SES_ZERO_GAP') : 
-            getLang('AXIS_SES_ZERO')
-        }
-        return null;
-      },
-      fontSize: 14,
-      inside: false,
-      margin: 10,
-    }
+      inside: true,
+      formatter: (value) => {
+        // percent for schools
+        return region === 'schools' ?
+          (value*100)+'%' : value
+      }
+    },
+    name: region === 'schools' ? 
+      getLang('LABEL_PCT') + ' ' + getLang('LABEL_FRL') :
+      getLang('LABEL_SES') + ' (' + 
+        getLang('LABEL_'+ demographic.id.toUpperCase()) + 
+        (isGapDemographic(demographic.id) ? '' : ' students') + ')'
+    ,
+    splitLine: { show: false },
   }
 }  
 
@@ -521,7 +549,7 @@ const getGrowthXAxis = (options) => getXAxis({
   interval: 0.2,
 })
 
-const getSocioeconomicXAxis = ({ metric, demographic }) => getXAxis({
+const getSocioeconomicXAxis = ({ metric, demographic, region }) => getXAxis({
   metric,
   demographic,
   name: metric.label + (
@@ -529,35 +557,38 @@ const getSocioeconomicXAxis = ({ metric, demographic }) => getXAxis({
       ' (' + demographic.label + ')' : 
       ''
   ),
+  region
 })
 
-const xAxis = (variant, { varName }) => {
+const xAxis = (variant, { varName, region }) => {
   const metric = getMetricFromVarName(varName);
   const demographic = getDemographicFromVarName(varName);
   if (!metric || !demographic) { return {} }
   switch (variant) {
     case 'map':
-      return getMapXAxis({ metric, demographic })
+      return getMapXAxis({ metric, demographic, region })
     default:
       if (
         metric.id === 'grd' && 
         ['p','np','b'].indexOf(demographic.id) > -1
       )
-        return getGrowthXAxis({metric, demographic})
+        return getGrowthXAxis({metric, demographic, region})
       else if (
         metric.id === 'ses' && 
         ['wb','wh','wa','pn'].indexOf(demographic.id) > -1
       )
-        return getSocioeconomicXAxis({ metric, demographic })
+        return getSocioeconomicXAxis({ metric, demographic, region })
       else
-        return getXAxis({metric, demographic})
+        return getXAxis({metric, demographic, region})
   }
 }
 
 /** Y AXIS CONFIGURATION */
 
-const getYAxis = ({metric, demographic, ...rest}) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id);
+const getYAxis = ({metric, demographic, region, ...rest}) => {
+  const [ min, max ] = getRangeFromVarName(
+    [demographic.id, metric.id].join('_'), region
+  )
   return {
     min,
     max,
@@ -581,8 +612,10 @@ const getYAxis = ({metric, demographic, ...rest}) => {
   }
 }
 
-const getMapYAxis = ({metric, demographic, ...rest}) => {
-  const [ min, max ] = getMetricRange(metric.id, demographic.id)
+const getMapYAxis = ({metric, demographic, region, ...rest}) => {
+  const [ min, max ] = getRangeFromVarName(
+    [demographic.id, metric.id].join('_'), region
+  )
   return {
     min,
     max,
@@ -593,7 +626,7 @@ const getMapYAxis = ({metric, demographic, ...rest}) => {
       showMaxLabel: false,
     },
     axisLine: { 
-      show: true,
+      show: region === 'schools' ? false : true,
       lineStyle: {
         type: 'dashed',
         color: '#ccc'
@@ -604,15 +637,15 @@ const getMapYAxis = ({metric, demographic, ...rest}) => {
   }
 }
 
-const yAxis = (variant, { varName }) => {
+const yAxis = (variant, { varName, region }) => {
   const metric = getMetricFromVarName(varName);
   const demographic = getDemographicFromVarName(varName);
   if (!metric || !demographic) { return {} }
   switch (variant) {
     case 'map':
-      return getMapYAxis({ metric, demographic })
+      return getMapYAxis({ metric, demographic, region })
     default:
-      return getYAxis({ metric, demographic })
+      return getYAxis({ metric, demographic, region })
   }
 }
 
@@ -758,19 +791,20 @@ export const getScatterplotOptions = (
   variant,
   data = {},
   { xVar, yVar, zVar },
-  highlightedState, 
+  highlightedState,
+  region
 ) => {
   if (!data[xVar] || !data[yVar] || !data[zVar]) { return {} }
   const sizer = getSizerFunction(data[zVar], { range: [ 8, 48 ]})
   const options = {
     grid: grid(variant),
-    visualMap: visualMap(variant, { varName: yVar, highlightedState }),
-    xAxis: xAxis(variant, { varName: xVar }),
-    yAxis: yAxis(variant, { varName: yVar }),
+    visualMap: visualMap(variant, { varName: yVar, highlightedState, region }),
+    xAxis: xAxis(variant, { varName: xVar, region }),
+    yAxis: yAxis(variant, { varName: yVar, region }),
     series: [
       series('base', variant, { highlightedState, sizer }),
       series('highlighted', variant, { highlightedState, sizer }),
-      ...overlays(variant, { xVar, yVar })
+      ...overlays(variant, { xVar, yVar, region })
     ],
     tooltip: tooltip(variant, { data, xVar, yVar })
   }

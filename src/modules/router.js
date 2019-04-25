@@ -38,7 +38,9 @@ export const getLocationFromFeature = (feature) => {
 
 /**
  * Gets an array of objects representing the locations in the pathname
- * @param {string} pathname 
+ * @param {string} locations contains comma separated id,lat,lon,
+ *  with multuple locations concatenated with a '+'.
+ *  e.g. "12019,28.89,-81.17+12015,27.83,-82.61" 
  * @returns {Array<{id, lat, lon }>}
  */
 export const parseLocationsString = (locations) => {

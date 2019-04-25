@@ -33,6 +33,12 @@ export const mapObjectKeys = (obj, keyMap) =>
   }, {})
 
 /**
+ * Returns keys that exist in the object
+ */
+export const getKeysInObject = (keys, obj = {}) =>
+  keys.filter((k) => obj.hasOwnProperty(k))
+
+/**
  * Gets the region that corresponds to the provided ID
  * @param {string} id 
  */

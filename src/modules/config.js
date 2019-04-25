@@ -83,6 +83,10 @@ export const getMetricLabel = (id) => {
   return metric.label;
 }
 
+/**
+ * Returns an array containing the min and max for the
+ * provided varname and region
+ */
 export const getRangeFromVarName = (varName, region) => {
   const metricId = getMetricIdFromVarName(varName)
   const demId = getDemographicIdFromVarName(varName)
@@ -100,7 +104,7 @@ export const getMetricRange = (id, demographic, region) => {
   if (!metric || !metric.range ) {
     throw new Error(`no range specified for metric ${id}`)
   }
-  if (region && demographic) {
+  if (region && demographic && metric.range[[demographic, region].join('_')]) {
     const key = [demographic, region].join('_')
     if (metric.range[key]) {
       return metric.range[key]
@@ -168,10 +172,8 @@ export const getStopsForVarName = (varName) => {
  * @param {*} metricId 
  * @returns {number} between 0 - 1
  */
-export const getValuePositionForMetric = (value, varName) => {
-  const demId = getDemographicIdFromVarName(varName);
-  const metricId = getMetricIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId)
+export const getValuePositionForMetric = (value, varName, region) => {
+  const [ min, max ] = getRangeFromVarName(varName, region)
   return Math.min(1, Math.max(0, (value - min) / (max - min)))
 }
 
