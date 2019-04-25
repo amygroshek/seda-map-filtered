@@ -51,7 +51,7 @@ function LocationCard({
       <div className='location-card__stats'>
         {
           metrics.map(k =>
-            data[k] &&
+            (data[k] || data[k] === 0) &&
             <div key={'stat_' + k} className='location-stat'>
               <div className='location-stat__label'>
                 <span className='location-stat__primary-label'>
@@ -63,7 +63,7 @@ function LocationCard({
               </div>
               
               <span className='location-stat__value'>
-                {data[k] && data[k] !== -9999 ? Math.round(data[k]*100)/100 : getLang('NO_DATA')}
+                {(data[k] || data[k] === 0) ? Math.round(data[k]*100)/100 : getLang('NO_DATA')}
               </span>
             </div>
           )

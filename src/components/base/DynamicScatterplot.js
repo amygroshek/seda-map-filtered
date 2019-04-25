@@ -76,16 +76,18 @@ function DynamicScatterplot({
         xRange: getRangeFromVarName(xVar, region),
         yRange: getRangeFromVarName(yVar, region),
         sizer: getSizerFunction(data[region][zVar], { range: [ 12, 52 ]}),
-        circles: selected.map(s => ({
-          x: parseFloat(data[region][xVar][s]),
-          y: parseFloat(data[region][yVar][s]),
-          z: parseFloat(data[region][zVar][s]),
-          active: hovered === s,
-          id: s
-        }))
+        circles: selected.map(s => { 
+          return {
+            x: parseFloat(data[region][xVar][s]),
+            y: parseFloat(data[region][yVar][s]),
+            z: parseFloat(data[region][zVar][s]),
+            active: hovered === s,
+            id: s
+          }
+        })
       })
     },
-    [xVar, yVar, data[region], selected, hovered]
+    [xVar, yVar, zVar, data[region], selected, hovered]
   )
   // fetch any additional school level data for highlighted states
   useEffect(() => {
@@ -96,7 +98,7 @@ function DynamicScatterplot({
         'schools', 
         endpoint, 
         getBaseVars()['schools'],
-        `${highlightedState}`.padStart(2, "0")
+        highlightedState
       ).then((data) => {
         onData && onData(data, 'schools');
         return data
