@@ -97,11 +97,11 @@ const mapStateToProps = ({
       ...vars,
       region,
       data,
+      hovered,
       variant: 'map',
       colors: getChoroplethColors(),
       selected: selectedArray,
       highlightedState: getStateFipsFromAbbr(highlightedState),
-      hovered: hoveredId,
       freeze: (active !== 'map')
     },
     map: {
