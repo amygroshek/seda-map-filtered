@@ -63,15 +63,13 @@ const mapStateToProps = (
     },
     scatterplot: {
       ...vars,
-      highlightedState: getStateFipsFromAbbr(highlightedState),
-      variant: 'opp',
+      hovered,
       region,
       data,
+      highlightedState: getStateFipsFromAbbr(highlightedState),
+      variant: 'opp',
       selected: selected && selected[region],
-      hovered: hovered && 
-        hovered.properties && 
-        hovered.properties.id ?
-          hovered.properties.id : '',
+      
       freeze: active !== 'opportunity'
     }
   })

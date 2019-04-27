@@ -56,11 +56,8 @@ const mapStateToProps = (
     },
     scatterplot: {
       ...vars,
+      hovered,
       selected: (selected && selected[region]) || [],
-      hovered: hovered && 
-        hovered.properties && 
-        hovered.properties.id ?
-          hovered.properties.id : '',
       highlightedState: getStateFipsFromAbbr(highlightedState),
       variant: 'ses',
       region,
