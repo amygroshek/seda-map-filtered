@@ -153,7 +153,6 @@ function DynamicScatterplot({
           xVar={xVar}
           yVar={yVar}
           zVar={zVar}
-          hovered={hovered}
           onReady={onReady}
           onHover={(loc) => loc && loc.id ?
             onHover({ id: loc.id, properties: loc }) :

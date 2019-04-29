@@ -1,17 +1,26 @@
 .location-card-list {
   display: flex;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 0;
   width:100%;
   transform-style: preserve-3d;
+  overflow:auto;
+}
 
+@media(min-width: 960px) {
+  .location-card-list {
+    min-width: 1px;
+    justify-content: center;
+    overflow: visible;
+  }
 }
 
 .location-card-list .location-card {
   flex:1;
   width: 10%;
-  max-width: 280px;
+  min-width: 288px;
+  max-width: 288px;
 }
 
 .location-card-enter {
