@@ -13,7 +13,7 @@
   }
   .map-tool--parallax .section.section--intro {
     top: -50px;
-    transform: translateZ(-1px) scale(1.5);
+    transform: translateZ(-1px) scale(1.51);
     z-index: -1;
   }
 }
