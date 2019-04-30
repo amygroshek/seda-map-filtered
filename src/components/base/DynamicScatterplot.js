@@ -156,7 +156,7 @@ function DynamicScatterplot({
           onReady={onReady}
           onHover={(loc) => loc && loc.id ?
             onHover({ id: loc.id, properties: loc }) :
-            null
+            onHover(null)
           }
           onClick={onClick}
           onData={onData}
