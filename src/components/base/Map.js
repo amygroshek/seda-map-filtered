@@ -193,6 +193,10 @@ class Map extends Component {
   /** Initialize choropleth layer */
   componentDidMount() {
     if (!this.props.freeze) { this._updateChoropleth(); }
+    // listen to window resize events to resize the map accordingly
+    window.addEventListener(
+      'resize', this._handleResize.bind(this)
+    );
   }
 
   componentDidUpdate(prevProps) {
@@ -233,6 +237,12 @@ class Map extends Component {
         selected
       )
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'resize', this._handleResize.bind(this)
+    );
   }
 
   render() {
