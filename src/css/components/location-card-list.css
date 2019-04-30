@@ -23,6 +23,13 @@
   max-width: 288px;
 }
 
+@media(min-width: 960px) {
+  .location-card-list .location-card {
+    min-width: 1px;
+  }
+}
+
+
 .location-card-enter {
   transform: translateY(100%);
   /* opacity:0; */
