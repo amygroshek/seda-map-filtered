@@ -54,6 +54,7 @@ export class MapView extends Component {
                 containerId="scrollWrapper"
                 key={k+'-link'}
                 to={k}
+                offset={-500}
                 onSetActive={this.props.setActiveSection}
                 onSetInactive={this.props.clearActiveSection}
                 spy={true}
