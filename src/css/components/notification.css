@@ -1,0 +1,12 @@
+.notification {
+  margin: 16px;
+  padding: 16px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+.notification--error {
+  border-color: #c00;
+  color: #c00;
+  background: #fee;
+}
