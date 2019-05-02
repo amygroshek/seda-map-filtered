@@ -35,7 +35,13 @@ export const SECTIONS = {
     xVar: 'wb_ses',
     yVar: 'wb_avg',
     zVar: 'all_sz',
-  }
+  },
+  'master': {
+    xVar: 'all_ses',
+    yVar: 'all_avg',
+    zVar: 'all_sz',
+    region: 'counties',
+  },
 }
 
 /**

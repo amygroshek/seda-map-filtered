@@ -19,6 +19,25 @@ const getSectionHoveredReducer = (sectionId) =>
   }
 
 /**
+ * Get the reducer for storing the hovered feature in each section
+ * @param {*} sectionId 
+ */
+const getSectionErrorReducer = (sectionId) =>
+  (state = null, action) => {
+    if (action.sectionId !== sectionId) {
+      return state;
+    }
+    switch(action.type) {
+      case 'SCATTERPLOT_ERROR':
+        return action.message;
+      case 'SET_REPORT_VARS':
+        return null
+      default:
+        return state;
+    }
+  }
+
+/**
  * Updates the metric part of a variable string
  * @param {*} varName 
  * @param {*} newMetric 
@@ -51,6 +70,8 @@ const getUpdatedVarsForSection = (sectionId, optionId, value, state) => {
       return getUpdatedOpportunityVars(optionId, value, state)
     case 'achievement':
       return getUpdatedAchievementVars(optionId, value, state)
+    case 'master':
+      return getUpdatedMasterVars(optionId, value, state)
     default:
       return getUpdatedSocioeconomicVars(optionId, value, state)
   }
@@ -128,6 +149,37 @@ const getUpdatedOpportunityVars = (optionId, value, { xVar, yVar }) => {
 }
 
 /**
+ * Get updated var state on option change for opportunity differences section
+ * @param {string} optionId 
+ * @param {string} value
+ * @param {object} state { xVar, yVar } 
+ */
+const getUpdatedMasterVars = (optionId, value, { xVar, yVar }) => {
+  switch(optionId) {
+    case 'subgroupX':
+      return {
+        xVar: updateVarDemographic(xVar, value),
+      }
+    case 'subgroupY':
+      return {
+        yVar: updateVarDemographic(yVar, value),
+      }
+    case 'metricX':
+      return {
+        xVar: updateVarMetric(xVar, value),
+      }
+    case 'metricY':
+      return {
+        yVar: updateVarMetric(yVar, value),
+      }
+    case 'region':
+      return { region: value }
+    default:
+      return {}
+  }
+}
+
+/**
  * Get updated var state on option change for achievement gaps section
  * @param {string} optionId 
  * @param {string} value
@@ -154,7 +206,8 @@ const reducers = Object.keys(SECTIONS).reduce(
   (obj, key) => {
     obj[key] = combineReducers({
       vars: getSectionVarsReducer(key),
-      hovered: getSectionHoveredReducer(key)
+      hovered: getSectionHoveredReducer(key),
+      error: getSectionErrorReducer(key)
     })
     return obj
   }, {}

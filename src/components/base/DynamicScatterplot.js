@@ -97,10 +97,12 @@ function DynamicScatterplot({
   variant,
   selected,
   freeze,
+  error,
   onHover,
   onClick,
   onData,
-  onReady
+  onReady,
+  onError
 }) {
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
@@ -147,7 +149,11 @@ function DynamicScatterplot({
       <div className='dynamic-scatterplot__graph'>
         <div className={classNames(
           "blocker", "blocker--freeze", { 'blocker--show': freeze }
-        ) }></div>
+        ) }>
+          { error &&
+            <span className="notification notification--error">{ error }</span>
+          }
+        </div>
         <SedaScatterplot
           endpoint={endpoint}
           xVar={xVar}
@@ -160,6 +166,7 @@ function DynamicScatterplot({
           }
           onClick={onClick}
           onData={onData}
+          onError={onError}
           data={data}
           prefix={region}
           options={scatterplotOptions}
@@ -207,7 +214,9 @@ DynamicScatterplot.propTypes = {
   onClick: PropTypes.func,
   onData: PropTypes.func,
   onReady: PropTypes.func,
+  onError: PropTypes.func,
   freeze: PropTypes.bool,
+  error: PropTypes.string,
 }
 
 export default DynamicScatterplot

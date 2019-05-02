@@ -3,9 +3,17 @@ import { getSingularRegion } from '../utils';
 import { getStateSelectOptions } from '../constants/statesFips';
 import { getMetrics, getRegions, getDemographics, getGaps } from './config';
 
-export const getMetricControl = (metric, id = 'metric') => ({
+export const getAllMetricsControl = (metric, id = 'metric', label = 'Data Metric') => ({
   id,
-  label: 'Data Metric',
+  label,
+  value: metric,
+  hint: '',
+  options: getMetrics()
+})
+
+export const getMetricControl = (metric, id = 'metric', label = 'Data Metric') => ({
+  id,
+  label,
   value: metric,
   hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
   options: getMetrics()
@@ -26,8 +34,22 @@ export const getRegionControl = (region, id = 'region') => ({
   label: 'Region',
   value: region,
   options: getRegions(),
-  hint: 'press to change between counties, school districts, or schools',
+  hint: '',
   formatter: (option) => getSingularRegion(option.id)
+})
+
+export const getAllDemographicsControl = (
+  demographic, 
+  id = 'demographic', 
+  label = 'Demographics'
+) => ({
+  id,
+  label,
+  value: demographic,
+  // filter free lunch program
+  options: getDemographics(),
+  hint: '',
+  formatter: (option) => option.label + ' students'
 })
 
 export const getDemographicControl = (
