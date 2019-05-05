@@ -1,0 +1,63 @@
+:root {
+  /** Margins and spacing */
+  --grid-unit: 8px;
+  --padding: 16px;
+  --page-margin: 16px;
+
+  /** Typography */
+  --body-font: maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system;
+  --heading-font: sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system;
+  --body-text: #031232;
+  --body2-text: #5d5d5d;
+  --link-text: #1c3d91;
+  --alt-text: #fff;
+  --base-font-size: 14px;
+  --h1-font-size: 2.67em;
+  --h2-font-size: 1.953em;
+  --h3-font-size: 1.563em;
+  --h4-font-size: 1.25em;
+  --h5-font-size: 1.094em;
+  --h6-font-size: 1em;
+  --body-font-size: 1em;
+  --small-font-size: 0.875em;
+  --micro-font-size: 0.8em;
+
+  /** Element Heights */
+  --header-height: 104px;
+  --header-row1-height: 64px;
+  --header-row2-height: 40px;
+
+  /** Shades */
+  --darken1: rgba(0,0,0,0.05);
+  --darken2: rgba(0,0,0,0.15);
+  --darken3: rgba(0,0,0,0.24);
+  --darken5: rgba(0,0,0,0.37);
+  --darken6: rgba(0,0,0,0.54);
+  --darken7: rgba(0,0,0,0.66);
+  --darken8: rgba(0,0,0,0.87);
+
+  --lighten1: rgba(255,255,255,0.05);
+  --lighten2: rgba(255,255,255,0.15);
+  --lighten3: rgba(255,255,255,0.24);
+  --lighten5: rgba(255,255,255,0.37);
+  --lighten6: rgba(255,255,255,0.54);
+  --lighten7: rgba(255,255,255,0.66);
+  --lighten8: rgba(255,255,255,0.87);
+
+  /** Shadows */
+  --shadow1: 0 1px 2px var(--darken3);
+  --shadow2: 0 1px 4px var(--darken4);
+
+  --divider-border: 1px solid var(--darken1);
+}
+
+/** Variable overrides for 960px and above */
+@media (min-width: 960px) {
+  :root {
+    /** Margins and spacing */
+    --page-margin: 24px;
+
+    /** Typography */
+    --base-font-size: 16px;
+  }
+}

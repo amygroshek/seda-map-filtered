@@ -12,7 +12,6 @@ function Section({
   type,
   title, 
   description,
-  headerMenu,
   cards,
   children,
   onOptionChange,
@@ -99,13 +98,6 @@ function Section({
         </div>
 
         <div className="section__component">
-
-          <div className="section__controls">
-            <MenuSentence 
-              {...headerMenu}
-              onChange={onOptionChange}
-            />
-          </div>
           { children }
         </div>
       </div>
@@ -119,10 +111,6 @@ Section.propTypes = {
   title: PropTypes.any,
   description: PropTypes.string,
   children: PropTypes.node,
-  headerMenu: PropTypes.shape({
-    text: PropTypes.string,
-    controls: PropTypes.array,
-  }),
   cards: PropTypes.shape({
     features: PropTypes.array,
     metrics: PropTypes.array,

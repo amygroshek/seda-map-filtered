@@ -1,0 +1,20 @@
+.popover {
+  position: absolute;
+  top: 64px;
+  height: 200px;
+  width:100%;
+  padding: var(--padding);
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,.54);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.2s ease, transform 0.2s ease-in-out;
+  transform: translateY(-10%);
+}
+
+.popover.popover--active {
+  pointer-events:all;
+  opacity:1;
+  transform: translateY(0%);
+  transition-delay: 0.1s;
+}

@@ -3,7 +3,6 @@
   .section.section--map {
     justify-content: stretch;
     align-items: stretch;
-    margin-top: 80vh;
     z-index:20;
   }
 }

@@ -1,33 +1,14 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getRegionControl, getGapControl, getHighlightControl, getSecondaryMetricControl } from '../../modules/controls';
-import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
+import { getAchievementControls } from '../../modules/controls';
 import { getLang } from '../../constants/lang.js';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getCards } from '../../modules/sections';
+import { getDemographicIdFromVarName } from '../../modules/config';
 
-/**
- * Gets an array of controls for the section
- * @param {string} region 
- * @param {object} vars 
- * @param {string} highlightedState 
- */
-const getSectionControls = (region, vars, highlightedState) => [
-  getGapControl(
-    getDemographicIdFromVarName(vars.xVar), 
-    'gap',
-    'Achievement Gap'
-  ),
-  getSecondaryMetricControl(
-    getMetricIdFromVarName(vars.xVar),
-    'secondary'
-  ),
-  getRegionControl(region),
-  getHighlightControl(highlightedState)
-]
 
 const mapStateToProps = (
   { 
@@ -36,7 +17,7 @@ const mapStateToProps = (
     features,
     sections: { achievement: { hovered, vars }, active },
   },
-  { match: { params: { region, highlightedState } } }
+  { match: { params: { region, metric, highlightedState } } }
 ) => {
   region = (region === 'schools' ? 'districts' : region);
   return ({
@@ -44,11 +25,11 @@ const mapStateToProps = (
     section: {
       id: 'achievement',
       type: 'scatterplot',
-      title: getLang('ACH_GAPS_TITLE'),
+      title: getLang('TITLE_ACH_' + metric.toUpperCase()),
       description: getLang('ACH_GAPS_DESCRIPTION'),
       headerMenu: {
         text: getLang('ACH_GAPS_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, highlightedState),
+        controls: getAchievementControls(region, vars, highlightedState),
       },
       cards: getCards({ 
         hovered,
@@ -59,7 +40,9 @@ const mapStateToProps = (
     },
     
     scatterplot: {
-      ...vars,
+      xVar: vars.xVar,
+      yVar: [getDemographicIdFromVarName(vars.yVar), metric].join('_'),
+      zVar: vars.zVar,
       hovered,
       region,
       data,

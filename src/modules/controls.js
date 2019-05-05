@@ -1,7 +1,8 @@
 
-import { getSingularRegion } from '../utils';
 import { getStateSelectOptions } from '../constants/statesFips';
 import { getMetrics, getRegions, getDemographics, getGaps } from './config';
+import { getDemographicIdFromVarName, getMetricIdFromVarName } from './config';
+import { getLang } from '../constants/lang'
 
 export const getAllMetricsControl = (metric, id = 'metric', label = 'Data Metric') => ({
   id,
@@ -15,7 +16,7 @@ export const getMetricControl = (metric, id = 'metric', label = 'Data Metric') =
   id,
   label,
   value: metric,
-  hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
+  hint: '',
   options: getMetrics()
     .filter(m => ['avg', 'grd', 'coh'].indexOf(m.id) > -1)
 })
@@ -24,7 +25,7 @@ export const getSecondaryMetricControl = (metric, id = 'metric') => ({
   id,
   label: 'Data Metric',
   value: metric,
-  hint: 'press to change between average, growth, or trend in test scores of students in grades 3 - 8 from 2009 - 2016',
+  hint: '',
   options: getMetrics()
     .filter(m => ['ses', 'seg'].indexOf(m.id) > -1)
 })
@@ -35,7 +36,6 @@ export const getRegionControl = (region, id = 'region') => ({
   value: region,
   options: getRegions(),
   hint: '',
-  formatter: (option) => getSingularRegion(option.id)
 })
 
 export const getAllDemographicsControl = (
@@ -62,7 +62,7 @@ export const getDemographicControl = (
   value: demographic,
   // filter free lunch program
   options: getDemographics().filter(d => d.id !== 'frl'),
-  hint: 'press to select a demographic or gap ',
+  hint: '',
   formatter: (option) => option.label + ' students'
 })
 
@@ -78,7 +78,7 @@ export const getDemographicGapControl = (
     ...getDemographics().filter(d => d.id !== 'frl'), 
     ...getGaps()
   ],
-  hint: 'press to select a demographic or gap ',
+  hint: '',
   formatter: (option) => option.label + (
     value.length === 1 || value === 'all' ? ' students' : ''
   )
@@ -103,3 +103,76 @@ export const getGapControl = (gap) => ({
   value: gap,
   options: getGaps()
 })
+
+/**
+ * Gets an array of controls for the section
+ * @param {string} region 
+ * @param {object} vars 
+ * @param {string} highlightedState 
+ */
+export const getOpportunityControls = (region, vars, highlightedState) => ({
+  text: getLang('OPP_DIFF_CONTROL_TEXT'),
+  controls: [
+    getDemographicControl(
+      getDemographicIdFromVarName(vars.xVar),
+      'subgroupX',
+      'Subgroup 1'
+    ),
+    getDemographicControl(
+      getDemographicIdFromVarName(vars.yVar), 
+      'subgroupY',
+      'Subgroup 2'
+    ),
+    getRegionControl(region),
+    getHighlightControl(highlightedState)
+  ]
+})
+
+/**
+ * Gets an array of controls for the section
+ * @param {string} region 
+ * @param {object} vars 
+ * @param {string} highlightedState 
+ */
+export const getAchievementControls = (region, vars, highlightedState) => ({
+  text: getLang('ACH_GAPS_CONTROL_TEXT'),
+  controls: [
+    getGapControl(
+      getDemographicIdFromVarName(vars.xVar), 
+      'gap',
+      'Achievement Gap'
+    ),
+    getSecondaryMetricControl(
+      getMetricIdFromVarName(vars.xVar),
+      'secondary'
+    ),
+    getRegionControl(region),
+    getHighlightControl(highlightedState)
+  ]
+})
+
+/**
+ * Gets the controls for the map section
+ * @param {string} metric 
+ * @param {string} demographic 
+ * @param {string} region 
+ * @param {string} highlightedState 
+ */
+export const getMapControls = 
+  (region, vars, highlightedState) => {
+    const controls = [
+      getRegionControl(region),
+      getHighlightControl(highlightedState)
+    ];
+    // add demographic control if not schools
+    if (region !== 'schools') {
+      const dem = getDemographicIdFromVarName(vars.xVar)
+      controls.splice(0, 0, getDemographicGapControl(dem));
+    }
+    return {
+      text: region === 'schools' ? 
+        getLang('MAP_CONTROL_TEXT_SCHOOLS') :
+        getLang('MAP_CONTROL_TEXT'),
+      controls
+    }
+  }

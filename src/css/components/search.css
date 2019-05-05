@@ -2,17 +2,17 @@
 
 .react-autosuggest__container {
   position: relative;
-  font-family: maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system;
-
+  font-family: var(--body-font);
+  font-size: var(--base-font-size);
 }
 
 .react-autosuggest__input {
   width: 100%;
   box-sizing: border-box;
-  padding: 16px;
+  padding: var(--padding);
   font-family: sans-serif;
   font-weight: 300;
-  font-size: 1rem;
+  font-size: var(--body-font-size);
   border: none;
 }
 
@@ -27,7 +27,7 @@
 
 .react-autosuggest__suggestions-container {
   display: none;
-  font-size: 0.825rem;
+  font-size: var(--small-font-size);
   text-align: left;
 }
 
@@ -60,8 +60,8 @@
 
 .react-autosuggest__suggestion {
   cursor: pointer;
-  padding: 16px;
-  color: #666;
+  padding: var(--padding);
+  color:var(--body2-text);
 }
 
 .react-autosuggest__suggestion--highlighted {

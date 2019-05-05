@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 import { getLabel, getLang } from '../../constants/lang';
 
@@ -45,7 +45,7 @@ function LocationCard({
           </span>
         </div>
 
-        <div className="location-card__title">{name}</div>
+        <Typography component="div" variant="h6" className="location-card__title">{name}</Typography>
         <div className='location-card__subtitle'>{state}</div>      
       </div>
       <div className='location-card__stats'>

@@ -8,6 +8,7 @@
   background: #fff;
   box-shadow: 0 1px 2px #ccc;
   position:relative;
+  font-size: var(--base-font-size);
 }
 .location-card:nth-child(1) {  
   z-index:2;
@@ -73,7 +74,7 @@
   padding:14px 16px 13px;
 }
 .location-card--search .helper {
-  font-size: 0.825em;
+  font-size: var(--micro-font-size);
 }
 
 .location-card:nth-child(1) .location-card__marker {
@@ -113,7 +114,6 @@
   top:10px;
   z-index:10;
   padding: 4px;
-  font-size: 10px;
 }
 
 /** Location Header Container */
@@ -126,7 +126,8 @@
   text-align:left;
   display: flex;
   flex-wrap: wrap;
-  padding: 16px 16px 8px 16px;
+  padding: var(--padding);
+  padding-bottom: var(--grid-unit);
   min-height: 56px;
 }
 
@@ -146,8 +147,6 @@
 
 .location-card__marker-text {
   display: none;
-  font-size:10px;
-  font-weight: bold;
   color: #fff;
   line-height: 20px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.64);
@@ -155,7 +154,7 @@
 
 .location-card__title {
   order: 1;
-  font-size: 18px;
+  font-size: var(--h5-font-size);
   font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -167,8 +166,8 @@
 .location-card__subtitle {
   order:3;
   width: 100%;
-  color: #666;
-  font-size: 14px;
+  color:var(--body2-text);
+  font-size: var(--small-font-size);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -198,14 +197,14 @@
 
 .location-stat__label {
   text-align: left;
-  font-size: 0.825em;
+  font-size: var(--micro-font-size);
   padding-right: 8px;
   width: calc(100% - 32px);
 }
 
 .location-stat__value {
   font-weight: bold;
-  font-size: 0.825rem;
+  font-size: var(--micro-font-size);
   text-align: right;
 }
 
@@ -219,9 +218,8 @@
 }
 .location-stat__secondary-label {
   display: block;
-  color: #666;
+  color:var(--body2-text);
   font-weight: normal;
-  font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

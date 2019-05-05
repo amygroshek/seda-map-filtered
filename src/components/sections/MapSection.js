@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
-import { getRegionControl, getMetricControl, getDemographicGapControl, getHighlightControl } from '../../modules/controls';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
@@ -31,27 +30,6 @@ const getVars = (region, metric, demographic) => ({
   zVar: 'all_sz'
 })
 
-/**
- * Gets the controls for the map section
- * @param {string} metric 
- * @param {string} demographic 
- * @param {string} region 
- * @param {string} highlightedState 
- */
-const getControls = 
-  (metric, demographic, region, highlightedState) => {
-    const controls = [
-      getMetricControl(metric),
-      getRegionControl(region),
-      getHighlightControl(highlightedState)
-    ];
-    // add demographic control if not schools
-    if (region !== 'schools') {
-      controls.splice( 1, 0, getDemographicGapControl(demographic));
-    }
-    return controls
-  }
-
 
 const mapStateToProps = ({ 
   scatterplot: { data },
@@ -63,29 +41,17 @@ const mapStateToProps = ({
 { match: { params: { region, metric, demographic, highlightedState, ...params } } }
 ) => {
   const vars = getVars(region, metric, demographic)
-  const controls = getControls(metric, demographic, region, highlightedState)
   const hoveredId = getHoveredId(hovered)
   const selectedArray = selected && selected[region] ? 
     selected[region] : []
   return ({
     section: {
       id: 'map',
-      title: {
-        text: region === 'schools' ? 
-          getLang('MAP_TITLE_SCHOOLS') : 
-          getLang('MAP_TITLE'),
-        controls
-      },
+      title: getLang('TITLE_SES_' + metric.toUpperCase()),
       description: 
         getLang('MAP_DESCRIPTION_' + metric + (isGapDemographic(demographic) ? '_GAP': '')) + ' ' +
         getLang('MAP_DESCRIPTION_SES' + (isGapDemographic(demographic) ? '_GAP': '')) + ' ' +
         getLang('MAP_DESCRIPTION'),
-      headerMenu: {
-        text: region === 'schools' ? 
-          getLang('MAP_CONTROL_TEXT_SCHOOLS') :
-          getLang('MAP_CONTROL_TEXT'),
-        controls,
-      },
       cards: getCards({ 
         hovered,
         features,

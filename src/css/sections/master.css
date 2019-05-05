@@ -1,4 +1,4 @@
-#master { padding: 16px;}
+#master { padding: var(--padding);}
 #master .section__places { display: none; }
 #master .section__header { display: none; }
 #master .section__component { margin: 0px; height: calc(100vh - 32px) }

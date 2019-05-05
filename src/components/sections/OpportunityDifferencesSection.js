@@ -1,37 +1,14 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/controls';
-import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
+import { getOpportunityControls } from '../../modules/controls';
 import { getLang } from '../../constants/lang.js';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getCards } from '../../modules/sections';
+import { getDemographicIdFromVarName } from '../../modules/config';
 
-/**
- * Gets an array of controls for the section
- * @param {string} region 
- * @param {object} vars 
- * @param {string} highlightedState 
- */
-const getSectionControls = (region, vars, highlightedState) => [
-  getMetricControl(
-    getMetricIdFromVarName(vars.xVar)
-  ),
-  getDemographicControl(
-    getDemographicIdFromVarName(vars.xVar),
-    'subgroupX',
-    'Subgroup 1'
-  ),
-  getDemographicControl(
-    getDemographicIdFromVarName(vars.yVar), 
-    'subgroupY',
-    'Subgroup 2'
-  ),
-  getRegionControl(region),
-  getHighlightControl(highlightedState)
-]
 
 const mapStateToProps = (
   { 
@@ -40,7 +17,7 @@ const mapStateToProps = (
     features,
     sections: { opportunity: { hovered, vars }, active  } 
   },
-  { match: { params: { region, highlightedState } } }
+  { match: { params: { region, metric, highlightedState } } }
 ) => {
   region = region === 'schools' ? 'districts' : region;
   return ({
@@ -48,11 +25,11 @@ const mapStateToProps = (
     section: {
       id: 'opportunity',
       type: 'scatterplot',
-      title: getLang('OPP_DIFF_TITLE'),
+      title: getLang('TITLE_OPP_' + metric.toUpperCase()),
       description: getLang('OPP_DIFF_DESCRIPTION'),
       headerMenu: {
         text: getLang('OPP_DIFF_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, highlightedState)
+        controls: getOpportunityControls(region, vars, highlightedState)
       },
       cards: getCards({ 
         hovered,
@@ -62,14 +39,15 @@ const mapStateToProps = (
       }),
     },
     scatterplot: {
-      ...vars,
+      xVar: [getDemographicIdFromVarName(vars.xVar), metric].join('_'),
+      yVar: [getDemographicIdFromVarName(vars.yVar), metric].join('_'),
+      zVar: vars.zVar,
       hovered,
       region,
       data,
       highlightedState: getStateFipsFromAbbr(highlightedState),
       variant: 'opp',
       selected: selected && selected[region],
-      
       freeze: active !== 'opportunity'
     }
   })

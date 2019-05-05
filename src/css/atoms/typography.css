@@ -1,0 +1,49 @@
+@font-face {
+  font-family: maisonneue-bold;
+  src: url(/assets/fonts/MaisonNeue-Bold.ttf)
+}
+
+@font-face {
+  font-family: maisonneue-book;
+  src: url(/assets/fonts/MaisonNeue-Book.ttf)
+}
+
+@font-face {
+  font-family: maisonneue-medium;
+  src: url(/assets/fonts/MaisonNeue-Medium.ttf)
+}
+
+@font-face {
+  font-family: sharpgrotesk-book20;
+  src: url(/assets/fonts/SharpGrotesk-Book20.otf)
+}
+
+@font-face {
+  font-family: sharpgrotesk-medium15;
+  src: url(/assets/fonts/SharpGrotesk-Medium15.otf)
+}
+
+@font-face {
+  font-family: sharpgrotesk-medium20;
+  src: url(/assets/fonts/SharpGrotesk-Medium20.otf)
+}
+
+@font-face {
+  font-family: sharpgrotesk-mediumitalic20;
+  src: url(/assets/fonts/SharpGrotesk-MediumItalic20.otf)
+}
+
+body {
+  font-family: var(--body-font);
+  font-weight: normal;
+  color: var(--body-text);
+}
+
+
+h1, h2, h3, h5, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.alt {
+  font-family: var(--heading-font);
+  font-weight: normal;
+}
+

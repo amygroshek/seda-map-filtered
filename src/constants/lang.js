@@ -4,6 +4,18 @@ const LANG = {
 
   'LOGO_ALT_TEXT': 'Educational Opportunity Project',
 
+  // Tabs
+  'TAB_CONCEPT_AVG': 'Educational Opportunity',
+  'TAB_METRIC_AVG': 'shown by average test scores',
+  'TAB_CONCEPT_GRD': 'School Performance',
+  'TAB_METRIC_GRD': 'shown by growth in test scores',
+  'TAB_CONCEPT_COH': 'Changes in Opportunity',
+  'TAB_METRIC_COH': 'shown by changes in test scores',
+
+  'TAB_HINT_AVG': '__PLACEHOLDER__ Description of how average test scores show educational opportunity',
+  'TAB_HINT_GRD': '__PLACEHOLDER__ Description of how growth of test scores show school performance',
+  'TAB_HINT_COH': '__PLACEHOLDER__ Description of how trend of test scores show changes in opportunity',
+
   // Metric Labels
   'LABEL_AVG': 'Average Test Scores',
   'LABEL_GRD': 'Growth of test scores',
@@ -56,6 +68,16 @@ const LANG = {
   'VALUE_COH_GAP': 'Difference in test scores $[increasedDecreased] $[amount] grade levels between $[gap] students.',
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
+
+  'TITLE_SES_AVG': 'Socioeconomic Status and Educational Opportunity',
+  'TITLE_SES_GRD': 'Socioeconomic Status and School Performance',
+  'TITLE_SES_COH': 'Socioeconomic Status and Changes in Opportunity',
+  'TITLE_OPP_AVG': 'Differences in Opportunity',
+  'TITLE_OPP_GRD': 'Differences in School Performance',
+  'TITLE_OPP_COH': 'Differences in Changes of Opportunity',
+  'TITLE_ACH_AVG': 'Gaps in Achievement',
+  'TITLE_ACH_GRD': 'Gaps in Growth',
+  'TITLE_ACH_COH': 'Gaps in Opportunity Changes',
 
   // Axis Names
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
@@ -114,7 +136,7 @@ const LANG = {
 
   // Location Cards
   'CARD_SEARCH_PLACEHOLDER': 'Add a county, district, or school',
-  'CARD_SEARCH_HELPER': 'Use the search above to add and view data for a school, district, or county. You can select up to 7 locations.',
+  'CARD_SEARCH_HELPER': 'Use the search above to add and view data for a school, district, or county. ',
 
   // Intro Section
   'INTRO_TITLE': 'Which measure would you like to explore?',
@@ -122,14 +144,13 @@ const LANG = {
   'SEARCH_PLACEHOLDER': 'Enter a city, county, district, or school',
   'INTRO_CARD_TITLE_AVG': 'Educational Opportunity',
   'INTRO_CARD_DESCRIPTION_AVG': 'Explore educational opportunity within communities by comparing $[avg] to socioeconomic status and poverty measures',
-  'INTRO_CARD_TITLE_GRD': 'School Quality',
+  'INTRO_CARD_TITLE_GRD': 'School Performance',
   'INTRO_CARD_DESCRIPTION_GRD': 'Explore the quality of education for schools and communities by viewing $[grd] that show how much students are learning each year.',
   'INTRO_CARD_TITLE_COH': 'Changes in Opportunity',
   'INTRO_CARD_DESCRIPTION_COH': 'Explore how opportunity is changing over time in your community by viewing the $[coh] over time.',
+  'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
 
   // Map Section
-  'MAP_TITLE': 'Map of $[metric] for $[demographic] by $[region]',
-  'MAP_TITLE_SCHOOLS': 'Map of $[metric] by $[region]',
   'MAP_DESCRIPTION': 'The map and scatterplot below shows how educational opportunity is correlated with socioeconomic status.  How does your area compare?',
   'MAP_DESCRIPTION_AVG': 'The average test scores of children in a community reveal the total set of educational opportunities they have had from birth to the time they take the tests.',
   'MAP_DESCRIPTION_GRD': 'Growth metric description.',
@@ -140,24 +161,21 @@ const LANG = {
   'MAP_DESCRIPTION_GRD_GAP': 'Growth gap description.',
   'MAP_DESCRIPTION_COH_GAP': 'Trend gap description.',
   'MAP_DESCRIPTION_SES_GAP': 'SES gap description.',
-  'MAP_CONTROL_TEXT': 'Showing $[metric] for $[demographic] by $[region] in $[state]',
-  'MAP_CONTROL_TEXT_SCHOOLS': 'Showing $[metric] by $[region] in $[state]',
+  'MAP_CONTROL_TEXT': 'Showing $[demographic] for $[region] in $[state]',
+  'MAP_CONTROL_TEXT_SCHOOLS': 'Showing $[region] in $[state]',
 
   // Socioeconomic Section
-  'SES_COND_TITLE': 'Socioeconomic Conditions',
   'SES_COND_DESCRIPTION': 'This section will show how the socioeconomic conditions compares to other areas. By default, it shows how average test scores correlate to socioeconomic status in the scatterplot. The scatterplot also allows the user to select any of the three key data metrics to see how they correlate to socioeconomic conditions.',
-  'SES_CONTROL_TEXT': 'Showing $[metric] for $[demographic] by $[region] in $[state]',
+  'SES_CONTROL_TEXT': 'Showing $[demographic] for $[region] in $[state]',
 
   // Opportunity Differences Section
-  'OPP_DIFF_TITLE': 'Opportunity Differences',
   'OPP_DIFF_DESCRIPTION': 'This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.',
-  'OPP_DIFF_CONTROL_TEXT': 'Showing $[metric] for $[demographic1] vs. $[demographic2] by $[region] in $[state]',
+  'OPP_DIFF_CONTROL_TEXT': 'Showing $[demographic1] vs. $[demographic2] for $[region] in $[state]',
   'OPP_DIFF_EQUAL_LINE': 'equal opportunity',
 
   // Achievement Gaps Section
-  'ACH_GAPS_TITLE': 'Achievement Gaps',
   'ACH_GAPS_DESCRIPTION': 'This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.',
-  'ACH_GAPS_CONTROL_TEXT': 'Showing the $[gap] of $[metric] vs. average test scores by $[region] in $[state]',
+  'ACH_GAPS_CONTROL_TEXT': 'Showing the $[gap] of $[metric] for $[region] in $[state]',
 
   // Map Legend (Mobile)
   'LEGEND_LOW_AVG': 'lower scores',
