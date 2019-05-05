@@ -41,9 +41,21 @@ body {
 
 
 h1, h2, h3, h5, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-.alt {
+.h1, .h2, .h3, .h4, .h5, .h6
+{
   font-family: var(--heading-font);
   font-weight: normal;
+  
+}
+
+.caps {
+  font-family: var(--alt-font);
+  font-weight: normal;
+  letter-spacing: .055rem;
+  text-transform: uppercase;
+}
+
+.subtext, .subtitle, .caption {
+  color: var(--body2-text);
 }
 

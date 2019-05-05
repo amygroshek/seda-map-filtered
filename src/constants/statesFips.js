@@ -469,7 +469,7 @@ export const getStateFipsFromAbbr = (abbr) => {
 
 export const getStatePropByAbbr = (abbr, prop) => {
   const stateFips = getStateFipsFromAbbr(abbr)
-  return getStateProp(stateFips, prop)
+  return stateFips ? getStateProp(stateFips, prop) : null
 }
 
 const getStateBoundingBoxByAbbr = (abbr) => {

@@ -18,29 +18,29 @@ const LANG = {
 
   // Metric Labels
   'LABEL_AVG': 'Average Test Scores',
-  'LABEL_GRD': 'Growth of test scores',
-  'LABEL_COH': 'Trend of test scores',
+  'LABEL_GRD': 'Average Growth Per Year',
+  'LABEL_COH': 'Change in Test Scores',
   'LABEL_SEG': 'Segregation Measure',
   'LABEL_SES': 'Socioeconomic Status',
   'LABEL_PCT': 'Percent',
 
   // Demographic Labels
-  'LABEL_ALL': 'All',
+  'LABEL_ALL': 'all',
   'LABEL_B': 'Black',
-  'LABEL_W': 'White',
+  'LABEL_W': 'white',
   'LABEL_H': 'Hispanic',
   'LABEL_A': 'Asian',
-  'LABEL_M': 'Male',
-  'LABEL_F': 'Female',
-  'LABEL_P': 'Poor',
-  'LABEL_NP': 'Non-Poor',
+  'LABEL_M': 'male',
+  'LABEL_F': 'female',
+  'LABEL_P': 'poor',
+  'LABEL_NP': 'non-poor',
   'LABEL_FRL': 'free / reduced lunch program',
 
   // Gap Labels
-  'LABEL_WB': 'White / Black Gap',
-  'LABEL_WH': 'White / Hispanic Gap',
-  'LABEL_WA': 'White / Asian Gap',
-  'LABEL_PN': 'Poor / Non-poor Gap',
+  'LABEL_WB': 'white / Black Gap',
+  'LABEL_WH': 'white / Hispanic Gap',
+  'LABEL_WA': 'white / Asian Gap',
+  'LABEL_PN': 'poor / non-poor Gap',
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
 
   // Region Labels
@@ -69,6 +69,7 @@ const LANG = {
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
 
+  // Section Titles
   'TITLE_SES_AVG': 'Socioeconomic Status and Educational Opportunity',
   'TITLE_SES_GRD': 'Socioeconomic Status and School Performance',
   'TITLE_SES_COH': 'Socioeconomic Status and Changes in Opportunity',
@@ -78,6 +79,17 @@ const LANG = {
   'TITLE_ACH_AVG': 'Gaps in Achievement',
   'TITLE_ACH_GRD': 'Gaps in Growth',
   'TITLE_ACH_COH': 'Gaps in Opportunity Changes',
+
+  // Section Descriptions
+
+  // Scatterplot Titles
+  'SP_TITLE_AVG_SES': 'Achievement and Socioeconomic Status',
+  'SP_TITLE_AVG_FRL': 'Achievement and % Free or Reduced Lunch Program ',
+  'SP_TITLE_GRD_SES': 'Average Growth Per Year and Socioeconomic Status',
+  'SP_TITLE_GRD_FRL': 'Average Growth Per Year and % Free or Reduced Lunch Program',
+  'SP_TITLE_COH_SES': 'Changes in Achievement and Socioeconomic Status',
+  'SP_TITLE_COH_FRL': 'Changes in Achievement and % Free or Reduced Lunch Program',
+  
 
   // Axis Names
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
@@ -92,10 +104,10 @@ const LANG = {
   'AXIS_AVG_HIGH': '$[value] grades\nahead',
 
   'AXIS_GRD_ZERO': 'no\ngrowth',
-  'AXIS_GRD_LOW_SINGLE': 'grew $[value]\ngrade level',
-  'AXIS_GRD_LOW': 'grew $[value]\ngrade levels',
-  'AXIS_GRD_HIGH_SINGLE': 'grew $[value]\ngrade level',
-  'AXIS_GRD_HIGH': 'grew $[value]\ngrade levels',
+  'AXIS_GRD_LOW_SINGLE': 'learned $[value]\ngrade level',
+  'AXIS_GRD_LOW': 'learned $[value]\ngrade levels',
+  'AXIS_GRD_HIGH_SINGLE': 'learned $[value]\ngrade level',
+  'AXIS_GRD_HIGH': 'learned $[value]\ngrade levels',
 
   'AXIS_COH_ZERO': 'no change\nin test scores',
   'AXIS_COH_LOW_SINGLE': 'dropped $[value]\ngrade level',
@@ -147,7 +159,7 @@ const LANG = {
   'INTRO_CARD_TITLE_GRD': 'School Performance',
   'INTRO_CARD_DESCRIPTION_GRD': 'Explore the quality of education for schools and communities by viewing $[grd] that show how much students are learning each year.',
   'INTRO_CARD_TITLE_COH': 'Changes in Opportunity',
-  'INTRO_CARD_DESCRIPTION_COH': 'Explore how opportunity is changing over time in your community by viewing the $[coh] over time.',
+  'INTRO_CARD_DESCRIPTION_COH': 'Explore how opportunity is changing over time in your community by viewing the $[coh] from 2009 - 2016.',
   'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
 
   // Map Section

@@ -54,10 +54,6 @@ body {
 
 /** END COMPONENTS */
 
-.dynamic-scatterplot__graph {
-  position: relative;
-}
-
 .controls {
   display: flex;
   margin-top: 16px;

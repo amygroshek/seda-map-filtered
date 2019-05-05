@@ -8,6 +8,7 @@ import { getScatterplotOptions } from '../../style/scatterplot-style';
 import CircleOverlay from './CircleOverlay';
 import { getSizerFunction } from '../../utils';
 import { getDataForId } from '../../modules/scatterplot';
+import { Typography } from '@material-ui/core';
 
 const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
 
@@ -91,6 +92,7 @@ function DynamicScatterplot({
   xVar,
   yVar,
   zVar,
+  heading,
   region,
   hovered,
   highlightedState,
@@ -104,6 +106,7 @@ function DynamicScatterplot({
   onReady,
   onError
 }) {
+  console.log('heading', heading)
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
@@ -154,6 +157,16 @@ function DynamicScatterplot({
             <span className="notification notification--error">{ error }</span>
           }
         </div>
+        { heading &&
+          <div className='dynamic-scatterplot__heading'>
+            <Typography variant='h6' component="span">
+              { heading.title }
+            </Typography>
+            <Typography variant='body2' component="span">
+              { heading.subtitle }
+            </Typography>
+          </div>
+        }
         <SedaScatterplot
           endpoint={endpoint}
           xVar={xVar}

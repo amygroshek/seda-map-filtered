@@ -14,12 +14,12 @@
 
 .section--intro .section__image {
   display: block;
-  max-width: 420px;
+  max-width: 400px;
   width: 90%;
 }
 
 .section--intro .section__header {
-  margin:48px 0 0 0;
+  margin: 48px 0 8px 0;
 }
 .section--intro .section__header .section__heading {
   display: flex;
@@ -60,10 +60,16 @@
   max-width: 420px;
 }
 
+
+
 @media(min-width: 960px) {
   .section--intro .card {
     margin: 16px;
   }
+}
+
+.section--intro .card__text {
+  line-height: 1.714285714285714;
 }
 
 .section--intro .card .hint__text {

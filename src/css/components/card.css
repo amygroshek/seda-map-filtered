@@ -62,7 +62,7 @@
 .card .card__button {
   position: absolute;
   right:0;
-  bottom:-12px;
+  bottom:-16px;
   left: var(--padding);
   right:0;
   width: 64px;

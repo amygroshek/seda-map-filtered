@@ -14,7 +14,8 @@ export const theme = {
   title: {
     textStyle: {
       fontWeight: 'normal',
-      color: '#00a8c6'
+      color: '#031232',
+      fontSize: 16,
     }
   },
 
@@ -30,8 +31,12 @@ export const theme = {
       }
     },
     nameTextStyle: {
-      fontSize: 14,
-      fontWeight: 'bold'
+      fontSize: 12.8,
+      color: '#031232',
+    },
+    axisLabel: {
+      color:'#5d5d5d',
+      fontSize: 11.7
     }
   },
 
@@ -60,7 +65,7 @@ export const theme = {
     borderRadius: 2,
     padding: 8,
     textStyle: {
-      fontSize: 12,
+      fontSize: 12.8,
     },
     axisPointer: { // Axis indicator, coordinate trigger effective
       type: 'line', // The default is a straight lineï¼š 'line' | 'shadow'

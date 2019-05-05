@@ -21,8 +21,10 @@ import TabLabel from '../../components/base/TabLabel';
 import { getLang } from '../../constants/lang';
 import MenuSentence from '../../components/base/MenuSentence';
 import { getMapControls, getOpportunityControls, getAchievementControls } from '../../modules/controls';
-
-                
+import { Button } from '@material-ui/core';
+import LinkIcon from '@material-ui/icons/Link';
+import ExportIcon from '@material-ui/icons/OpenInBrowser';
+        
 const TABS = [
   {
     id: 'avg',
@@ -209,6 +211,16 @@ export class MapView extends Component {
                   {...this.props.headerControls}
                   onChange={this.props.onOptionChange}
                 />
+                <div className="header__controls header__controls--right">
+                  <Button className='header__button'>
+                    <LinkIcon className="icon icon--left" />
+                    Share
+                  </Button>
+                  <Button className='header__button'>
+                    <ExportIcon className="icon icon--left" />
+                    Export
+                  </Button>
+                </div>
               </div>
             }
             classes={{

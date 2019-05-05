@@ -64,7 +64,8 @@ const materialTheme = createMuiTheme({
       letterSpacing: '.04em',
       fontSize: '0.875em',
       fontWeight: 'normal',
-      color: '#fff'
+      color: '#fff',
+      lineHeight: 1,
     }
   },
   overrides: {

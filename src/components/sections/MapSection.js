@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
-import { getStateFipsFromAbbr } from '../../constants/statesFips';
+import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import SplitSection from '../base/SplitSection';
 import { getMapViewport } from '../../modules/map';
@@ -29,6 +29,22 @@ const getVars = (region, metric, demographic) => ({
     demographic + '_ses',
   zVar: 'all_sz'
 })
+
+const getScatterplotHeading = (region, metric, demographic, highlightedState) => {
+  const vars = getVars(region, metric, demographic)
+  const titleKey = 'SP_TITLE_' + metric.toUpperCase() + '_' +
+    (vars.xVar.indexOf('ses') > -1 ? 'SES' : 'FRL')
+  const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
+  const grades = metric === 'avg' ? 'grades 3 - 8' :
+    metric === 'grd' ? 'from grades 3 - 8' : 'from 2009 - 2016'
+  return {
+    title: getLang(titleKey),
+    subtitle:  state + ' ' +
+      getLang('LABEL_' + region.toUpperCase()).toLowerCase() + ', ' + 
+      getLang('LABEL_' + demographic.toUpperCase()) + ' students, ' +
+      ' ' + grades
+  }
+}
 
 
 const mapStateToProps = ({ 
@@ -61,6 +77,7 @@ const mapStateToProps = ({
     },
     scatterplot: {
       ...vars,
+      heading: getScatterplotHeading(region, metric, demographic, highlightedState),
       region,
       data,
       hovered,
