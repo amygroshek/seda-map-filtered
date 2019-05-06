@@ -5,10 +5,26 @@ import { getOpportunityControls } from '../../modules/controls';
 import { getLang } from '../../constants/lang.js';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
-import { getStateFipsFromAbbr } from '../../constants/statesFips';
+import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getCards } from '../../modules/sections';
-import { getDemographicIdFromVarName } from '../../modules/config';
+import { getDemographicIdFromVarName, getDemographicFromVarName } from '../../modules/config';
 
+
+const getScatterplotHeading = (vars, metric, region, highlightedState) => {
+  const titleKey = 'OP_TITLE_' + metric.toUpperCase();
+  const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
+  const grades = metric === 'avg' ? 'for grades 3 - 8' :
+    metric === 'grd' ? 'from grades 3 - 8' : 'from 2009 - 2016'
+  return {
+    title: getLang(titleKey, { 
+      dem1: getDemographicFromVarName(vars.xVar).label,
+      dem2: getDemographicFromVarName(vars.yVar).label
+    }),
+    subtitle:  state + ' ' +
+      getLang('LABEL_' + region.toUpperCase()).toLowerCase() + ', ' + 
+      ' ' + grades
+  }
+}
 
 const mapStateToProps = (
   { 
@@ -20,6 +36,11 @@ const mapStateToProps = (
   { match: { params: { region, metric, highlightedState } } }
 ) => {
   region = region === 'schools' ? 'districts' : region;
+  const scatterVars = {
+    xVar: [getDemographicIdFromVarName(vars.xVar), metric].join('_'),
+    yVar: [getDemographicIdFromVarName(vars.yVar), metric].join('_'),
+    zVar: vars.zVar,
+  }
   return ({
     active: Boolean(loaded['map']),
     section: {
@@ -39,9 +60,8 @@ const mapStateToProps = (
       }),
     },
     scatterplot: {
-      xVar: [getDemographicIdFromVarName(vars.xVar), metric].join('_'),
-      yVar: [getDemographicIdFromVarName(vars.yVar), metric].join('_'),
-      zVar: vars.zVar,
+      ...scatterVars,
+      heading: getScatterplotHeading(scatterVars, metric, region, highlightedState),
       hovered,
       region,
       data,

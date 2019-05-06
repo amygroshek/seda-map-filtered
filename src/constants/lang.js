@@ -90,6 +90,9 @@ const LANG = {
   'SP_TITLE_COH_SES': 'Changes in Achievement and Socioeconomic Status',
   'SP_TITLE_COH_FRL': 'Changes in Achievement and % Free or Reduced Lunch Program',
   
+  'OP_TITLE_AVG': 'Achievement Differences Between $[dem1] and $[dem2]',
+  'OP_TITLE_GRD': 'Growth Differences Between $[dem1] and $[dem2]',
+  'OP_TITLE_COH': 'Change in Achievement Differences Between $[dem1] and $[dem2]',
 
   // Axis Names
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
@@ -183,7 +186,7 @@ const LANG = {
   // Opportunity Differences Section
   'OPP_DIFF_DESCRIPTION': 'This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.',
   'OPP_DIFF_CONTROL_TEXT': 'Showing $[demographic1] vs. $[demographic2] for $[region] in $[state]',
-  'OPP_DIFF_EQUAL_LINE': 'equal opportunity',
+  'OPP_DIFF_EQUAL_LINE': 'no difference',
 
   // Achievement Gaps Section
   'ACH_GAPS_DESCRIPTION': 'This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.',

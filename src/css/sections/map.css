@@ -32,8 +32,8 @@
 
 .section__left .map-legend {
   position: absolute;
-  bottom: 52px;
-  top: 4px;
+  bottom: 32px;
+  top: 24px;
   left: auto;
   right: 4px;
   width: 8px;

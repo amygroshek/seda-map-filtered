@@ -10,7 +10,7 @@
 .section.section--scatterplot .dynamic-scatterplot__graph {
   position: absolute;
   left: 16px;
-  top:40px;
+  top:16px;
   bottom:16px;
   right: 16px;
 }

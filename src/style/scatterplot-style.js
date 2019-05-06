@@ -17,7 +17,7 @@ export const grid = (variant) => {
       }
     default:
       return { 
-        top: 24, 
+        top: 0, 
         right: 48,
         bottom: 48, 
         left: 0, 
@@ -642,7 +642,7 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
     },
     splitLine: { show: false },
     name: getLang('LABEL_' + metric.id.toUpperCase()),
-    nameGap: 60,
+    nameGap: 80,
     nameLocation: 'middle',
     ...rest
   }
