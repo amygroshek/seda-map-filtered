@@ -105,6 +105,52 @@ export const getDotLayer = (region, dataProp) => fromJS({
   }
 });
 
+export const getDotCasingLayer = (region, dataProp) => fromJS({
+  id: 'dots-casing',
+  source: 'composite',
+  'source-layer': region,
+  type: 'circle',
+  minzoom: 2,
+  interactive: false,
+  paint: {
+    'circle-stroke-opacity': [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      2,
+      0,
+      6,
+      0,
+      7,
+      0.333
+    ],
+    'circle-radius': [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      2,
+      0,
+      4,
+      2,
+      14,
+      12
+    ],
+    'circle-color': 'transparent',
+    'circle-stroke-color': '#031232',
+    'circle-stroke-width': [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      4,
+      0,
+      6,
+      1.5,
+      14,
+      3
+    ]
+  }
+});
+
 
 export const getChoroplethOutline = (region) => fromJS({
   "id": "choropleth-outline",

@@ -1,5 +1,5 @@
 .helper {
   text-align: left;
-  color: #666;
+  color:var(--body2-text);
 }
 

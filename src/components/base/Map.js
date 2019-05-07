@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactMapGL, {NavigationControl} from 'react-map-gl';
 import PropTypes from 'prop-types';
 import * as _isEqual from 'lodash.isequal';
-import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getDotHighlightLayer } from '../../style/map-style';
+import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getDotHighlightLayer, getDotCasingLayer } from '../../style/map-style';
 import { getRegionFromId, getKeysInObject } from '../../utils';
 import classNames from 'classnames'
 
@@ -121,11 +121,14 @@ class Map extends Component {
         getBackgroundChoroplethLayer('districts', choroplethVar);
       const dotLayer = 
         getDotLayer(region, choroplethVar);
+      const dotCasingLayer = 
+        getDotCasingLayer(region, choroplethVar);
       const dotHighlight =
         getDotHighlightLayer(region, choroplethVar);
       updatedLayers = defaultMapStyle
         .get('layers')
         .splice(4, 0, choroplethLayer)
+        .splice(58, 0, dotCasingLayer)
         .splice(59, 0, dotLayer)
         .splice(60, 0, dotHighlight)
     }

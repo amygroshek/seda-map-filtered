@@ -15,6 +15,7 @@ const ScatterplotSection = ({
   onCardHover,
   onCardDismiss,
   onOptionChange,
+  onScatterplotError,
 }) => {
   return (
     <Section 
@@ -30,6 +31,7 @@ const ScatterplotSection = ({
           onReady={onScatterplotReady}
           onHover={onScatterplotHover}
           onClick={onScatterplotClick}
+          onError={(e) => onScatterplotError(e, section.id)}
           {...scatterplot}
         />
       }
@@ -46,6 +48,7 @@ ScatterplotSection.propTypes = {
   onScatterplotHover: PropTypes.func,
   onScatterplotClick: PropTypes.func,
   onScatterplotReady: PropTypes.func,
+  onScatterplotError: PropTypes.func,
   onCardClick: PropTypes.func,
   onCardHover: PropTypes.func,
   onCardDismiss: PropTypes.func,

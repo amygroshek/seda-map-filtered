@@ -15,6 +15,9 @@ function InlineMenu({
   id = id || useState(makeId())[0];
   const [ anchorEl, setAnchorEl ] = useState(null);
   const selectedItem = options.find(i => i.id === value);
+  if(!selectedItem) {
+    console.error('no selected item', id, value)
+  }
   return (
     <div 
       style={{display: 'inline'}} 

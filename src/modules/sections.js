@@ -19,6 +19,25 @@ const getSectionHoveredReducer = (sectionId) =>
   }
 
 /**
+ * Get the reducer for storing the hovered feature in each section
+ * @param {*} sectionId 
+ */
+const getSectionErrorReducer = (sectionId) =>
+  (state = null, action) => {
+    if (action.sectionId !== sectionId) {
+      return state;
+    }
+    switch(action.type) {
+      case 'SCATTERPLOT_ERROR':
+        return action.message;
+      case 'SET_REPORT_VARS':
+        return null
+      default:
+        return state;
+    }
+  }
+
+/**
  * Updates the metric part of a variable string
  * @param {*} varName 
  * @param {*} newMetric 
@@ -42,17 +61,18 @@ const updateVarDemographic = (varName, newDemographic) =>
  * @param {object} state { xVar, yVar } 
  */
 const getUpdatedVarsForSection = (sectionId, optionId, value, state) => {
+  console.log('get updated vars for section', sectionId, optionId, value, state)
   switch (sectionId) {
     case 'map':
-      return getUpdatedSocioeconomicVars(optionId, value, state)
-    case 'socioeconomic':
-      return getUpdatedSocioeconomicVars(optionId, value, state)
+      return getUpdatedMapVars(optionId, value, state)
     case 'opportunity':
       return getUpdatedOpportunityVars(optionId, value, state)
     case 'achievement':
       return getUpdatedAchievementVars(optionId, value, state)
+    case 'master':
+      return getUpdatedMasterVars(optionId, value, state)
     default:
-      return getUpdatedSocioeconomicVars(optionId, value, state)
+      return getUpdatedMapVars(optionId, value, state)
   }
 }
 
@@ -85,7 +105,8 @@ const getSectionVarsReducer = (sectionId) =>
  * @param {*} value 
  * @param {object} state { xVar, yVar } 
  */
-const getUpdatedSocioeconomicVars = (optionId, value, { xVar, yVar }) => {
+const getUpdatedMapVars = (optionId, value, { xVar, yVar }) => {
+  console.log('UPDATE MAP VARS', optionId, value, xVar, yVar)
   switch(optionId) {
     case 'demographic':
       return {
@@ -128,6 +149,37 @@ const getUpdatedOpportunityVars = (optionId, value, { xVar, yVar }) => {
 }
 
 /**
+ * Get updated var state on option change for opportunity differences section
+ * @param {string} optionId 
+ * @param {string} value
+ * @param {object} state { xVar, yVar } 
+ */
+const getUpdatedMasterVars = (optionId, value, { xVar, yVar }) => {
+  switch(optionId) {
+    case 'subgroupX':
+      return {
+        xVar: updateVarDemographic(xVar, value),
+      }
+    case 'subgroupY':
+      return {
+        yVar: updateVarDemographic(yVar, value),
+      }
+    case 'metricX':
+      return {
+        xVar: updateVarMetric(xVar, value),
+      }
+    case 'metricY':
+      return {
+        yVar: updateVarMetric(yVar, value),
+      }
+    case 'region':
+      return { region: value }
+    default:
+      return {}
+  }
+}
+
+/**
  * Get updated var state on option change for achievement gaps section
  * @param {string} optionId 
  * @param {string} value
@@ -149,21 +201,30 @@ const getUpdatedAchievementVars = (optionId, value, { xVar, yVar }) => {
   }
 }
 
-// create an object containing all section reducers
+/**
+ * Reducers for each section
+ */
 const reducers = Object.keys(SECTIONS).reduce(
   (obj, key) => {
     obj[key] = combineReducers({
       vars: getSectionVarsReducer(key),
-      hovered: getSectionHoveredReducer(key)
+      hovered: getSectionHoveredReducer(key),
+      error: getSectionErrorReducer(key)
     })
     return obj
   }, {}
 );
 
-const active = (state = 'intro', action) => {
+/**
+ * Reducer to track active section
+ * @param {*} state 
+ * @param {*} action 
+ */
+const active = (state = 'map', action) => {
   switch(action.type) {
     case 'SET_ACTIVE_SECTION':
-      return action.sectionId
+      return state !== action.sectionId ?
+        action.sectionId : state
     default:
       return state
   }
@@ -175,10 +236,18 @@ export default combineReducers({
 })
 
 
+/**
+ * Gets the id of the hovered feature
+ * @param {*} hovered 
+ */
 export const getHoveredId = (hovered) =>
   hovered && hovered.properties && hovered.properties.id ?
     hovered.properties.id : ''
 
+/**
+ * Get cards data for the section
+ * @param {*} param0 
+ */
 export const getCards = ({ hovered, selected, features, metrics }) => {
   return {
     hovered: getHoveredId(hovered),

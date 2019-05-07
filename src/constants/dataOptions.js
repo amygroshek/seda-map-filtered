@@ -21,11 +21,6 @@ export const SECTIONS = {
     yVar: 'all_avg',
     zVar: 'all_sz',
   },
-  'socioeconomic': {
-    xVar: 'all_ses',
-    yVar: 'all_avg',
-    zVar: 'all_sz',
-  },
   'opportunity': {
     xVar: 'np_avg',
     yVar: 'p_avg',
@@ -35,7 +30,13 @@ export const SECTIONS = {
     xVar: 'wb_ses',
     yVar: 'wb_avg',
     zVar: 'all_sz',
-  }
+  },
+  'master': {
+    xVar: 'all_ses',
+    yVar: 'all_avg',
+    zVar: 'all_sz',
+    region: 'counties',
+  },
 }
 
 /**

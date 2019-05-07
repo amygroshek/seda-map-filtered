@@ -1,5 +1,4 @@
-import { updateRoute } from "../modules/router";
-import { onScatterplotData, onScatterplotLoaded } from "./scatterplotActions";
+import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "./scatterplotActions";
 import { loadLocation } from "./featuresActions";
 import { onRemoveSelectedFeature, onViewportChange } from "./mapActions";
 import { parseLocationsString, getLocationFromFeature } from '../modules/router';
@@ -9,26 +8,6 @@ export const onHoverFeature = (feature, sectionId) => ({
   feature,
   sectionId
 });
-
-const getOptionsDispatchForSection = (dispatch, section, ownProps) => ({
-  onOptionChange: (id, option) => {
-    switch(id) {
-      case 'highlight':
-        return updateRoute(ownProps, { 
-          highlightedState: option.id
-        })
-      case 'region':
-        return updateRoute(ownProps, { region: option.id })
-      default:
-        return dispatch({
-          type: 'SET_REPORT_VARS',
-          sectionId: section,
-          optionId: id,
-          value: option.id
-        })
-    }
-  },
-})
 
 export const getCardDispatchForSection = (dispatch, section) => ({
   onCardDismiss: (feature) => 
@@ -61,11 +40,13 @@ export const getScatterplotDispatchForSection = (dispatch, sectionId) => ({
     dispatch(onHoverFeature(feature, sectionId)),
   onScatterplotClick: (location) =>
     dispatch(loadLocation(location)),
+  onScatterplotError: (e, sectionId) => {
+    dispatch(onScatterplotError(e, sectionId))
+  }
 })
 
 export const sectionMapDispatchToProps = (sectionId) =>
   (dispatch, ownProps) => ({
-    ...getOptionsDispatchForSection(dispatch, sectionId, ownProps),
     ...getCardDispatchForSection(dispatch, sectionId),
     ...getScatterplotDispatchForSection(dispatch, sectionId)
   })

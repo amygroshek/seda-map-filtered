@@ -1,37 +1,30 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/controls';
-import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
+import { getOpportunityControls } from '../../modules/controls';
 import { getLang } from '../../constants/lang.js';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
-import { getStateFipsFromAbbr } from '../../constants/statesFips';
+import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getCards } from '../../modules/sections';
+import { getDemographicIdFromVarName, getDemographicFromVarName } from '../../modules/config';
 
-/**
- * Gets an array of controls for the section
- * @param {string} region 
- * @param {object} vars 
- * @param {string} highlightedState 
- */
-const getSectionControls = (region, vars, highlightedState) => [
-  getMetricControl(
-    getMetricIdFromVarName(vars.xVar)
-  ),
-  getDemographicControl(
-    getDemographicIdFromVarName(vars.xVar),
-    'subgroupX',
-    'Subgroup 1'
-  ),
-  getDemographicControl(
-    getDemographicIdFromVarName(vars.yVar), 
-    'subgroupY',
-    'Subgroup 2'
-  ),
-  getRegionControl(region),
-  getHighlightControl(highlightedState)
-]
+
+const getScatterplotHeading = (vars, metric, region, highlightedState) => {
+  const titleKey = 'OP_TITLE_' + metric.toUpperCase();
+  const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
+  const grades = metric === 'avg' ? 'for grades 3 - 8' :
+    metric === 'grd' ? 'from grades 3 - 8' : 'from 2009 - 2016'
+  return {
+    title: getLang(titleKey, { 
+      dem1: getDemographicFromVarName(vars.xVar).label,
+      dem2: getDemographicFromVarName(vars.yVar).label
+    }),
+    subtitle:  state + ' ' +
+      getLang('LABEL_' + region.toUpperCase()).toLowerCase() + ', ' + 
+      ' ' + grades
+  }
+}
 
 const mapStateToProps = (
   { 
@@ -40,19 +33,24 @@ const mapStateToProps = (
     features,
     sections: { opportunity: { hovered, vars }, active  } 
   },
-  { match: { params: { region, highlightedState } } }
+  { match: { params: { region, metric, highlightedState } } }
 ) => {
   region = region === 'schools' ? 'districts' : region;
+  const scatterVars = {
+    xVar: [getDemographicIdFromVarName(vars.xVar), metric].join('_'),
+    yVar: [getDemographicIdFromVarName(vars.yVar), metric].join('_'),
+    zVar: vars.zVar,
+  }
   return ({
     active: Boolean(loaded['map']),
     section: {
       id: 'opportunity',
       type: 'scatterplot',
-      title: getLang('OPP_DIFF_TITLE'),
+      title: getLang('TITLE_OPP_' + metric.toUpperCase()),
       description: getLang('OPP_DIFF_DESCRIPTION'),
       headerMenu: {
         text: getLang('OPP_DIFF_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, highlightedState)
+        controls: getOpportunityControls(region, vars, highlightedState)
       },
       cards: getCards({ 
         hovered,
@@ -62,14 +60,14 @@ const mapStateToProps = (
       }),
     },
     scatterplot: {
-      ...vars,
+      ...scatterVars,
+      heading: getScatterplotHeading(scatterVars, metric, region, highlightedState),
       hovered,
       region,
       data,
       highlightedState: getStateFipsFromAbbr(highlightedState),
       variant: 'opp',
       selected: selected && selected[region],
-      
       freeze: active !== 'opportunity'
     }
   })

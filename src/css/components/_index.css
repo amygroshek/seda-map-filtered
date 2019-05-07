@@ -1,6 +1,5 @@
 
 @import "./hint.css";
-@import "./section-header.css";
 @import "./card.css";
 @import "./location-card.css";
 @import "./location-card-list.css";
@@ -11,3 +10,11 @@
 @import "./circle-overlay.css";
 
 @import "./blocker.css";
+
+@import "./notification.css";
+@import "./tabs.css";
+
+@import "./header.css";
+@import "./header-tabs.css";
+
+@import "./dynamic-scatterplot.css";

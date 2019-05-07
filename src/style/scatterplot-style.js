@@ -10,14 +10,14 @@ export const grid = (variant) => {
   switch(variant) {
     case 'map':
       return {
-        top: 0,
-        right: 80,
-        bottom: 48,
+        top: 24,
+        right: 100,
+        bottom: 32,
         left: 24,
       }
     default:
       return { 
-        top: 24, 
+        top: 0, 
         right: 48,
         bottom: 48, 
         left: 0, 
@@ -165,7 +165,7 @@ const getOverlay = (points, lines) => {
       show:false
     },
     markPoint: getMarkPoints(points.map(p => ({
-      axis:'y', x: '97%', y: p.value[1], label: p.name
+      axis:'y', x: '93%', y: p.value[1], label: p.name
     }))),
     markLine: getMarkLines(lines)
   }
@@ -188,9 +188,9 @@ const getAxisPoint = ({axis, x, y, label, options }) => {
         align: 'right',
         rich: {
           val: {
-            fontSize: 12,
+            fontSize: 11.7,
             fontWeight: 'normal',
-            color: '#000',
+            color: '#5d5d5d',
             borderWidth: 0,
             borderColor: 'rgba(0,0,0,0)',
             backgroundColor: 'rgba(255,255,255,0.8)',
@@ -225,10 +225,10 @@ const getMarkLines = (lines) => {
  */
 const getAxisLine = ({axis, position, style}) => {
   const startPosition = axis === 'y' ?
-    { x: 0, yAxis: position } :
+    { x: 16, yAxis: position } :
     { y: 24, xAxis: position };
   const endPosition = axis === 'y' ?
-    { x: '100%', yAxis: position } :
+    { x: '93%', yAxis: position } :
     { y: '100%', xAxis: position };
   return [
     {
@@ -513,6 +513,10 @@ const getXAxis = ({ metric, demographic, region, ...rest }) => {
         ' (' + demographic.label + ' students)' : 
         ''
     ),
+    nameTextStyle: {
+      fontSize: 12.8,
+      color: '#031232',
+    },
     ...rest
   }
 }
@@ -534,10 +538,14 @@ const getMapXAxis = ({ metric, demographic, region }) => {
     },
     name: region === 'schools' ? 
       getLang('LABEL_PCT') + ' ' + getLang('LABEL_FRL') :
-      getLang('LABEL_SES') + ' (' + 
-        getLang('LABEL_'+ demographic.id.toUpperCase()) + 
-        (isGapDemographic(demographic.id) ? '' : ' students') + ')'
+      getLang('LABEL_SES')
     ,
+    nameGap: 8,
+    nameTextStyle: {
+      fontSize: 12.8,
+      fontWeight: 'normal',
+      color: '#031232',
+    },
     splitLine: { show: false },
   }
 }  
@@ -633,6 +641,9 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
       }
     },
     splitLine: { show: false },
+    name: getLang('LABEL_' + metric.id.toUpperCase()),
+    nameGap: 80,
+    nameLocation: 'middle',
     ...rest
   }
 }
@@ -785,7 +796,6 @@ const tooltip = (variant, { data, xVar, yVar }) => {
       return getTooltip({ data, xVar, yVar })
   }
 }
-
 
 export const getScatterplotOptions = (
   variant,

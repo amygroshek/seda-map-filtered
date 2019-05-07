@@ -4,7 +4,7 @@
   background: #fff;
   display: flex;
   padding: 4px;
-  font-size: 12px;
+  font-size: var(--micro-font-size);
   align-items: flex-start;
   justify-content: space-between;
   text-transform: uppercase;

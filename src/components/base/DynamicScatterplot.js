@@ -8,6 +8,7 @@ import { getScatterplotOptions } from '../../style/scatterplot-style';
 import CircleOverlay from './CircleOverlay';
 import { getSizerFunction } from '../../utils';
 import { getDataForId } from '../../modules/scatterplot';
+import { Typography } from '@material-ui/core';
 
 const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
 
@@ -91,17 +92,21 @@ function DynamicScatterplot({
   xVar,
   yVar,
   zVar,
+  heading,
   region,
   hovered,
   highlightedState,
   variant,
   selected,
   freeze,
+  error,
   onHover,
   onClick,
   onData,
-  onReady
+  onReady,
+  onError
 }) {
+  console.log('heading', heading)
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
@@ -147,7 +152,21 @@ function DynamicScatterplot({
       <div className='dynamic-scatterplot__graph'>
         <div className={classNames(
           "blocker", "blocker--freeze", { 'blocker--show': freeze }
-        ) }></div>
+        ) }>
+          { error &&
+            <span className="notification notification--error">{ error }</span>
+          }
+        </div>
+        { heading &&
+          <div className='dynamic-scatterplot__heading'>
+            <Typography variant='h6' component="span">
+              { heading.title }
+            </Typography>
+            <Typography variant='body2' component="span">
+              { heading.subtitle }
+            </Typography>
+          </div>
+        }
         <SedaScatterplot
           endpoint={endpoint}
           xVar={xVar}
@@ -160,6 +179,7 @@ function DynamicScatterplot({
           }
           onClick={onClick}
           onData={onData}
+          onError={onError}
           data={data}
           prefix={region}
           options={scatterplotOptions}
@@ -207,7 +227,9 @@ DynamicScatterplot.propTypes = {
   onClick: PropTypes.func,
   onData: PropTypes.func,
   onReady: PropTypes.func,
+  onError: PropTypes.func,
   freeze: PropTypes.bool,
+  error: PropTypes.string,
 }
 
 export default DynamicScatterplot

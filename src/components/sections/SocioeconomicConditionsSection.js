@@ -1,30 +1,12 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getDemographicIdFromVarName, getMetricIdFromVarName } from '../../modules/config';
-import { getRegionControl, getMetricControl, getDemographicControl, getHighlightControl } from '../../modules/controls';
+import { getSocioeconomicControls } from '../../modules/controls';
 import { getLang } from '../../constants/lang.js';
 import { sectionMapDispatchToProps } from '../../actions/sectionActions';
 import ScatterplotSection from '../base/ScatterplotSection';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getCards } from '../../modules/sections';
-
-/**
- * Gets an array of controls for the section
- * @param {string} region 
- * @param {object} vars 
- * @param {string} highlightedState 
- */
-const getSectionControls = (region, vars, highlightedState) => [
-  getMetricControl(
-    getMetricIdFromVarName(vars.yVar)
-  ),
-  getDemographicControl(
-    getDemographicIdFromVarName(vars.yVar)
-  ),
-  getRegionControl(region),
-  getHighlightControl(highlightedState)
-]
 
 const mapStateToProps = (
   { 
@@ -45,7 +27,7 @@ const mapStateToProps = (
       description: getLang('SES_COND_DESCRIPTION'),
       headerMenu: {
         text: getLang('SES_CONTROL_TEXT'),
-        controls: getSectionControls(region, vars, highlightedState),
+        controls: getSocioeconomicControls(region, vars, highlightedState),
       },
       cards: getCards({ 
         hovered,

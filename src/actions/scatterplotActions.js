@@ -15,6 +15,20 @@ export const onScatterplotData = (data, region) => {
 }
 
 /**
+ * Action to dispatch when receiving fetched scatterplot data
+ * for a region.
+ * @param {object} data 
+ * @param {string} region 
+ */
+export const onScatterplotError = (e, sectionId) => {
+  return ({
+    type: 'SCATTERPLOT_ERROR',
+    message: e.message || e,
+    sectionId
+  })
+}
+
+/**
  * Action to dispatch when all data vars for a scatterplot are loaded
  * @param {string} scatterplotId 
  */

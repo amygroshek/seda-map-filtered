@@ -7,18 +7,10 @@
   }
 }
 
-.section.section--scatterplot .dynamic-scatterplot .controls {
-  position:absolute;
-  top:0;
-  left:16px;
-  right:0;
-  z-index:500;
-}
-
 .section.section--scatterplot .dynamic-scatterplot__graph {
   position: absolute;
   left: 16px;
-  top:40px;
+  top:16px;
   bottom:16px;
   right: 16px;
 }

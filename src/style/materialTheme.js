@@ -1,5 +1,9 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+const defaultTheme = createMuiTheme({
+  typography: { useNextVariants: true },
+})
+
 // Theme for the tool
 const materialTheme = createMuiTheme({
   palette: {
@@ -7,24 +11,65 @@ const materialTheme = createMuiTheme({
       main: '#0e7cb4'
     },
     secondary: {
-      main: '#FC0F44',
+      main: '#ff003e',
     },
+    text: {
+      primary: "#031232",
+      secondary: "#5d5d5d",
+      disabled: "rgba(0, 0, 0, 0.38)",
+      hint: "rgba(0, 0, 0, 0.38)",
+    },
+    divider: "rgba(0, 0, 0, 0.15)"
   },
   typography: {
     useNextVariants: true,
+    color: '#031232',
     fontFamily: "maisonneue-book,lato,helvetica neue,Arial,sans-serif,-apple-system",
-    body2: {
-      fontFamily: "maisonneue-book,lato,helvetica neue,Arial,sans-serif,-apple-system"
+    h1: {
+      fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: 42.725,
     },
-    ...['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-      .reduce((obj, item) => ({
-        ...obj,
-        [item]: {
-          fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system"
-        }
-      }))
+    h2: {
+      fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: 31.25,
+    },
+    h3: {
+      fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: 25,
+    },
+    h4: {
+      fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: 20,
+    },
+    h5: {
+      fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: '1.094em',
+    },
+    h6: {
+      fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: '1em',
+    },
+    body1: {
+      fontSize: '1em',
+    },
+    body2: {
+      fontSize: '0.875em',
+    },
+    caption: {
+      fontSize: '0.8em',
+    },
+    button: {
+      fontFamily: "sharpgrotesk-medium15, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      textTransform: 'uppercase',
+      letterSpacing: '.04em',
+      fontSize: '0.875em',
+      fontWeight: 'normal',
+      color: '#fff',
+      lineHeight: 1,
+    }
   },
   overrides: {
+
     MuiInputBase: {
       root: {
         'label + &': {
@@ -38,6 +83,20 @@ const materialTheme = createMuiTheme({
       multiline: {
         padding: 0,
         marginBottom: 16
+      }
+    },
+    MuiTabs: {
+      flexContainer: {
+        height: 64
+      },
+      
+    },
+    MuiTab: {
+      labelContainer: {
+        [defaultTheme.breakpoints.up('sm')]: {
+          padding: "12px 24px 0"
+        }
+        
       }
     },
     MuiInput: {
