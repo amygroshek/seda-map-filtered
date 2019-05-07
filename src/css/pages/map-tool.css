@@ -1,7 +1,7 @@
 
 @media(min-width: 960px) {
   .intro-spacer {
-    margin-top: 90vh;
+    margin-top: 100vh;
   }
 }
 
@@ -17,7 +17,7 @@
     transform-style: preserve-3d; 
   }
   .map-tool--parallax .section.section--intro {
-    top: -24px;
+    top: 0;
     transform: translateZ(-1px) scale(1.51);
     z-index: -1;
   }

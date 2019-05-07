@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Scroll from 'react-scroll'
 import * as _debounce from 'lodash.debounce';
+import classNames from 'classnames';
 
 import { loadRouteLocations } from '../../actions/featuresActions';
 import OpportunityDifferences from '../../components/sections/OpportunityDifferencesSection';
@@ -51,8 +52,8 @@ const ScrollElement = Scroll.ScrollElement;
 const ScrollLink = Scroll.Link;
 const sectionIdComponentMap = { 
   'map': ScrollElement(MapSection), 
-  'opportunity': ScrollElement(OpportunityDifferences), 
-  'achievement': ScrollElement(AchievementGaps)
+  // 'opportunity': ScrollElement(OpportunityDifferences), 
+  // 'achievement': ScrollElement(AchievementGaps)
 };
 
 /**
@@ -92,7 +93,7 @@ export class MapView extends Component {
   }
 
   state = {
-    showHeader: false,
+    showHeader: true,
     value: 0,
     hovered: null,
   }
@@ -117,6 +118,12 @@ export class MapView extends Component {
     Scroll.scrollSpy.update();
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.view !== this.props.view) {
+      setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 10);
+    }
+  }
+
   render() {
     return (
       <div id="scrollWrapper" className="map-tool map-tool--parallax">
@@ -126,9 +133,9 @@ export class MapView extends Component {
             activeClass="active"
             key={'sections-link'}
             to='sections'
-            offset={0}
+            offset={-24}
             onSetActive={() => this.setState({showHeader: true})}
-            onSetInactive={() => this.setState({showHeader: false})}
+            onSetInactive={() => this.setState({showHeader: true})}
             spy={true}
           />
           {
@@ -214,13 +221,30 @@ export class MapView extends Component {
                   onChange={this.props.onOptionChange}
                 />
                 <div className="header__controls header__controls--right">
-                  <Button className='header__button'>
-                    <LinkIcon className="icon icon--left" />
-                    Share
+                  <Button
+                    className={
+                      classNames(
+                        'header__button', 
+                        {'header__button--active': this.props.view === 'right'}
+                      )
+                    }
+                    onClick={() => this.props.setView('right')}
+                  >
+                    Map
                   </Button>
-                  <Button className='header__button'>
-                    <ExportIcon className="icon icon--left" />
-                    Export
+                  <Button onClick={() => this.props.setView('left')} className={
+                    classNames(
+                      'header__button', 
+                      {'header__button--active': this.props.view === 'left'})
+                    }>
+                    Scatterplot
+                  </Button>
+                  <Button onClick={() => this.props.setView('split')} className={
+                    classNames(
+                      'header__button', 
+                      {'header__button--active': this.props.view === 'split'})
+                    }>
+                    Both
                   </Button>
                 </div>
               </div>
@@ -249,10 +273,11 @@ export class MapView extends Component {
 }
 
 const mapStateToProps = (
-  { scatterplot: { loaded }, selected, sections },
+  { view, scatterplot: { loaded }, selected, sections },
   { match: { params: { region, metric, highlightedState } } }
 ) => {
   return {
+    view,
     metric,
     active: sections.active,
     mapScatterplotLoaded: loaded && loaded['map'],
@@ -264,6 +289,10 @@ const mapStateToProps = (
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  setView: (view) => dispatch({
+    type: 'SET_VIEW',
+    view
+  }),
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations)),
   setMetric: _debounce((metricId) => {

@@ -51,6 +51,7 @@ const mapStateToProps = ({
   scatterplot: { data },
   selected,
   features,
+  view,
   sections: { map: { hovered }, active },
   map: { viewport, idMap },
 },
@@ -74,6 +75,9 @@ const mapStateToProps = ({
         selected: selected[region] || [],
         metrics: [ vars.xVar, vars.yVar ]
       }),
+      classes: {
+        component: 'section__component--' + view
+      }
     },
     scatterplot: {
       ...vars,

@@ -1,19 +1,19 @@
 
 .header {
   height: var(--header-height);
-  margin-top: calc(-1 * var(--header-height));
   box-shadow: var(--shadow1);
   background: #fff;
   position: sticky;
   top:0;
-  transform: translateY(-20%);
   opacity:0;
   transition: opacity 0.2s linear, transform 0.2s ease;
   z-index: 999;
+
 }
 
 .header--visible {
   opacity: 1;
+  pointer-events:all;
   transform: translateY(0);
 }
 
@@ -132,15 +132,20 @@
 
 .header__controls {
   white-space: nowrap;
-  min-width: 300px;
   display: flex;
   justify-content: flex-end;
+  border: 1px solid rgba(0,0,0,0.07);
 }
 
 .header__controls .header__button {
-  padding: 8px;
+  padding: 8px 12px 6px;
   line-height:1;
   font-size: var(--micro-font-size);
+}
+
+.header__controls .header__button.header__button--active {
+  background: var(--tab-text);
+  color:#fff;
 }
 
 .header__controls .header__button .icon {
