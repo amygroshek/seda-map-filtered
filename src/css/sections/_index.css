@@ -65,10 +65,6 @@
   margin: 0px auto 24px
 }
 
-.section__heading .hint__text {
-  font-weight: normal;
-}
-
 .section__header .section__description {
   max-width: 480px;
   width:100%;

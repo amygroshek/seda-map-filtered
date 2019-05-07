@@ -82,6 +82,10 @@
   margin-right: 72px;
 }
 
+.header__inner-content .menu-sentence {
+  font-family: var(--heading-font);
+  font-weight: 500;
+}
 
 .header__actions {
   position: absolute;
@@ -100,9 +104,14 @@
 
 .header-tabs .tab {
   min-width: 256px;
+  max-width: none;
+  width: 33.33333%;
+  opacity: 0.6;
 }
 .header-tabs .tab.tab--selected {
-    background: #EEFCFF;
+  background: #EEFCFF;
+  filter: none;
+  opacity:1;
 }
 @media(min-width: 1060px) {
   .header-tabs .tab {

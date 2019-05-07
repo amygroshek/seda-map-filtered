@@ -37,8 +37,8 @@
 .hint__text {
   display: inline-block;
   border: none;
-  border-bottom: 1px dotted #8dd7d3;
-  font-weight: bold;
+  font-family: var(--heading-font);
+  font-weight: 500;
   height: 1.35em;
   color: var(--link-text);
   background: none;

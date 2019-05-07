@@ -168,7 +168,9 @@ export class MapView extends Component {
                 <Tabs 
                   value={this.props.metric} 
                   onChange={this.handleChange}
-                  variant="scrollable"
+                  classes={{
+                    indicator: 'tab__indicator'
+                  }}
                 >
                 { 
                   TABS.map((t,i) =>
@@ -206,7 +208,7 @@ export class MapView extends Component {
               </div>
             }
             secondaryContent={
-              <div>
+              <div className="header__inner-content">
                 <MenuSentence
                   {...this.props.headerControls}
                   onChange={this.props.onOptionChange}

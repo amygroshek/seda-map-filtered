@@ -22,7 +22,7 @@ function MenuSentence({text, controls, onChange, ...rest}) {
       return arr;
     }, [])
   return (
-    <Typography component="div" {...rest}>
+    <Typography component="div" className="menu-sentence" {...rest}>
       { chunks.map(c => c) }
     </Typography>
   )
