@@ -153,13 +153,13 @@ export const getRegionLabel = (id) => {
  * @param {string} id 
  * @returns {array}
  */
-export const getStopsForVarName = (varName) => {
+export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
   const demId = getDemographicIdFromVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
-  const colors = getChoroplethColors()
-  const [ min, max ] = getMetricRange(metricId, demId)
+  const [ min, max ] = getMetricRange(metricId, demId, region)
+  console.log('got min max', min, max)
   const range = Math.abs(max - min);
-  const stepSize = range / (colors.length);
+  const stepSize = range / (colors.length-1);
   return colors.map((c, i) =>
     [ (min + (i * stepSize)), c ]
   )

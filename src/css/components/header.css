@@ -5,16 +5,8 @@
   background: #fff;
   position: sticky;
   top:0;
-  opacity:0;
   transition: opacity 0.2s linear, transform 0.2s ease;
   z-index: 999;
-
-}
-
-.header--visible {
-  opacity: 1;
-  pointer-events:all;
-  transform: translateY(0);
 }
 
 .header__row {

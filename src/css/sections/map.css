@@ -24,10 +24,11 @@
 
 .section__right .map-legend {
   position: absolute;
-  bottom: 8px;
+  bottom: 24px;
   left: auto;
-  right: 8px;
+  right: 24px;
   max-width: 320px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .section__left .map-legend {

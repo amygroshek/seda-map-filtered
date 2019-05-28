@@ -5,9 +5,15 @@ import * as _isEqual from 'lodash.isequal';
 import { defaultMapStyle, getChoroplethLayer, getChoroplethOutline, getDotLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getDotHighlightLayer, getDotCasingLayer } from '../../style/map-style';
 import { getRegionFromId, getKeysInObject } from '../../utils';
 import classNames from 'classnames'
+import { getChoroplethColors } from '../../modules/config';
+import GradientLegend from './GradientLegend';
 
 
 class Map extends Component {
+
+  static defaultProps = {
+    choroplethScale: getChoroplethColors()
+  }
 
   state = {
     mapStyle: defaultMapStyle,
@@ -101,11 +107,12 @@ class Map extends Component {
    * @param {boolean} init inserts the layers instead of replacing when true
    */
   _updateChoropleth() {
-    const { region, choroplethVar } = this.props;
+    const { region, choroplethVar, choroplethScale } = this.props;
+    console.log('update choro', choroplethScale);
     let updatedLayers;
     if (region !== 'schools') {
       const choroplethLayer = 
-        getChoroplethLayer(region, choroplethVar);
+        getChoroplethLayer(region, choroplethVar, choroplethScale);
       const choroplethOutline = 
         getChoroplethOutline(region);
       const choroplethOutlineCasing = 
@@ -118,9 +125,9 @@ class Map extends Component {
           .splice(59, 0, choroplethOutlineCasing)
     } else {
       const choroplethLayer = 
-        getBackgroundChoroplethLayer('districts', choroplethVar);
+        getBackgroundChoroplethLayer('districts', choroplethVar, choroplethScale);
       const dotLayer = 
-        getDotLayer(region, choroplethVar);
+        getDotLayer(region, choroplethVar, choroplethScale);
       const dotCasingLayer = 
         getDotCasingLayer(region, choroplethVar);
       const dotHighlight =
@@ -203,10 +210,11 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { region, hovered, selected, choroplethVar, freeze } = this.props;
+    const { region, hovered, selected, choroplethVar, choroplethScale, freeze } = this.props;
     // update the choropleth if any of the map data has changed
     if (freeze) { return; }
     if (
+      !_isEqual(prevProps.choroplethScale, choroplethScale) ||
       prevProps.choroplethVar !== choroplethVar ||
       prevProps.region !== region ||
       (!freeze && prevProps.freeze !== freeze)
@@ -249,7 +257,7 @@ class Map extends Component {
   }
 
   render() {
-    const { viewport, freeze, onViewportChange, onHover, attributionControl = false } = this.props;
+    const { legend, viewport, freeze, onViewportChange, onHover, attributionControl = false } = this.props;
     return (
       <div 
         className="map"
@@ -274,6 +282,9 @@ class Map extends Component {
               <NavigationControl onViewportChange={onViewportChange} />
             </div>
           </ReactMapGL>
+          <GradientLegend
+            {...legend}
+          />
         </div>
       </div>
     );
@@ -282,6 +293,7 @@ class Map extends Component {
 
 Map.propTypes = {
   choroplethVar: PropTypes.string,
+  choroplethScale: PropTypes.arrayOf(PropTypes.string),
   region: PropTypes.string,
   colors: PropTypes.array,
   viewport: PropTypes.object,

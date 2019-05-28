@@ -5,10 +5,11 @@ import { getStopsForVarName } from '../modules/config.js';
 
 const noDataFill = "#ccc";
 
-const getFillStyle = (varName) => {
-  const stops = getStopsForVarName(varName).reduce(
+const getFillStyle = (varName, region, colors) => {
+  const stops = getStopsForVarName(varName, region, colors).reduce(
     (acc, curr) => [ ...acc, ...curr ], []
   );
+  console.log(varName, colors, stops);
   return [ 
     "case",
     [ "has", varName ],
@@ -69,7 +70,7 @@ export const getDotHighlightLayer = (region, dataProp) => fromJS({
   }
 })
 
-export const getDotLayer = (region, dataProp) => fromJS({
+export const getDotLayer = (region, dataProp, colors) => fromJS({
   id: 'dots',
   source: 'composite',
   'source-layer': region,
@@ -77,7 +78,7 @@ export const getDotLayer = (region, dataProp) => fromJS({
   minzoom: 2,
   interactive: true,
   paint: {
-    'circle-color': getFillStyle(dataProp),
+    'circle-color': getFillStyle(dataProp, region, colors),
     'circle-opacity': 1,
     'circle-radius': [
       "interpolate",
@@ -212,19 +213,19 @@ export const getChoroplethOutlineCasing = (region) => fromJS({
   }
 })
 
-export const getChoroplethLayer = (region, dataProp) => fromJS({
+export const getChoroplethLayer = (region, dataProp, colors) => fromJS({
   id: 'choropleth',
   source: 'composite',
   'source-layer': region,
   type: 'fill',
   interactive: true,
   paint: {
-    'fill-color': getFillStyle(dataProp),
+    'fill-color': getFillStyle(dataProp, region, colors),
     'fill-opacity': 0.9
   }
 });
 
-export const getBackgroundChoroplethLayer = (region, dataProp) => fromJS({
+export const getBackgroundChoroplethLayer = (region, dataProp, colors) => fromJS({
   id: 'choropleth-bg',
   source: 'composite',
   'source-layer': region,
@@ -232,7 +233,7 @@ export const getBackgroundChoroplethLayer = (region, dataProp) => fromJS({
   minzoom: 2,
   interactive: true,
   paint: {
-    'fill-color': getFillStyle(dataProp),
+    'fill-color': getFillStyle(dataProp, region, colors),
     'fill-opacity': [
       "interpolate",
       [ "linear" ],

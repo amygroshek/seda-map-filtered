@@ -46,6 +46,13 @@ const getScatterplotHeading = (region, metric, demographic, highlightedState) =>
   }
 }
 
+const getColorsFromParam = (colorParam) => {
+  const urlColors = colorParam.split(',')
+    .map(v => v.length === 6 ? '#' + v : v)
+  return urlColors.length === 7 ? 
+    urlColors : getChoroplethColors()
+}
+
 
 const mapStateToProps = ({ 
   scatterplot: { data },
@@ -55,7 +62,7 @@ const mapStateToProps = ({
   sections: { map: { hovered }, active },
   map: { viewport, idMap },
 },
-{ match: { params: { region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { color = '', region, metric, demographic, highlightedState, ...params } } }
 ) => {
   const vars = getVars(region, metric, demographic)
   const hoveredId = getHoveredId(hovered)
@@ -86,7 +93,7 @@ const mapStateToProps = ({
       data,
       hovered,
       variant: 'map',
-      colors: getChoroplethColors(),
+      colors: getColorsFromParam(color),
       selected: selectedArray,
       highlightedState: getStateFipsFromAbbr(highlightedState),
       freeze: (active !== 'map')
@@ -94,16 +101,29 @@ const mapStateToProps = ({
     map: {
       region,
       choroplethVar: vars.yVar,
+      choroplethScale: getColorsFromParam(color),
       hovered: hoveredId,
       selected: selectedArray,
       colors: getSelectedColors(),
       viewport: getMapViewport(viewport, params),
       freeze: (active !== 'map'),
       attributionControl: true,
-      idMap
+      idMap,
+      legend: {
+        startLabel: 'low',
+        endLabel: 'high',
+        colors: getColorsFromParam(color),
+        markerPosition: hovered && hovered.properties ?
+          getValuePositionForMetric(
+            getFeatureProperty(hovered, demographic + '_' + metric),
+            demographic + '_' + metric,
+            region
+          ) : null,
+        vertical: false
+      }
     },
     legend: {
-      colors: getChoroplethColors(),
+      colors: getColorsFromParam(color),
       markerPosition: hovered && hovered.properties ?
         getValuePositionForMetric(
           getFeatureProperty(hovered, demographic + '_' + metric),

@@ -1,16 +1,19 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import MapView from './map'
+import ColorsView from './colors'
 import withRoot from '../withRoot';
 import ScatterplotView from './scatterplot'
 
 const App = () => (
   <div className="app__container">
     <main className="body">
-      <Route exact path="/" render={() => (<Redirect to="/us/counties/avg/all/3.5/38/-97"/>)} />
-      <Route path="/:highlightedState/:region/:metric/:demographic/:zoom/:lat/:lon/:locations?" component={ MapView } />
-      <Route path="/scatterplot" component={ ScatterplotView } />
-      {/* <Route path="/:section/:highlightedState/:region/:metric/:demographic/:zoom/:lat/:lon/:locations?" component={ SingleView } /> */}
+      <Switch>
+        <Route exact path="/" render={() => (<Redirect to="/map/us/counties/avg/all/3.5/38/-97"/>)} />
+        <Route path="/scatterplot" component={ ScatterplotView } />
+        <Route exact path="/colors/:highlightedState/:region/:metric/:demographic/:zoom/:lat/:lon/:color?" component={ ColorsView } />
+        <Route exact path="/:section/:highlightedState/:region/:metric/:demographic/:zoom/:lat/:lon/:locations?" component={ MapView } />
+      </Switch>
     </main>
   </div>
 )

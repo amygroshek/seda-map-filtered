@@ -1,5 +1,5 @@
 
-const view = (state = 'right', action) => {
+const view = (state = 'map', action) => {
     switch(action.type) {
       case 'SET_VIEW':
         return action.view;

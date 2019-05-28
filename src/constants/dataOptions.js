@@ -65,13 +65,51 @@ export const SELECTED_COLORS = [
  * colors for map choropleths
  */
 export const CHOROPLETH_COLORS = [
-  '#37469C', 
-  '#3561A8', 
-  '#519DD4', 
-  '#68C5D0', 
-  '#A2E2D4', 
-  '#E5F8C1', 
-  '#F9FECC'
+  // original
+  // '#37469C', 
+  // '#3561A8', 
+  // '#519DD4', 
+  // '#68C5D0', 
+  // '#A2E2D4', 
+  // '#E5F8C1', 
+  // '#F9FECC'
+
+  // blue green
+  '#0A5099',
+  '#367FCA',
+  '#abd9e9',
+  '#f7f7f7',
+  '#bfe9ab',
+  '#32C48A',
+  '#098554'
+
+  // blue / brown
+  // '#4B1C01',
+  // '#824B2A',
+  // '#CFAEA5',
+  // '#f7f7f7',
+  // '#A0C3DB',
+  // '#5A7CAE',
+  // '#000B3C',
+
+  // blue / pink
+  // '#0090ff',
+  // '#3da9fc',
+  // '#7ac2fa',
+  // '#f4f4f4',
+  // '#fa7a99',
+  // '#fc3d6c',
+  // '#ff003e',
+
+  // purple / teal
+  // '#1054a2', 
+  // '#477ab5', 
+  // '#b5c6db', 
+  // '#ececee', 
+  // '#b1d9c9', 
+  // '#3bb480', 
+  // '#00a15b'
+  
 ];
 
 /**
@@ -83,11 +121,10 @@ export const METRICS = [
     label: LANG['LABEL_AVG'],
     description: LANG['EXPLAINER_AVG'],
     range: {
-      'default': [ -4, 4 ],
       'gap': [ -8, 1 ],
-      'counties': [ -4, 2.5 ],
-      'districts': [ -5, 4 ],
-      'schools': [ -8, 8 ]
+      'counties': [ -3, 3 ],
+      'districts': [ -3.5, 3.5 ],
+      'schools': [ -5, 5 ]
     },
     map: true,
     scatterplot: true,

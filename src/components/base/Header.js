@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -46,11 +45,4 @@ Header.propTypes = {
   classes: PropTypes.object,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onActionClick: (action) => dispatch({ type: 'MENU_ITEM_CLICK', item: action })
-})
-
-export default connect(
-  null, 
-  mapDispatchToProps
-)(Header)
+export default Header

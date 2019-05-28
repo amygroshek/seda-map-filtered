@@ -24,6 +24,7 @@
     "connected-react-router": "4.5.0",
     "d3-ease": "^1.0.5",
     "immutable": "^4.0.0-rc.12",
+    "is-color": "^1.0.2",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",
