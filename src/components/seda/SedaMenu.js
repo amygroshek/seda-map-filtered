@@ -14,12 +14,23 @@ const SedaMenu = ({
     <div className={classNames("site-menu", { 'site-menu--open': open })}>
       <CloseButton onClick={onClose} />
       <nav>
-        <ul>
+        <ul className="site-menu__links">
           { Boolean(navItems.length) && navItems.map((item, i) =>
-            <li key={"nav-" + i}></li>
+            <li className="site-menu__link" key={"nav-" + i}>
+              <a href={item.url}>{item.label}</a>
+            </li>
           ) }
         </ul>
       </nav>
+      <div className="site-menu__social-links">
+        <ul>
+          { Boolean(socialItems.length) && socialItems.map((item, i) =>
+            <li key={"nav-" + i}>
+              <a href={item.url}>{item.icon}</a>
+            </li>
+          ) }
+        </ul>
+      </div>
     </div>
   )
 }
