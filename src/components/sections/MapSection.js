@@ -58,11 +58,10 @@ const mapStateToProps = ({
   scatterplot: { data },
   selected,
   features,
-  view,
   sections: { map: { hovered }, active },
   map: { viewport, idMap },
 },
-{ match: { params: { color = '', region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { view = 'map', color = '', region, metric, demographic, highlightedState, ...params } } }
 ) => {
   const vars = getVars(region, metric, demographic)
   const hoveredId = getHoveredId(hovered)
@@ -83,7 +82,10 @@ const mapStateToProps = ({
         metrics: [ vars.xVar, vars.yVar ]
       }),
       classes: {
-        component: 'section__component--' + view
+        content: 'section__content--' + (
+          view === 'map' ? 'right' :
+            view === 'chart' ? 'left' : 'split' 
+        )
       }
     },
     scatterplot: {

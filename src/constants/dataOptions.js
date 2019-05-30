@@ -21,16 +21,6 @@ export const SECTIONS = {
     yVar: 'all_avg',
     zVar: 'all_sz',
   },
-  'opportunity': {
-    xVar: 'np_avg',
-    yVar: 'p_avg',
-    zVar: 'all_sz',
-  },
-  'achievement': {
-    xVar: 'wb_ses',
-    yVar: 'wb_avg',
-    zVar: 'all_sz',
-  },
   'master': {
     xVar: 'all_ses',
     yVar: 'all_avg',
@@ -272,38 +262,3 @@ export const GAPS = [
     label: LANG['LABEL_PN']
   }
 ]
-
-export const BRANDING = {
-  url: '#',
-  alt: 'Stanford',
-  imgSrc:'https://placehold.it/200x40'
-}
-
-export const SHARE = [
-  {
-    id: 'facebook',
-    label: LANG['FOOTER_SHARE_FACEBOOK']
-  },
-  {
-    id: 'twitter',
-    label: LANG['FOOTER_SHARE_TWITTER']
-  },
-  {
-    id: 'link',
-    label: LANG['FOOTER_SHARE_LINK']
-  }
-]
-
-export const EXPORT = [
-  {
-    id: 'pdf',
-    label: LANG['FOOTER_EXPORT_PDF']
-  },
-  {
-    id: 'ppt',
-    label: LANG['FOOTER_EXPORT_PPT']
-  }
-]
-
-export const MENU = []
-

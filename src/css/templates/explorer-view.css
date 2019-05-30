@@ -1,18 +1,10 @@
 
-@media(min-width: 960px) {
-  .section.section--map {
-    justify-content: stretch;
-    align-items: stretch;
-    z-index:20;
-  }
-}
-
 
 .section.section--map .section__description {
   max-width: 560px;
 }
 
-.section__left--scatterplot .dynamic-scatterplot__graph {
+.section.section--map .section__left .dynamic-scatterplot__graph {
   position: absolute;
   top: 0;
   left: 0;
@@ -22,7 +14,7 @@
   height: 100%;
 }
 
-.section__right .map-legend {
+.section.section--map .section__right .map-legend {
   position: absolute;
   bottom: 24px;
   left: auto;
@@ -31,7 +23,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
-.section__left .map-legend {
+.section.section--map .section__left .map-legend {
   position: absolute;
   bottom: 32px;
   top: 24px;

@@ -1,24 +1,11 @@
 
-/** Section overrides */
-
-@import "intro.css";
-@import "map.css";
-@import "scatterplot.css";
-@import "master.css";
-
-
-#opportunity {
-  background: linear-gradient( #fff 15%, #f5f8fa 50%);
-}
-
-/** Section Container */
 
 .section {
   background: #f8f8f8;
   background: linear-gradient( #fff 15%, #f8f8f8 50%);
-  width:100%;
+  width: 100%;
+  height: 100%;
   position: relative;
-  height: auto;
   text-align: center;
   display:flex;
   align-items: center;
@@ -30,20 +17,16 @@
 }
 
 @media(min-width: 960px) {
-  .section {
-    min-height: 100vh;
-    margin-top: -108px;
-  }
+  .section {}
 }
 
 /** Section Component Wrapper */
 
-.section__component {
+.section__content {
   z-index: 20;
   position: absolute;
   width: 100%;
-  height: calc(100% - 108px);
-  top: 108px;
+  height: 100%;
   left:0;
   text-align: left; 
   overflow:hidden;
@@ -112,18 +95,55 @@
 }
 
 
-.section__component--split .section__left,
-.section__component--split .section__right {
+.section__content--split .section__left,
+.section__content--split .section__right {
   width: 50%;
   display:block;
 }
 
-.section__component--left .section__left,
-.section__component--right .section__right {
+.section__content--left .section__left,
+.section__content--right .section__right {
   display:block;
 }
 
-.section__component--left .section__right,
-.section__component--right .section__left {
+.section__content--left .section__right,
+.section__content--right .section__left {
   display:none;
+}
+
+@media(min-width: 960px) {
+  .section {
+    justify-content: stretch;
+    align-items: stretch;
+    z-index:20;
+  }
+}
+
+.section__left--scatterplot .dynamic-scatterplot__graph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 16px;
+  bottom: 0;
+  width: auto;
+  height: 100%;
+}
+
+.section__right .map-legend {
+  position: absolute;
+  bottom: 24px;
+  left: auto;
+  right: 24px;
+  max-width: 320px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.section__left .map-legend {
+  position: absolute;
+  bottom: 32px;
+  top: 24px;
+  left: auto;
+  right: 4px;
+  width: 8px;
+  border-left: 4px solid #fff;
 }

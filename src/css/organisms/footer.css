@@ -1,0 +1,14 @@
+.site-footer {
+  height: var(--footer-height);
+  display: flex;
+  align-items: center;
+}
+
+.site-footer__copyright {
+  flex: 1;
+}
+
+.site-footer__actions { 
+  display: flex;
+  align-items: center;
+}

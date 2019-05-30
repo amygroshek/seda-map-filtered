@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
 import * as _debounce from 'lodash.debounce';
 
-// lang
-import { getLang } from '../../constants/lang';
+// constants
+import { HEADER } from '../../constants/site';
 
 // modules
 import { getMapControls } from '../../modules/controls';
@@ -21,27 +23,8 @@ import Logo from '../../components/base/Logo';
 import ToggleButtons from '../base/ToggleButtons';
 import MenuSentence from '../../components/base/MenuSentence';
 import TabLabel from '../../components/base/TabLabel';
+import SedaMenu from './SedaMenu';
 
-const TABS = [
-  {
-    id: 'avg',
-    icon: '/assets/img/avg.svg',
-    text: getLang('TAB_CONCEPT_AVG'),
-    subtext: getLang('TAB_METRIC_AVG'),
-  },
-  {
-    id: 'grd',
-    icon: '/assets/img/grd.svg',
-    text: getLang('TAB_CONCEPT_GRD'),
-    subtext: getLang('TAB_METRIC_GRD'),
-  },
-  {
-    id: 'coh',
-    icon: '/assets/img/coh.svg',
-    text: getLang('TAB_CONCEPT_COH'),
-    subtext: getLang('TAB_METRIC_COH'),
-  }
-]
 
 const HeaderPrimary = ({metric, onMetricChange}) => {
   return <div className='header-tabs'>
@@ -51,12 +34,12 @@ const HeaderPrimary = ({metric, onMetricChange}) => {
       classes={{ indicator: 'tab__indicator' }}
     >
     { 
-      TABS.map((t,i) =>
+      HEADER.tabs.map((t,i) =>
         <Tab 
           key={'tab'+i}
           value={t.id}
           label={
-            <TabLabel { ...TABS[i] } />
+            <TabLabel { ...HEADER.tabs[i] } />
           }
           classes={{
             root: 'tab',
@@ -88,7 +71,7 @@ const HeaderSecondary = ({
       onChange={onOptionChange}
     />
     <ToggleButtons
-      items={['map', 'chart', 'both']}
+      items={['map', 'chart', 'split']}
       activeItem={view}
       setActiveItem={onViewChange}
     />
@@ -122,8 +105,14 @@ const SedaHeader = ({
     secondaryContent={
       <HeaderSecondary {...{text, controls, view, onViewChange, onOptionChange}} />
     }
-    onActionClick={onMenuClick}
-  />
+    actionContent={
+      <IconButton onClick={onMenuClick}>
+        <MenuIcon />
+      </IconButton>
+    }
+  >
+    <SedaMenu />
+  </Header>
 
 SedaHeader.propTypes = {
   metric: PropTypes.string,
@@ -150,16 +139,17 @@ const mapStateToProps = (
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onMenuClick: () => dispatch({
+    type: 'TOGGLE_MENU',
+    open: true
+  }),
   onMetricChange: _debounce((metricId) => {
     updateRoute(ownProps, { metric: metricId })
   }, 400),
-  onViewChange: (view) => 
-    dispatch({ 
-      type: 'SET_VIEW', 
-      view: view === 'map' ? 
-        'right' : 
-        view ==='chart' ? 'left' : 'split' 
-    }),
+  onViewChange: (view) => {
+    console.log(view)
+    updateRoute(ownProps, { view })
+  },
   onOptionChange: (id, option) => dispatch((dispatch) => {
     switch(id) {
       case 'highlight':

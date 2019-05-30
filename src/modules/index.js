@@ -5,7 +5,7 @@ import search from './search';
 import selected from './selected';
 import features from './features';
 import sections from './sections';
-import view from './view';
+import ui from './ui';
 
 export default combineReducers({ 
   map, 
@@ -14,5 +14,5 @@ export default combineReducers({
   selected,
   features,
   sections,
-  view
+  ui
 })

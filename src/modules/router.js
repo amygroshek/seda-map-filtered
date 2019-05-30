@@ -6,7 +6,7 @@ import { push } from 'connected-react-router';
  * Variables stored in the root, in order
  */
 const DEFAULT_ROUTEVARS = [ 
-  'section',
+  'view',
   'highlightedState',
   'region', 
   'metric', 

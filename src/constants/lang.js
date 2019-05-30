@@ -18,17 +18,20 @@ const LANG = {
   'MENU_ABOUT': 'About',
   'MENU_FAQ': 'FAQ',
   'MENU_METHODS': 'Methods',
-  'MENU_RESEARCH': 'Reasearch',
-  'MENU_NEWS': 'News',
+  'MENU_RESEARCH': 'Research',
+  'MENU_NEWS': 'In The News',
   'MENU_FACEBOOK': 'Educational Opportunity Project on Facebook',
   'MENU_TWITTER': 'Educational Opportunity Project on Twitter',
   'MENU_LINKEDIN': 'Educational Opportunity Project on LinkedIn',
   'MENU_YOUTUBE': 'Educational Opportunity Project on YouTube',
 
   // Footer
-  'FOOTER_SHARE_FACEBOOK': 'Share on Faebook',
+  'FOOTER_COPYRIGHT': 'Copyright 2019',
+  'FOOTER_SHARE_LABEL': 'Share:',
+  'FOOTER_SHARE_FACEBOOK': 'Share on Facebook',
   'FOOTER_SHARE_TWITTER': 'Share on Twitter',
   'FOOTER_SHARE_LINK': 'Share Link',
+  'FOOTER_EXPORT_LABEL': 'Export:',
   'FOOTER_EXPORT_PDF': 'Export to PDF',
   'FOOTER_EXPORT_PPT': 'Export to Powerpoint',
 

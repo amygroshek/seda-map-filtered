@@ -1,59 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getLang } from '../../constants/lang';
+import { FOOTER } from '../../constants/site';
+import Footer from '../base/Footer';
+
+const { branding, links, copyright } = FOOTER;
+
+const FooterLinks = ({id, label, links, onClick}) =>
+  <div className="site-footer__link-collection">
+    <span className="site-footer__link-label">{label}</span>
+    {
+      Boolean(links.length) && links.map((item, i) =>
+        <button 
+          key={'footer-link-'+i} 
+          className="site-footer__button" 
+          onClick={(e) => onClick(id, item)}
+        >
+          {item.label}
+        </button>  
+      )
+    }
+  </div>
+
 
 const SedaFooter = ({
-  branding = [], 
-  copyright = '', 
-  exportItems = [], 
-  shareItems = [], 
-  onShare, 
-  onExport
+  onShare,
+  onExport,
 }) => {
-  branding = Array.isArray(branding) ? branding : [ branding ]
   return (
-    <div className="site-footer">
-      <div className="site-footer__branding">
-        {
-          Boolean(branding.length) && branding.map((b, i) =>
-            <a key={'branding-'+i} className="site-footer__branding-link" href={b.url}>
-              <img className="site-footer__branding-image" src={b.imgSrc} alt={b.alt} />
-            </a>  
-          )
-        }
-      </div>
-      <div className="site-footer__copyright">
-        {copyright}
-      </div>
-      <div className="site-footer__export">
-        <span className="site-footer__link-label">{getLang('LABEL_EXPORT')}</span>
-        {
-          Boolean(exportItems.length) && exportItems.map((item, i) =>
-            <button 
-              key={'export-'+i} 
-              className="site-footer__button" 
-              onClick={(e) => onExport(item)}
-            >
-              {item.label}
-            </button>  
-          )
-        }
-      </div>
-      <div className="site-footer__share">
-        <span className="site-footer__link-label">{getLang('LABEL_SHARE')}</span>
-        {
-          Boolean(shareItems.length) && shareItems.map((item, i) =>
-            <button 
-              key={'export-'+i} 
-              className="site-footer__button" 
-              onClick={(e) => onShare(item)}
-            >
-              {item.label}
-            </button>  
-          )
-        }
-      </div>
-    </div>
+    <Footer
+      branding={
+        <a className="site-footer__branding-link" href={branding.url}>
+          <img className="site-footer__branding-image" src={branding.imgSrc} alt={branding.alt} />
+        </a>  
+      }
+      copyright={copyright}
+      links={
+        <div className="site-footer__actions">
+          { links && links.map((collection, i) =>
+            <FooterLinks
+              id={collection.id}
+              key={"links-" + i}
+              label={collection.label} 
+              links={collection.items} 
+              onClick={(id, item) => id === 'export' ? onExport(item) : onShare(item)}
+            />  
+          )}
+        </div>
+      }
+    />
   )
 }
 

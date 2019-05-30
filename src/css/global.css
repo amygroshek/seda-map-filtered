@@ -5,17 +5,8 @@ html {
 }
 
 body {
-  position: relative;
-  flex-grow: 1;
   margin: 0;
   padding: 0;
-}
-
-.app__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-  align-items: stretch;
 }
 
 /** COMPONENTS */
