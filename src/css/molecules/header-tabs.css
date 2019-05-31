@@ -60,6 +60,6 @@
 
 .header-tabs .tab__indicator {
   height: 4px;
-  background-color: #053f9f;
+  background-color: var(--primary);
   overflow:visible;
 }
