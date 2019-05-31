@@ -152,7 +152,6 @@ export const getViewportFromPathname = (path) => {
  * @param {object} updates an object of route params to update
  */
 export const updateRoute = (props, updates, routeVars) => {
-  console.log(props, updates);
   if (updates && updates['highlightedState']) {
     updates['highlightedState'] = updates['highlightedState'].toLowerCase()
   }

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FOOTER } from '../../constants/site';
 import Footer from '../base/Footer';
+import { Button } from '@material-ui/core';
 
 const { branding, links, copyright } = FOOTER;
 
@@ -10,13 +11,13 @@ const FooterLinks = ({id, label, links, onClick}) =>
     <span className="site-footer__link-label">{label}</span>
     {
       Boolean(links.length) && links.map((item, i) =>
-        <button 
+        <Button 
           key={'footer-link-'+i} 
           className="site-footer__button" 
           onClick={(e) => onClick(id, item)}
         >
           {item.label}
-        </button>  
+        </Button>  
       )
     }
   </div>

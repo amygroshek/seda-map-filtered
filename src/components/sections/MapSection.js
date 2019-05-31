@@ -2,17 +2,16 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
+import { getChoroplethColors, getValuePositionForMetric, isGapDemographic } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import SplitSection from '../base/SplitSection';
-import { getMapViewport } from '../../modules/map';
 import { updateViewportRoute } from '../../modules/router';
 import { getLang } from '../../constants/lang';
 import { getScatterplotDispatchForSection, getCardDispatchForSection } from '../../actions/sectionActions';
-import { getHoveredId, getCards } from '../../modules/sections';
+import { getCards } from '../../modules/sections';
 
 /**
  * Gets the variables for the map section
@@ -59,12 +58,10 @@ const mapStateToProps = ({
   selected,
   features,
   sections: { map: { hovered }, active },
-  map: { viewport, idMap },
 },
 { match: { params: { view = 'map', color = '', region, metric, demographic, highlightedState, ...params } } }
 ) => {
   const vars = getVars(region, metric, demographic)
-  const hoveredId = getHoveredId(hovered)
   const selectedArray = selected && selected[region] ? 
     selected[region] : []
   return ({
@@ -101,16 +98,6 @@ const mapStateToProps = ({
       freeze: (active !== 'map')
     },
     map: {
-      region,
-      choroplethVar: vars.yVar,
-      choroplethScale: getColorsFromParam(color),
-      hovered: hoveredId,
-      selected: selectedArray,
-      colors: getSelectedColors(),
-      viewport: getMapViewport(viewport, params),
-      freeze: (active !== 'map'),
-      attributionControl: true,
-      idMap,
       legend: {
         startLabel: 'low',
         endLabel: 'high',

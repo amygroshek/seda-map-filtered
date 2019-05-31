@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import CloseButton from '../base/CloseButton';
+import CloseButton from '../molecules/CloseButton';
 
 const SiteMenu = ({
   open = false,

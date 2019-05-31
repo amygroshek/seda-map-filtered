@@ -2,14 +2,12 @@ import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
 import { getStopsForVarName } from '../modules/config.js';
 
-
 const noDataFill = "#ccc";
 
 const getFillStyle = (varName, region, colors) => {
   const stops = getStopsForVarName(varName, region, colors).reduce(
     (acc, curr) => [ ...acc, ...curr ], []
   );
-  console.log(varName, colors, stops);
   return [ 
     "case",
     [ "has", varName ],
@@ -23,13 +21,13 @@ const getFillStyle = (varName, region, colors) => {
   ]
 }
 
-export const getDotHighlightLayer = (region, dataProp) => fromJS({
-  id: 'dots-highlight',
+export const getCircleHighlightLayer = ({layerId, region}) => fromJS({
+  id: layerId || (region + '-circle-highlight'),
   source: 'composite',
   'source-layer': region,
   type: 'circle',
   minzoom: 2,
-  interactive: true,
+  interactive: false,
   paint: {
     'circle-color': [
       "case",
@@ -70,8 +68,8 @@ export const getDotHighlightLayer = (region, dataProp) => fromJS({
   }
 })
 
-export const getDotLayer = (region, dataProp, colors) => fromJS({
-  id: 'dots',
+export const getCircleLayer = ({layerId, region, dataProp, colors}) => fromJS({
+  id: layerId || (region + '-circle'),
   source: 'composite',
   'source-layer': region,
   type: 'circle',
@@ -106,8 +104,8 @@ export const getDotLayer = (region, dataProp, colors) => fromJS({
   }
 });
 
-export const getDotCasingLayer = (region, dataProp) => fromJS({
-  id: 'dots-casing',
+export const getCircleCasingLayer = ({layerId, region}) => fromJS({
+  id: layerId || (region + '-circle-casing'),
   source: 'composite',
   'source-layer': region,
   type: 'circle',
@@ -153,11 +151,12 @@ export const getDotCasingLayer = (region, dataProp) => fromJS({
 });
 
 
-export const getChoroplethOutline = (region) => fromJS({
-  "id": "choropleth-outline",
+export const getChoroplethOutline = ({layerId, region}) => fromJS({
+  "id": layerId || (region + '-choropleth-outline'),
   "source": 'composite',
   "source-layer": region,
   type: 'line',
+  interactive: false,
   paint: {
     'line-color': ["case",
       ["boolean", ["feature-state", "hover"], false],
@@ -179,11 +178,12 @@ export const getChoroplethOutline = (region) => fromJS({
  * Gets the mapboxgl layer for the choropleth outline
  * @param {string} region 
  */
-export const getChoroplethOutlineCasing = (region) => fromJS({
-  "id": "choropleth-outline-casing",
+export const getChoroplethOutlineCasing = ({layerId, region}) => fromJS({
+  "id": layerId || (region + '-choropleth-outline-casing'),
   "source": 'composite',
   "source-layer": region,
   type: 'line',
+  interactive: false,
   paint: {
     'line-color': '#fff',
     "line-opacity": ["case",
@@ -213,8 +213,8 @@ export const getChoroplethOutlineCasing = (region) => fromJS({
   }
 })
 
-export const getChoroplethLayer = (region, dataProp, colors) => fromJS({
-  id: 'choropleth',
+export const getChoroplethLayer = ({layerId, region, dataProp, colors}) => fromJS({
+  id: layerId || (region + '-choropleth'),
   source: 'composite',
   'source-layer': region,
   type: 'fill',
@@ -225,13 +225,13 @@ export const getChoroplethLayer = (region, dataProp, colors) => fromJS({
   }
 });
 
-export const getBackgroundChoroplethLayer = (region, dataProp, colors) => fromJS({
-  id: 'choropleth-bg',
+export const getBackgroundChoroplethLayer = ({layerId, region, dataProp, colors}) => fromJS({
+  id: layerId || ('districts-bg-choropleth'),
   source: 'composite',
-  'source-layer': region,
+  'source-layer': 'districts',
   type: 'fill',
   minzoom: 2,
-  interactive: true,
+  interactive: false,
   paint: {
     'fill-color': getFillStyle(dataProp, region, colors),
     'fill-opacity': [

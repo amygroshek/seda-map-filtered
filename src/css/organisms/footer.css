@@ -2,6 +2,7 @@
   height: var(--footer-height);
   display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
 .site-footer__copyright {
@@ -11,4 +12,10 @@
 .site-footer__actions { 
   display: flex;
   align-items: center;
+}
+
+.site-footer__actions .site-footer__button {
+  text-transform: none;
+  font-family: var(--body-font);
+  letter-spacing: 0;
 }

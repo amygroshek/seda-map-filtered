@@ -22,11 +22,11 @@ const Footer = ({
 }
 
 Footer.propTypes = {
-  copyright: PropTypes.oneOf([
+  copyright: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
   ]),
-  branding: PropTypes.oneOf([
+  branding: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
   ]),

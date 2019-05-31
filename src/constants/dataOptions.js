@@ -29,6 +29,19 @@ export const SECTIONS = {
   },
 }
 
+export const MAP_REGION_TO_ID_LENGTH = {
+  'counties': 5,
+  'districts': 7,
+  'schools': 12
+}
+
+export const MAP_ID_LENGTH_TO_REGION = {
+  2: 'states',
+  5: 'counties',
+  7: 'districts',
+  12: 'schools'
+}
+
 /**
  * Variables contained in the base csv file for each region
  */
@@ -42,14 +55,16 @@ export const BASE_VARS = {
  * Colors for selected locations
  */
 export const SELECTED_COLORS = [
-  '#ff9233', 
-  '#fbff00', 
-  '#3dcc82', 
-  '#00e2e6', 
-  '#2967cc', 
-  '#171ae6', 
-  '#a329cc'
-].reverse();
+  '#A24BFF', 
+  '#C289FF', 
+  '#BF00D0', 
+  '#FF6DCF', 
+  '#FFC5EC', 
+  '#FF7B18', 
+  '#FFB92A'
+];
+
+
 
 /**
  * colors for map choropleths

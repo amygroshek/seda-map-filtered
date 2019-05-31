@@ -20,9 +20,9 @@ import { updateRoute } from '../../modules/router';
 // components
 import Header from '../base/Header';
 import Logo from '../../components/base/Logo';
-import ToggleButtons from '../base/ToggleButtons';
+import ToggleButtons from '../molecules/ToggleButtons';
 import MenuSentence from '../../components/base/MenuSentence';
-import TabLabel from '../../components/base/TabLabel';
+import HeaderTab from '../molecules/HeaderTab';
 import SedaMenu from './SedaMenu';
 
 
@@ -39,7 +39,7 @@ const HeaderPrimary = ({metric, onMetricChange}) => {
           key={'tab'+i}
           value={t.id}
           label={
-            <TabLabel { ...HEADER.tabs[i] } />
+            <HeaderTab { ...HEADER.tabs[i] } />
           }
           classes={{
             root: 'tab',

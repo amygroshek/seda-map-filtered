@@ -5,7 +5,7 @@ import MapTooltip from '../map/MapTooltip';
 import GradientLegend from '../base/GradientLegend';
 import DynamicScatterplot from '../base/DynamicScatterplot';
 import Section from '../base/Section';
-import Map from '../base/Map';
+import SedaMap from '../organisms/SedaMap';
 
 
 const SplitSection = ({
@@ -34,12 +34,14 @@ const SplitSection = ({
       {...section}
     >
       <div className="section__right">
-        <Map
+        <SedaMap
           onViewportChange={onMapViewportChange}
           onHover={onMapHover}
           onClick={onMapClick}
           {...map}
-        />
+        >
+          <GradientLegend {...map.legend} />
+        </SedaMap>
         <MapTooltip />
       </div>
       <div className="section__left section__left--scatterplot">
@@ -61,7 +63,7 @@ const SplitSection = ({
 SplitSection.propTypes = {
   section: PropTypes.shape(Section.propTypes),
   scatterplot: PropTypes.shape(DynamicScatterplot.propTypes),
-  map: PropTypes.shape(Map.propTypes),
+  map: PropTypes.shape(SedaMap.propTypes),
   legend: PropTypes.shape(GradientLegend.propTypes),
   onOptionChange: PropTypes.func,
   onScatterplotClick: PropTypes.func,

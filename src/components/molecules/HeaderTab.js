@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Typography } from '@material-ui/core';
 
-const TabLabel = ({text, subtext, icon, ...rest}) => {
+const HeaderTab = ({text, subtext, icon, ...rest}) => {
   return (
     <div className="tab-label" {...rest}>
       { icon &&
@@ -17,10 +17,10 @@ const TabLabel = ({text, subtext, icon, ...rest}) => {
   )
 }
 
-TabLabel.propTypes = {
+HeaderTab.propTypes = {
   icon: PropTypes.string,
   text: PropTypes.string,
   subtext: PropTypes.string,
 }
 
-export default TabLabel
+export default HeaderTab

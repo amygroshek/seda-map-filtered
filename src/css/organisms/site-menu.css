@@ -4,7 +4,7 @@
   bottom:0;
   height: 100%;
   width: var(--menu-width);
-  background: var(--background-color);
+  background: var(--background);
   right:0;
   z-index: 10000;
   transition: transform 0.4s ease;

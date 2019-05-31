@@ -35,6 +35,10 @@ const LANG = {
   'FOOTER_EXPORT_PDF': 'Export to PDF',
   'FOOTER_EXPORT_PPT': 'Export to Powerpoint',
 
+
+  // Help
+  'HELP_SCREEN_READER': 'Help with understanding the data and using the tool',
+
   // Metric Labels
   'LABEL_AVG': 'Average Test Scores',
   'LABEL_GRD': 'Average Growth Per Year',
