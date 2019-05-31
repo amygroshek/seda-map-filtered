@@ -1,3 +1,8 @@
+.header-tabs {
+  position: relative;
+  height: 100%;
+}
+
 
 .tab:hover {
   background: var(--darken1);
