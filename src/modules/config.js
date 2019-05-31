@@ -5,7 +5,8 @@ import {
   REGIONS, 
   SELECTED_COLORS, 
   CHOROPLETH_COLORS, 
-  BASE_VARS
+  BASE_VARS,
+  MAP_ID_LENGTH_TO_REGION
 } from '../constants/dataOptions';
 
 /**
@@ -148,18 +149,39 @@ export const getRegionLabel = (id) => {
   return region.label;
 }
 
+export const intToRegionId = (value, region) => {
+  const s = "0000000000000" + value;
+  const length = Object.keys(MAP_ID_LENGTH_TO_REGION)
+    .find(k => MAP_ID_LENGTH_TO_REGION[k] === region)
+  if (length) {
+    return s.substr(s.length - parseInt(length));
+  }
+  throw new Error('no id length for region ' + region)
+}
+
+/**
+ * Gets the region that corresponds to the provided ID
+ * @param {string} id 
+ */
+export const getRegionFromId = (id) => {
+  if (!id) { return null; }
+  if (!MAP_ID_LENGTH_TO_REGION[id.length]) {
+    throw new Error('No region corresponding to provided ID');
+  }
+  return MAP_ID_LENGTH_TO_REGION[id.length]
+}
+
 /**
  * Gets the color stops for the provided metric ID
  * @param {string} id 
  * @returns {array}
  */
-export const getStopsForVarName = (varName) => {
+export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
   const demId = getDemographicIdFromVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
-  const colors = getChoroplethColors()
-  const [ min, max ] = getMetricRange(metricId, demId)
+  const [ min, max ] = getMetricRange(metricId, demId, region)
   const range = Math.abs(max - min);
-  const stepSize = range / (colors.length);
+  const stepSize = range / (colors.length-1);
   return colors.map((c, i) =>
     [ (min + (i * stepSize)), c ]
   )

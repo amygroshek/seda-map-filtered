@@ -2,9 +2,8 @@ const LANG = {
 
   'NO_DATA': 'Unavailable',
 
+  // Header
   'LOGO_ALT_TEXT': 'Educational Opportunity Project',
-
-  // Tabs
   'TAB_CONCEPT_AVG': 'Educational Opportunity',
   'TAB_METRIC_AVG': 'shown by average test scores',
   'TAB_CONCEPT_GRD': 'School Performance',
@@ -12,9 +11,33 @@ const LANG = {
   'TAB_CONCEPT_COH': 'Changes in Opportunity',
   'TAB_METRIC_COH': 'shown by changes in test scores',
 
-  'TAB_HINT_AVG': '__PLACEHOLDER__ Description of how average test scores show educational opportunity',
-  'TAB_HINT_GRD': '__PLACEHOLDER__ Description of how growth of test scores show school performance',
-  'TAB_HINT_COH': '__PLACEHOLDER__ Description of how trend of test scores show changes in opportunity',
+  // Menu
+  'MENU_HOME': 'Home',
+  'MENU_OPPORTUNITY': 'Opportunity Explorer',
+  'MENU_DISCOVERIES': 'Discoveries',
+  'MENU_ABOUT': 'About',
+  'MENU_FAQ': 'FAQ',
+  'MENU_METHODS': 'Methods',
+  'MENU_RESEARCH': 'Research',
+  'MENU_NEWS': 'In The News',
+  'MENU_FACEBOOK': 'Educational Opportunity Project on Facebook',
+  'MENU_TWITTER': 'Educational Opportunity Project on Twitter',
+  'MENU_LINKEDIN': 'Educational Opportunity Project on LinkedIn',
+  'MENU_YOUTUBE': 'Educational Opportunity Project on YouTube',
+
+  // Footer
+  'FOOTER_COPYRIGHT': 'Copyright 2019',
+  'FOOTER_SHARE_LABEL': 'Share:',
+  'FOOTER_SHARE_FACEBOOK': 'Share on Facebook',
+  'FOOTER_SHARE_TWITTER': 'Share on Twitter',
+  'FOOTER_SHARE_LINK': 'Share Link',
+  'FOOTER_EXPORT_LABEL': 'Export:',
+  'FOOTER_EXPORT_PDF': 'Export to PDF',
+  'FOOTER_EXPORT_PPT': 'Export to Powerpoint',
+
+
+  // Help
+  'HELP_SCREEN_READER': 'Help with understanding the data and using the tool',
 
   // Metric Labels
   'LABEL_AVG': 'Average Test Scores',

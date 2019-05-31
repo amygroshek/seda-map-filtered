@@ -1,0 +1,19 @@
+#master { padding: var(--padding);}
+#master .section__places { display: none; }
+#master .section__header { display: none; }
+#master .section__component { margin: 0px; height: calc(100vh - 32px) }
+
+@media(min-width: 960px) {
+  .section.section--scatterplot {
+    justify-content: stretch;
+    align-items: stretch;
+  }
+}
+
+.section.section--scatterplot .dynamic-scatterplot__graph {
+  position: absolute;
+  left: 16px;
+  top:16px;
+  bottom:16px;
+  right: 16px;
+}

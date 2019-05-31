@@ -1,23 +1,6 @@
 import * as scale from 'd3-scale';
 import * as d3array from 'd3-array';
 
-const idLengths = {
-  2: 'states',
-  5: 'counties',
-  7: 'districts',
-  12: 'schools'
-}
-
-export const intToRegionId = (value, region) => {
-  const s = "0000000000000" + value;
-  const length = Object.keys(idLengths)
-    .find(k => idLengths[k] === region)
-  if (length) {
-    return s.substr(s.length - parseInt(length));
-  }
-  throw new Error('no id length for region ' + region)
-}
-
 /**
  * Maps the data object to new keys based on the provided keyMap
  * @param {object} obj the object for which the keys should be mapped
@@ -38,17 +21,7 @@ export const mapObjectKeys = (obj, keyMap) =>
 export const getKeysInObject = (keys, obj = {}) =>
   keys.filter((k) => obj.hasOwnProperty(k))
 
-/**
- * Gets the region that corresponds to the provided ID
- * @param {string} id 
- */
-export const getRegionFromId = (id) => {
-  if (!id) { return null; }
-  if (!idLengths[id.length]) {
-    throw new Error('No region corresponding to provided ID');
-  }
-  return idLengths[id.length]
-}
+
 
 export const getSingularRegion = (region) => {
   switch(region) {
@@ -99,34 +72,3 @@ export const getSizerFunction = (
     .range(range)
     .clamp(true);
 }
-
-/*!
- * Run a callback function after scrolling has stopped
- * (c) 2017 Chris Ferdinandi, MIT License, https://gomakethings.com
- * @param  {Function} callback The function to run after scrolling
- */
-export const scrollStop = function (callback) {
-
-	// Make sure a valid callback was provided
-	if (!callback || typeof callback !== 'function') return;
-
-	// Setup scrolling variable
-	var isScrolling;
-
-	// Listen for scroll events
-	window.addEventListener('scroll', function (event) {
-
-		// Clear our timeout throughout the scroll
-		window.clearTimeout(isScrolling);
-
-		// Set a timeout to run after scrolling ends
-		isScrolling = setTimeout(function() {
-
-			// Run the callback
-			callback();
-
-		}, 66);
-
-	}, false);
-
-};

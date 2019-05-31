@@ -5,7 +5,8 @@ import { push } from 'connected-react-router';
 /**
  * Variables stored in the root, in order
  */
-export const routeVars = [ 
+const DEFAULT_ROUTEVARS = [ 
+  'view',
   'highlightedState',
   'region', 
   'metric', 
@@ -97,7 +98,7 @@ export const removeLocationFromPathname = (pathname, locationId) => {
  * @param {string} path 
  * @returns {object} e.g. { region: 'counties', metric: 'avg', ... }
  */
-export const getParamsFromPathname = (path) =>
+export const getParamsFromPathname = (path, routeVars = DEFAULT_ROUTEVARS) =>
   path.substring(1, path.length)
     .split('/')
     .reduce((acc, curr, i) => ({
@@ -111,7 +112,7 @@ export const getParamsFromPathname = (path) =>
  * @param {object} updates (optional) any updates to make to the path 
  * @returns {string} e.g. /counties/avg/all/5/37/-97
  */
-export const getPathnameFromParams = (params, updates = {}) => {
+export const getPathnameFromParams = (params, updates = {}, routeVars = DEFAULT_ROUTEVARS) => {
   const matches = { ...params, ...updates };
   return '/' + routeVars
     .filter(p => !!matches[p])
@@ -150,12 +151,13 @@ export const getViewportFromPathname = (path) => {
  * @param {object} props props from a component connected to the router
  * @param {object} updates an object of route params to update
  */
-export const updateRoute = (props, updates) => {
+export const updateRoute = (props, updates, routeVars) => {
   if (updates && updates['highlightedState']) {
     updates['highlightedState'] = updates['highlightedState'].toLowerCase()
   }
+  const root = props.match.path.split(':')[0].slice(0,-1)
   props.history.push(
-    getPathnameFromParams(props.match.params, updates)
+    root + getPathnameFromParams(props.match.params, updates, routeVars)
   );
 }
 

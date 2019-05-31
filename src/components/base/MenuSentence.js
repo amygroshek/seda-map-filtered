@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import InlineMenu from './InlineMenu';
 import { Typography } from '@material-ui/core';
@@ -6,7 +6,7 @@ import { splitLang } from '../../constants/lang';
 
 function MenuSentence({text, controls, onChange, ...rest}) {
   let controlIndex = 0;
-  const chunks = splitLang(text)
+  const chunks = useMemo(() => splitLang(text)
     .filter(chunk => chunk[0] !== '$' && chunk)
     .reduce((arr, chunk, i) => {
       arr.push(
@@ -20,7 +20,7 @@ function MenuSentence({text, controls, onChange, ...rest}) {
         />
       )
       return arr;
-    }, [])
+    }, []), [text, controls])
   return (
     <Typography component="div" className="menu-sentence" {...rest}>
       { chunks.map(c => c) }

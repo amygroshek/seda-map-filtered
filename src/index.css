@@ -2,6 +2,7 @@
 @import "css/global.css";
 
 @import "css/atoms/_index.css";
-@import "css/components/_index.css";
-@import "css/sections/_index.css";
+@import "css/molecules/_index.css";
+@import "css/organisms/_index.css";
+@import "css/templates/_index.css";
 @import "css/pages/_index.css";

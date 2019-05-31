@@ -1,29 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
-import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/IconButton';
+
 
 const Header = ({
   branding,
+  children,
   primaryContent,
   secondaryContent,
-  onActionClick, 
+  actionContent, 
   classes = {} }
 ) => (
-  <div className={classNames("header", classes.root)} color="default" position="sticky">
+  <header className={classNames("header", classes.root)}>
     <div className="header__row header__row--primary">
       <div className="header__branding">
-        {branding}
+        { branding }
       </div>
       <div className="header__content">
-        {primaryContent}
+        { children }
+        { primaryContent }
       </div>
       <div className="header__actions">
-        <IconButton onClick={() => onActionClick('menu')}>
-          <MenuIcon />
-        </IconButton>
+        {actionContent}
       </div>
     </div>
     { secondaryContent &&
@@ -33,24 +31,16 @@ const Header = ({
         </div>
       </div>
     }
-
-  </div>
+  </header>
 );
 
 Header.propTypes = {
   branding: PropTypes.node,
   primaryContent: PropTypes.node,
   secondaryContent: PropTypes.node,
-  onActionClick: PropTypes.func.isRequired,
+  actionContent: PropTypes.node,
   children: PropTypes.element,
   classes: PropTypes.object,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onActionClick: (action) => dispatch({ type: 'MENU_ITEM_CLICK', item: action })
-})
-
-export default connect(
-  null, 
-  mapDispatchToProps
-)(Header)
+export default Header

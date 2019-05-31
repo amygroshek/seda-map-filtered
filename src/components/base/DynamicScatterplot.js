@@ -106,7 +106,6 @@ function DynamicScatterplot({
   onReady,
   onError
 }) {
-  console.log('heading', heading)
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
@@ -214,6 +213,7 @@ function DynamicScatterplot({
 }
 
 DynamicScatterplot.propTypes = {
+  heading: PropTypes.object,
   xVar: PropTypes.string,
   yVar: PropTypes.string,
   zVar: PropTypes.string,

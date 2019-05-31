@@ -1,0 +1,23 @@
+.site-menu {
+  position: fixed;
+  top:0;
+  bottom:0;
+  height: 100%;
+  width: var(--menu-width);
+  background: var(--background);
+  right:0;
+  z-index: 10000;
+  transition: transform 0.4s ease;
+  transform: translateX(100%);
+  box-shadow: var(--shadow10000);
+}
+
+.site-menu--open {
+  transform: translateX(0);
+}
+
+.site-menu .site-menu__close {
+  position: absolute;
+  right: var(--grid-unit);
+  top: var(--grid-unit);
+}

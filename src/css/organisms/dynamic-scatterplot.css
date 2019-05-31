@@ -1,0 +1,88 @@
+.dynamic-scatterplot__graph {
+  position: relative;
+}
+
+.dynamic-scatterplot__heading {
+  position: absolute;
+  z-index: 10;
+  top: var(--padding);
+  left: var(--padding);
+  font-size: var(--small-font-size);
+  margin-right: 104px;
+  pointer-events: none;
+}
+
+.dynamic-scatterplot__heading .dynamic-scatterplot__subtitle {
+  color: var(--body2-text);
+}
+
+.dynamic-scatterplot .circle-overlay__root {
+  position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  pointer-events:none;
+  overflow: visible;
+}
+
+.dynamic-scatterplot .circle-overlay__circle {
+  pointer-events:none;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+.dynamic-scatterplot .circle-overlay__circle--active .circle,
+.dynamic-scatterplot .circle:hover {
+  animation-name: heartBeat;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  box-shadow: 0 0 0 2px #f00;
+}
+
+.dynamic-scatterplot .circle-overlay__circle:nth-child(1) .circle {
+  background: #a329cc;
+  z-index:4;
+}
+.dynamic-scatterplot .circle-overlay__circle:nth-child(2) .circle {
+  background: #171ae6;
+  z-index:5;
+}
+.dynamic-scatterplot .circle-overlay__circle:nth-child(3) .circle {
+  background: #2967cc;
+  z-index:6;
+}
+.dynamic-scatterplot .circle-overlay__circle:nth-child(4) .circle {
+  background: #00e2e6;
+  z-index:7;
+}
+.dynamic-scatterplot .circle-overlay__circle:nth-child(5) .circle {
+  background: #3dcc82;
+  z-index:8;
+}
+.dynamic-scatterplot .circle-overlay__circle:nth-child(6) .circle {
+  background: #fbff00;
+  z-index:8;
+}
+.dynamic-scatterplot .circle-overlay__circle:nth-child(7) .circle {
+  background: #ff9233;
+  z-index:8;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    border-width: 2px;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    border-width: 1.5px;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.1);
+    border-width: 1.9px;
+  }
+}

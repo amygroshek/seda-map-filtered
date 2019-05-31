@@ -106,11 +106,6 @@ const idMap = (state = {}, {type, features}) => {
 
 const map = combineReducers({ coords, viewport, idMap })
 
-export const getChoroplethProperty = (options) => {
-  const { metric, demographic } = options;
-  return demographic + '_' + metric;
-}
-
 export default map;
 
 

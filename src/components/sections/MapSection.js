@@ -2,17 +2,16 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { getChoroplethColors, getValuePositionForMetric, getSelectedColors, isGapDemographic } from '../../modules/config';
+import { getChoroplethColors, getValuePositionForMetric, isGapDemographic } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import SplitSection from '../base/SplitSection';
-import { getMapViewport } from '../../modules/map';
 import { updateViewportRoute } from '../../modules/router';
 import { getLang } from '../../constants/lang';
 import { getScatterplotDispatchForSection, getCardDispatchForSection } from '../../actions/sectionActions';
-import { getHoveredId, getCards } from '../../modules/sections';
+import { getCards } from '../../modules/sections';
 
 /**
  * Gets the variables for the map section
@@ -46,18 +45,23 @@ const getScatterplotHeading = (region, metric, demographic, highlightedState) =>
   }
 }
 
+const getColorsFromParam = (colorParam) => {
+  const urlColors = colorParam.split(',')
+    .map(v => v.length === 6 ? '#' + v : v)
+  return urlColors.length === 7 ? 
+    urlColors : getChoroplethColors()
+}
+
 
 const mapStateToProps = ({ 
   scatterplot: { data },
   selected,
   features,
   sections: { map: { hovered }, active },
-  map: { viewport, idMap },
 },
-{ match: { params: { region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { view = 'map', color = '', region, metric, demographic, highlightedState, ...params } } }
 ) => {
   const vars = getVars(region, metric, demographic)
-  const hoveredId = getHoveredId(hovered)
   const selectedArray = selected && selected[region] ? 
     selected[region] : []
   return ({
@@ -74,6 +78,12 @@ const mapStateToProps = ({
         selected: selected[region] || [],
         metrics: [ vars.xVar, vars.yVar ]
       }),
+      classes: {
+        content: 'section__content--' + (
+          view === 'map' ? 'right' :
+            view === 'chart' ? 'left' : 'split' 
+        )
+      }
     },
     scatterplot: {
       ...vars,
@@ -82,24 +92,27 @@ const mapStateToProps = ({
       data,
       hovered,
       variant: 'map',
-      colors: getChoroplethColors(),
+      colors: getColorsFromParam(color),
       selected: selectedArray,
       highlightedState: getStateFipsFromAbbr(highlightedState),
       freeze: (active !== 'map')
     },
     map: {
-      region,
-      choroplethVar: vars.yVar,
-      hovered: hoveredId,
-      selected: selectedArray,
-      colors: getSelectedColors(),
-      viewport: getMapViewport(viewport, params),
-      freeze: (active !== 'map'),
-      attributionControl: true,
-      idMap
+      legend: {
+        startLabel: 'low',
+        endLabel: 'high',
+        colors: getColorsFromParam(color),
+        markerPosition: hovered && hovered.properties ?
+          getValuePositionForMetric(
+            getFeatureProperty(hovered, demographic + '_' + metric),
+            demographic + '_' + metric,
+            region
+          ) : null,
+        vertical: false
+      }
     },
     legend: {
-      colors: getChoroplethColors(),
+      colors: getColorsFromParam(color),
       markerPosition: hovered && hovered.properties ?
         getValuePositionForMetric(
           getFeatureProperty(hovered, demographic + '_' + metric),

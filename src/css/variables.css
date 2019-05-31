@@ -1,4 +1,41 @@
 :root {
+
+  /** Shade */
+  --darken1: rgba(0,0,0,0.05);
+  --darken2: rgba(0,0,0,0.15);
+  --darken3: rgba(0,0,0,0.24);
+  --darken5: rgba(0,0,0,0.37);
+  --darken6: rgba(0,0,0,0.54);
+  --darken7: rgba(0,0,0,0.66);
+  --darken8: rgba(0,0,0,0.87);
+
+  /** Brighten */
+  --lighten1: rgba(255,255,255,0.05);
+  --lighten2: rgba(255,255,255,0.15);
+  --lighten3: rgba(255,255,255,0.24);
+  --lighten5: rgba(255,255,255,0.37);
+  --lighten6: rgba(255,255,255,0.54);
+  --lighten7: rgba(255,255,255,0.66);
+  --lighten8: rgba(255,255,255,0.87);
+
+  /** Colors */
+  --primary: #083794;
+  --link: #0090FF;
+  --accent: #FF003E;
+  --text: #031232;
+  --text-secondary: #5D5D5D;
+  --alt-text: #fff;
+  --background: #fff;
+  --alt-background: #F5F8FA;
+  --body-text: var(--text);
+  --body2-text: var(--text-secondary);
+  --link-text: var(--link);
+  --tab-text: var(--primary);
+  --accent2: #1B64AC;
+  --accent3: #34BFEF;
+  --accent4: #1AE9B5;
+  --divider: var(--darken4);
+
   /** Margins and spacing */
   --grid-unit: 8px;
   --padding: 16px;
@@ -8,11 +45,6 @@
   --body-font: maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system;
   --heading-font: sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system;
   --alt-font: sharpgrotesk-medium15,lato,helvetica neue,Arial,sans-serif,-apple-system;
-  --body-text: #031232;
-  --body2-text: #5d5d5d;
-  --link-text: #0090FF;
-  --tab-text: #053f9f;
-  --alt-text: #fff;
   --base-font-size: 14px;
   --h1-font-size: 2.67em;
   --h2-font-size: 1.953em;
@@ -24,33 +56,21 @@
   --small-font-size: 0.875em;
   --micro-font-size: 0.8em;
 
-  /** Header Heights */
+  /** Layout Sizes */
   --header-height: 104px;
   --header-row1-height: 64px;
   --header-row2-height: 40px;
-
-  /** Shades */
-  --darken1: rgba(0,0,0,0.05);
-  --darken2: rgba(0,0,0,0.15);
-  --darken3: rgba(0,0,0,0.24);
-  --darken5: rgba(0,0,0,0.37);
-  --darken6: rgba(0,0,0,0.54);
-  --darken7: rgba(0,0,0,0.66);
-  --darken8: rgba(0,0,0,0.87);
-
-  --lighten1: rgba(255,255,255,0.05);
-  --lighten2: rgba(255,255,255,0.15);
-  --lighten3: rgba(255,255,255,0.24);
-  --lighten5: rgba(255,255,255,0.37);
-  --lighten6: rgba(255,255,255,0.54);
-  --lighten7: rgba(255,255,255,0.66);
-  --lighten8: rgba(255,255,255,0.87);
+  --menu-width: 320px;
+  --help-panel-width: 320px;
+  --locations-bar-height: 64px;
+  --footer-height: 40px;
 
   /** Shadows */
   --shadow1: 0 1px 2px var(--darken3);
   --shadow2: 0 1px 4px var(--darken4);
+  --shadow10000: 0 2px 8px var(--darken5);
 
-  --divider-border: 1px solid var(--darken1);
+  --divider-border: 1px solid var(--divider);
 }
 
 /** Variable overrides for 960px and above */
