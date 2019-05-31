@@ -1,0 +1,15 @@
+.toggle-buttons .toggle-buttons__button {
+  color: var(--text-secondary);
+  padding: 8px 16px 6px 12px;
+}
+
+.toggle-buttons .toggle-buttons__button svg {
+  margin-right: 4px;
+  font-size: 18px;
+  margin-top: -2px;
+}
+
+.toggle-buttons .toggle-buttons__button--active {
+  color: var(--link);
+  background: var(--highlight-background);
+}

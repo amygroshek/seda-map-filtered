@@ -11,23 +11,25 @@ import { Button } from '@material-ui/core';
  * @returns {boolean}
  */
 const isActive = (item, activeItem) => {
+  console.log(item, activeItem)
+  if (!item || !activeItem) { return false }
   if (item === activeItem) { return true }
-  if (item.hasOwnProperty('id') && activeItem.hasOwnProperty('id')) {
-    return item.id === activeItem.id
+  if (item.hasOwnProperty('id') && activeItem) {
+    return item.id === activeItem
   }
   return false;
 }
 
 const ToggleButtons = ({
   items, 
-  activeItem, 
-  setActiveItem, 
+  activeItemId, 
+  setActiveItem,
   classes = {}, 
   ...rest
 }) => {
   return (
     <div 
-      className={classNames('toggle', classes.root)}
+      className={classNames('toggle-buttons', classes.root)}
       {...rest}
     >
       { items && items.map((item, i) => 
@@ -36,12 +38,13 @@ const ToggleButtons = ({
           classes={{...classes.button}}
           className={
             classNames(
-              'toggle__button', 
-              {'toggle__button--active': isActive(item, activeItem)}
+              'toggle-buttons__button', 
+              {'toggle-buttons__button--active': isActive(item, activeItemId)}
             )
           }
           onClick={() => setActiveItem(item)}
         >
+          { item.hasOwnProperty('icon') && item.icon }
           { item.hasOwnProperty('label') ? item.label : item }
         </Button>
       )}
@@ -54,18 +57,14 @@ ToggleButtons.propTypes = {
     PropTypes.oneOfType([
       PropTypes.shape({
         id: PropTypes.string,
-        label: PropTypes.string
+        label: PropTypes.string,
+        icon: PropTypes.node,
       }),
       PropTypes.string
     ])
   ),
-  activeItem: PropTypes.oneOfType([
-    PropTypes.shape({
-      id: PropTypes.string,
-      label: PropTypes.string
-    }),
-    PropTypes.string
-  ]),
+  activeItemId: PropTypes.string,
+  icon: PropTypes.node,
   setActiveItem: PropTypes.func,
   classes: PropTypes.object
 }

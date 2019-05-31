@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MenuIcon from '@material-ui/icons/Menu';
+import PlaceIcon from '@material-ui/icons/Place';
+import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
 import IconButton from '@material-ui/core/IconButton';
 import * as _debounce from 'lodash.debounce';
 
@@ -71,8 +74,24 @@ const HeaderSecondary = ({
       onChange={onOptionChange}
     />
     <ToggleButtons
-      items={['map', 'chart', 'split']}
-      activeItem={view}
+      items={[
+        {
+          id: 'map',
+          label: 'Map',
+          icon: <PlaceIcon />
+        },
+        {
+          id: 'chart',
+          label: 'chart',
+          icon: <BubbleChartIcon />
+        }, 
+        {
+          id: 'split',
+          label: "Map + Chart",
+          icon: <VerticalSplitIcon />
+        }
+      ]}
+      activeItemId={view}
       setActiveItem={onViewChange}
     />
   </div>
@@ -126,10 +145,10 @@ SedaHeader.propTypes = {
 }
 
 const mapStateToProps = (
-  { view, sections },
+  { sections },
   ownProps
 ) => ({
-  view,
+  view: ownProps.match.params.view,
   metric: ownProps.match.params.metric,
   ...getMapControls(
     ownProps.match.params.region, 
@@ -148,7 +167,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }, 400),
   onViewChange: (view) => {
     console.log(view)
-    updateRoute(ownProps, { view })
+    const updatedView = view && view.id ? view.id : view
+    updateRoute(ownProps, { view: updatedView })
   },
   onOptionChange: (id, option) => dispatch((dispatch) => {
     switch(id) {
