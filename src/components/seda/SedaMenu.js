@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { MENU } from '../../constants/site';
-import SiteMenu from '../base/SiteMenu';
+import SiteMenu from '../organisms/SiteMenu';
 
 const mapStateToProps = ({ ui }) => ({
   open: ui.menuOpen,

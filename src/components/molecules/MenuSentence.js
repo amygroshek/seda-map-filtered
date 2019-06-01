@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import InlineMenu from './InlineMenu';
+import InlineMenu from '../atoms/InlineMenu';
 import { Typography } from '@material-ui/core';
 import { splitLang } from '../../constants/lang';
 

@@ -5,7 +5,7 @@ import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
 import { getBaseVars, getRangeFromVarName } from '../../modules/config'
 import { getScatterplotOptions } from '../../style/scatterplot-style';
-import CircleOverlay from './CircleOverlay';
+import CircleOverlay from '../organisms/CircleOverlay';
 import { getSizerFunction } from '../../utils';
 import { getDataForId } from '../../modules/scatterplot';
 import { Typography } from '@material-ui/core';

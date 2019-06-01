@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FOOTER } from '../../constants/site';
-import Footer from '../base/Footer';
+import Footer from '../organisms/Footer';
 import { Button } from '@material-ui/core';
 
 const { branding, links, copyright } = FOOTER;

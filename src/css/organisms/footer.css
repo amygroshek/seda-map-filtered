@@ -18,4 +18,7 @@
   text-transform: none;
   font-family: var(--body-font);
   letter-spacing: 0;
+  display: inline;
+  color: var(--link);
+  text-decoration: underline;
 }

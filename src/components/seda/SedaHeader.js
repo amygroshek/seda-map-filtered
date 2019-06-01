@@ -21,10 +21,10 @@ import { getMapControls } from '../../modules/controls';
 import { updateRoute } from '../../modules/router';
 
 // components
-import Header from '../base/Header';
-import Logo from '../../components/base/Logo';
+import Header from '../organisms/Header';
+import Logo from '../atoms/Logo';
 import ToggleButtons from '../molecules/ToggleButtons';
-import MenuSentence from '../../components/base/MenuSentence';
+import MenuSentence from '../molecules/MenuSentence';
 import HeaderTab from '../molecules/HeaderTab';
 import SedaMenu from './SedaMenu';
 

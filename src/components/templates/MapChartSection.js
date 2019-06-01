@@ -1,47 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MapTooltip from '../map/MapTooltip';
-import GradientLegend from '../base/GradientLegend';
-import DynamicScatterplot from '../base/DynamicScatterplot';
-import Section from '../base/Section';
-import SedaMap from '../organisms/SedaMap';
+import MapTooltip from '../seda/SedaMapTooltip';
+import GradientLegend from '../molecules/GradientLegend';
+import DynamicScatterplot from '../organisms/DynamicScatterplot';
+import Section from './Section';
+import BaseMap from '../molecules/BaseMap';
 
 
-const SplitSection = ({
+const MapChartSection = ({
   section,
   legend,
   scatterplot,
   map,
-  onOptionChange,
   onScatterplotClick,
   onScatterplotData,
   onScatterplotHover,
   onScatterplotReady,
-  onCardClick,
-  onCardHover,
-  onCardDismiss,
   onMapViewportChange,
   onMapHover,
   onMapClick
 }) => {
   return (
-    <Section 
-      onOptionChange={onOptionChange}
-      onCardClick={onCardClick}
-      onCardHover={onCardHover}
-      onCardDismiss={onCardDismiss}
-      {...section}
-    >
+    <Section {...section}>
       <div className="section__right">
-        <SedaMap
+        <BaseMap
           onViewportChange={onMapViewportChange}
           onHover={onMapHover}
           onClick={onMapClick}
           {...map}
         >
           <GradientLegend {...map.legend} />
-        </SedaMap>
+        </BaseMap>
         <MapTooltip />
       </div>
       <div className="section__left section__left--scatterplot">
@@ -60,10 +50,10 @@ const SplitSection = ({
   )
 }
 
-SplitSection.propTypes = {
+MapChartSection.propTypes = {
   section: PropTypes.shape(Section.propTypes),
   scatterplot: PropTypes.shape(DynamicScatterplot.propTypes),
-  map: PropTypes.shape(SedaMap.propTypes),
+  map: PropTypes.shape(BaseMap.propTypes),
   legend: PropTypes.shape(GradientLegend.propTypes),
   onOptionChange: PropTypes.func,
   onScatterplotClick: PropTypes.func,
@@ -78,4 +68,4 @@ SplitSection.propTypes = {
   onMapClick: PropTypes.func
 }
 
-export default SplitSection;
+export default MapChartSection;

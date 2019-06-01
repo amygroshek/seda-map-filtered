@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { MenuItem, Menu } from '@material-ui/core';
 import { makeId } from '../../utils';
-import Hint from './Hint';
+import Hint from '../molecules/Hint';
 
 function InlineMenu({
   id,
