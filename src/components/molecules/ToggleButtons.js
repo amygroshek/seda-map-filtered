@@ -11,7 +11,6 @@ import { Button } from '@material-ui/core';
  * @returns {boolean}
  */
 const isActive = (item, activeItem) => {
-  console.log(item, activeItem)
   if (!item || !activeItem) { return false }
   if (item === activeItem) { return true }
   if (item.hasOwnProperty('id') && activeItem) {

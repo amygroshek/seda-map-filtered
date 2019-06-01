@@ -28,6 +28,7 @@
   --background: #fff;
   --alt-background: #F5F8FA;
   --highlight-background: #EBFBFF;
+  --footer-background: var(--alt-background);
   --body-text: var(--text);
   --body2-text: var(--text-secondary);
   --link-text: var(--link);
@@ -67,6 +68,7 @@
   --footer-height: 40px;
 
   /** Shadows */
+  --shadow-inset: inset 0 1px 3px var(--darken3);
   --shadow1: 0 1px 2px var(--darken3);
   --shadow2: 0 1px 4px var(--darken4);
   --shadow10000: 0 2px 8px var(--darken5);
