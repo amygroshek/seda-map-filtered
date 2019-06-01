@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Tooltip from '../base/Tooltip';
+import Tooltip from '../atoms/Tooltip';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { getStateName } from '../../constants/statesFips';

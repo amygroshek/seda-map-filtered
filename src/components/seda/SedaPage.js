@@ -1,10 +1,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types';
-import SedaHeader from '../../components/seda/SedaHeader';
-import SedaFooter from '../../components/seda/SedaFooter';
+import SedaHeader from './SedaHeader';
+import SedaFooter from './SedaFooter';
 
-const DefaultPage = ({children}) => {
+const SedaPage = ({children}) => {
   return (
     <div className="page">
       <SedaHeader />
@@ -16,8 +16,8 @@ const DefaultPage = ({children}) => {
   )
 }
 
-DefaultPage.propTypes = {
+SedaPage.propTypes = {
   children: PropTypes.node
 }
 
-export default DefaultPage
+export default SedaPage

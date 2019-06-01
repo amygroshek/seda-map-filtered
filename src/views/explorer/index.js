@@ -1,34 +1,32 @@
 
 import { withRouter } from 'react-router-dom';
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { loadRouteLocations } from '../../actions/featuresActions';
-import MapSection from '../../components/sections/MapSection';
-import DefaultPage from '../../components/templates/DefaultPage';
+import SedaMapChartView from '../../components/seda/SedaMapChartView';
+import SedaPage from '../../components/seda/SedaPage';
 
-export class ExplorerView extends Component {
-  static propTypes = {
-    loadRouteLocations: PropTypes.any,
-    match: PropTypes.object,
-  }
-
-  componentDidMount() { 
-    this.props.loadRouteLocations(
-      this.props.match.params.locations
-    );
-  }
-
-  render() {
-    return (
-      <DefaultPage>
-        <MapSection />
-      </DefaultPage>
-    )
-  }
+const ExplorerView = ({ loadRouteLocations, locations }) => {
+  useEffect(() => {
+    loadRouteLocations(locations)
+  }, [])
+  return (
+    <SedaPage>
+      <SedaMapChartView />
+    </SedaPage>
+  )
 }
+
+ExplorerView.propTypes = {
+  locations: PropTypes.string,
+  loadRouteLocations: PropTypes.func,
+}
+
+const mapStateToProps = 
+  (state, { match: { params: { locations }}}) => ({  locations })
 
 const mapDispatchToProps = (dispatch) => ({
   loadRouteLocations: (locations) => 
@@ -37,5 +35,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   withRouter,
-  connect(null, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(ExplorerView)

@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 function Section({ 
   id, 
-  type='default',
   children,
   overlayContent,
   classes = {},
@@ -22,16 +21,6 @@ function Section({
       <div className={classNames("section__content", classes.content)}>
         { children }
       </div>
-      
-        {/* <div className={classNames("section__search", classes.search)}>
-          <MapSearch
-            inputProps={{
-              placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
-            }}
-          />
-        </div> */}
-
-
     </div>
   )
 }
@@ -41,6 +30,7 @@ Section.propTypes = {
   type: PropTypes.string,
   children: PropTypes.node,
   overlayContent: PropTypes.node,
+  classes: PropTypes.object,
 }
 
 export default Section

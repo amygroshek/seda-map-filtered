@@ -5,7 +5,7 @@ import * as ease from 'd3-ease';
 import { onViewportChange, onRegionChange } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
 import { getRegionFromId } from '../../modules/config';
-import Search from '../base/Search';
+import Search from '../molecules/Search';
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

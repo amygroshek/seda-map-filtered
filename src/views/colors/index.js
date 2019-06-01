@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import React, { useState } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import SedaHeader from '../../components/seda/SedaHeader';
-import MapSection from '../../components/sections/MapSection';
+import SedaMapChartView from '../../components/seda/SedaMapChartView';
+import SedaPage from '../../components/seda/SedaPage';
 import { updateRoute } from '../../modules/router';
 import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -39,27 +39,26 @@ const isValidColorString = (colorString) => {
 
 const ColorsView = ({color, onColorChange }) => {
   const [ colorString, setColorString] = useState(color);
-  return <div id="scrollWrapper" className="map-tool map-tool--parallax">
-    <SedaHeader 
-      onMenuClick={() => { console.log('menu') }}
-    />
-    <MapSection />
-    <div style={{padding: 16}}>
-      <TextField
-        id="filled-multiline-flexible"
-        label="Map Colors"
-        multiline
-        rowsMax="4"
-        value={colorString}
-        onChange={(e) => { 
-          setColorString(e.target.value);
-          onColorChange(e.target.value);
-        }}
-        margin="normal"
-        fullWidth
-      />
-    </div>
-  </div>
+  return (
+    <SedaPage>
+      <SedaMapChartView />
+      <div style={{ width: 480, position:'absolute', left: 16 , bottom: 16, zIndex:10000, padding: 16}}>
+        <TextField
+          id="filled-multiline-flexible"
+          label="Map Colors"
+          multiline
+          rowsMax="4"
+          value={colorString}
+          onChange={(e) => { 
+            setColorString(e.target.value);
+            onColorChange(e.target.value);
+          }}
+          margin="normal"
+          fullWidth
+        />
+      </div>
+    </SedaPage>
+  )
 }
 
 ColorsView.propTypes = {

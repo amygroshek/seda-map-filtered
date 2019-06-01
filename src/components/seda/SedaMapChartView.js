@@ -1,18 +1,22 @@
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-
-import { getChoroplethColors, getValuePositionForMetric, isGapDemographic } from '../../modules/config';
+import React from 'react';
+import { getChoroplethColors, getValuePositionForMetric } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
 import { updateRoute } from '../../modules/router';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
-import SplitSection from '../base/SplitSection';
+import MapChartSection from '../templates/MapChartSection';
 import { updateViewportRoute } from '../../modules/router';
 import { getLang } from '../../constants/lang';
 import { getScatterplotDispatchForSection, getCardDispatchForSection } from '../../actions/sectionActions';
-import { getCards } from '../../modules/sections';
 
+import { defaultMapStyle } from '../../style/map-style';
+import { getMapViewport, getLayers } from '../../modules/map';
+import { getHoveredId } from '../../modules/sections';
+import { getSelectedColors } from '../../modules/config';
+import SedaSearch from './SedaSearch';
 /**
  * Gets the variables for the map section
  * @param {string} region 
@@ -56,7 +60,7 @@ const getColorsFromParam = (colorParam) => {
 const mapStateToProps = ({ 
   scatterplot: { data },
   selected,
-  features,
+  map: { idMap, viewport },
   sections: { map: { hovered }, active },
 },
 { match: { params: { view = 'map', color = '', region, metric, demographic, highlightedState, ...params } } }
@@ -67,23 +71,15 @@ const mapStateToProps = ({
   return ({
     section: {
       id: 'map',
-      title: getLang('TITLE_SES_' + metric.toUpperCase()),
-      description: 
-        getLang('MAP_DESCRIPTION_' + metric + (isGapDemographic(demographic) ? '_GAP': '')) + ' ' +
-        getLang('MAP_DESCRIPTION_SES' + (isGapDemographic(demographic) ? '_GAP': '')) + ' ' +
-        getLang('MAP_DESCRIPTION'),
-      cards: getCards({ 
-        hovered,
-        features,
-        selected: selected[region] || [],
-        metrics: [ vars.xVar, vars.yVar ]
-      }),
       classes: {
         content: 'section__content--' + (
           view === 'map' ? 'right' :
             view === 'chart' ? 'left' : 'split' 
         )
-      }
+      },
+      overlayContent: <SedaSearch inputProps={{
+        placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
+      }} />
     },
     scatterplot: {
       ...vars,
@@ -98,6 +94,14 @@ const mapStateToProps = ({
       freeze: (active !== 'map')
     },
     map: {
+      style: defaultMapStyle,
+      layers: getLayers(region, metric, demographic),
+      selectedIds: selected[region] || [],
+      hoveredId: getHoveredId(hovered),
+      viewport: getMapViewport(viewport, params),
+      attributionControl: true,
+      selectedColors: getSelectedColors(),
+      idMap,
       legend: {
         startLabel: 'low',
         endLabel: 'high',
@@ -162,4 +166,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
-)(SplitSection)
+)(MapChartSection)
