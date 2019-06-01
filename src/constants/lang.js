@@ -32,12 +32,12 @@ const LANG = {
   'FOOTER_SHARE_TWITTER': 'Share on Twitter',
   'FOOTER_SHARE_LINK': 'Share Link',
   'FOOTER_EXPORT_LABEL': 'Export:',
-  'FOOTER_EXPORT_PDF': 'Export to PDF',
-  'FOOTER_EXPORT_PPT': 'Export to Powerpoint',
+  'FOOTER_EXPORT_PDF': 'PDF',
+  'FOOTER_EXPORT_PPT': 'Powerpoint',
 
 
   // Help
-  'HELP_SCREEN_READER': 'Help with understanding the data and using the tool',
+  'HELP_SCREEN_READER': 'Help',
 
   // Metric Labels
   'LABEL_AVG': 'Average Test Scores',

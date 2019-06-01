@@ -3,14 +3,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
 import { getChoroplethColors, getValuePositionForMetric } from '../../modules/config';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, navigateToStateByAbbr, addToFeatureIdMap } from '../../actions/mapActions';
-import { updateRoute } from '../../modules/router';
+import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import MapChartSection from '../templates/MapChartSection';
 import { updateViewportRoute } from '../../modules/router';
 import { getLang } from '../../constants/lang';
-import { getScatterplotDispatchForSection, getCardDispatchForSection } from '../../actions/sectionActions';
+import { getScatterplotDispatchForSection } from '../../actions/sectionActions';
 
 import { defaultMapStyle } from '../../style/map-style';
 import { getMapViewport, getLayers } from '../../modules/map';
@@ -129,7 +128,6 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...getCardDispatchForSection(dispatch, 'map'),
   ...getScatterplotDispatchForSection(dispatch, 'map'),
   onMapHover: (feature, coords) => {
     dispatch(onHoverFeature(feature, 'map'))
@@ -142,26 +140,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onMapClick: (feature) => 
     dispatch(onSelectFeature(feature, ownProps.match.params.region)),
-  onOptionChange: (id, option) => {
-    switch(id) {
-      case 'metric':
-        return updateRoute(ownProps, { metric: option.id })
-      case 'demographic':
-        return updateRoute(ownProps, { demographic: option.id })
-      case 'region':
-        return updateRoute(ownProps, { region: option.id })
-      case 'highlight':
-        updateRoute(ownProps, { 
-          highlightedState: option.id
-        })
-        if (option.id !== 'us') {
-          dispatch(navigateToStateByAbbr(option.id))
-        }
-        return;
-      default:
-        return;
-    }
-  },
 })
 export default compose(
   withRouter,

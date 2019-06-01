@@ -1,8 +1,12 @@
 .site-footer {
   height: var(--footer-height);
+  background: var(--footer-background);
   display: flex;
   align-items: center;
   font-size: 14px;
+  box-shadow: var(--shadow-inset);
+  color: var(--text-secondary);
+  padding: 0 8px;
 }
 
 .site-footer__copyright {
@@ -14,11 +18,32 @@
   align-items: center;
 }
 
+.site-footer__link-collection {
+  margin-right: 16px;
+}
+
+.site-footer__link-label {
+  margin-right: 8px;
+}
+
 .site-footer__actions .site-footer__button {
   text-transform: none;
   font-family: var(--body-font);
   letter-spacing: 0;
-  display: inline;
   color: var(--link);
   text-decoration: underline;
+  min-width: 40px;
+  height: 40px;
+}
+
+.site-footer .svg-icon--twitter,
+.site-footer .svg-icon--facebook {
+  width:16px;
+  height: 16px;
+}
+
+.site-footer .stanford-logo {
+  margin: 0 16px 0 4px;
+  width: 80px;
+  fill: var(--text-secondary);
 }

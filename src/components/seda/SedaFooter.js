@@ -1,10 +1,57 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FOOTER } from '../../constants/site';
 import Footer from '../organisms/Footer';
 import { Button } from '@material-ui/core';
+import { getLang } from '../../constants/lang';
+import FacebookIcon from '../atoms/FacebookIcon';
+import TwitterIcon from '../atoms/TwitterIcon';
+import LinkIcon from '@material-ui/icons/Link';
+import StanfordLogo from '../atoms/StanfordLogo';
 
-const { branding, links, copyright } = FOOTER;
+const branding = {
+  url: '#',
+  alt: 'Stanford',
+};
+
+const links = [
+  {
+    id: 'export',
+    label: getLang('FOOTER_EXPORT_LABEL'),
+    items: [
+      {
+        id: 'pdf',
+        label: getLang('FOOTER_EXPORT_PDF'),
+      },
+      {
+        id: 'ppt',
+        label: getLang('FOOTER_EXPORT_PPT'),
+      }
+    ],
+  },
+  {
+    id: 'share',
+    label: getLang('FOOTER_SHARE_LABEL'),
+    items: [
+      {
+        id: 'facebook',
+        label: getLang('FOOTER_SHARE_FACEBOOK'),
+        icon: <FacebookIcon />
+      },
+      {
+        id: 'twitter',
+        label: getLang('FOOTER_SHARE_TWITTER'),
+        icon: <TwitterIcon />
+      },
+      {
+        id: 'link',
+        label: getLang('FOOTER_SHARE_LINK'),
+        icon: <LinkIcon />
+      }
+    ],
+  }
+];
+
+const copyright = getLang('FOOTER_COPYRIGHT')
 
 const FooterLinks = ({id, label, links, onClick}) =>
   <div className="site-footer__link-collection">
@@ -14,13 +61,25 @@ const FooterLinks = ({id, label, links, onClick}) =>
         <Button 
           key={'footer-link-'+i} 
           className="site-footer__button" 
-          onClick={(e) => onClick(id, item)}
+          onClick={() => onClick(id, item)}
+          aria-label={item.icon && item.label}
         >
-          {item.label}
+          { item.icon ? item.icon : item.label }
         </Button>  
       )
     }
   </div>
+
+FooterLinks.propTypes = {
+  id: PropTypes.string,
+  label: PropTypes.string,
+  links: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    label: PropTypes.string.isRequied,
+    icon: PropTypes.node,
+  })),
+  onClick: PropTypes.func,
+}
 
 
 const SedaFooter = ({
@@ -31,7 +90,7 @@ const SedaFooter = ({
     <Footer
       branding={
         <a className="site-footer__branding-link" href={branding.url}>
-          <img className="site-footer__branding-image" src={branding.imgSrc} alt={branding.alt} />
+          <StanfordLogo />
         </a>  
       }
       copyright={copyright}
@@ -54,20 +113,7 @@ const SedaFooter = ({
 
 SedaFooter.propTypes = {
   copyright: PropTypes.string,
-  branding: PropTypes.oneOf([
-    PropTypes.shape({
-      imgSrc: PropTypes.string,
-      alt: PropTypes.string,
-      url: PropTypes.string
-    }),
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        imgSrc: PropTypes.string,
-        alt: PropTypes.string,
-        url: PropTypes.string
-      })
-    )
-  ]),
+  branding: PropTypes.node,
   exportItems: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
