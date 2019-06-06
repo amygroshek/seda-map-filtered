@@ -80,13 +80,21 @@ export const CHOROPLETH_COLORS = [
   // '#F9FECC'
 
   // blue green
-  '#0A5099',
-  '#367FCA',
+  // '#0A5099',
+  // '#367FCA',
+  // '#abd9e9',
+  // '#f7f7f7',
+  // '#bfe9ab',
+  // '#32C48A',
+  // '#098554'
+
+  '#174b80',
+  '#4189d2',
   '#abd9e9',
   '#f7f7f7',
   '#bfe9ab',
-  '#32C48A',
-  '#098554'
+  '#2fb57f',
+  '#136e4a'
 
   // blue / brown
   // '#4B1C01',
@@ -126,10 +134,14 @@ export const METRICS = [
     label: LANG['LABEL_AVG'],
     description: LANG['EXPLAINER_AVG'],
     range: {
-      'gap': [ -8, 1 ],
-      'counties': [ -3, 3 ],
-      'districts': [ -3.5, 3.5 ],
-      'schools': [ -5, 5 ]
+      'map_*_gap': [ -6, 6 ],
+      'map_counties': [ -3, 3 ],
+      'map_districts': [ -3.5, 3.5 ],
+      'map_schools': [ -5, 5 ],
+      '*_*_gap': [ -7, 0 ],
+      '*_counties': [ -4, 3 ],
+      '*_districts': [ -3.5, 3.5 ],
+      '*_schools': [ -5, 5 ],
     },
     map: true,
     scatterplot: true,
@@ -139,9 +151,12 @@ export const METRICS = [
     label: LANG['LABEL_GRD'],
     description: LANG['EXPLAINER_GRD'],
     range: {
-      'default': [ 0, 2 ],
-      'gap': [ -0.5, 0.5 ],
-      'schools': [ -0.6, 2.6 ]
+      'map_*_gap': [ -0.4, 0.4 ],
+      '*_*_gap': [ -0.3, 0.5 ],
+      'map_schools': [ -3, 3 ],
+      '*_schools': [ -0.6, 2.6 ],
+      'map_*_*': [ 0.5, 1.5 ],
+      '*': [ 0.5, 1.5 ],
     },
     map: true,
     scatterplot: true,
@@ -151,8 +166,10 @@ export const METRICS = [
     label: LANG['LABEL_COH'],
     description: LANG['EXPLAINER_COH'],
     range: {
-      'default': [ -0.5, 0.5 ],
-      'schools': [-1.5, 1.5]
+      '*_*_gap': [-0.3333, 0.3333],
+      '*_schools': [-1.5, 1.5],
+      'map_*_*': [ -0.333, 0.3333 ],
+      '*': [ -0.4, 0.4 ],
     },
     map: true,
     scatterplot: true,
@@ -164,11 +181,11 @@ export const METRICS = [
     map: false,
     scatterplot: true,
     range: {
-      'default': [ -6, 4 ],
-      'b': [ -14, 5 ],
-      'h': [ -16, 5 ],
-      'wb': [ -4, 14 ],
-      'wh': [ -5, 16 ]
+      '*_*_b': [ -14, 5 ],
+      '*_*_h': [ -16, 5 ],
+      '*_*_wb': [ -4, 14 ],
+      '*_*_wh': [ -5, 16 ],
+      '*': [ -6, 4 ],
     }
   },
   {
@@ -176,8 +193,7 @@ export const METRICS = [
     label: LANG['LABEL_SEG'],
     description: LANG['EXPLAINER_SEG'],
     range: {
-      'default': [ -5, 5 ],
-      
+      '*': [ -5, 5 ],
     },
     map: false,
     scatterplot: true
@@ -187,7 +203,7 @@ export const METRICS = [
     label: 'Percent',
     description: '',
     range: {
-      'default': [0, 1],
+      '*': [0, 1],
     },
   }
 ]

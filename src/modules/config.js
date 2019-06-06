@@ -88,10 +88,27 @@ export const getMetricLabel = (id) => {
  * Returns an array containing the min and max for the
  * provided varname and region
  */
-export const getRangeFromVarName = (varName, region) => {
+export const getRangeFromVarName = (varName, region, type) => {
   const metricId = getMetricIdFromVarName(varName)
   const demId = getDemographicIdFromVarName(varName)
-  return getMetricRange(metricId, demId, region);
+  return getMetricRange(metricId, demId, region, type);
+}
+
+/**
+ * Returns true if the provided key matches the region, 
+ * demographic, and type passed
+ */
+const isRangeKeyMatch = (key, { region, demographic, type }) => {
+  if (key === '*') { return true; }
+  const [t, r, d = false ] = key.split('_');
+  return (t === '*' || t === type) &&
+    (r === '*' || r === region) &&
+    (
+      d === '*' || 
+      d === demographic || 
+      (d === 'gap' && isGapDemographic(demographic)) ||
+      !d
+    );
 }
 
 /**
@@ -100,24 +117,15 @@ export const getRangeFromVarName = (varName, region) => {
  * @param {string} id 
  * @param {string} variant 
  */
-export const getMetricRange = (id, demographic, region) => {
+export const getMetricRange = (id, demographic, region, type = '') => {
   const metric = getMetricById(id)
   if (!metric || !metric.range ) {
     throw new Error(`no range specified for metric ${id}`)
   }
-  if (region && demographic && metric.range[[demographic, region].join('_')]) {
-    const key = [demographic, region].join('_')
-    if (metric.range[key]) {
-      return metric.range[key]
-    }
-  } else if (demographic && metric.range[demographic]) {
-    return metric.range[demographic]
-  } else if (region && metric.range[region]) {
-    return metric.range[region]
-  } else {
-    return isGapDemographic(demographic) && metric.range['gap'] ?
-      metric.range['gap'] : metric.range['default']
-  }
+  const rangeKey = 
+    Object.keys(metric.range)
+      .find(k => isRangeKeyMatch(k, { demographic, region, type }))
+  return rangeKey && metric.range[rangeKey] ? metric.range[rangeKey] : null
 }
 
 /**
@@ -179,13 +187,14 @@ export const getRegionFromId = (id) => {
 export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
   const demId = getDemographicIdFromVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId, region)
+  const [ min, max ] = getMetricRange(metricId, demId, region, 'map')
   const range = Math.abs(max - min);
   const stepSize = range / (colors.length-1);
   return colors.map((c, i) =>
     [ (min + (i * stepSize)), c ]
   )
 }
+
 
 /**
  * Gets the percent value of where the value sites on

@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
-import { getChoroplethColors, getValuePositionForMetric } from '../../modules/config';
+import { getChoroplethColors, getValuePositionForMetric, getMetricRange } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
@@ -105,6 +105,8 @@ const mapStateToProps = ({
         startLabel: 'low',
         endLabel: 'high',
         colors: getColorsFromParam(color),
+        colorRange: getMetricRange(metric, demographic, region, 'map'),
+      legendRange: getMetricRange(metric, demographic, region),
         markerPosition: hovered && hovered.properties ?
           getValuePositionForMetric(
             getFeatureProperty(hovered, demographic + '_' + metric),
@@ -116,6 +118,8 @@ const mapStateToProps = ({
     },
     legend: {
       colors: getColorsFromParam(color),
+      colorRange: getMetricRange(metric, demographic, region, 'map'),
+      legendRange: getMetricRange(metric, demographic, region),
       markerPosition: hovered && hovered.properties ?
         getValuePositionForMetric(
           getFeatureProperty(hovered, demographic + '_' + metric),

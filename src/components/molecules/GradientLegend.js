@@ -3,18 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 /**
- * Gets a CSS gradient string based on the provided colors
- * @param {array} colors 
- * @param {bool} vertical true if vertical gradient
- */
-const getColorGradient = (colors, vertical = false) => {
-  const colorString = colors.join(',');
-  return vertical ?
-    'linear-gradient(to top, ' + colorString + ')' :
-    'linear-gradient(to right, ' + colorString + ')';
-}
-
-/**
  * Get the transform for the marker
  */
 const getTransform = (value = 0.5, vertical = false) => {
@@ -25,7 +13,26 @@ const getTransform = (value = 0.5, vertical = false) => {
     `translateY(-${value*100}%)` :
     `translateX(${value*100}%)`
 }
-  
+
+const getGradient = (colors, legendRange, colorRange, vertical = false) => {
+  const legendExtent = legendRange[1] - legendRange[0]; // 6
+  const colorExtent = colorRange[1] - colorRange[0]; // 7
+  // size of the color range relative to the legend range
+  const colorRangePercent = 100 * colorExtent / legendExtent; // 116.666%
+  const steps = colors.length - 1;
+  const colorStepSize = colorRangePercent / steps; // 16.666665714285714%
+  const colorStartPercent = 100 *
+    (colorRange[0] - legendRange[0]) / 
+    (legendRange[1] - legendRange[0])
+    // 100 * -1 / 6 = -16.6666%
+  const colorStepsString = colors.map((c, i) =>  c + ' ' + 
+    (colorStartPercent + (colorStepSize * i)) + '%'
+  ).join(',')
+  return vertical ?
+    'linear-gradient(to top, ' + colorStepsString + ')' :
+    'linear-gradient(to right, ' + colorStepsString + ')';
+}
+
 
 /**
  * Displays a gradient with start / end labels
@@ -36,10 +43,13 @@ const GradientLegend = ({
   endLabel, 
   markerPosition, 
   colors, 
-  vertical = false
+  vertical = false,
+  legendRange = [0, 1],
+  colorRange = [0, 1],
 }) => {
   if (!colors) { return <div />; }
-  const gradientString = getColorGradient(colors, vertical)
+  const gradientString = 
+    getGradient(colors, legendRange, colorRange, vertical)
   return (
     <div 
       className={classNames(
@@ -79,7 +89,9 @@ GradientLegend.propTypes = {
   endLabel: PropTypes.string,
   colors: PropTypes.array.isRequired,
   vertical: PropTypes.bool,
-  markerPosition: PropTypes.number
+  markerPosition: PropTypes.number,
+  legendRange: PropTypes.array,
+  colorRange: PropTypes.array,
 }
 
 export default GradientLegend
