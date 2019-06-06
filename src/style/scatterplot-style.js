@@ -461,7 +461,7 @@ const getMapVisualMap = ({
   highlightedState,
   region
 }) => {
-  const range = getRangeFromVarName(varName, region)
+  const range = getRangeFromVarName(varName, region, 'map')
   return {
     type: 'continuous',
     min: range[0],
