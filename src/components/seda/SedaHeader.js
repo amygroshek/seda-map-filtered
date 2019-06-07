@@ -114,7 +114,8 @@ const SedaHeader = ({
   onMetricChange,
   onOptionChange,
   onViewChange,
-  onMenuClick
+  onMenuClick,
+  ...rest
 }) => 
   <Header
     branding={<Logo />}
@@ -129,6 +130,7 @@ const SedaHeader = ({
         <MenuIcon />
       </IconButton>
     }
+    {...rest}
   >
     <SedaMenu />
   </Header>

@@ -14,8 +14,11 @@ const ExplorerView = ({ loadRouteLocations, locations }) => {
     loadRouteLocations(locations)
   }, [])
   return (
-    <SedaPage>
-      <SedaExplorer />
+    <SedaPage classes={{ 
+      root: 'page--explorer', 
+      main: 'page__body--explorer' 
+    }}>
+      <SedaExplorer classes={{root:"section--explorer"}} />
     </SedaPage>
   )
 }

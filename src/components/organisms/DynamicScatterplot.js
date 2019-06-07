@@ -148,65 +148,63 @@ function DynamicScatterplot({
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
   return (
     <div className='dynamic-scatterplot'>
-      <div className='dynamic-scatterplot__graph'>
-        { error &&
-          <span className="notification notification--error">{ error }</span>
+      { error &&
+        <span className="notification notification--error">{ error }</span>
+      }
+      { heading &&
+        <div className='dynamic-scatterplot__heading'>
+          <Typography variant='h6' component="span">
+            { heading.title }
+          </Typography>
+          <Typography variant='body2' component="span">
+            { heading.subtitle }
+          </Typography>
+        </div>
+      }
+      <SedaScatterplot
+        {...{
+          endpoint,
+          xVar,
+          yVar,
+          zVar,
+          onReady,
+          onClick,
+          onData,
+          onError,
+          data,
+          highlighted,
+          theme,
+          freeze
+        }}
+        prefix={region}
+        options={scatterplotOptions}
+        metaVars={getBaseVars()}
+        onHover={(loc) => loc && loc.id ?
+          onHover({ id: loc.id, properties: loc }) :
+          onHover(null)
         }
-        { heading &&
-          <div className='dynamic-scatterplot__heading'>
-            <Typography variant='h6' component="span">
-              { heading.title }
-            </Typography>
-            <Typography variant='body2' component="span">
-              { heading.subtitle }
-            </Typography>
-          </div>
-        }
-        <SedaScatterplot
-          {...{
-            endpoint,
-            xVar,
-            yVar,
-            zVar,
-            onReady,
-            onClick,
-            onData,
-            onError,
-            data,
-            highlighted,
-            theme,
-            freeze
-          }}
-          prefix={region}
-          options={scatterplotOptions}
-          metaVars={getBaseVars()}
-          onHover={(loc) => loc && loc.id ?
-            onHover({ id: loc.id, properties: loc }) :
-            onHover(null)
-          }
-        />
-        <CircleOverlay
-          {...circleOverlay}
-          variant={variant}
-          style={scatterplotOptions.grid}
-          onHover={(circle) => {
-            onHover({
-              id: circle.id, 
-              properties: { 
-                id: circle.id,
-                ...getDataForId(circle.id, data[region])
-              }
-            })
-          }}
-          onClick={(circle) => { 
-            onClick({
+      />
+      <CircleOverlay
+        {...circleOverlay}
+        variant={variant}
+        style={scatterplotOptions.grid}
+        onHover={(circle) => {
+          onHover({
+            id: circle.id, 
+            properties: { 
               id: circle.id,
               ...getDataForId(circle.id, data[region])
-            })
-          }}
-        />
-        {children}
-      </div>
+            }
+          })
+        }}
+        onClick={(circle) => { 
+          onClick({
+            id: circle.id,
+            ...getDataForId(circle.id, data[region])
+          })
+        }}
+      />
+      {children}
     </div>
   )
 }

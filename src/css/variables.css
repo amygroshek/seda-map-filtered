@@ -70,10 +70,16 @@
   /** Shadows */
   --shadow-inset: inset 0 1px 3px var(--darken3);
   --shadow1: 0 1px 2px var(--darken3);
-  --shadow2: 0 1px 4px var(--darken4);
+  --shadow10: 0 1px 2px var(--darken4);
+  --shadow100: 0 1px 4px var(--darken4);
+  --shadow1000: 0 1px 4px var(--darken4);
   --shadow10000: 0 2px 8px var(--darken5);
 
   --divider-border: 1px solid var(--divider);
+
+
+  /** DEPRECATED*/
+  --shadow2: 0 1px 4px var(--darken4);
 }
 
 /** Variable overrides for 960px and above */

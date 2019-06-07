@@ -15,7 +15,7 @@ const SedaExplorer = (props) => {
       <div className="section__right">
         <SedaExplorerMap />
       </div>
-      <div className="section__left section__left--scatterplot">
+      <div className="section__left">
         <SedaExplorerChart />
       </div>
     </Section>
@@ -23,11 +23,12 @@ const SedaExplorer = (props) => {
 }
 
 const mapStateToProps = (
-  state, { match: { params: { view = 'map' } } }
+  state, { match: { params: { view = 'map' } }, classes = {} }
 ) => {
   return ({
     id: 'map',
     classes: {
+      ...classes,
       content: 'section__content--' + (
         view === 'map' ? 'right' :
           view === 'chart' ? 'left' : 'split' 
