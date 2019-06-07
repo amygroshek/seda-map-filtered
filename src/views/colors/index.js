@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React, { useState } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import SedaMapChartView from '../../components/seda/SedaMapChartView';
+import SedaExplorer from '../../components/seda/SedaExplorer';
 import SedaPage from '../../components/seda/SedaPage';
 import { updateRoute } from '../../modules/router';
 import { TextField } from '@material-ui/core';
@@ -41,7 +41,7 @@ const ColorsView = ({color, onColorChange }) => {
   const [ colorString, setColorString] = useState(color);
   return (
     <SedaPage>
-      <SedaMapChartView />
+      <SedaExplorer />
       <div style={{ width: 480, position:'absolute', left: 16 , bottom: 16, zIndex:10000, padding: 16}}>
         <TextField
           id="filled-multiline-flexible"

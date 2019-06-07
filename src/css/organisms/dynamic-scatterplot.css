@@ -1,5 +1,9 @@
-.dynamic-scatterplot__graph {
-  position: relative;
+
+
+.dynamic-scatterplot {
+  position:relative;
+  width:100%;
+  height:100%;
 }
 
 .dynamic-scatterplot__heading {

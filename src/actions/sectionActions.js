@@ -1,4 +1,3 @@
-import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "./scatterplotActions";
 import { loadLocation } from "./featuresActions";
 import { onRemoveSelectedFeature, onViewportChange } from "./mapActions";
 import { parseLocationsString, getLocationFromFeature } from '../modules/router';
@@ -30,24 +29,4 @@ export const getCardDispatchForSection = (dispatch, section) => ({
     }
   },
 })
-
-export const getScatterplotDispatchForSection = (dispatch, sectionId) => ({
-  onScatterplotData: (data, region) =>
-    dispatch(onScatterplotData(data, region)),
-  onScatterplotReady: () => 
-    dispatch(onScatterplotLoaded(sectionId)),
-  onScatterplotHover: (feature) =>
-    dispatch(onHoverFeature(feature, sectionId)),
-  onScatterplotClick: (location) =>
-    dispatch(loadLocation(location)),
-  onScatterplotError: (e, sectionId) => {
-    dispatch(onScatterplotError(e, sectionId))
-  }
-})
-
-export const sectionMapDispatchToProps = (sectionId) =>
-  (dispatch, ownProps) => ({
-    ...getCardDispatchForSection(dispatch, sectionId),
-    ...getScatterplotDispatchForSection(dispatch, sectionId)
-  })
 

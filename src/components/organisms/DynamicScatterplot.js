@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
 import { getBaseVars, getRangeFromVarName } from '../../modules/config'
@@ -100,6 +99,7 @@ function DynamicScatterplot({
   selected,
   freeze,
   error,
+  children,
   onHover,
   onClick,
   onData,
@@ -148,66 +148,63 @@ function DynamicScatterplot({
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
   return (
     <div className='dynamic-scatterplot'>
-      <div className='dynamic-scatterplot__graph'>
-        <div className={classNames(
-          "blocker", "blocker--freeze", { 'blocker--show': freeze }
-        ) }>
-          { error &&
-            <span className="notification notification--error">{ error }</span>
-          }
+      { error &&
+        <span className="notification notification--error">{ error }</span>
+      }
+      { heading &&
+        <div className='dynamic-scatterplot__heading'>
+          <Typography variant='h6' component="span">
+            { heading.title }
+          </Typography>
+          <Typography variant='body2' component="span">
+            { heading.subtitle }
+          </Typography>
         </div>
-        { heading &&
-          <div className='dynamic-scatterplot__heading'>
-            <Typography variant='h6' component="span">
-              { heading.title }
-            </Typography>
-            <Typography variant='body2' component="span">
-              { heading.subtitle }
-            </Typography>
-          </div>
+      }
+      <SedaScatterplot
+        {...{
+          endpoint,
+          xVar,
+          yVar,
+          zVar,
+          onReady,
+          onClick,
+          onData,
+          onError,
+          data,
+          highlighted,
+          theme,
+          freeze
+        }}
+        prefix={region}
+        options={scatterplotOptions}
+        metaVars={getBaseVars()}
+        onHover={(loc) => loc && loc.id ?
+          onHover({ id: loc.id, properties: loc }) :
+          onHover(null)
         }
-        <SedaScatterplot
-          endpoint={endpoint}
-          xVar={xVar}
-          yVar={yVar}
-          zVar={zVar}
-          onReady={onReady}
-          onHover={(loc) => loc && loc.id ?
-            onHover({ id: loc.id, properties: loc }) :
-            onHover(null)
-          }
-          onClick={onClick}
-          onData={onData}
-          onError={onError}
-          data={data}
-          prefix={region}
-          options={scatterplotOptions}
-          highlighted={highlighted}
-          theme={theme}
-          metaVars={getBaseVars()}
-          freeze={freeze}
-        />
-        <CircleOverlay
-          {...circleOverlay}
-          variant={variant}
-          style={scatterplotOptions.grid}
-          onHover={(circle) => {
-            onHover({
-              id: circle.id, 
-              properties: { 
-                id: circle.id,
-                ...getDataForId(circle.id, data[region])
-              }
-            })
-          }}
-          onClick={(circle) => { 
-            onClick({
+      />
+      <CircleOverlay
+        {...circleOverlay}
+        variant={variant}
+        style={scatterplotOptions.grid}
+        onHover={(circle) => {
+          onHover({
+            id: circle.id, 
+            properties: { 
               id: circle.id,
               ...getDataForId(circle.id, data[region])
-            })
-          }}
-        />
-      </div>
+            }
+          })
+        }}
+        onClick={(circle) => { 
+          onClick({
+            id: circle.id,
+            ...getDataForId(circle.id, data[region])
+          })
+        }}
+      />
+      {children}
     </div>
   )
 }
@@ -223,6 +220,7 @@ DynamicScatterplot.propTypes = {
   selected: PropTypes.array,
   hovered: PropTypes.object,
   variant: PropTypes.string,
+  children: PropTypes.node,
   onHover: PropTypes.func,
   onClick: PropTypes.func,
   onData: PropTypes.func,

@@ -1,0 +1,14 @@
+
+.section--explorer .section__content--split .map .map-legend {
+  display: none;
+}
+
+.section--explorer .section__content--split .dynamic-scatterplot {
+  position: absolute;
+  top:0;
+  left:0;
+  right:24px;
+  bottom:0;
+  width:auto;
+  height:auto;
+}

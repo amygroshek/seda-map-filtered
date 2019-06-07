@@ -20,6 +20,15 @@
   .section {}
 }
 
+.section__overlay {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  z-index: 100;
+  box-shadow: var(--shadow100);
+  min-width: 280px;
+}
+
 /** Section Component Wrapper */
 
 .section__content {
@@ -119,17 +128,7 @@
   }
 }
 
-.section__left--scatterplot .dynamic-scatterplot__graph {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 16px;
-  bottom: 0;
-  width: auto;
-  height: 100%;
-}
-
-.section__right .map-legend {
+.section__right .map .map-legend {
   position: absolute;
   bottom: 24px;
   left: auto;
@@ -138,12 +137,12 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
-.section__left .map-legend {
+.section__left .dynamic-scatterplot .map-legend {
   position: absolute;
   bottom: 32px;
   top: 24px;
   left: auto;
-  right: 4px;
+  right: -16px;
   width: 8px;
   border-left: 4px solid #fff;
 }

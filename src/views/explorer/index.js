@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { loadRouteLocations } from '../../actions/featuresActions';
-import SedaMapChartView from '../../components/seda/SedaMapChartView';
+import SedaExplorer from '../../components/seda/SedaExplorer';
 import SedaPage from '../../components/seda/SedaPage';
 
 const ExplorerView = ({ loadRouteLocations, locations }) => {
@@ -14,8 +14,11 @@ const ExplorerView = ({ loadRouteLocations, locations }) => {
     loadRouteLocations(locations)
   }, [])
   return (
-    <SedaPage>
-      <SedaMapChartView />
+    <SedaPage classes={{ 
+      root: 'page--explorer', 
+      main: 'page__body--explorer' 
+    }}>
+      <SedaExplorer classes={{root:"section--explorer"}} />
     </SedaPage>
   )
 }

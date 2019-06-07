@@ -6,6 +6,7 @@ import { getLang } from '../../constants/lang';
 import FacebookIcon from '../atoms/FacebookIcon';
 import TwitterIcon from '../atoms/TwitterIcon';
 import LinkIcon from '@material-ui/icons/Link';
+import CodeIcon from '@material-ui/icons/Code';
 import StanfordLogo from '../atoms/StanfordLogo';
 
 const branding = {
@@ -46,6 +47,11 @@ const links = [
         id: 'link',
         label: getLang('FOOTER_SHARE_LINK'),
         icon: <LinkIcon />
+      },
+      {
+        id: 'embed',
+        label: getLang('FOOTER_EMBED_LINK'),
+        icon: <CodeIcon />
       }
     ],
   }
