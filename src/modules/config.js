@@ -195,7 +195,6 @@ export const getStopsForVarName = (varName, region, colors = getChoroplethColors
   )
 }
 
-
 /**
  * Gets the percent value of where the value sites on
  * the scale for the metric.
@@ -286,3 +285,18 @@ export const isGapDemographic = (id) => {
 }
 
 
+/**
+ * Gets the variables for the map section
+ * @param {string} region 
+ * @param {string} metric 
+ * @param {string} demographic 
+ */
+export const getExplorerVarsFromSelection = (region, metric, demographic) => ({
+  yVar: region === 'schools' ? 
+    'all_' + metric : 
+    demographic + '_' + metric,
+  xVar: region === 'schools' ? 
+    'frl_pct' : 
+    demographic + '_ses',
+  zVar: 'all_sz'
+})

@@ -284,7 +284,7 @@ export const splitLang = (text) =>
 
 export const getLangWithComponents = (key, components) => {
   const arr = splitLang(getLang(key));
-  return arr.map((a,i) => {
+  return arr.map((a) => {
     if (a && a[0] !== '$') {
       return a
     } else {
