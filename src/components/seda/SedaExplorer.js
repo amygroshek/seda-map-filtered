@@ -33,10 +33,7 @@ const mapStateToProps = (
         view === 'map' ? 'right' :
           view === 'chart' ? 'left' : 'split' 
       )
-    },
-    overlayContent: <SedaSearch inputProps={{
-      placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
-    }} />
+    }
   })
 }
 

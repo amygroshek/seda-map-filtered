@@ -173,7 +173,7 @@ const LANG = {
   'AXIS_SEG_HIGH_GAP': 'more',
 
   // Location Cards
-  'CARD_SEARCH_PLACEHOLDER': 'Add a county, district, or school',
+  'CARD_SEARCH_PLACEHOLDER': 'Search for a place',
   'CARD_SEARCH_HELPER': 'Use the search above to add and view data for a school, district, or county. ',
 
   // Intro Section

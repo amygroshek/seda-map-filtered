@@ -4,10 +4,10 @@ import React, { useEffect } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { loadRouteLocations } from '../../actions/featuresActions';
 import SedaExplorer from '../../components/seda/SedaExplorer';
 import SedaPage from '../../components/seda/SedaPage';
+
 
 const ExplorerView = ({ loadRouteLocations, locations }) => {
   useEffect(() => {

@@ -4,14 +4,15 @@ import { withRouter } from 'react-router-dom';
 import React from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MenuIcon from '@material-ui/icons/Menu';
 import PlaceIcon from '@material-ui/icons/Place';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import IconButton from '@material-ui/core/IconButton';
 import * as _debounce from 'lodash.debounce';
+import withWidth from '@material-ui/core/withWidth';
 
 // constants
 import { HEADER } from '../../constants/site';
@@ -27,14 +28,24 @@ import ToggleButtons from '../molecules/ToggleButtons';
 import MenuSentence from '../molecules/MenuSentence';
 import HeaderTab from '../molecules/HeaderTab';
 import SedaMenu from './SedaMenu';
+import SedaSearch from './SedaSearch';
+import { getLang } from '../../constants/lang';
+import SelectButton from '../atoms/SelectButton';
+import MenuButton from '../atoms/MenuButton';
 
-
-const HeaderPrimary = ({metric, onMetricChange}) => {
+const HeaderPrimary = ({metric, width, onMetricChange}) => {
   return <div className='header-tabs'>
+    <SelectButton
+      text={getLang('TAB_CONCEPT_'+ metric)}
+      subtext={getLang('TAB_METRIC_'+ metric)}
+      // onClick={() => alert('not implemented yet')}
+    />
     <Tabs 
-      value={metric} 
+      value={metric}
+      variant={width === 'sm' ? 'scrollable' : undefined}
       onChange={(e, metricId) => { onMetricChange(metricId) }}
-      classes={{ indicator: 'tab__indicator' }}
+      classes={{ root: 'tabs__root', indicator: 'tab__indicator' }}
+      scrollButtons={width === 'sm' ? 'on' : 'off'}
     >
     { 
       HEADER.tabs.map((t,i) =>
@@ -57,17 +68,22 @@ const HeaderPrimary = ({metric, onMetricChange}) => {
 
 HeaderPrimary.propTypes = {
   metric: PropTypes.string,
-  onMetricChange: PropTypes.func
+  onMetricChange: PropTypes.func,
+  width: PropTypes.string,
 }
 
 const HeaderSecondary = ({
   text, 
   controls, 
   view, 
+
   onViewChange, 
   onOptionChange
 }) => {
   return <div className="header__inner-content">
+    <SedaSearch inputProps={{
+      placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
+    }} />
     <MenuSentence
       controls={controls}
       text={text}
@@ -110,6 +126,7 @@ const SedaHeader = ({
   metric,
   view,
   text,
+  width,
   controls,
   onMetricChange,
   onOptionChange,
@@ -118,17 +135,19 @@ const SedaHeader = ({
   ...rest
 }) => 
   <Header
-    branding={<Logo />}
+    branding={
+      <Logo />
+    }
     primaryContent={
-      <HeaderPrimary {...{metric, onMetricChange }} />
+      <HeaderPrimary {...{width, metric, onMetricChange }} />
     }
     secondaryContent={
       <HeaderSecondary {...{text, controls, view, onViewChange, onOptionChange}} />
     }
     actionContent={
-      <IconButton onClick={onMenuClick}>
+      <MenuButton onClick={onMenuClick}>
         <MenuIcon />
-      </IconButton>
+      </MenuButton>
     }
     {...rest}
   >
@@ -140,6 +159,7 @@ SedaHeader.propTypes = {
   view: PropTypes.string,
   text: PropTypes.string,
   controls: PropTypes.array,
+  width: PropTypes.string,
   onMetricChange: PropTypes.func,
   onOptionChange: PropTypes.func,
   onViewChange: PropTypes.func,
@@ -168,7 +188,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateRoute(ownProps, { metric: metricId })
   }, 400),
   onViewChange: (view) => {
-    console.log(view)
     const updatedView = view && view.id ? view.id : view
     updateRoute(ownProps, { view: updatedView })
   },
@@ -199,6 +218,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }),
 })
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SedaHeader)
-)
+export default compose(
+  withWidth(),
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(SedaHeader)
