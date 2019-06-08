@@ -2,9 +2,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
-import { getLang } from '../../constants/lang';
 
-import SedaSearch from './SedaSearch';
 import Section from '../templates/Section';
 import SedaExplorerMap from './SedaExplorerMap';
 import SedaExplorerChart from './SedaExplorerChart';
@@ -33,10 +31,7 @@ const mapStateToProps = (
         view === 'map' ? 'right' :
           view === 'chart' ? 'left' : 'split' 
       )
-    },
-    overlayContent: <SedaSearch inputProps={{
-      placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
-    }} />
+    }
   })
 }
 

@@ -1,9 +1,14 @@
 
+
 .section--explorer .section__content--split .map .map-legend {
   display: none;
 }
 
-.section--explorer .section__content--split .dynamic-scatterplot {
+.section--explorer .section__content--left .map-legend {
+  display: none;
+}
+
+.section--explorer .dynamic-scatterplot {
   position: absolute;
   top:0;
   left:0;
@@ -11,4 +16,20 @@
   bottom:0;
   width:auto;
   height:auto;
+}
+
+.section--explorer .section__content--left .dynamic-scatterplot {
+  top: 56px;
+}
+
+.section--explorer .section__content--left .dynamic-scatterplot__heading {
+  margin-top: -56px;
+}
+
+@media(max-width: 700px) {
+  .page--explorer .site-footer__link-label,
+  .page--explorer .site-footer__copyright,
+  .page--explorer .site-footer__actions .site-footer__link-collection:first-child {
+    display: none;
+  }
 }
