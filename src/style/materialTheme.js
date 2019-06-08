@@ -4,6 +4,8 @@ const defaultTheme = createMuiTheme({
   typography: { useNextVariants: true },
 })
 
+console.log(defaultTheme)
+
 // Theme for the tool
 const materialTheme = createMuiTheme({
   palette: {
@@ -90,14 +92,6 @@ const materialTheme = createMuiTheme({
         height: 64
       },
       
-    },
-    MuiTab: {
-      labelContainer: {
-        [defaultTheme.breakpoints.up('sm')]: {
-          padding: "12px 24px 0"
-        }
-        
-      }
     },
     MuiInput: {
       // Name of the rule

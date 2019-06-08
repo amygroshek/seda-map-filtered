@@ -57,7 +57,8 @@ const HeaderPrimary = ({metric, width, onMetricChange}) => {
           }
           classes={{
             root: 'tab',
-            selected: 'tab--selected'
+            selected: 'tab--selected',
+            wrapper: 'tab__wrapper'
           }} 
         />
       )
