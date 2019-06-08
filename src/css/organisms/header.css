@@ -139,6 +139,7 @@
   filter: none;
   opacity:1;
 }
+
 @media(min-width: 1060px) {
   .header-tabs .tab {
     min-width: 310px;
@@ -156,6 +157,11 @@
   }
 }
 
+/** Left align header tab content */
+.header-tabs .tab__wrapper {
+  justify-content: center;
+  align-items: flex-start;
+}
 
 
 .header__controls {

@@ -16,7 +16,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   position:relative;
-  top: -3px; /** align tab label with logo */
+  top: 2px;
   white-space:nowrap;
 }
 
