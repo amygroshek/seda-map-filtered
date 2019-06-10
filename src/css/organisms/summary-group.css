@@ -1,0 +1,92 @@
+.summary-group {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 80px;
+  box-shadow: 0 -0.5px 1px rgba(0,0,0,0.17);
+  position:relative;
+  z-index: 30;
+}
+
+.summary-group .MuiTabs-flexContainer {
+  height: 80px;
+}
+
+.summary-group .summary-group__cards {
+  flex: 1;
+}
+
+.summary-group .summary-group__stats-button {
+  padding: 8px 32px;
+  font-size: 1.125em;
+}
+
+.summary-group .tab__wrapper {
+  height: 80px;
+}
+
+.summary-group .tab {
+  flex:1;
+  padding:0;
+  width: 100%;
+  max-width: none;
+  min-width: 204px;
+  opacity:1;
+}
+
+.summary-group .MuiTabs-indicator { display: none; }
+
+.summary-group .summary-card {
+  background: none;
+  box-shadow: inset -1px 0 0 var(--darken2);
+  width: 100%;
+  height: 100%;
+}
+
+.summary-card__header {
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  position:relative;
+  width: 100%;
+  height: 100%;
+}
+
+.summary-card__header .MuiCardHeader-avatar {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+}
+
+.summary-card__header .MuiCardHeader-content {
+  position: relative;
+  top: -4px;
+  width: calc(100% - 48px);
+}
+
+.summary-card__header .marker {
+  position:absolute;
+  width: 32px;
+  height: 4px;
+  top:0;
+  left:16px;
+  right:0;
+  border-radius: 0;
+}
+
+.summary-card__header .MuiCardHeader-title {
+  font-size: var(--card-title-size);
+  font-family: var(--heading-font);
+  line-height: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 80%;
+}
+
+.summary-card__header .MuiCardHeader-subheader {
+  font-size: var(--card-subheader-size);
+  font-family: var(--body-font);
+  line-height: 16px;
+}

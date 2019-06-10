@@ -45,7 +45,7 @@ const HeaderPrimary = ({metric, width, onMetricChange}) => {
       variant={width === 'sm' ? 'scrollable' : undefined}
       onChange={(e, metricId) => { onMetricChange(metricId) }}
       classes={{ root: 'tabs__root', indicator: 'tab__indicator' }}
-      scrollButtons={width === 'sm' ? 'on' : 'off'}
+      scrollButtons='off'
     >
     { 
       HEADER.tabs.map((t,i) =>

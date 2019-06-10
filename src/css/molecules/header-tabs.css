@@ -49,13 +49,13 @@
 .tab-label .tab-label__title {
   text-transform: capitalize;
   line-height:1;
-  font-size: var(--small-font-size);
+  font-size: var(--header-title-size);
   color: var(--tab-text);
 }
 
 .tab-label .tab-label__subtitle {
   text-transform: none;
-  font-size: var(--small-font-size);
+  font-size: var(--header-subheader-size);
   color: var(--tab-text);
 }
 

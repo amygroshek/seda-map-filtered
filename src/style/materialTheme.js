@@ -10,7 +10,7 @@ console.log(defaultTheme)
 const materialTheme = createMuiTheme({
   palette: {
     primary: {
-      main: '#0e7cb4'
+      main: '#083794'
     },
     secondary: {
       main: '#ff003e',
