@@ -98,7 +98,7 @@
 }
 
 /** Set max height to avoid bar from jumping on transition */
-.summary-group .tab.summary-group__cards-leave .tab__wrapper {
+.summary-group .tab.summary-group__cards-exit .tab__wrapper {
   max-height: 64px;
   overflow:hidden;
 }
@@ -112,13 +112,13 @@
   transition: transform 0.4s ease-in-out 0.1s;
 }
 
-.tab.summary-group__cards-leave {
+.tab.summary-group__cards-exit {
   /* opacity: 1; */
   flex:1;
   
 }
 
-.tab.summary-group__cards-leave.summary-group__cards-leave-active {
+.tab.summary-group__cards-exit.summary-group__cards-exit-active {
   /* opacity:0.1; */
   flex:0.0001;
   transition: flex 0.2s ease-in;

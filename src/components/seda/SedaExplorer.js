@@ -1,13 +1,15 @@
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import React from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 
 import Section from '../templates/Section';
 import SedaExplorerMap from './SedaExplorerMap';
 import SedaExplorerChart from './SedaExplorerChart';
 
-const SedaExplorer = (props) => {
+const SedaExplorer = ({ view, onViewChange, ...props}) => {
+  useEffect(() => { onViewChange(view) }, [ view ])
   return (
     <Section {...props}>
       <div className="section__right">
@@ -20,11 +22,18 @@ const SedaExplorer = (props) => {
   )
 }
 
+SedaExplorer.propTypes = {
+  view: PropTypes.string,
+  onViewChange: PropTypes.func,
+  ...Section.propTypes
+}
+
 const mapStateToProps = (
   state, { match: { params: { view = 'map' } }, classes = {} }
 ) => {
   return ({
     id: 'map',
+    view,
     classes: {
       ...classes,
       content: 'section__content--' + (
@@ -34,6 +43,8 @@ const mapStateToProps = (
     }
   })
 }
+
+
 
 export default compose(
   withRouter,

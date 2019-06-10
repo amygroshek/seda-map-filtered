@@ -9,10 +9,16 @@ import SedaExplorer from '../../components/seda/SedaExplorer';
 import SedaPage from '../../components/seda/SedaPage';
 import SedaLocations from '../../components/seda/SedaLocations';
 import { MAX_LOCATIONS } from '../../constants/dataOptions';
+import { onViewportChange } from '../../actions/mapActions';
+import { getMapContainerSize } from '../../components/molecules/BaseMap';
 
-const ExplorerView = ({ loadRouteLocations, locations, selected }) => {
+const ExplorerView = ({ loadRouteLocations, locations, selected, onViewChange }) => {
   useEffect(() => {
     loadRouteLocations(locations)
+      .then(()=> {
+        // set map size when locations load
+        onViewChange('map')
+      })
   }, [])
   const cardCountClass = useMemo(() => {
     switch(selected.length) {
@@ -33,7 +39,10 @@ const ExplorerView = ({ loadRouteLocations, locations, selected }) => {
       root: 'page--explorer', 
       main: 'page__body--explorer page__' + cardCountClass 
     }}>
-      <SedaExplorer classes={{root:"section--explorer"}} />
+      <SedaExplorer 
+        classes={{root:"section--explorer"}}
+        onViewChange={onViewChange}
+      />
       { Boolean(selected.length) && <SedaLocations /> }
     </SedaPage>
   )
@@ -57,7 +66,15 @@ const mapStateToProps =
 const mapDispatchToProps = (dispatch) => ({
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations)),
+  onViewChange: (view) => {
+    if (view === 'map' || view ==='split') {
+      dispatch(onViewportChange(
+        getMapContainerSize()
+      ))
+    }
+  }
 })
+
 
 export default compose(
   withRouter,

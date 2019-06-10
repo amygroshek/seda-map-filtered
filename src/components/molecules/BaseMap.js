@@ -3,6 +3,8 @@ import ReactMapGL from 'react-map-gl';
 import PropTypes from 'prop-types';
 import usePrevious from '../../hooks/usePrevious';
 
+
+
 /**
  * Returns the width and height of the provided element
  */
@@ -15,6 +17,11 @@ const getContainerSize = (el) => {
     height: el.clientHeight
   }
 }
+
+export const getMapContainerSize = () => 
+  getContainerSize(
+    document.getElementsByClassName('map')[0]
+  )
 
 /**
  * Returns an array of layer ids for layers that have the 

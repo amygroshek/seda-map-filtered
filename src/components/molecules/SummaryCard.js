@@ -34,7 +34,12 @@ const SummaryCard = ({
         }
         action={
           onDismiss && <CloseButton size="small"
-            onClick={(e) => { e.stopPropagation(); onDismiss(id); }} 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              e.stopPropagation(); 
+              onDismiss(id); 
+              return false; 
+            }} 
           />
         }
         title={title}

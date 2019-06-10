@@ -10,20 +10,19 @@ import { compose } from 'redux';
 import { onRemoveSelectedFeature, onViewportChange } from "../../actions/mapActions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
 import { onHoverFeature } from "../../actions/mapActions";
+import * as _debounce from 'lodash.debounce';
+import { getMapContainerSize } from '../molecules/BaseMap';
 
 const SELECTED_COLORS = getSelectedColors();
 
 const SedaLocations = ({
-  cards,
-  activeId,
-  onCardDismiss,
-  onCardClick,
-  onCardHover,
-  onShowStats
+  onShowStats,
+  ...stackProps
+
 }) => {
   return (
     <SummaryCardStack
-      {...{cards, activeId, onCardDismiss, onCardClick, onCardHover}}
+      {...stackProps}
     >
       <Button 
         color="primary"
@@ -41,7 +40,8 @@ SedaLocations.propTypes = {
   onCardDismiss: PropTypes.func,
   onCardClick: PropTypes.func,
   onCardHover: PropTypes.func,
-  onShowStats: PropTypes.func
+  onShowStats: PropTypes.func,
+  onCardExited: PropTypes.func,
 }
 
 /**
@@ -118,6 +118,14 @@ const mapDispatchToProps = (dispatch) => ({
       }, true))
     }
   },
+  onCardEntered: _debounce(
+    () => dispatch(onViewportChange(getMapContainerSize())), 
+    200
+  ),
+  onCardExited: _debounce(
+    () => dispatch(onViewportChange(getMapContainerSize())), 
+    200
+  ),
   onShowStats: () => {
     console.log('show stats')
   }
