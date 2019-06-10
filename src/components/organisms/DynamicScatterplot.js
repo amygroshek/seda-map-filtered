@@ -153,10 +153,10 @@ function DynamicScatterplot({
       }
       { heading &&
         <div className='dynamic-scatterplot__heading'>
-          <Typography variant='h6' component="span">
+          <Typography variant='h6' component="span" className='dynamic-scatterplot__title'>
             { heading.title }
           </Typography>
-          <Typography variant='body2' component="span">
+          <Typography variant='body2' component="span" className='dynamic-scatterplot__subtitle'>
             { heading.subtitle }
           </Typography>
         </div>

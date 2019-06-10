@@ -4,6 +4,15 @@ import { CSSTransitionGroup } from 'react-transition-group'
 import SummaryCard from '../molecules/SummaryCard';
 import { Tabs, Tab } from '@material-ui/core';
 
+
+// const CardTransition = (props) => (
+//   <CSSTransition
+//     {...props}
+//     classNames="example"
+//     timeout={{ enter: 500, exit: 300 }}
+//   />
+// );
+
 const SummaryCardStack = ({
   cards = [],
   activeId = null,
@@ -16,19 +25,19 @@ const SummaryCardStack = ({
     <div className="summary-group">
       <CSSTransitionGroup
         component={Tabs}
-        className={'summary-group__cards summary-group__cards--' + cards.length}
+        className='summary-group__cards'
         transitionName="summary-group__cards"
         transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
+        transitionLeaveTimeout={300}
         variant='scrollable'
-        scrollButtons={ cards.length > 3 ? 'on' : 'off' }
+        scrollButtons={ cards.length > 4 ? 'on' : 'off' }
         value={0}
       >
         { 
           Boolean(cards.length) && cards.map(
             (c, i) =>
             <Tab 
-              key={'tab'+i}
+              key={c.id}
               value={c.id}
               component="div"
               label={

@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { onRemoveSelectedFeature, onViewportChange } from "../../actions/mapActions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
-import { onHoverFeature } from "../../actions/sectionActions";
+import { onHoverFeature } from "../../actions/mapActions";
 
 const SELECTED_COLORS = getSelectedColors();
 

@@ -6,7 +6,8 @@ import {
   SELECTED_COLORS, 
   CHOROPLETH_COLORS, 
   BASE_VARS,
-  MAP_ID_LENGTH_TO_REGION
+  MAP_ID_LENGTH_TO_REGION,
+  MAX_LOCATIONS
 } from '../constants/dataOptions';
 
 /**
@@ -82,6 +83,10 @@ export const getMetricLabel = (id) => {
     throw new Error('no metric found for ' + id)
   }
   return metric.label;
+}
+
+export const getMaxLocations = () => {
+  return MAX_LOCATIONS;
 }
 
 /**
