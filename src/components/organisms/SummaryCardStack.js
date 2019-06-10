@@ -36,13 +36,12 @@ const SummaryCardStack = ({
                   key={'loc' + c.id}
                   id={c.id}
                   order={i+1}
-                  active={c.id === activeId}
                   title={c.title}
                   summary={c.summary}
                   color={c.color}
                   onDismiss={() => onCardDismiss(c)}
                   onClick={() => onCardClick(c)}
-                  onHover={() => onCardHover(c)}
+                  onMouseEnter={() => onCardHover(c)}
                 />
               }
               classes={{

@@ -12,13 +12,15 @@ const SummaryCard = ({
   summary,
   color,
   children,
-  onDismiss
+  onDismiss,
+  ...rest
 }) => {
   return (
     <Card
       classes={{
         root: 'summary-card'
       }}
+      {...rest}
     >
       <CardHeader
         classes={{
@@ -32,7 +34,7 @@ const SummaryCard = ({
         }
         action={
           onDismiss && <CloseButton size="small"
-            onClick={() => onDismiss(id)} 
+            onClick={(e) => { e.stopPropagation(); onDismiss(id); }} 
           />
         }
         title={title}

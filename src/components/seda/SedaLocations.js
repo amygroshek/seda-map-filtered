@@ -7,6 +7,9 @@ import { getSelectedColors } from '../../modules/config';
 import { getTooltipText } from '../../style/scatterplot-style';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { onRemoveSelectedFeature, onViewportChange } from "../../actions/mapActions";
+import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
+import { onHoverFeature } from "../../actions/sectionActions";
 
 const SELECTED_COLORS = getSelectedColors();
 
@@ -22,7 +25,12 @@ const SedaLocations = ({
     <SummaryCardStack
       {...{cards, activeId, onCardDismiss, onCardClick, onCardHover}}
     >
-      <Button onClick={onShowStats}>Show Full Stats</Button>
+      <Button 
+        color="primary"
+        variant="contained"
+        classes={{root: 'summary-group__stats-button'}} 
+        onClick={onShowStats}
+      >Show Full Stats</Button>
     </SummaryCardStack>
   )
 }
@@ -79,7 +87,8 @@ const getCards = (selected, features, params) =>
       id: f.properties.id,
       title: getLocationNameFromFeature(f),
       summary: getLocationSummaryFromFeature(f, params),
-      color: getLocationColor(i)
+      color: getLocationColor(i),
+      feature: f
     }))
 
 const mapStateToProps = (
@@ -90,14 +99,24 @@ const mapStateToProps = (
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onCardDismiss: () => {
-    console.log('card dismiss')
+  onCardDismiss: ({feature}) => 
+    dispatch(onRemoveSelectedFeature(
+      feature
+    )),
+  onCardHover: ({feature}) => {
+    dispatch(onHoverFeature(feature, 'map'))
   },
-  onCardClick: () => {
-    console.log('card click')
-  },
-  onCardHover: () => {
-    console.log('card hover')
+  onCardClick: ({feature}) => {
+    const l = parseLocationsString(
+      getLocationFromFeature(feature)
+    )[0];
+    if (l) {
+      dispatch(onViewportChange({ 
+        latitude: parseFloat(l.lat), 
+        longitude: parseFloat(l.lon),
+        zoom: l.id.length + 2
+      }, true))
+    }
   },
   onShowStats: () => {
     console.log('show stats')
