@@ -20,6 +20,12 @@ const ExplorerView = ({ loadRouteLocations, locations, selected, onViewChange })
         onViewChange('map')
       })
   }, [])
+  useEffect(() => {
+    if (selected.length === 0 || selected.length === 1) {
+      onViewChange('map')
+    }
+    
+  }, [ selected ])
   const cardCountClass = useMemo(() => {
     switch(selected.length) {
       case 0:

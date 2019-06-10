@@ -30,7 +30,34 @@
 }
 
 
+.location-card-enter {
+  transform: translateY(100%);
+  /* opacity:0; */
+  flex:0.001;
+  transition: transform 500ms ease-out, flex 0.5s linear;
+}
 
+.location-card-enter.location-card-enter-active {
+  transform: translateY(0);
+  /* opacity: 1; */
+  flex:1;
+}
+
+.location-card-leave {
+  /* opacity: 1; */
+  min-width: 1px!important;
+  flex:1;
+  transform: translateY(0);
+  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), flex 0.5s linear;
+}
+
+.location-card-leave.location-card-leave-active {
+  transform: translateY(100%);
+  /* opacity:0.1; */
+  flex:0.001;
+  min-width: 1px!important;
+  
+}
 
 /** Stacked Card Layout **/
 
