@@ -148,14 +148,6 @@
     flex:1;
   }
 }
-@media(min-width: 1060px) {
-  .header-tabs [class*=MuiTabs-scrollButtons] {
-    display:none; 
-  }
-  .header-tabs [class*=MuiTabs-scrollable] {
-    overflow-x:hidden;
-  }
-}
 
 /** Left align header tab content */
 .header-tabs .tab__wrapper {

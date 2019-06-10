@@ -10,3 +10,9 @@
   transition: transform 0.1s cubic-bezier(0,1,.5,1);
   cursor: pointer;
 }
+
+.marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}

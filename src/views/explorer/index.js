@@ -7,9 +7,10 @@ import PropTypes from 'prop-types';
 import { loadRouteLocations } from '../../actions/featuresActions';
 import SedaExplorer from '../../components/seda/SedaExplorer';
 import SedaPage from '../../components/seda/SedaPage';
+import SedaLocations from '../../components/seda/SedaLocations';
 
 
-const ExplorerView = ({ loadRouteLocations, locations }) => {
+const ExplorerView = ({ loadRouteLocations, locations, selected }) => {
   useEffect(() => {
     loadRouteLocations(locations)
   }, [])
@@ -19,6 +20,7 @@ const ExplorerView = ({ loadRouteLocations, locations }) => {
       main: 'page__body--explorer' 
     }}>
       <SedaExplorer classes={{root:"section--explorer"}} />
+      { Boolean(selected.length) && <SedaLocations /> }
     </SedaPage>
   )
 }
@@ -29,7 +31,13 @@ ExplorerView.propTypes = {
 }
 
 const mapStateToProps = 
-  (state, { match: { params: { locations }}}) => ({  locations })
+  (
+    { selected },
+    { match: { params: { locations, region }}}
+  ) => ({
+    locations,
+    selected: selected[region] || []
+  })
 
 const mapDispatchToProps = (dispatch) => ({
   loadRouteLocations: (locations) => 
