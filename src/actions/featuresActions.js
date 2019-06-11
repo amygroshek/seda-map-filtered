@@ -65,7 +65,7 @@ export const loadLocation = (location) =>
 export const loadRouteLocations = (locations) => 
   (dispatch) => {
     dispatch(onLoadFeaturesRequest(locations))
-    loadFeaturesFromRoute(locations)
+    return loadFeaturesFromRoute(locations)
       .then(features => {
         dispatch(onLoadFeaturesSuccess(features))
         dispatch(addToFeatureIdMap(features))

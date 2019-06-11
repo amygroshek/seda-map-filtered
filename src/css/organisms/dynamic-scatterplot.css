@@ -11,13 +11,21 @@
   z-index: 10;
   top: var(--padding);
   left: var(--padding);
-  font-size: var(--small-font-size);
-  margin-right: 104px;
+  right: 96px;
   pointer-events: none;
 }
-
+.dynamic-scatterplot__heading .dynamic-scatterplot__title {
+  display: block;
+  line-height: 24px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .dynamic-scatterplot__heading .dynamic-scatterplot__subtitle {
   color: var(--body2-text);
+  display: block;
+  line-height: 16px;
 }
 
 .dynamic-scatterplot .circle-overlay__root {
