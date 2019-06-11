@@ -1,10 +1,13 @@
 
-
-.section--explorer .section__content--split .map .map-legend {
-  display: none;
+.section--explorer {
+  flex-grow: 1;
 }
 
-.section--explorer .section__content--left .map-legend {
+.section--explorer-help {
+  margin-left: 0;
+}
+
+.section--explorer .section__content--split .map .map-legend {
   display: none;
 }
 
@@ -18,11 +21,11 @@
   height:auto;
 }
 
-.section--explorer .section__content--left .dynamic-scatterplot {
+.section--explorer .dynamic-scatterplot {
   top: 56px;
 }
 
-.section--explorer .section__content--left .dynamic-scatterplot__heading {
+.section--explorer .dynamic-scatterplot__heading {
   margin-top: -56px;
 }
 
@@ -36,5 +39,4 @@
 
 .page--explorer .page__body {
   display: flex;
-  flex-direction: column;
 }

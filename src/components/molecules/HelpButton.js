@@ -6,7 +6,8 @@ import HelpIcon from '@material-ui/icons/Help';
 const HelpButton = props => {
   return (
     <IconButton 
-      className="button--help" 
+      className="button--help"
+      color='secondary'
       aria-label={getLang('HELP_SCREEN_READER')} 
       {...props}
     >

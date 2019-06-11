@@ -6,7 +6,8 @@ import classNames from 'classnames';
 function Section({ 
   id, 
   children,
-  overlayContent,
+  headerContent,
+  footerContent,
   classes = {},
 }) {
   return (
@@ -15,11 +16,14 @@ function Section({
       name={id} 
       className={classNames("section", classes.root)}
     >
-      <div className="section__overlay">
-        { overlayContent }
+      <div className="section__header">
+        { headerContent }
       </div>
       <div className={classNames("section__content", classes.content)}>
         { children }
+      </div>
+      <div className="section__footer">
+        { footerContent }
       </div>
     </div>
   )
@@ -29,7 +33,8 @@ Section.propTypes = {
   id: PropTypes.string,
   type: PropTypes.string,
   children: PropTypes.node,
-  overlayContent: PropTypes.node,
+  headerContent: PropTypes.node,
+  footerContent: PropTypes.node,
   classes: PropTypes.object,
 }
 

@@ -186,6 +186,22 @@
   height: 40px;
 }
 
+.header__row--secondary .button--help {
+  position:absolute;
+  top:-4px;
+  left:0px;
+}
+
+@media(min-width: 700px) {
+  .header__row--secondary .button--help {
+    position:absolute;
+    top:-4px;
+    left:12px;
+  }
+}
+
+
+
 /**
   * Responsive Overrides
   *
@@ -193,14 +209,14 @@
 
 /** no margins on secondary header row */
 .header__row--secondary .header__content {
-  margin-left: 0;
+  margin-left: 40px;
   margin-right: 0;
 }
 
 /** boost margins on secondary header row */
 @media(min-width: 700px) {
   .header__row--secondary .header__content {
-    margin-left: 16px;
+    margin-left: 72px;
     margin-right: 16px;
   }
 }
