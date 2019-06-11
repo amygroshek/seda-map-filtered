@@ -7,6 +7,8 @@
   box-shadow: var(--shadow-inset);
   color: var(--text-secondary);
   padding: 0 8px;
+  position: relative;
+  z-index: 1000;
 }
 
 .site-footer__copyright {

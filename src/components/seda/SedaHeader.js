@@ -32,6 +32,7 @@ import SedaSearch from './SedaSearch';
 import { getLang } from '../../constants/lang';
 import SelectButton from '../atoms/SelectButton';
 import MenuButton from '../atoms/MenuButton';
+import HelpButton from '../molecules/HelpButton';
 
 const HeaderPrimary = ({metric, width, onMetricChange}) => {
   return <div className='header-tabs'>
@@ -77,11 +78,15 @@ const HeaderSecondary = ({
   text, 
   controls, 
   view, 
-
+  helpOpen,
+  onHelpClick,
   onViewChange, 
   onOptionChange
 }) => {
   return <div className="header__inner-content">
+    <HelpButton
+      onClick={() => onHelpClick(!helpOpen) }
+    />
     <SedaSearch inputProps={{
       placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
     }} />
@@ -129,10 +134,12 @@ const SedaHeader = ({
   text,
   width,
   controls,
+  helpOpen,
   onMetricChange,
   onOptionChange,
   onViewChange,
   onMenuClick,
+  onHelpClick,
   ...rest
 }) => 
   <Header
@@ -143,7 +150,7 @@ const SedaHeader = ({
       <HeaderPrimary {...{width, metric, onMetricChange }} />
     }
     secondaryContent={
-      <HeaderSecondary {...{text, controls, view, onViewChange, onOptionChange}} />
+      <HeaderSecondary {...{text, controls, view, helpOpen, onViewChange, onOptionChange, onHelpClick}} />
     }
     actionContent={
       <MenuButton onClick={onMenuClick}>
@@ -168,9 +175,10 @@ SedaHeader.propTypes = {
 }
 
 const mapStateToProps = (
-  { sections },
+  { sections, ui: { helpOpen } },
   ownProps
 ) => ({
+  helpOpen,
   view: ownProps.match.params.view,
   metric: ownProps.match.params.metric,
   ...getMapControls(
@@ -181,6 +189,10 @@ const mapStateToProps = (
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onHelpClick: (open) => dispatch({
+    type: 'TOGGLE_HELP',
+    open: open
+  }),
   onMenuClick: () => dispatch({
     type: 'TOGGLE_MENU',
     open: true

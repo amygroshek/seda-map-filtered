@@ -80,7 +80,7 @@
   border-bottom-color: #07439c;
 }
 
-.section__footer {
+.section--intro .section__footer {
   position: absolute;
   left:0;
   right:0;

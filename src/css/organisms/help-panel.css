@@ -1,0 +1,28 @@
+.help-drawer {
+  width: 240px;  
+  flex-shrink:0;
+  margin-left:-240px;
+  transition: margin-left 0.2s ease-in-out;
+  background: #fff;
+  box-shadow: var(--shadow10);
+  position:relative;
+  z-index:50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+}
+
+.help-drawer--on {
+  margin-left:0;
+}
+
+.help-drawer__paper {
+  width: 240px;
+}
+
+@media(min-width: 1200px) {
+  .help-drawer {
+
+  }
+}
