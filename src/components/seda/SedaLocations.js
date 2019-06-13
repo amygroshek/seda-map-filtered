@@ -7,11 +7,9 @@ import { getSelectedColors } from '../../modules/config';
 import { getTooltipText } from '../../style/scatterplot-style';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature, onViewportChange } from "../../actions/mapActions";
+import { onRemoveSelectedFeature, onViewportChange, onHoverFeature, updateMapSize } from "../../actions/mapActions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
-import { onHoverFeature } from "../../actions/mapActions";
 import * as _debounce from 'lodash.debounce';
-import { getMapContainerSize } from '../molecules/BaseMap';
 
 const SELECTED_COLORS = getSelectedColors();
 
@@ -119,11 +117,11 @@ const mapDispatchToProps = (dispatch) => ({
     }
   },
   onCardEntered: _debounce(
-    () => dispatch(onViewportChange(getMapContainerSize())), 
+    () => dispatch(updateMapSize()), 
     200
   ),
   onCardExited: _debounce(
-    () => dispatch(onViewportChange(getMapContainerSize())), 
+    () => dispatch(updateMapSize()), 
     200
   ),
   onShowStats: () => {

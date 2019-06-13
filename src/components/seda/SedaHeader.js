@@ -2,6 +2,8 @@
 
 import { withRouter } from 'react-router-dom';
 import React from 'react'
+import classNames from 'classnames';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -85,6 +87,7 @@ const HeaderSecondary = ({
 }) => {
   return <div className="header__inner-content">
     <HelpButton
+      className={classNames({ 'button--help-on': helpOpen })}
       onClick={() => onHelpClick(!helpOpen) }
     />
     <SedaSearch inputProps={{
@@ -124,8 +127,10 @@ HeaderSecondary.propTypes = {
   text: PropTypes.string,
   controls: PropTypes.array,
   view: PropTypes.string,
+  helpOpen: PropTypes.bool,
   onOptionChange: PropTypes.func,
   onViewChange: PropTypes.func,
+  onHelpClick: PropTypes.func,
 }
 
 const SedaHeader = ({
@@ -168,10 +173,12 @@ SedaHeader.propTypes = {
   text: PropTypes.string,
   controls: PropTypes.array,
   width: PropTypes.string,
+  helpOpen: PropTypes.bool,
   onMetricChange: PropTypes.func,
   onOptionChange: PropTypes.func,
   onViewChange: PropTypes.func,
-  onMenuClick: PropTypes.func
+  onMenuClick: PropTypes.func,
+  onHelpClick: PropTypes.func,
 }
 
 const mapStateToProps = (

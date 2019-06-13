@@ -274,3 +274,12 @@
     box-shadow: var(--shadow100);
   }
 }
+
+.header .button--help {
+  transform: translateX(0) rotate(0deg);
+  transition: transform 0.5s ease-in-out 0.1s;
+}
+
+.header .button--help-on {
+  transform: translateX(-56px) rotate(-180deg);
+}

@@ -18,11 +18,6 @@ const getContainerSize = (el) => {
   }
 }
 
-export const getMapContainerSize = () => 
-  getContainerSize(
-    document.getElementsByClassName('map')[0]
-  )
-
 /**
  * Returns an array of layer ids for layers that have the 
  * interactive property set to true

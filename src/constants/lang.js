@@ -1,3 +1,5 @@
+import { isGapDemographic } from "../modules/config";
+
 const LANG = {
 
   'NO_DATA': 'Unavailable',
@@ -38,6 +40,8 @@ const LANG = {
 
   // Help
   'HELP_SCREEN_READER': 'Help',
+
+
 
   // Metric Labels
   'LABEL_AVG': 'Average Test Scores',
@@ -230,9 +234,118 @@ const LANG = {
   'LEGEND_LOW_COH_GAP': 'trend gap decreasing',
   'LEGEND_HIGH_COH_GAP': 'trend gap increasing',
 
+  'HELP_PANEL_TITLE': 'Help',
+  'HELP_PANEL_HOW_TAB': 'How to explore',
+  'HELP_PANEL_WHAT_TAB': 'What am I seeing',
+
+  // What am I seeing conditionals
+  'HP_*_*_*_*_*': 'You are viewing a $[view] showing the relationship between $[metric] and $[secondary] for $[demographic] students in U.S. $[region].',
+  'HP_*_*_AVG_*_*': 'Community Educational Opportunity is reflected in average test scores. These scores are influenced by children\'s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. They encompass the total set of educational opportunities available in a community.',
+  'HP_*_*_GRD_*_*': 'Schools’ contributions to educational opportunity are reflected in the growth of children’s test scores while they are in school. The growth of test scores indicates how much students learn while in school. Because average test scores are influenced by many out-of-school opportunities, they reflect more than what children learn while they are in school. So growth of test scores is a better measure of school quality.',
+  'HP_*_*_COH_*_*': 'The change in test scores indicates whether educational opportunities are rising or falling in a community. For example, rates of change tell us whether this year’s third graders are doing better than last year’s third graders. They reflect both changes in school quality and changes in other family and community features that provide opportunities for children.',
+
+  // What am I seeing labels
+  'HP_MAP': 'map',
+  'HP_CHART': 'chart',
+  'HP_SPLIT': 'map and chart',
+  'HP_SES' : 'socioeconomic status',
+
+  // How to use conditionals 
+  'HOW_*_*_*_*_*': 'How to use content',
+
+
+
+
 }
 
 export default LANG
+
+
+
+const isStringMatch = (s1, s2) =>
+  s1 && s2 && (
+    s1.toUpperCase() === s2.toUpperCase() ||
+    s1 === '*' || s2 === '*'
+  )
+
+
+const isViewMatch = isStringMatch;
+const isRegionMatch = isStringMatch;
+const isMetricMatch = isStringMatch;
+const isSecondaryMatch = isStringMatch;
+
+const isDemographicMatch = (d1, d2) => (
+  (d1 === 'gap' && isGapDemographic(d2)) ||
+  (d2 === 'gap' && isGapDemographic(d1)) ||
+  (d1 === 'nongap' && !isGapDemographic(d2)) ||
+  (d2 === 'nongap' && !isGapDemographic(d1)) ||
+  isStringMatch(d1, d2)
+)
+
+/**
+ * Returns true if the provided key matches the region, 
+ * demographic, and type passed
+ */
+const isKeyMatch = (
+  key, 
+  { 
+    region, 
+    demographic, 
+    view, 
+    metric, 
+    secondary = 'ses'
+  }
+) => {
+  if (key === '*') { return true; }
+  const [
+    contextId,
+    viewId,
+    regionId,
+    metricId,
+    secondaryId,
+    demographicId
+  ] = key.split('_');
+  return (
+    contextId &&
+    isViewMatch(view, viewId) &&
+    isRegionMatch(region, regionId) &&
+    isMetricMatch(metric, metricId) &&
+    isSecondaryMatch(secondary, secondaryId) &&
+    isDemographicMatch(demographic, demographicId)
+  )
+}
+
+/** Checks if the LANG key exists */
+const hasLangKey = (key) =>
+  LANG.hasOwnProperty(key.toUpperCase())
+
+/**
+ * Checks the LANG for any context-specific keys for
+ * the provided values.
+ */
+const populateContext = (prefix, values = {}) => {
+  return Object.keys(values).reduce((obj, key) => ({
+    ...obj,
+    [key]: hasLangKey(prefix + '_' + values[key]) ? 
+      getLang(prefix + '_' + values[key]) :
+        hasLangKey('LABEL_' + values[key]) ? 
+          getLang('LABEL_' + values[key]) :
+          values[key]
+  }), {})
+}
+
+/**
+ * Returns an array of paragraphs matching the provided context
+ * @param {string} contextPrefix the prefix used in the LANG for this context
+ * @param {object} contextValues the values for the current context
+ */
+export const getLanguageForContext = 
+  (contextPrefix, contextValues) =>
+    Object.keys(LANG)
+      .filter(k => 
+        k.startsWith(contextPrefix) && isKeyMatch(k, contextValues)
+      )
+      .map(k => getLang(k, populateContext(contextPrefix, contextValues)))
 
 /**
  * Takes a text string and injects object keys that
@@ -278,23 +391,33 @@ export const getLabel = (id) => {
   return getLang('LABEL_' + id.toUpperCase());
 }
 
-/** Split a lang string at the variables */
+/** Split a lang string at the vars formatted as $[var] */
 export const splitLang = (text) =>
   text.split(/(\$\[[a-zA-Z0-9_]*\])/)
 
-export const getLangWithComponents = (key, components) => {
-  const arr = splitLang(getLang(key));
-  return arr.map((a) => {
-    if (a && a[0] !== '$') {
-      return a
-    } else {
-      a = a.replace('$[', '')
-      a = a.replace(']', '')
-      if (components[a]) {
-        return components[a]
-      }
-      return a;
-    }
-  })
-}
 
+// TAKEN OUT JUNE 11.  Only used in intro, and probably a
+//    a better way.
+//
+// /**
+//  * Gets the language and inserts components for the
+//  * matching keys in the components object.
+//  * e.g. if the lang is "Select a $[button]" and `components`
+//  *  has { button: <Button /> }, it will return an array with
+//  *    [ "Select a ", <Button /> ]
+//  */
+// export const getLangWithComponents = (key, components) => {
+//   const arr = splitLang(getLang(key));
+//   return arr.map((a) => {
+//     if (a && a[0] !== '$') {
+//       return a
+//     } else {
+//       a = a.replace('$[', '')
+//       a = a.replace(']', '')
+//       if (components[a]) {
+//         return components[a]
+//       }
+//       return a;
+//     }
+//   })
+// }
