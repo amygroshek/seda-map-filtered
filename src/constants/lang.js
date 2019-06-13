@@ -315,9 +315,14 @@ const isKeyMatch = (
   )
 }
 
+/** Checks if the LANG key exists */
 const hasLangKey = (key) =>
-  LANG[key.toUpperCase()]
+  LANG.hasOwnProperty(key.toUpperCase())
 
+/**
+ * Checks the LANG for any context-specific keys for
+ * the provided values.
+ */
 const populateContext = (prefix, values = {}) => {
   return Object.keys(values).reduce((obj, key) => ({
     ...obj,
@@ -329,13 +334,18 @@ const populateContext = (prefix, values = {}) => {
   }), {})
 }
 
-export const getLanguageForContext = (contextPrefix, contextValues) =>
-  Object.keys(LANG)
-    .filter(k => 
-      k.startsWith(contextPrefix) && isKeyMatch(k, contextValues)
-    )
-    .map(k => getLang(k, populateContext(contextPrefix, contextValues)))
-
+/**
+ * Returns an array of paragraphs matching the provided context
+ * @param {string} contextPrefix the prefix used in the LANG for this context
+ * @param {object} contextValues the values for the current context
+ */
+export const getLanguageForContext = 
+  (contextPrefix, contextValues) =>
+    Object.keys(LANG)
+      .filter(k => 
+        k.startsWith(contextPrefix) && isKeyMatch(k, contextValues)
+      )
+      .map(k => getLang(k, populateContext(contextPrefix, contextValues)))
 
 /**
  * Takes a text string and injects object keys that
@@ -381,34 +391,33 @@ export const getLabel = (id) => {
   return getLang('LABEL_' + id.toUpperCase());
 }
 
-/** Split a lang string at the variables */
+/** Split a lang string at the vars formatted as $[var] */
 export const splitLang = (text) =>
   text.split(/(\$\[[a-zA-Z0-9_]*\])/)
 
-export const getLangWithComponents = (key, components) => {
-  const arr = splitLang(getLang(key));
-  return arr.map((a) => {
-    if (a && a[0] !== '$') {
-      return a
-    } else {
-      a = a.replace('$[', '')
-      a = a.replace(']', '')
-      if (components[a]) {
-        return components[a]
-      }
-      return a;
-    }
-  })
-}
 
-export const getHelpText = ({
-  region,
-  demographic,
-  metric,
-  highlightedState,
-  view,
-  locations,
-}) => {
-
-}
-
+// TAKEN OUT JUNE 11.  Only used in intro, and probably a
+//    a better way.
+//
+// /**
+//  * Gets the language and inserts components for the
+//  * matching keys in the components object.
+//  * e.g. if the lang is "Select a $[button]" and `components`
+//  *  has { button: <Button /> }, it will return an array with
+//  *    [ "Select a ", <Button /> ]
+//  */
+// export const getLangWithComponents = (key, components) => {
+//   const arr = splitLang(getLang(key));
+//   return arr.map((a) => {
+//     if (a && a[0] !== '$') {
+//       return a
+//     } else {
+//       a = a.replace('$[', '')
+//       a = a.replace(']', '')
+//       if (components[a]) {
+//         return components[a]
+//       }
+//       return a;
+//     }
+//   })
+// }
