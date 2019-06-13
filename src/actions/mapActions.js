@@ -6,6 +6,19 @@ import { getStateViewport } from '../constants/statesFips';
 /** ACTIONS */
 
 /**
+ * Updates the map viewport to match the size of the element
+ * corresponding to the provided class name (default: "map")
+ * @param {*} className 
+ */
+export const updateMapSize = (className = 'map') => {
+  const el = document.getElementsByClassName(className)[0]
+  const size = el ? 
+    ({ width: el.clientWidth, height: el.clientHeight }) :
+    ({ width: 400, height: 400 })
+  return onViewportChange(size)
+}
+
+/**
  * Returns an action to map school ids
  * in the feature properties to the feature ids
  * @param {*} features 
