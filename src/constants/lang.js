@@ -44,12 +44,17 @@ const LANG = {
 
 
   // Metric Labels
-  'LABEL_AVG': 'Average Test Scores',
-  'LABEL_GRD': 'Average Growth Per Year',
-  'LABEL_COH': 'Change in Test Scores',
+  'LABEL_AVG': 'average test scores',
+  'LABEL_GRD': 'growth in test scores',
+  'LABEL_COH': 'changes in test scores',
   'LABEL_SEG': 'Segregation Measure',
   'LABEL_SES': 'Socioeconomic Status',
   'LABEL_PCT': 'Percent',
+
+  'LABEL_CONCEPT_AVG': 'community educational opportunity',
+  'LABEL_CONCEPT_GRD': 'school-based educational opportunity',
+  'LABEL_CONCEPT_COH': 'community educational opportunity changes',
+
 
   // Demographic Labels
   'LABEL_ALL': 'all',
@@ -64,10 +69,11 @@ const LANG = {
   'LABEL_FRL': 'free / reduced lunch program',
 
   // Gap Labels
-  'LABEL_WB': 'white / Black Gap',
-  'LABEL_WH': 'white / Hispanic Gap',
-  'LABEL_WA': 'white / Asian Gap',
-  'LABEL_PN': 'poor / non-poor Gap',
+  'LABEL_WB': 'Differences between white and Black',
+  'LABEL_WH': 'Differences between white and Hispanic',
+  'LABEL_WA': 'Differences between white and Asian',
+  'LABEL_PN': 'Differences between poor and non-poor',
+  'LABEL_MF': 'Differences between male and female',
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
 
   // Region Labels
@@ -203,21 +209,8 @@ const LANG = {
   'MAP_DESCRIPTION_GRD_GAP': 'Growth gap description.',
   'MAP_DESCRIPTION_COH_GAP': 'Trend gap description.',
   'MAP_DESCRIPTION_SES_GAP': 'SES gap description.',
-  'MAP_CONTROL_TEXT': 'Showing $[demographic] for $[region] in $[state]',
+  'MAP_CONTROL_TEXT': '$[metric] for $[demographic] for $[region] in $[state]',
   'MAP_CONTROL_TEXT_SCHOOLS': 'Showing $[region] in $[state]',
-
-  // Socioeconomic Section
-  'SES_COND_DESCRIPTION': 'This section will show how the socioeconomic conditions compares to other areas. By default, it shows how average test scores correlate to socioeconomic status in the scatterplot. The scatterplot also allows the user to select any of the three key data metrics to see how they correlate to socioeconomic conditions.',
-  'SES_CONTROL_TEXT': 'Showing $[demographic] for $[region] in $[state]',
-
-  // Opportunity Differences Section
-  'OPP_DIFF_DESCRIPTION': 'This section will show how opportunity differs among subgroups. By default, it will show achievement compared between poor and non-poor students. The scatterplot also allows the user to select any of the three key data metrics along with a list of subgroups to compare.',
-  'OPP_DIFF_CONTROL_TEXT': 'Showing $[demographic1] vs. $[demographic2] for $[region] in $[state]',
-  'OPP_DIFF_EQUAL_LINE': 'no difference',
-
-  // Achievement Gaps Section
-  'ACH_GAPS_DESCRIPTION': 'This section will show how achievement gaps are associated with other variables like socioeconomic status or segregation. By default, it shows white / black achievement gap by white / black socioeconomic status gap. The scatterplot also allows the user to select the type of achievement gap and comparison variable.',
-  'ACH_GAPS_CONTROL_TEXT': 'Showing the $[gap] of $[metric] for $[region] in $[state]',
 
   // Map Legend (Mobile)
   'LEGEND_LOW_AVG': 'lower scores',
@@ -250,6 +243,76 @@ const LANG = {
   'HP_SPLIT': 'map and chart',
   'HP_SES' : 'socioeconomic status',
 
+
+  'WT_MAP': 'The map shows $[region] with colors representing $[metric].',
+  'WT_CHART': 'The chart shows circles for $[region] sized relative to the number of students. Both the position of the circle on the vertical axis and color show their $[metric].',
+  'WT_CHART_SES': 'Circles on the left represent an area with lower socioeconomic status where circles on the right correspond to areas with higher socioeconomic status.',
+
+
+  'WT_CONTEXT_AVG_ALL': ' ',
+  'WT_CONTEXT_GRD_ALL': ' ',
+  'WT_CONTEXT_COH_ALL': ' ',
+  'WT_CONTEXT_AVG_W': 'for white students',
+  'WT_CONTEXT_AVG_B': 'for Black students',
+  'WT_CONTEXT_AVG_H': 'for Hispanic students',
+  'WT_CONTEXT_AVG_A': 'for Asian students',
+  'WT_CONTEXT_AVG_M': 'for male students',
+  'WT_CONTEXT_AVG_F': 'for female students',
+  'WT_CONTEXT_AVG_P': 'for poor students',
+  'WT_CONTEXT_AVG_NP': 'for non-poor students',
+
+  'WT_AVG_NONGAP_HIGH': 'average test scores $[demographic] above grade level',
+  'WT_AVG_NONGAP_MID': 'average test scores $[demographic] at grade level',
+  'WT_AVG_NONGAP_LOW': 'average test scores $[demographic] below grade level',
+  'WT_GRD_NONGAP_HIGH': '$[demographic] students learn more than 1 grade level per year',
+  'WT_GRD_NONGAP_MID': '$[demographic] students learn about 1 grade level per year',
+  'WT_GRD_NONGAP_LOW': '$[demographic] students learn less than 1 grade level per year',
+  'WT_COH_NONGAP_HIGH': '$[demographic] students test scores are increasing over time',
+  'WT_COG_NONGAP_MID': '$[demographic] students test scores are not changing over time',
+  'WT_COH_NONGAP_LOW': '$[demographic] students test scores are decreasing over time',
+
+  'WT_AVG_GAP_HIGH': '$[demographic1] students\' test scores are higher than $[demographic2] students\'',
+  'WT_AVG_GAP_MID': '$[demographic1] students\' test scores are equal to $[demographic2] students\'',
+  'WT_AVG_GAP_LOW': '$[demographic1] students\' test scores are lower than $[demographic2] students\'',
+  'WT_GRD_GAP_HIGH': '$[demographic1] students\' test scores grow more each year than $[demographic2] students\'',
+  'WT_GRD_GAP_MID': '$[demographic1] students\' test scores grow the same amount as $[demographic2] students\'',
+  'WT_GRD_GAP_LOW': '$[demographic1] students\' test scores grow less each year than $[demographic2] students\'',
+  'WT_COH_GAP_HIGH': '$[demographic1] students\' test scores are improving more for $[demographic2] students over time\'',
+  'WT_COG_GAP_MID': '$[demographic1] students\' test scores are changing the same over time as $[demographic2] students\'',
+  'WT_COH_GAP_LOW': '$[demographic1] students\' test scores are improving less over time than $[demographic2] students\'',
+  'WT_NO_DATA': 'No data',
+
+  'WT_Q1': 'How are $[metric] calculated?',
+  'WT_Q1_AVG': 'The average test scores are calculated from elementary school students in grades 3 through 8 from 2009 - 2016. See the <a href="#">FAQ</a> for more details.',
+  'WT_Q1_GRD': 'The growth of test scores are calculated from the increase in test scores each year as the students progress through elementary school. See the <a href="#">FAQ</a> for more details.',
+  'WT_Q1_COH': 'The changes in test scores are calculated from the increase or decrease of test scores for a place from 2009 - 2016. See the <a href="#">FAQ</a> for more details.',
+
+  'WT_Q2': 'How does $[metric] show $[concept]',
+  'WT_Q2_AVG': 'The elementary students\' test scores are influenced by opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. They encompass the total set of educational opportunities available in a community.',
+  'WT_Q2_GRD': 'The growth of students\' test scores indicates how much students\' test scores improve over the span of one year. A larger increase in growth means schools are able to teach more in a year, meaning students attending the school have a higher school-based educational opportunity.',
+  'WT_Q2_COH': 'The change in test scores indicates whether educational opportunities are rising or falling in a community. For example, rates of change tell us whether this year’s third graders are doing better than last year’s third graders. They reflect both changes in school quality and changes in other family and community features that provide opportunities for children.',
+
+  'WT_Q3': 'What impacts the level of $[concept]?',
+  'WT_Q3_AVG': 'Higher socioeconomic status in an area is correlated with more opportunities for children to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend.',
+  'WT_Q3_GRD': 'The quality of schools\' ability to teach students.',
+  'WT_Q3_COH': 'Educational policies put in place impact the change in educational opportunity over time. (e.g. Tennessee)',
+
+  'WT_Q4': 'What does $[secondary] represent?',
+  'WT_Q4_SES': 'Socioeconomic status (SES) is a broad concept that includes such factors as educational attainment, occupation, income, wealth, and deprivation.',
+  'WT_Q4_SEG': '',
+  'WT_Q4_FRLP': '',
+
+  'WT_Q5': 'What does the difference in $[metric] between $[dem1] students and $[dem2] students show me?',
+  'WT_Q5_AVG': '',
+  'WT_Q5_GRD': '',
+  'WT_Q5_COH': '',
+  
+  'WT_Q6': 'How does $[dem1] students\' $[concept] compare to $[dem2]?',
+  'WT_Q6_AVG': '',
+  'WT_Q6_GRD': '',
+  'WT_Q6_COH': '',
+
+  
   // How to use conditionals 
   'HOW_*_*_*_*_*': 'How to use content',
 
@@ -323,13 +386,13 @@ const hasLangKey = (key) =>
  * Checks the LANG for any context-specific keys for
  * the provided values.
  */
-const populateContext = (prefix, values = {}) => {
+export const populateContext = (values = {}, prefix) => {
   return Object.keys(values).reduce((obj, key) => ({
     ...obj,
-    [key]: hasLangKey(prefix + '_' + values[key]) ? 
+    [key]: prefix && hasLangKey(prefix + '_' + values[key]) ? 
       getLang(prefix + '_' + values[key]) :
         hasLangKey('LABEL_' + values[key]) ? 
-          getLang('LABEL_' + values[key]) :
+          getLang('LABEL_' + values[key]).toLowerCase() :
           values[key]
   }), {})
 }
@@ -345,7 +408,7 @@ export const getLanguageForContext =
       .filter(k => 
         k.startsWith(contextPrefix) && isKeyMatch(k, contextValues)
       )
-      .map(k => getLang(k, populateContext(contextPrefix, contextValues)))
+      .map(k => getLang(k, populateContext(contextValues, contextPrefix)))
 
 /**
  * Takes a text string and injects object keys that

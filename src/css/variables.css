@@ -37,6 +37,8 @@
   --accent3: #34BFEF;
   --accent4: #1AE9B5;
   --divider: var(--darken2);
+  --grey1: #efefef;
+  --grey2: #dfdfdf;
 
   /** Margins and spacing */
   --grid-unit: 8px;

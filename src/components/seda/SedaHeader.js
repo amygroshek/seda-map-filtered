@@ -20,14 +20,13 @@ import withWidth from '@material-ui/core/withWidth';
 import { HEADER } from '../../constants/site';
 
 // modules
-import { getMapControls } from '../../modules/controls';
+import { HighlightedStateControl, RegionControl, DemographicAndGapControl } from './controls';
 import { updateRoute } from '../../modules/router';
 
 // components
 import Header from '../organisms/Header';
 import Logo from '../atoms/Logo';
 import ToggleButtons from '../molecules/ToggleButtons';
-import MenuSentence from '../molecules/MenuSentence';
 import HeaderTab from '../molecules/HeaderTab';
 import SedaMenu from './SedaMenu';
 import SedaSearch from './SedaSearch';
@@ -76,14 +75,40 @@ HeaderPrimary.propTypes = {
   width: PropTypes.string,
 }
 
+/**
+ * Gets the controls for the map section
+ * @param {string} metric 
+ * @param {string} demographic 
+ * @param {string} region 
+ * @param {string} highlightedState 
+ */
+export const HeaderSecondaryControls = ({ region, metric }) => {
+  return (
+    region === 'schools' ?
+      <div className="menu-sentence">
+        Showing {getLang('LABEL_' + metric)} of
+        <RegionControl /> 
+        for 
+        <HighlightedStateControl />
+      </div> :
+      <div className="menu-sentence">
+        Showing {getLang('LABEL_' + metric)} of
+        <DemographicAndGapControl />
+        for
+        <RegionControl /> 
+        in 
+        <HighlightedStateControl />
+      </div>
+  )
+}
+
 const HeaderSecondary = ({
-  text, 
-  controls, 
   view, 
+  metric,
   helpOpen,
+  region,
   onHelpClick,
   onViewChange, 
-  onOptionChange
 }) => {
   return <div className="header__inner-content">
     <HelpButton
@@ -93,11 +118,7 @@ const HeaderSecondary = ({
     <SedaSearch inputProps={{
       placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
     }} />
-    <MenuSentence
-      controls={controls}
-      text={text}
-      onChange={onOptionChange}
-    />
+    <HeaderSecondaryControls metric={metric} region={region} />
     <ToggleButtons
       items={[
         {
@@ -124,8 +145,7 @@ const HeaderSecondary = ({
 
 
 HeaderSecondary.propTypes = {
-  text: PropTypes.string,
-  controls: PropTypes.array,
+  region: PropTypes.string,
   view: PropTypes.string,
   helpOpen: PropTypes.bool,
   onOptionChange: PropTypes.func,
@@ -136,9 +156,8 @@ HeaderSecondary.propTypes = {
 const SedaHeader = ({
   metric,
   view,
-  text,
+  region,
   width,
-  controls,
   helpOpen,
   onMetricChange,
   onOptionChange,
@@ -155,7 +174,7 @@ const SedaHeader = ({
       <HeaderPrimary {...{width, metric, onMetricChange }} />
     }
     secondaryContent={
-      <HeaderSecondary {...{text, controls, view, helpOpen, onViewChange, onOptionChange, onHelpClick}} />
+      <HeaderSecondary {...{metric, region, view, helpOpen, onViewChange, onHelpClick}} />
     }
     actionContent={
       <MenuButton onClick={onMenuClick}>
@@ -188,11 +207,7 @@ const mapStateToProps = (
   helpOpen,
   view: ownProps.match.params.view,
   metric: ownProps.match.params.metric,
-  ...getMapControls(
-    ownProps.match.params.region, 
-    sections['map'].vars, 
-    ownProps.match.params.highlightedState
-  )
+  region: ownProps.match.params.region
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

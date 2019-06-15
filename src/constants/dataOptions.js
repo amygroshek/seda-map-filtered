@@ -72,24 +72,6 @@ export const SELECTED_COLORS = [
  * colors for map choropleths
  */
 export const CHOROPLETH_COLORS = [
-  // original
-  // '#37469C', 
-  // '#3561A8', 
-  // '#519DD4', 
-  // '#68C5D0', 
-  // '#A2E2D4', 
-  // '#E5F8C1', 
-  // '#F9FECC'
-
-  // blue green
-  // '#0A5099',
-  // '#367FCA',
-  // '#abd9e9',
-  // '#f7f7f7',
-  // '#bfe9ab',
-  // '#32C48A',
-  // '#098554'
-
   '#174b80',
   '#4189d2',
   '#abd9e9',
@@ -97,35 +79,9 @@ export const CHOROPLETH_COLORS = [
   '#bfe9ab',
   '#2fb57f',
   '#136e4a'
-
-  // blue / brown
-  // '#4B1C01',
-  // '#824B2A',
-  // '#CFAEA5',
-  // '#f7f7f7',
-  // '#A0C3DB',
-  // '#5A7CAE',
-  // '#000B3C',
-
-  // blue / pink
-  // '#0090ff',
-  // '#3da9fc',
-  // '#7ac2fa',
-  // '#f4f4f4',
-  // '#fa7a99',
-  // '#fc3d6c',
-  // '#ff003e',
-
-  // purple / teal
-  // '#1054a2', 
-  // '#477ab5', 
-  // '#b5c6db', 
-  // '#ececee', 
-  // '#b1d9c9', 
-  // '#3bb480', 
-  // '#00a15b'
-  
 ];
+
+export const NO_DATA_COLOR = '#ccc';
 
 /**
  * Data metrics in the SEDA data set
@@ -293,5 +249,9 @@ export const GAPS = [
   {
     id: 'pn',
     label: LANG['LABEL_PN']
+  },
+  {
+    id: 'mf',
+    label: LANG['LABEL_MF']
   }
 ]

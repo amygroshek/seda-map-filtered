@@ -150,7 +150,7 @@ export const getLayers = (region, metric, demographic) => {
     case 'districts':
       return [
         { 
-          z: 4, 
+          z: 1, 
           style: getChoroplethLayer({region, dataProp}), 
           hasFeatureId: (id) => isIdInRegion(id, region)
         },
@@ -159,7 +159,7 @@ export const getLayers = (region, metric, demographic) => {
       ]
     case 'schools':
       return [
-        { z: 49, style: getBackgroundChoroplethLayer({region, dataProp}) },
+        { z: 2, style: getBackgroundChoroplethLayer({region, dataProp}) },
         {
           z: 50, 
           style: getCircleLayer({region, dataProp}), 

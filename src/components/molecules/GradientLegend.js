@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { getGradient } from '../../modules/config';
 
 /**
  * Get the transform for the marker
@@ -14,24 +15,6 @@ const getTransform = (value = 0.5, vertical = false) => {
     `translateX(${value*100}%)`
 }
 
-const getGradient = (colors, legendRange, colorRange, vertical = false) => {
-  const legendExtent = legendRange[1] - legendRange[0]; // 6
-  const colorExtent = colorRange[1] - colorRange[0]; // 7
-  // size of the color range relative to the legend range
-  const colorRangePercent = 100 * colorExtent / legendExtent; // 116.666%
-  const steps = colors.length - 1;
-  const colorStepSize = colorRangePercent / steps; // 16.666665714285714%
-  const colorStartPercent = 100 *
-    (colorRange[0] - legendRange[0]) / 
-    (legendRange[1] - legendRange[0])
-    // 100 * -1 / 6 = -16.6666%
-  const colorStepsString = colors.map((c, i) =>  c + ' ' + 
-    (colorStartPercent + (colorStepSize * i)) + '%'
-  ).join(',')
-  return vertical ?
-    'linear-gradient(to top, ' + colorStepsString + ')' :
-    'linear-gradient(to right, ' + colorStepsString + ')';
-}
 
 
 /**
@@ -47,36 +30,35 @@ const GradientLegend = ({
   legendRange = [0, 1],
   colorRange = [0, 1],
 }) => {
-  if (!colors) { return <div />; }
   const gradientString = 
-    getGradient(colors, legendRange, colorRange, vertical)
+    getGradient({colors, legendRange, colorRange, vertical})
   return (
     <div 
       className={classNames(
-        'map-legend', 
-        { 'map-legend--vertical': vertical }
+        'gradient-legend', 
+        { 'gradient-legend--vertical': vertical }
       )}
     >
-      <div className="map-legend__start-label">
+      <div className="gradient-legend__start-label">
         {startLabel}
       </div>
       <div 
-        className="map-legend__gradient"
+        className="gradient-legend__gradient"
         style={{background: gradientString }}
       >
         <div 
           className={classNames(
-            'map-legend__marker',
-            { 'map-legend__marker--show': Boolean(markerPosition) }
+            'gradient-legend__marker',
+            { 'gradient-legend__marker--show': Boolean(markerPosition) }
           )}
           style={{
             transform: getTransform(markerPosition, vertical)
           }}
         >
-          <span className='map-legend__tick'></span>
+          <span className='gradient-legend__tick'></span>
         </div>
       </div>
-      <div className="map-legend__end-label">
+      <div className="gradient-legend__end-label">
         {endLabel}
       </div>
 

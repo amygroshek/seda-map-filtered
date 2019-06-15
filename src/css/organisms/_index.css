@@ -4,6 +4,8 @@
 @import 'card.css';
 @import "./header.css";
 @import "./dynamic-scatterplot.css";
-@import "./map-legend.css";
+@import "./gradient-legend.css";
 @import "./summary-group.css";
 @import "./tab-panel.css";
+@import "accordion.css";
+@import "visual-help.css";
