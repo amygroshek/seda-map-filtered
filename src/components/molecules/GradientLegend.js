@@ -69,7 +69,7 @@ const GradientLegend = ({
 GradientLegend.propTypes = {
   startLabel: PropTypes.string,
   endLabel: PropTypes.string,
-  colors: PropTypes.array.isRequired,
+  colors: PropTypes.array,
   vertical: PropTypes.bool,
   markerPosition: PropTypes.number,
   legendRange: PropTypes.array,

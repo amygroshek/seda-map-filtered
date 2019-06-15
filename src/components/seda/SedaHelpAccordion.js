@@ -18,7 +18,7 @@ const getQuestionIdsForContext = ({demographic}) => {
     'WT_Q4',
   ]
   if (isGap) {
-    ids.push('WT_Q5', 'WT_Q6')
+    ids.push('WT_Q5')
   }
   return ids;
 }
@@ -29,12 +29,15 @@ const getContentForContext = (qId, context) => {
     case 'WT_Q1':
     case 'WT_Q2':
     case 'WT_Q3':
-    case 'WT_Q6':
       return getLang(qId + '_' + context.metric, context)
     case 'WT_Q4':
       return getLang(qId + '_' + context.secondary, context)
     case 'WT_Q5':
-      return getLang(qId + '_' + context.metric, context)
+    case 'WT_Q6':
+      return getLang(qId + '_' + context.metric, {
+        ...context,
+        
+      })
     default:
       return qId
   }
@@ -67,7 +70,9 @@ const mapStateToProps = (
     view, 
     demographic, 
     secondary: 'ses', 
-    concept:  'concept_' + metric
+    concept:  'concept_' + metric,
+    demographic1: demographic[0],
+    demographic2: demographic[1]
   }
   
   return ({

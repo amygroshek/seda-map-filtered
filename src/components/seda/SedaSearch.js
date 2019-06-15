@@ -1,15 +1,19 @@
 import { connect } from 'react-redux';
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
-
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { onViewportChange, onRegionChange } from '../../actions/mapActions';
 import { loadLocation } from '../../actions/featuresActions';
 import { getRegionFromId } from '../../modules/config';
 import Search from '../molecules/Search';
-
+import { updateRoute } from '../../modules/router';
+import { getStateAbbrFromName } from '../../constants/statesFips';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSuggestionSelected: (hit) => {
+    const region = getRegionFromId(hit.id)
+    const state = getStateAbbrFromName(hit.state_name);
     if (hit) {
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
@@ -19,9 +23,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: ease.easeCubic
       }))
-      const region = getRegionFromId(hit.id)
+      
       if (region) {
         dispatch(onRegionChange(region))
+      }
+      if (state) {
+        updateRoute(ownProps, { highlightedState: state.toLowerCase() })
       }
       if (hit.id) {
         dispatch(loadLocation({ 
@@ -36,6 +43,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   }
 })
 
-export default connect(null, mapDispatchToProps)(Search)
+export default compose(
+  withRouter,
+  connect(null, mapDispatchToProps)
+)(Search)
 
 

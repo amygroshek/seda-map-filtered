@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
-import { getStopsForVarName } from '../modules/config.js';
+import { getStopsForVarName, getRegionFromId } from '../modules/config.js';
 
 const noDataFill = "#ccc";
 
@@ -10,24 +10,65 @@ const getFillStyle = (varName, region, colors) => {
   );
   return [ 
     "case",
+    [ '==', [ 'get', varName], 0], noDataFill,
     [ "has", varName ],
     [
       "interpolate", ["linear"],
       [ "get", varName ],
-      -9999, noDataFill,
       ...stops
     ],
     noDataFill
   ]
 }
 
+
+const getCircleOpacity = (region) =>
+  region === 'schools' ?
+    [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      2, 0,
+      3, 1
+    ] : [
+      "interpolate",
+      ["exponential", 2],
+      [ "zoom" ],
+      8, 0,
+      10, 1
+    ]
+
+const getCircleRadius = (region, offset = 0) =>
+  region === 'schools' ? [
+    "interpolate",
+    [ "linear" ],
+    [ "zoom" ],
+    2, (2 + offset),
+    4, (3 + offset),
+    14, (12 + offset)
+  ] : [
+    "interpolate",
+    [ "linear" ],
+    [ "zoom" ],
+    7, 0,
+    8, (1 + offset),
+    14, (12 + offset)
+  ]
+
+const getCircleMinZoom = (region) =>
+  region === 'schools' ? 2 : 8
+
+  
 export const getCircleHighlightLayer = ({layerId, region}) => fromJS({
   id: layerId || (region + '-circle-highlight'),
   source: 'composite',
-  'source-layer': region,
+  'source-layer': 'schools',
   type: 'circle',
-  minzoom: 2,
+  minzoom: getCircleMinZoom(region),
   interactive: false,
+  layout: {
+    'visibility': region === 'schools' ? 'visible' : 'none'
+  },
   paint: {
     'circle-color': [
       "case",
@@ -35,17 +76,9 @@ export const getCircleHighlightLayer = ({layerId, region}) => fromJS({
       '#f00',
       ["string", ["feature-state", "selected"], 'rgba(0,0,0,0)']
     ],
-    'circle-radius': [
-      "interpolate",
-      [ "linear" ],
-      [ "zoom" ],
-      2,
-      2,
-      4,
-      5,
-      14,
-      16
-    ],
+    'circle-opacity': 1,
+    'circle-radius': getCircleRadius(region),
+    'circle-stroke-opacity': 1,
     'circle-stroke-color': [
       "case",
       ["boolean", ["feature-state", "hover"], false],
@@ -68,84 +101,76 @@ export const getCircleHighlightLayer = ({layerId, region}) => fromJS({
   }
 })
 
-export const getCircleLayer = ({layerId, region, dataProp, colors}) => fromJS({
-  id: layerId || (region + '-circle'),
-  source: 'composite',
-  'source-layer': region,
-  type: 'circle',
-  minzoom: 2,
-  interactive: true,
-  paint: {
-    'circle-color': getFillStyle(dataProp, region, colors),
-    'circle-opacity': 1,
-    'circle-radius': [
-      "interpolate",
-      [ "linear" ],
-      [ "zoom" ],
-      2,
-      1,
-      4,
-      2,
-      14,
-      12
-    ],
-    'circle-stroke-color': '#fff',
-    'circle-stroke-width': [
-      "interpolate",
-      [ "linear" ],
-      [ "zoom" ],
-      4,
-      0,
-      6,
-      0.5,
-      14,
-      2
-    ]
-  }
-});
 
-export const getCircleCasingLayer = ({layerId, region}) => fromJS({
+
+export const getCircleLayer = ({
+  layerId, 
+  region, 
+  metric,
+  demographic, 
+  colors, 
+  highlightedState
+}) => {
+
+  return fromJS({
+    id: layerId || ('schools-circle'),
+    source: 'composite',
+    'source-layer': 'schools',
+    type: 'circle',
+    minzoom: getCircleMinZoom(region),
+    interactive: region === 'schools',
+    ...getHighlightedStateFilter(highlightedState),
+    paint: {
+      'circle-color': getFillStyle([demographic, metric].join('_'), 'schools', colors),
+      'circle-opacity': getCircleOpacity(region),
+      'circle-radius': getCircleRadius(region),
+      'circle-stroke-opacity': getCircleOpacity(region),
+      'circle-stroke-color': '#fff',
+      'circle-stroke-width': [
+        "interpolate",
+        [ "linear" ],
+        [ "zoom" ],
+        4,
+        0,
+        6,
+        0.5,
+        14,
+        2
+      ]
+    }
+  })
+};
+
+export const getCircleCasingLayer = ({layerId, region, highlightedState}) => fromJS({
   id: layerId || (region + '-circle-casing'),
   source: 'composite',
-  'source-layer': region,
+  'source-layer': 'schools',
   type: 'circle',
-  minzoom: 2,
+  minzoom: getCircleMinZoom(region),
   interactive: false,
+  ...getHighlightedStateFilter(highlightedState),
   paint: {
-    'circle-stroke-opacity': [
-      "interpolate",
-      [ "linear" ],
-      [ "zoom" ],
-      2,
-      0,
-      6,
-      0,
-      7,
-      0.333
-    ],
-    'circle-radius': [
-      "interpolate",
-      [ "linear" ],
-      [ "zoom" ],
-      2,
-      0,
-      4,
-      2,
-      14,
-      12
-    ],
+    'circle-stroke-opacity': getCircleOpacity(region),
+    'circle-radius': getCircleRadius(region, 1),
     'circle-color': 'transparent',
-    'circle-stroke-color': '#031232',
+    'circle-stroke-color': [
+      "interpolate",
+      [ "linear" ],
+      [ "zoom" ],
+      6, '#ccc',
+      8,
+      '#5d5d5d',
+    ],
     'circle-stroke-width': [
       "interpolate",
       [ "linear" ],
       [ "zoom" ],
-      4,
-      0,
-      6,
-      1.5,
+      8,
+      0.5,
+      10,
+      1,
       14,
-      3
+      2
     ]
   }
 });
@@ -213,39 +238,68 @@ export const getChoroplethOutlineCasing = ({layerId, region}) => fromJS({
   }
 })
 
-export const getChoroplethLayer = ({layerId, region, dataProp, colors}) => fromJS({
+const getHighlightedStateFilter = (state) =>
+  state && state !== 'us' ? 
+    { filter: [ "==", ["get", "state"], state.toUpperCase()] } : 
+    {}
+
+
+const isIdInRegion = (id, region) => {
+  if (!region || !id) { return false }
+  return getRegionFromId(id) === region
+}
+
+export const getChoroplethLayer = ({
+  layerId, 
+  region, 
+  metric,
+  demographic, 
+  colors, 
+  highlightedState
+}) => fromJS({
   id: layerId || (region + '-choropleth'),
   source: 'composite',
-  'source-layer': region,
+  'source-layer': region === 'schools' ? 'districts' : region,
   type: 'fill',
-  interactive: true,
+  interactive: region !== 'schools',
+  ...getHighlightedStateFilter(highlightedState),
   paint: {
-    'fill-color': getFillStyle(dataProp, region, colors),
-    'fill-opacity': 0.9
-  }
-});
-
-export const getBackgroundChoroplethLayer = ({layerId, region, dataProp, colors}) => fromJS({
-  id: layerId || ('districts-bg-choropleth'),
-  source: 'composite',
-  'source-layer': 'districts',
-  type: 'fill',
-  minzoom: 2,
-  interactive: false,
-  paint: {
-    'fill-color': getFillStyle(dataProp, region, colors),
-    'fill-opacity': [
+    'fill-color': getFillStyle([demographic, metric].join('_'), region, colors),
+    'fill-opacity': region === 'schools' ? [
       "interpolate",
       [ "linear" ],
       [ "zoom" ],
-      2,
-      0.1,
-      7,
-      0.666,
-      10,
-      0.8
-    ]
+      3, 0,
+      8, 0.5,
+      10, 0.666,
+
+    ] : 1
   }
 });
+
+export const getChoroplethLayers = (context) => {
+  return [
+    { 
+      z: 1, 
+      style: getChoroplethLayer(context), 
+      hasFeatureId: (id) => isIdInRegion(id, context.region)
+    },
+    { z: 50, style: getChoroplethOutline(context) },
+    { z: 50, style: getChoroplethOutlineCasing(context) }
+  ]
+}
+
+export const getCircleLayers = (context) => {
+  return [
+    {
+      z: 50, 
+      style: getCircleLayer(context), 
+      idMap: true,
+      hasFeatureId: (id) => isIdInRegion(id, context.region)
+    },
+    { z: 50, style: getCircleCasingLayer(context) },
+    { z: 50, style: getCircleHighlightLayer(context) }
+  ]
+}
 
 export const defaultMapStyle = fromJS(MAP_STYLE);

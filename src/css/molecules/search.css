@@ -3,7 +3,7 @@
 .react-autosuggest__container {
   position: relative;
   font-family: var(--body-font);
-  font-size: var(--base-font-size);
+  font-size: var(--small-font-size);
 }
 
 .react-autosuggest__input {

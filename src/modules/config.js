@@ -34,6 +34,9 @@ export const getColorForValue = () => {}
  */
 export const getRegions = () => REGIONS
 
+export const getSingularRegions = () => 
+  REGIONS.map(r => ({id: r.id, label: r.singular}))
+
 /**
  * Gets the configuration for demographics
  */

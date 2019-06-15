@@ -442,6 +442,13 @@ export const getState = (id) => {
 export const getStateAbbr = (id) => 
   getStateProp(id, 'abbr')
 
+export const getStateAbbrFromName = (name) => {
+  const stateKey = Object.keys(statesFips).find(fips => 
+    statesFips[fips].full.toLowerCase() === name.toLowerCase()
+  )
+  return stateKey ? statesFips[stateKey].abbr.toLowerCase() : 'us'
+}
+
 /**
  * Gets the state name for the provided identifier
  * @param {string} id identifier for any geography
@@ -474,7 +481,10 @@ export const getStatePropByAbbr = (abbr, prop) => {
 
 const getStateBoundingBoxByAbbr = (abbr) => {
   const fips = getStateFipsFromAbbr(abbr);
-  const state = statesFips[fips];
+
+  const state = fips ? statesFips[fips] : {
+    xmin: -125.0011, ymin: 24.9493, xmax: -66.9326, ymax: 49.5904
+  };
   return [[state.xmin, state.ymin], [state.xmax, state.ymax]]
 }
 

@@ -739,10 +739,12 @@ const getDescriptionForVarName = (varName, value) => {
  * Get the label for the provided varnames and values
  * @param {*} values 
  */
-export const getTooltipText = (values) =>
-  Object.keys(values).reduce((str, varName) => {
+export const getTooltipText = (values) => {
+  const text = Object.keys(values).reduce((str, varName) => {
     return str + getDescriptionForVarName(varName, values[varName])
   }, '')
+  return text !== '' ? text : getLang('DATA_UNAVAILABLE')
+}
 
 const getTooltip = ({ data, xVar, yVar, ...rest }) => {
   const xLabel = getLabelFromVarName(xVar);

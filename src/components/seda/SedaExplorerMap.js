@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -15,13 +15,40 @@ import MapTooltip from '../seda/SedaMapTooltip';
 import GradientLegend from '../molecules/GradientLegend';
 import BaseMap from '../molecules/BaseMap';
 
+const selectedColors = getSelectedColors();
+// const choroplethColors = getChoroplethColors();
 
 const SedaExplorerMap = ({
-  map, legend, onViewportChange, onHover, onClick
+  region, 
+  viewport, 
+  metric, 
+  demographic, 
+  highlightedState,
+  idMap,
+  selectedIds,
+  hoveredId,
+  legend, 
+  onViewportChange, 
+  onHover, 
+  onClick
 }) => {
+  const zoomLevel = viewport.zoom > 11 ? 'school' :
+    viewport.zoom > 8 ? 'district' : 'county'
+  const layers = useMemo(() => {
+    return getLayers({
+      region, metric, demographic, highlightedState, zoomLevel
+    })
+  }, [ region, metric, demographic, highlightedState, zoomLevel ])
   return (
     <BaseMap
-      {...map}
+      style={defaultMapStyle}
+      selectedColors={selectedColors}
+      attributionControl={true}
+      layers={layers}
+      viewport={viewport}
+      idMap={idMap}
+      selectedIds={selectedIds}
+      hoveredId={hoveredId}
       {...{onViewportChange, onHover, onClick}}
     >
       <GradientLegend {...legend} />
@@ -43,19 +70,17 @@ const mapStateToProps = ({
   map: { idMap, viewport },
   sections: { map: { hovered } },
 },
-{ match: { params: { region, metric, demographic, ...params } } }
+{ match: { params: { region, metric, demographic, highlightedState, ...params } } }
 ) => {
   return ({
-    map: {
-      style: defaultMapStyle,
-      layers: getLayers(region, metric, demographic),
-      selectedIds: selected[region] || [],
-      hoveredId: getHoveredId(hovered),
-      viewport: getMapViewport(viewport, params),
-      attributionControl: true,
-      selectedColors: getSelectedColors(),
-      idMap,
-    },
+    region,
+    metric, 
+    demographic,
+    highlightedState,
+    hoveredId: getHoveredId(hovered),
+    idMap,
+    selectedIds: selected[region] || [],
+    viewport: getMapViewport(viewport, params),
     legend: {
       startLabel: 'low',
       endLabel: 'high',

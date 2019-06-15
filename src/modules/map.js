@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import { DEFAULT_VIEWPORT } from '../constants/dataOptions';
-import { getChoroplethLayer, getChoroplethOutline, getCircleLayer, getBackgroundChoroplethLayer, getChoroplethOutlineCasing, getCircleHighlightLayer, getCircleCasingLayer } from '../style/map-style';
-import { getRegionFromId } from '../modules/config';
+import { getChoroplethLayers, getCircleLayers } from '../style/map-style';
 
 /**
  * Stores state of current map viewport
@@ -23,6 +22,7 @@ const viewport = (state = null, action) => {
         ...state,
         ...action.viewport
       }
+    case 'SET_STATE':
     default:
       return state;
   }
@@ -138,38 +138,9 @@ export const getMapViewport = (vp, routeParams) => {
   }
 }
 
-const isIdInRegion = (id, region) => {
-  if (!region || !id) { return false }
-  return getRegionFromId(id) === region
-}
-
-export const getLayers = (region, metric, demographic) => {
-  const dataProp = [demographic, metric].join('_');
-  switch(region) {
-    case 'counties':
-    case 'districts':
-      return [
-        { 
-          z: 1, 
-          style: getChoroplethLayer({region, dataProp}), 
-          hasFeatureId: (id) => isIdInRegion(id, region)
-        },
-        { z: 50, style: getChoroplethOutline({region}) },
-        { z: 50, style: getChoroplethOutlineCasing({region}) }
-      ]
-    case 'schools':
-      return [
-        { z: 2, style: getBackgroundChoroplethLayer({region, dataProp}) },
-        {
-          z: 50, 
-          style: getCircleLayer({region, dataProp}), 
-          idMap: true,
-          hasFeatureId: (id) => isIdInRegion(id, region)
-        },
-        { z: 50, style: getCircleCasingLayer({region}) },
-        { z: 50, style: getCircleHighlightLayer({region}) }
-      ]
-    default:
-      return []
-  }
+export const getLayers = (context) => {
+  return [
+    ...getChoroplethLayers(context),
+    ...getCircleLayers(context)
+  ]
 }

@@ -86,15 +86,15 @@ export const HeaderSecondaryControls = ({ region, metric }) => {
   return (
     region === 'schools' ?
       <div className="menu-sentence">
-        Showing {getLang('LABEL_' + metric)} of
+        Showing data by 
         <RegionControl /> 
         for 
         <HighlightedStateControl />
       </div> :
       <div className="menu-sentence">
-        Showing {getLang('LABEL_' + metric)} of
+        Showing data for 
         <DemographicAndGapControl />
-        for
+        by
         <RegionControl /> 
         in 
         <HighlightedStateControl />
@@ -116,7 +116,7 @@ const HeaderSecondary = ({
       onClick={() => onHelpClick(!helpOpen) }
     />
     <SedaSearch inputProps={{
-      placeholder: getLang('CARD_SEARCH_PLACEHOLDER')
+      placeholder: getLang('SEARCH_PLACEHOLDER')
     }} />
     <HeaderSecondaryControls metric={metric} region={region} />
     <ToggleButtons
@@ -201,7 +201,7 @@ SedaHeader.propTypes = {
 }
 
 const mapStateToProps = (
-  { sections, ui: { helpOpen } },
+  { ui: { helpOpen } },
   ownProps
 ) => ({
   helpOpen,
@@ -225,32 +225,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onViewChange: (view) => {
     const updatedView = view && view.id ? view.id : view
     updateRoute(ownProps, { view: updatedView })
-  },
-  onOptionChange: (id, option) => dispatch((dispatch) => {
-    switch(id) {
-      case 'highlight':
-        return updateRoute(ownProps, { 
-          highlightedState: option.id
-        })
-      case 'region':
-        return updateRoute(ownProps, { region: option.id })
-      case 'demographic':
-        dispatch({
-          type: 'SET_REPORT_VARS',
-          sectionId: 'map',
-          optionId: id,
-          value: option.id
-        })
-        return updateRoute(ownProps, { demographic: option.id })
-      default:
-        return dispatch({
-          type: 'SET_REPORT_VARS',
-          sectionId: 'map',
-          optionId: id,
-          value: option.id
-        })
-    }
-  }),
+  }
 })
 
 export default compose(

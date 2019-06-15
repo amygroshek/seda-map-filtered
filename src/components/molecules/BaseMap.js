@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import PropTypes from 'prop-types';
 import usePrevious from '../../hooks/usePrevious';
 
@@ -75,11 +75,14 @@ const BaseMap = ({
     if (!layer || !featureId || !mapRef.current) { return; }
     const id = layer.idMap && idMap && idMap[featureId] ? 
       idMap[featureId] : featureId
-    mapRef.current.getMap().setFeatureState({
-      source: layer.style.get('source'), 
-      sourceLayer: layer.style.get('source-layer'), 
-      id
-    }, state);
+    if (mapRef.current.getMap().isStyleLoaded()) {
+      mapRef.current.getMap().setFeatureState({
+        source: layer.style.get('source'), 
+        sourceLayer: layer.style.get('source-layer'), 
+        id
+      }, state);
+    }
+
   }
 
   // update map style layers when layers change
@@ -102,13 +105,7 @@ const BaseMap = ({
   const handleHover = ({ features, point }) => {
     const newHoveredFeature = 
       features && features.length > 0 ? features[0] : null
-    // only call `onHover` when the hovered feature changes
-    if (
-      (!newHoveredFeature && hoveredId) ||
-      (newHoveredFeature && hoveredId !== newHoveredFeature.properties.id)
-    ) {
-      onHover(newHoveredFeature, { x: point[0], y: point[1] })
-    }
+    onHover(newHoveredFeature, { x: point[0], y: point[1] })
   }
 
   // handler for feature click
@@ -163,6 +160,9 @@ const BaseMap = ({
         { ...rest }
       >
         { children }
+        <div className="map__zoom">
+          <NavigationControl onViewportChange={handleViewportChange} />
+        </div>
       </ReactMapGL>
     </div>
   )
