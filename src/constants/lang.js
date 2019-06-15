@@ -37,11 +37,10 @@ const LANG = {
   'FOOTER_EXPORT_PDF': 'PDF',
   'FOOTER_EXPORT_PPT': 'Powerpoint',
 
+  'DATA_UNAVAILABLE': 'No data available',
 
   // Help
   'HELP_SCREEN_READER': 'Help',
-
-
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',
@@ -54,7 +53,6 @@ const LANG = {
   'LABEL_CONCEPT_AVG': 'community educational opportunity',
   'LABEL_CONCEPT_GRD': 'school-based educational opportunity',
   'LABEL_CONCEPT_COH': 'community educational opportunity changes',
-
 
   // Demographic Labels
   'LABEL_ALL': 'all',
@@ -77,9 +75,12 @@ const LANG = {
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
 
   // Region Labels
-  'LABEL_COUNTIES': 'Counties',
-  'LABEL_DISTRICTS': 'School Districts',
-  'LABEL_SCHOOLS': 'Schools',
+  'LABEL_COUNTIES': 'counties',
+  'LABEL_DISTRICTS': 'school districts',
+  'LABEL_SCHOOLS': 'schools',
+  'LABEL_COUNTIES_SINGULAR': 'county',
+  'LABEL_DISTRICTS_SINGULAR': 'school district',
+  'LABEL_SCHOOLS_SINGULAR': 'school',
 
   // Explainers
   'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
@@ -131,7 +132,6 @@ const LANG = {
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
   'AXIS_NAME_SES': '',
 
-
   // Axis Labels
   'AXIS_AVG_ZERO': 'average\nperformance',
   'AXIS_AVG_LOW_SINGLE': '$[value] grade\nbehind',
@@ -169,7 +169,6 @@ const LANG = {
   'AXIS_SES_LOW': 'poorer',
   'AXIS_SES_HIGH': 'richer',
 
-
   'AXIS_SES_ZERO_GAP': 'no gap in\nsocioeconomic status',
   'AXIS_SES_LOW_GAP': '$[demographic1] richer',
   'AXIS_SES_HIGH_GAP': '$[demographic2] richer',
@@ -182,14 +181,10 @@ const LANG = {
   'AXIS_SEG_LOW_GAP': 'less',
   'AXIS_SEG_HIGH_GAP': 'more',
 
-  // Location Cards
-  'CARD_SEARCH_PLACEHOLDER': 'Search for a place',
-  'CARD_SEARCH_HELPER': 'Use the search above to add and view data for a school, district, or county. ',
-
   // Intro Section
   'INTRO_TITLE': 'Which measure would you like to explore?',
   'INTRO_DESCRIPTION': 'Using over 330 million test scores across the U.S., we have calculated $[avg], $[grd], and $[coh] to measure educational opportunity.',
-  'SEARCH_PLACEHOLDER': 'Enter a city, county, district, or school',
+  'SEARCH_PLACEHOLDER': 'Find a city, county, district, or school',
   'INTRO_CARD_TITLE_AVG': 'Educational Opportunity',
   'INTRO_CARD_DESCRIPTION_AVG': 'Explore educational opportunity within communities by comparing $[avg] to socioeconomic status and poverty measures',
   'INTRO_CARD_TITLE_GRD': 'School Performance',
@@ -197,20 +192,6 @@ const LANG = {
   'INTRO_CARD_TITLE_COH': 'Changes in Opportunity',
   'INTRO_CARD_DESCRIPTION_COH': 'Explore how opportunity is changing over time in your community by viewing the $[coh] from 2009 - 2016.',
   'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
-
-  // Map Section
-  'MAP_DESCRIPTION': 'The map and scatterplot below shows how educational opportunity is correlated with socioeconomic status.  How does your area compare?',
-  'MAP_DESCRIPTION_AVG': 'The average test scores of children in a community reveal the total set of educational opportunities they have had from birth to the time they take the tests.',
-  'MAP_DESCRIPTION_GRD': 'Growth metric description.',
-  'MAP_DESCRIPTION_COH': 'Trend metric description.',
-  'MAP_DESCRIPTION_SES': 'Socioeconomic metric description.',
-  'MAP_DESCRIPTION_SEG': 'Segregation metric description.',
-  'MAP_DESCRIPTION_AVG_GAP': 'Average test score gap description.',
-  'MAP_DESCRIPTION_GRD_GAP': 'Growth gap description.',
-  'MAP_DESCRIPTION_COH_GAP': 'Trend gap description.',
-  'MAP_DESCRIPTION_SES_GAP': 'SES gap description.',
-  'MAP_CONTROL_TEXT': '$[metric] for $[demographic] for $[region] in $[state]',
-  'MAP_CONTROL_TEXT_SCHOOLS': 'Showing $[region] in $[state]',
 
   // Map Legend (Mobile)
   'LEGEND_LOW_AVG': 'lower scores',
@@ -244,7 +225,9 @@ const LANG = {
   'HP_SES' : 'socioeconomic status',
 
 
-  'WT_MAP': 'The map shows $[region] with colors representing $[metric].',
+  'WT_MAP': 'The map shapes show $[region] with colors representing $[metric].',
+  'WT_MAP_ZOOMED': 'The dots on the map show schools with colors representing $[metric] for the school.',
+
   'WT_CHART': 'The chart shows circles for $[region] sized relative to the number of students. Both the position of the circle on the vertical axis and color show their $[metric].',
   'WT_CHART_SES': 'Circles on the left represent an area with lower socioeconomic status where circles on the right correspond to areas with higher socioeconomic status.',
 
@@ -293,7 +276,7 @@ const LANG = {
   'WT_Q2_COH': 'The change in test scores indicates whether educational opportunities are rising or falling in a community. For example, rates of change tell us whether this year’s third graders are doing better than last year’s third graders. They reflect both changes in school quality and changes in other family and community features that provide opportunities for children.',
 
   'WT_Q3': 'What impacts the level of $[concept]?',
-  'WT_Q3_AVG': 'Higher socioeconomic status in an area is correlated with more opportunities for children to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend.',
+  'WT_Q3_AVG': 'As seen in the chart view, higher socioeconomic status in an area is correlated with a higher community educational opportunity.',
   'WT_Q3_GRD': 'The quality of schools\' ability to teach students.',
   'WT_Q3_COH': 'Educational policies put in place impact the change in educational opportunity over time. (e.g. Tennessee)',
 
@@ -302,12 +285,12 @@ const LANG = {
   'WT_Q4_SEG': '',
   'WT_Q4_FRLP': '',
 
-  'WT_Q5': 'What does the difference in $[metric] between $[dem1] students and $[dem2] students show me?',
+  'WT_Q5': 'What does the difference in $[metric] between $[demographic1] students and $[demographic2] students show me?',
   'WT_Q5_AVG': '',
   'WT_Q5_GRD': '',
   'WT_Q5_COH': '',
   
-  'WT_Q6': 'How does $[dem1] students\' $[concept] compare to $[dem2]?',
+  'WT_Q6': 'How does $[demographic1] students\' $[concept] compare to $[demographic2]?',
   'WT_Q6_AVG': '',
   'WT_Q6_GRD': '',
   'WT_Q6_COH': '',

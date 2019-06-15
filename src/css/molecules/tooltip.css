@@ -13,7 +13,7 @@
   border-radius: 2px;
   pointer-events: none;
   text-align: left;
-  transition: transform 0.4s cubic-bezier(0,.5,.5,1) 0.01s;
+  transition: transform 0.4s cubic-bezier(0,1,1,1);
   transform-origin: top left;
 }
 

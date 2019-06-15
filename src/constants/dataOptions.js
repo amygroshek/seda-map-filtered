@@ -111,7 +111,7 @@ export const METRICS = [
     range: {
       'map_*_gap': [ -0.4, 0.4 ],
       '*_*_gap': [ -0.3, 0.5 ],
-      'map_schools': [ -3, 3 ],
+      'map_schools': [ 0, 2 ],
       '*_schools': [ -0.6, 2.6 ],
       'map_*_*': [ 0.5, 1.5 ],
       '*': [ 0.5, 1.5 ],
@@ -172,15 +172,18 @@ export const METRICS = [
 export const REGIONS = [
   {
     id: 'counties',
-    label: LANG['LABEL_COUNTIES']
+    label: LANG['LABEL_COUNTIES'],
+    singular: LANG['LABEL_COUNTIES_SINGULAR']
   },
   {
     id: 'districts',
-    label: LANG['LABEL_DISTRICTS']
+    label: LANG['LABEL_DISTRICTS'],
+    singular: LANG['LABEL_DISTRICTS_SINGULAR']
   },
   {
     id: 'schools',
-    label: LANG['LABEL_SCHOOLS']
+    label: LANG['LABEL_SCHOOLS'],
+    singular: LANG['LABEL_SCHOOLS_SINGULAR']
   }
 ];
 

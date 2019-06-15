@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getStateSelectOptions } from '../../constants/statesFips';
-import { getRegions, getDemographics, getGaps } from '../../modules/config';
+import { getSingularRegions, getDemographics, getGaps } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
 import { updateRoute } from '../../modules/router';
+import { navigateToStateByAbbr } from '../../actions/mapActions';
 
 export const RegionControl = compose(
   withRouter,
@@ -15,7 +16,7 @@ export const RegionControl = compose(
       id: 'region', 
       label: 'Region',
       value: region,
-      options: getRegions()
+      options: getSingularRegions()
     }),
     (dispatch, ownProps) => ({
       onChange: (id, option) => {
@@ -70,9 +71,12 @@ export const HighlightedStateControl = compose(
       ],
     }),
     (dispatch, ownProps) => ({
-      onChange: (id, option) => updateRoute(ownProps, { 
-        highlightedState: option.id
-      })
+      onChange: (id, option) => {
+        updateRoute(ownProps, { 
+          highlightedState: option.id
+        })
+        dispatch(navigateToStateByAbbr(option.id))
+      }
     })
   )
 )(InlineMenu)

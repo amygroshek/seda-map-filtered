@@ -26,8 +26,21 @@ const HelpPanelContent = (props) => {
       <div className="visual-help">
         { (context.view === 'map' || context.view === 'split') &&
         <Typography paragraph={true}>
-          {getLang('WT_MAP', populateContext(props))}
+          {getLang('WT_MAP', populateContext({
+            ...props, 
+            region: context.region === 'schools' ? 
+              'districts' : context.region 
+            }
+          ))}
         </Typography>
+        }
+        { (
+            (context.viewport && context.viewport.zoom > 9) || 
+            context.region === 'schools'
+          ) &&
+          <Typography paragraph={true}>
+            {getLang('WT_MAP_ZOOMED', populateContext(props))}
+          </Typography>
         }
         { (context.view === 'map' || context.view === 'split') &&
             <MapVisualLegend colors={colors} className={
@@ -101,14 +114,14 @@ const HelpPanelContent = (props) => {
 }
 
 const mapStateToProps = (
-  { ui: { helpOpen, helpTab } },
+  { ui: { helpOpen, helpTab }, map: { viewport } },
   { match: { params: { region, demographic, metric, view }}}
 ) => ({
   open: helpOpen,
   value: helpTab,
 
   children: <HelpPanelContent
-    {...{ tab: helpTab, region, demographic, metric, view, secondary: 'ses' }}
+    {...{ viewport, tab: helpTab, region, demographic, metric, view, secondary: 'ses' }}
   />
 })
 
