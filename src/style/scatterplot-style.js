@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getRangeFromVarName } from '../modules/config';
+import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
 import { getSizerFunction } from '../utils';
@@ -461,7 +461,7 @@ const getMapVisualMap = ({
   highlightedState,
   region
 }) => {
-  const range = getRangeFromVarName(varName, region, 'map')
+  const range = getMetricRangeFromVarName(varName, region, 'map')
   return {
     type: 'continuous',
     min: range[0],
@@ -498,7 +498,7 @@ const visualMap = (
 /** X AXIS CONFIGURATION */
 
 const getXAxis = ({ metric, demographic, region, ...rest }) => {
-  const [ min, max ] = getRangeFromVarName([demographic.id, metric.id].join('_'), region);
+  const [ min, max ] = getMetricRangeFromVarName([demographic.id, metric.id].join('_'), region);
   return {
     min,
     max,
@@ -524,7 +524,7 @@ const getXAxis = ({ metric, demographic, region, ...rest }) => {
 
 
 const getMapXAxis = ({ metric, demographic, region }) => {
-  const [ min, max ] = getRangeFromVarName([demographic.id, metric.id].join('_'), region);
+  const [ min, max ] = getMetricRangeFromVarName([demographic.id, metric.id].join('_'), region);
   return {
     min, 
     max,
@@ -594,7 +594,7 @@ const xAxis = (variant, { varName, region }) => {
 /** Y AXIS CONFIGURATION */
 
 const getYAxis = ({metric, demographic, region, ...rest}) => {
-  const [ min, max ] = getRangeFromVarName(
+  const [ min, max ] = getMetricRangeFromVarName(
     [demographic.id, metric.id].join('_'), region
   )
   return {
@@ -621,7 +621,7 @@ const getYAxis = ({metric, demographic, region, ...rest}) => {
 }
 
 const getMapYAxis = ({metric, demographic, region, ...rest}) => {
-  const [ min, max ] = getRangeFromVarName(
+  const [ min, max ] = getMetricRangeFromVarName(
     [demographic.id, metric.id].join('_'), region
   )
   return {

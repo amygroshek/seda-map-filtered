@@ -4,9 +4,9 @@ import InlineMenu from '../atoms/InlineMenu';
 import { Typography } from '@material-ui/core';
 import { splitLang } from '../../constants/lang';
 
-function MenuSentence({text, controls, onChange, ...rest}) {
+function MenuSentence({templateString, controls, onChange, ...rest}) {
   let controlIndex = 0;
-  const chunks = useMemo(() => splitLang(text)
+  const chunks = useMemo(() => splitLang(templateString)
     .filter(chunk => chunk[0] !== '$' && chunk)
     .reduce((arr, chunk, i) => {
       arr.push(
@@ -20,7 +20,7 @@ function MenuSentence({text, controls, onChange, ...rest}) {
         />
       )
       return arr;
-    }, []), [text, controls])
+    }, []), [templateString, controls])
   return (
     <Typography component="div" className="menu-sentence" {...rest}>
       { chunks.map(c => c) }
@@ -29,7 +29,7 @@ function MenuSentence({text, controls, onChange, ...rest}) {
 }
 
 MenuSentence.propTypes = {
-  text: PropTypes.string,
+  templateString: PropTypes.string,
   controls: PropTypes.arrayOf(
     PropTypes.shape(InlineMenu.propTypes)
   ),

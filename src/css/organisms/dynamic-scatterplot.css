@@ -6,6 +6,11 @@
   height:100%;
 }
 
+.dynamic-scatterplot .circle {
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s cubic-bezier(0,1,.5,1);
+}
+
 .dynamic-scatterplot__heading {
   position: absolute;
   z-index: 10;

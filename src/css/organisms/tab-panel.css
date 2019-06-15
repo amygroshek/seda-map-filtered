@@ -43,7 +43,7 @@
 
 .tab-panel__content {
   flex-grow: 1;
-  padding: 16px;
+  overflow:auto;
 }
 
 @media(min-width: 1200px) {

@@ -1,0 +1,105 @@
+.visual-help {
+  padding: 16px;
+  font-size: 13px;
+}
+
+.visual-help__preview {
+  width: 100%;
+}
+
+.visual-help__legend {
+  display: flex;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.visual-help__legend .gradient-legend {
+  min-height:1px;
+
+}
+
+.visual-help__list {
+  list-style: none;
+  margin: 0;
+  padding:0;
+}
+
+.visual-help__list-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.visual-help__list-item:last-child {
+ margin-bottom: 0;
+}
+
+.visual-help__list-item .circle {
+  min-width: 24px;
+  min-height: 24px;
+  color: var(--text-secondary);
+  margin:8px;
+  opacity: 0.85;
+  box-shadow: 0 0 0 1px var(--darken6);
+  font-family: var(--heading-font);
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.visual-help__list--chart .visual-help__list-item .circle {
+  color: transparent;
+}
+
+.visual-help__list-item .circle--dark {
+  color: #fff;
+}
+
+.visual-help__shapes {
+  transition: transform 0.5s ease-in-out 0.5s, opacity 0.5s ease-in-out 0.5s;
+  transform: scale(1);
+  transform-origin: bottom center;
+  opacity:1;
+}
+
+.visual-help__preview--schools .visual-help__shapes {
+  transform: scale(2.5);
+  opacity: 0.5;
+}
+
+.visual-help__school-dots {
+  transition: opacity 0.4s linear 0.7s;
+  opacity:0;
+  display: none;
+}
+
+.visual-help__preview--schools .visual-help__school-dots {
+  opacity:1;
+  transform: scale(1);
+  display: block;
+}
+
+.visual-help__label-dot,
+.visual-help__dot {
+  opacity: 0.9;
+}
+
+.visual-help__label-dot {
+  transition: transform 0.4s ease-in-out 0.7s;
+}
+
+.visual-help__preview--schools .visual-help__label-dot--low {
+  transform: translate(60%, -10%)
+}
+
+.visual-help__preview--schools .visual-help__label-dot--mid {
+  transform: translate(-10%, 40%)
+}
+
+.visual-help__preview--schools .visual-help__label-dot--high {
+  transform: translate(-60%, 20%)
+}
+
+.visual-help__preview--schools .visual-help__label-dot--none {
+  transform: translate(5%, -30%)
+}

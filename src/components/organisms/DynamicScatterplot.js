@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
-import { getBaseVars, getRangeFromVarName } from '../../modules/config'
+import { getBaseVars, getMetricRangeFromVarName } from '../../modules/config'
 import { getScatterplotOptions } from '../../style/scatterplot-style';
 import CircleOverlay from '../organisms/CircleOverlay';
 import { getSizerFunction } from '../../utils';
@@ -79,8 +79,8 @@ const getCircleOverlay =
       )
     }
     return {
-      xRange: getRangeFromVarName(xVar, region),
-      yRange: getRangeFromVarName(yVar, region),
+      xRange: getMetricRangeFromVarName(xVar, region),
+      yRange: getMetricRangeFromVarName(yVar, region),
       sizer: getSizerFunction(data[zVar], { range: [ 12, 52 ]}),
       circles
     }

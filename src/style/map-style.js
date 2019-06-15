@@ -240,8 +240,10 @@ export const getBackgroundChoroplethLayer = ({layerId, region, dataProp, colors}
       [ "zoom" ],
       2,
       0.1,
+      7,
+      0.666,
       10,
-      0.666
+      0.8
     ]
   }
 });

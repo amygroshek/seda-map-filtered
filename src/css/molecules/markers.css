@@ -1,15 +1,32 @@
 
 .circle {
-  width: 10px;
-  height: 10px;
-  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
   border-radius: 100%;
   background: transparent;
   border: 2px solid #fff;
-  
-  transition: transform 0.1s cubic-bezier(0,1,.5,1);
   cursor: pointer;
+  background:#ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  line-height: 1;
 }
+
+.circle--dark {
+  color: #fff;
+}
+
+.circle--mid {
+
+}
+
+.circle--low {
+  
+
+}
+
 
 .marker {
   width: 8px;

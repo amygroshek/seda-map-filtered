@@ -20,7 +20,6 @@ function InlineMenu({
   }
   return (
     <div 
-      style={{display: 'inline'}} 
       className='inline-menu'
     >
       <Hint

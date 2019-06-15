@@ -1,4 +1,4 @@
-.map-legend {
+.gradient-legend {
   position:relative;
   width: 100%;
   background: #fff;
@@ -14,13 +14,13 @@
   height: 30px;
 }
 
-.map-legend--vertical {
+.gradient-legend--vertical {
   width: 8px;
   height: auto;
   min-height: 320px;
 }
 
-.map-legend__gradient {
+.gradient-legend__gradient {
   position: absolute;
   left: 4px;
   right: 4px;
@@ -28,7 +28,7 @@
   height: 8px;
 }
 
-.map-legend--vertical .map-legend__gradient {
+.gradient-legend--vertical .gradient-legend__gradient {
   position: absolute;
   left: 0px;
   right: 0px;
@@ -38,7 +38,7 @@
   height:100%;
 }
 
-.map-legend__marker {
+.gradient-legend__marker {
   top:0;
   left:0;
   bottom: 0;
@@ -52,15 +52,15 @@
   transform: translateX(50%);
 }
 
-.map-legend__marker--show { 
+.gradient-legend__marker--show { 
   opacity:1;
 }
 
-.map-legend--vertical .map-legend__marker {
+.gradient-legend--vertical .gradient-legend__marker {
   transform: translateY(-50%);
 }
 
-.map-legend__tick {
+.gradient-legend__tick {
   position: absolute;
   background: #f00;
   border-left:4px solid #fff;
@@ -73,7 +73,7 @@
   box-sizing: content-box;
 }
 
-.map-legend--vertical .map-legend__tick {
+.gradient-legend--vertical .gradient-legend__tick {
   height: 4px;
   bottom: -2px;
   left:-6px;
@@ -85,7 +85,7 @@
 
 }
 
-.map-legend--vertical .map-legend__tick:after {
+.gradient-legend--vertical .gradient-legend__tick:after {
   content: '';
   display:block;
   width:0;
