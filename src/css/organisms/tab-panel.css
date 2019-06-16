@@ -1,7 +1,7 @@
 .tab-panel {
-  width: 240px;  
+  width: var(--help-width);  
   flex-shrink:0;
-  margin-left:-240px;
+  margin-left: calc(-1 * var(--help-width));
   transition: margin-left 0.2s ease-in-out;
   background: #fff;
   box-shadow: var(--shadow10);

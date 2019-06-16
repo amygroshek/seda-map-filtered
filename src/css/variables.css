@@ -72,6 +72,7 @@
   --help-panel-width: 320px;
   --locations-bar-height: 64px;
   --footer-height: 40px;
+  --help-width: 288px;
 
   /** Shadows */
   --shadow-inset: inset 0 1px 3px var(--darken3);

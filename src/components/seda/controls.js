@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getStateSelectOptions } from '../../constants/statesFips';
-import { getSingularRegions, getDemographics, getGaps } from '../../modules/config';
+import { getSingularRegions, getDemographics } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
 import { updateRoute } from '../../modules/router';
 import { navigateToStateByAbbr } from '../../actions/mapActions';
@@ -40,7 +40,7 @@ export const DemographicAndGapControl = compose(
       value: demographic,
       options: [
         ...getDemographics().filter(d => d.id !== 'frl'), 
-        ...getGaps()      
+        // ...getGaps()      
       ],
       formatter: (option) => option.label + (
         demographic.length === 1 || demographic === 'all' ? ' students' : ''

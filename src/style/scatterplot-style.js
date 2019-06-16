@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName } from '../modules/config';
+import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName, getDemographicLabel } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
 import { getSizerFunction } from '../utils';
@@ -689,6 +689,23 @@ const getAverageScoreDescription = (value, varName) => {
     })
 }
 
+const getSesDescription = (value, varName) => {
+  const demographicId = getDemographicIdFromVarName(varName)
+  const isGap = isGapDemographic(demographicId);
+  const amount = Math.round(value*100)/100
+  return isGap ?
+    getLang('VALUE_SES_GAP', {
+      amount,
+      gap: getGapLabel(demographicId)
+    })
+    :
+    getLang('VALUE_SES', {
+      amount: Math.abs(amount),
+      aboveBelow: amount > 0 ? 'above' : 'below',
+      demographic: getDemographicLabel(demographicId)
+    })
+}
+
 const getGrowthDescription = (value, varName) => {
   const demographicId = getDemographicIdFromVarName(varName)
   const isGap = isGapDemographic(demographicId);
@@ -730,6 +747,8 @@ const getDescriptionForVarName = (varName, value) => {
       return getGrowthDescription(value, varName)
     case 'coh':
       return getTrendDescription(value, varName)
+    case 'ses':
+      return getSesDescription(value, varName)
     default:
       return ''
   }
@@ -784,7 +803,7 @@ const getMapTooltip = ({data, xVar, yVar}) => getTooltip({
     return `
       <div class="tooltip__title">${name}, ${stateName}</div>
       <div class="tooltip__content">
-        ${getTooltipText({ [xVar]: value[0], [yVar]: value[1] })}
+        ${getTooltipText({ [yVar]: value[1], [xVar]: value[0] })}
       </div>
     `
   }

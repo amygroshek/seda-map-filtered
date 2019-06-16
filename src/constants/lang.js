@@ -6,12 +6,12 @@ const LANG = {
 
   // Header
   'LOGO_ALT_TEXT': 'Educational Opportunity Project',
-  'TAB_CONCEPT_AVG': 'Educational Opportunity',
-  'TAB_METRIC_AVG': 'shown by average test scores',
-  'TAB_CONCEPT_GRD': 'School Performance',
-  'TAB_METRIC_GRD': 'shown by growth in test scores',
-  'TAB_CONCEPT_COH': 'Changes in Opportunity',
-  'TAB_METRIC_COH': 'shown by changes in test scores',
+  'TAB_CONCEPT_AVG': 'Average Test Scores',
+  'TAB_METRIC_AVG': 'show community educational opportunity',
+  'TAB_CONCEPT_GRD': 'Growth of Test Scores Per Year',
+  'TAB_METRIC_GRD': 'show school-based opportunity',
+  'TAB_CONCEPT_COH': 'Changes in Test Scores Over Time',
+  'TAB_METRIC_COH': 'show changes in educational opportunity',
 
   // Menu
   'MENU_HOME': 'Home',
@@ -49,6 +49,11 @@ const LANG = {
   'LABEL_SEG': 'Segregation Measure',
   'LABEL_SES': 'Socioeconomic Status',
   'LABEL_PCT': 'Percent',
+
+  'LABEL_SHORT_AVG': 'AVG:',
+  'LABEL_SHORT_GRD': 'GROWTH:',
+  'LABEL_SHORT_COH': 'CHANGE:',
+  'LABEL_SHORT_SES': 'SES:',
 
   'LABEL_CONCEPT_AVG': 'community educational opportunity',
   'LABEL_CONCEPT_GRD': 'school-based educational opportunity',
@@ -90,10 +95,10 @@ const LANG = {
   'EXPLAINER_SEG': '',
 
   // Description of metric value for location
-  'VALUE_AVG': 'Students score $[amount] grade levels $[aboveBehind] average.',
-  'VALUE_GRD': 'Students grow $[amount] grade levels each year.',
-  'VALUE_COH': 'Test scores $[risingFalling] $[amount] grade levels over time.',
-  'VALUE_SES': '',
+  'VALUE_AVG': 'Students score $[amount] grade levels $[aboveBehind] average. ',
+  'VALUE_GRD': 'Test scores grow $[amount] grade levels each year. ',
+  'VALUE_COH': 'Test scores $[risingFalling] $[amount] grade levels over time. ',
+  'VALUE_SES': 'Socioeconomic status is $[aboveBelow] national average.',
   'VALUE_SEG': '',
 
   // Description of gap value for location
@@ -225,34 +230,38 @@ const LANG = {
   'HP_SES' : 'socioeconomic status',
 
 
-  'WT_MAP': 'The map shapes show $[region] with colors representing $[metric].',
+  'WT_MAP': 'The map shapes show $[region] with colors representing $[metric] for $[demographic] students.',
   'WT_MAP_ZOOMED': 'The dots on the map show schools with colors representing $[metric] for the school.',
 
   'WT_CHART': 'The chart shows circles for $[region] sized relative to the number of students. Both the position of the circle on the vertical axis and color show their $[metric].',
   'WT_CHART_SES': 'Circles on the left represent an area with lower socioeconomic status where circles on the right correspond to areas with higher socioeconomic status.',
 
+  'WT_CONTEXT_W': 'For white students',
+  'WT_CONTEXT_B': 'For Black students',
+  'WT_CONTEXT_H': 'For Hispanic students',
+  'WT_CONTEXT_A': 'For Asian students',
+  'WT_CONTEXT_M': 'For male students',
+  'WT_CONTEXT_F': 'For female students',
+  'WT_CONTEXT_P': 'For poor students',
+  'WT_CONTEXT_NP': 'For non-poor students',
 
-  'WT_CONTEXT_AVG_ALL': ' ',
-  'WT_CONTEXT_GRD_ALL': ' ',
-  'WT_CONTEXT_COH_ALL': ' ',
-  'WT_CONTEXT_AVG_W': 'for white students',
-  'WT_CONTEXT_AVG_B': 'for Black students',
-  'WT_CONTEXT_AVG_H': 'for Hispanic students',
-  'WT_CONTEXT_AVG_A': 'for Asian students',
-  'WT_CONTEXT_AVG_M': 'for male students',
-  'WT_CONTEXT_AVG_F': 'for female students',
-  'WT_CONTEXT_AVG_P': 'for poor students',
-  'WT_CONTEXT_AVG_NP': 'for non-poor students',
+  'WT_AVG_NONGAP_HIGH_CONCEPT': 'High Community Educational Opportunity',
+  'WT_AVG_NONGAP_LOW_CONCEPT': 'Low Community Educational Opportunity',
+  'WT_GRD_NONGAP_HIGH_CONCEPT': 'High School-based Opportunity',
+  'WT_GRD_NONGAP_LOW_CONCEPT': 'Low School-based Opportunity',
+  'WT_COH_NONGAP_HIGH_CONCEPT': 'High Community Opportunity Growth',
+  'WT_COH_NONGAP_LOW_CONCEPT': 'Low Community Opportunity Growth',
 
-  'WT_AVG_NONGAP_HIGH': 'average test scores $[demographic] above grade level',
-  'WT_AVG_NONGAP_MID': 'average test scores $[demographic] at grade level',
-  'WT_AVG_NONGAP_LOW': 'average test scores $[demographic] below grade level',
-  'WT_GRD_NONGAP_HIGH': '$[demographic] students learn more than 1 grade level per year',
-  'WT_GRD_NONGAP_MID': '$[demographic] students learn about 1 grade level per year',
-  'WT_GRD_NONGAP_LOW': '$[demographic] students learn less than 1 grade level per year',
-  'WT_COH_NONGAP_HIGH': '$[demographic] students test scores are increasing over time',
-  'WT_COG_NONGAP_MID': '$[demographic] students test scores are not changing over time',
-  'WT_COH_NONGAP_LOW': '$[demographic] students test scores are decreasing over time',
+
+  'WT_AVG_NONGAP_HIGH': 'average scores above grade level',
+  'WT_AVG_NONGAP_MID': 'average test scores at grade level',
+  'WT_AVG_NONGAP_LOW': 'average scores below grade level',
+  'WT_GRD_NONGAP_HIGH': 'students learn more than 1 grade level per year',
+  'WT_GRD_NONGAP_MID': 'students learn 1 grade level per year',
+  'WT_GRD_NONGAP_LOW': 'students learn less than 1 grade level per year',
+  'WT_COH_NONGAP_HIGH': 'test scores are improving over time',
+  'WT_COH_NONGAP_MID': 'test scores are not changing over time',
+  'WT_COH_NONGAP_LOW': 'test scores are decreasing over time',
 
   'WT_AVG_GAP_HIGH': '$[demographic1] students\' test scores are higher than $[demographic2] students\'',
   'WT_AVG_GAP_MID': '$[demographic1] students\' test scores are equal to $[demographic2] students\'',

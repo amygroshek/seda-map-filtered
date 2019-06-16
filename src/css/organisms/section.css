@@ -138,5 +138,5 @@
 }
 
 .section--explorer-help .section__footer {
-  max-width: calc(100vw - 240px);
+  max-width: calc(100vw - var(--help-width));
 }

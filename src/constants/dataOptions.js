@@ -98,8 +98,8 @@ export const METRICS = [
       'map_schools': [ -5, 5 ],
       '*_*_gap': [ -7, 0 ],
       '*_counties': [ -4, 3 ],
-      '*_districts': [ -3.5, 3.5 ],
-      '*_schools': [ -5, 5 ],
+      '*_districts': [ -4.5, 4.5 ],
+      '*_schools': [ -8, 8 ],
     },
     map: true,
     scatterplot: true,
@@ -114,7 +114,7 @@ export const METRICS = [
       'map_schools': [ 0, 2 ],
       '*_schools': [ -0.6, 2.6 ],
       'map_*_*': [ 0.5, 1.5 ],
-      '*': [ 0.5, 1.5 ],
+      '*': [ 0.3, 1.7 ],
     },
     map: true,
     scatterplot: true,
@@ -139,8 +139,8 @@ export const METRICS = [
     map: false,
     scatterplot: true,
     range: {
-      '*_*_b': [ -14, 5 ],
-      '*_*_h': [ -16, 5 ],
+      '*_*_b': [ -11, 5 ],
+      '*_*_h': [ -13, 5 ],
       '*_*_wb': [ -4, 14 ],
       '*_*_wh': [ -5, 16 ],
       '*': [ -6, 4 ],
@@ -207,26 +207,26 @@ export const DEMOGRAPHICS = [
     id: 'h',
     label: LANG['LABEL_H']
   },
-  {
-    id: 'a',
-    label: LANG['LABEL_A']
-  },
-  {
-    id: 'm',
-    label: LANG['LABEL_M']
-  },
-  {
-    id: 'f',
-    label: LANG['LABEL_F']
-  },
-  {
-    id: 'p',
-    label: LANG['LABEL_P']
-  },
-  {
-    id: 'np',
-    label: LANG['LABEL_NP']
-  },
+  // {
+  //   id: 'a',
+  //   label: LANG['LABEL_A']
+  // },
+  // {
+  //   id: 'm',
+  //   label: LANG['LABEL_M']
+  // },
+  // {
+  //   id: 'f',
+  //   label: LANG['LABEL_F']
+  // },
+  // {
+  //   id: 'p',
+  //   label: LANG['LABEL_P']
+  // },
+  // {
+  //   id: 'np',
+  //   label: LANG['LABEL_NP']
+  // },
   {
     id: 'frl',
     'label': LANG['LABEL_FRL']
