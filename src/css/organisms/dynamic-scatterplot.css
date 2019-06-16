@@ -58,35 +58,6 @@
   box-shadow: 0 0 0 2px #f00;
 }
 
-.dynamic-scatterplot .circle-overlay__circle:nth-child(1) .circle {
-  background: #a329cc;
-  z-index:4;
-}
-.dynamic-scatterplot .circle-overlay__circle:nth-child(2) .circle {
-  background: #171ae6;
-  z-index:5;
-}
-.dynamic-scatterplot .circle-overlay__circle:nth-child(3) .circle {
-  background: #2967cc;
-  z-index:6;
-}
-.dynamic-scatterplot .circle-overlay__circle:nth-child(4) .circle {
-  background: #00e2e6;
-  z-index:7;
-}
-.dynamic-scatterplot .circle-overlay__circle:nth-child(5) .circle {
-  background: #3dcc82;
-  z-index:8;
-}
-.dynamic-scatterplot .circle-overlay__circle:nth-child(6) .circle {
-  background: #fbff00;
-  z-index:8;
-}
-.dynamic-scatterplot .circle-overlay__circle:nth-child(7) .circle {
-  background: #ff9233;
-  z-index:8;
-}
-
 @keyframes heartBeat {
   0% {
     transform: translate(-50%, -50%) scale(1);

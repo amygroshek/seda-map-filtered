@@ -50,9 +50,9 @@ const LANG = {
   'LABEL_SES': 'Socioeconomic Status',
   'LABEL_PCT': 'Percent',
 
-  'LABEL_SHORT_AVG': 'AVG:',
-  'LABEL_SHORT_GRD': 'GROWTH:',
-  'LABEL_SHORT_COH': 'CHANGE:',
+  'LABEL_SHORT_AVG': 'Scores:',
+  'LABEL_SHORT_GRD': 'Growth:',
+  'LABEL_SHORT_COH': 'Change:',
   'LABEL_SHORT_SES': 'SES:',
 
   'LABEL_CONCEPT_AVG': 'community educational opportunity',
@@ -199,12 +199,12 @@ const LANG = {
   'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
 
   // Map Legend (Mobile)
-  'LEGEND_LOW_AVG': 'lower scores',
-  'LEGEND_HIGH_AVG': 'higher scores',
-  'LEGEND_LOW_GRD': 'less growth',
-  'LEGEND_HIGH_GRD': 'more growth',
-  'LEGEND_LOW_COH': 'scores dropping',
-  'LEGEND_HIGH_COH': 'scores improving',
+  'LEGEND_LOW_AVG': '◀ below grade level',
+  'LEGEND_HIGH_AVG': 'above grade level ▶',
+  'LEGEND_LOW_GRD': '◀ growth below 1 grade',
+  'LEGEND_HIGH_GRD': 'growth above 1 grade ▶',
+  'LEGEND_LOW_COH': '◀ scores dropping',
+  'LEGEND_HIGH_COH': 'scores improving ▶',
 
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',

@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { getSelectedColors } from '../../modules/config';
+
+const colors = getSelectedColors();
 
 /**
  * Returns a percent based on where the value falls 
@@ -40,6 +43,7 @@ const CircleOverlay = ({
               )
             }
             style={{
+              
               transform: 'translate(' +
                 getPercentOfRange(c.x, xRange) + '%,' +
                 (100 - getPercentOfRange(c.y, yRange)) + '%)'
@@ -48,6 +52,7 @@ const CircleOverlay = ({
             <div 
               className="circle"
               style={{
+                background: colors[i%colors.length],
                 width: sizer(c.z) + 'px',
                 height: sizer(c.z) + 'px',
               }}

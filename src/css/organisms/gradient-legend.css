@@ -2,16 +2,35 @@
   position:relative;
   width: 100%;
   background: #fff;
-  display: flex;
   padding: 4px;
   font-size: var(--micro-font-size);
-  align-items: flex-start;
-  justify-content: space-between;
-  text-transform: uppercase;
   font-weight: 900;
   color: #777;
   line-height: 1;
-  height: 30px;
+  height: 48px;
+}
+
+.gradient-legend__labels {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-transform: uppercase;
+}
+
+.gradient-legend__values {
+  display: none;
+  margin-top: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.map .gradient-legend__values { display :flex; }
+
+.gradient-legend__label {
+  font-family: var(--alt-font);
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0.5px;
 }
 
 .gradient-legend--vertical {
@@ -24,7 +43,7 @@
   position: absolute;
   left: 4px;
   right: 4px;
-  bottom: 4px;
+  bottom: 20px;
   height: 8px;
 }
 
