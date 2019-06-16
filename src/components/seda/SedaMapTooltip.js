@@ -21,6 +21,8 @@ const getFeatureTitle = (feature) => {
   return null;
 }
 
+// TODO: Performance enhancement by using useMemo for
+// get tooltip text
 const mapStateToProps = ({ 
   map: { coords, viewport },
   sections: { map: { hovered } }
@@ -35,7 +37,8 @@ const mapStateToProps = ({
     title: getFeatureTitle(hovered),
     content: hovered && hovered.properties &&
       getTooltipText({
-        [varName]: hovered.properties[varName]
+        [varName]: hovered.properties[varName],
+        [demographic+'_ses']: hovered.properties[demographic+'_ses']
       }),
     above: viewport && viewport.height && 
       coords && coords.y > (viewport.height / 1.25),

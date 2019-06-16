@@ -13,6 +13,14 @@
   margin-bottom: 16px;
 }
 
+.visual-help__legend-concept {
+  font-size: 12px;
+  font-family: var(--alt-font);
+  color: var(--text-secondary);
+  display: block;
+  text-transform: uppercase;
+}
+
 .visual-help__legend .gradient-legend {
   min-height:1px;
 

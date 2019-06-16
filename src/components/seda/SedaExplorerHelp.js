@@ -58,14 +58,25 @@ const HelpPanelContent = (props) => {
                 className="circle circle--dark"
                 style={{background: colors[6]}}
               >1</span>
-              <span>
-                {
-                  getLang(
-                    'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH', 
-                    populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
-                  )
-                }
-              </span>
+              <div>
+                <span className="visual-help__legend-concept">
+                  {
+                    getLang(
+                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH_CONCEPT', 
+                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
+                    )
+                  }
+                </span>
+                <span>
+                  {
+                    getLang(
+                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH', 
+                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
+                    )
+                  }
+                </span>
+              </div>
+              
             </li>
             <li className="visual-help__list-item">
               <span 
@@ -86,14 +97,25 @@ const HelpPanelContent = (props) => {
                 className="circle circle--dark"
                 style={{background: colors[0]}}
               >3</span>
-              <span>
-              {
-                getLang(
-                  'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW', 
-                  populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
-                )
-              }
-              </span>
+              <div>
+                <span className="visual-help__legend-concept">
+                  {
+                    getLang(
+                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW_CONCEPT', 
+                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
+                    )
+                  }
+                </span>
+                <span>
+                  {
+                    getLang(
+                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW', 
+                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
+                    )
+                  }
+                </span>
+              </div>
+              
             </li>
           </ul>
         </div>
