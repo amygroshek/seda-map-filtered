@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
         longitude: parseFloat(hit.lon),
-        zoom: hit.id ? hit.id.length : 10,
+        zoom: hit.id ? (hit.id.length + 3.5) : 10,
         transitionDuration: 3000,
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: ease.easeCubic
