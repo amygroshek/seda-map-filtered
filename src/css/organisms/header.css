@@ -270,7 +270,7 @@
     position:absolute;
     right: 16px;
     top: 56px;
-    min-width: 240px;
+    min-width: 264px;
     box-shadow: var(--shadow100);
   }
 }

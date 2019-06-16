@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getChoroplethColors, getValuePositionForMetric, getMetricRange } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
 import { getFeatureProperty } from '../../modules/features';
-import { updateViewportRoute } from '../../modules/router';
+import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { defaultMapStyle } from '../../style/map-style';
 import { getMapViewport, getLayers } from '../../modules/map';
 import { getHoveredId } from '../../modules/sections';
@@ -27,6 +27,7 @@ const SedaExplorerMap = ({
   idMap,
   selectedIds,
   hoveredId,
+  resetHighlightedState,
   legend, 
   onViewportChange, 
   onHover, 
@@ -34,6 +35,14 @@ const SedaExplorerMap = ({
 }) => {
   const zoomLevel = viewport.zoom > 11 ? 'school' :
     viewport.zoom > 8 ? 'district' : 'county'
+  useEffect(() => {
+    if (viewport.zoom < 4.5 && 
+      highlightedState !== 'us' && 
+      viewport.transitionDuration === 0
+    ) {
+      resetHighlightedState()
+    }
+  }, [viewport.zoom])
   const layers = useMemo(() => {
     return getLayers({
       region, metric, demographic, highlightedState, zoomLevel
@@ -107,6 +116,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onViewportChange: (vp) => {
     dispatch(onViewportChange(vp))
     updateViewportRoute(ownProps, vp);
+  },
+  resetHighlightedState: () => {
+    updateRoute(ownProps, { highlightedState: 'us' })
   },
   onClick: (feature) => 
     dispatch(onSelectFeature(feature, ownProps.match.params.region)),

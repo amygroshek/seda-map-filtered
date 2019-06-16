@@ -1,4 +1,10 @@
-
+.map-search__icon {
+  position: absolute;
+  top: 8px;
+  left:8px;
+  z-index:10;
+  color: var(--text-secondary);
+}
 
 .react-autosuggest__container {
   position: relative;
@@ -9,12 +15,28 @@
 .react-autosuggest__input {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px var(--padding);
+  padding: 8px 12px 8px 36px;
   font-family: sans-serif;
   font-weight: 300;
   font-size: var(--body-font-size);
   border: none;
   height: 40px;
+}
+
+.react-autosuggest__input--open + .react-autosuggest__clear {
+  opacity:1;
+}
+
+.react-autosuggest__clear {
+  opacity:0;
+  position: absolute;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  margin:0;
+  top:0;
+  right:0;
+  font-size: 18px;
 }
 
 .react-autosuggest__input--focused {
