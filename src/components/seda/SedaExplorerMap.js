@@ -14,6 +14,7 @@ import { getSelectedColors } from '../../modules/config';
 import MapTooltip from '../seda/SedaMapTooltip';
 import GradientLegend from '../molecules/GradientLegend';
 import BaseMap from '../molecules/BaseMap';
+import { getLang } from '../../constants/lang';
 
 const selectedColors = getSelectedColors();
 // const choroplethColors = getChoroplethColors();
@@ -91,8 +92,8 @@ const mapStateToProps = ({
     selectedIds: selected[region] || [],
     viewport: getMapViewport(viewport, params),
     legend: {
-      startLabel: 'low',
-      endLabel: 'high',
+      startLabel: getLang('LEGEND_LOW_'+metric),
+      endLabel: getLang('LEGEND_HIGH_'+metric),
       colors: getChoroplethColors(),
       colorRange: getMetricRange(metric, demographic, region, 'map'),
       legendRange: getMetricRange(metric, demographic, region),

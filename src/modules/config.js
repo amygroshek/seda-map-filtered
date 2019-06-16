@@ -263,10 +263,17 @@ export const getStopsForVarName = (varName, region, colors = getChoroplethColors
  * @returns {number} between 0 - 1
  */
 export const getValuePositionForMetric = (value, varName, region) => {
-  const [ min, max ] = getMetricRangeFromVarName(varName, region)
-  return Math.min(1, Math.max(0, (value - min) / (max - min)))
+  return getValuePositionInRange(
+    value,
+    getMetricRangeFromVarName(varName, region)
+  )
 }
 
+
+export const getValuePositionInRange = (value, range) => {
+  const [ min, max ] = range
+  return Math.min(1, Math.max(0, (value - min) / (max - min)))
+}
 
 /**
  * Returns true if the provided key matches the region, 
