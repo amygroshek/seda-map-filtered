@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getChoroplethColors, getValuePositionForMetric, getMetricRange } from '../../modules/config';
+import { getChoroplethColors, getValuePositionForMetric, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
 import { onHoverFeature } from '../../actions/mapActions';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
-import { getLang } from '../../constants/lang';
+import { getLang, hasLangKey } from '../../constants/lang';
 import { loadLocation } from "../../actions/featuresActions";
 
 import GradientLegend from '../molecules/GradientLegend';
@@ -48,7 +48,8 @@ const getScatterplotHeading = (region, metric, demographic, highlightedState) =>
     metric === 'grd' ? 'from grades 3 - 8' : 'from 2009 - 2016'
   return {
     title: getLang(titleKey),
-    subtitle:  state + ' ' +
+    subtitle:  getLang('LABEL_' + metric) + ', ' + 
+      state + ' ' +
       getLang('LABEL_' + region.toUpperCase()).toLowerCase() + ', ' + 
       getLang('LABEL_' + demographic.toUpperCase()) + ' students, ' +
       ' ' + grades
@@ -64,6 +65,11 @@ const SedaExplorerChart = ({
   onClick,
   onError,
 }) => {
+  const xMetricId = getMetricIdFromVarName(scatterplot.xVar)
+  const leftLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
+    getLang('LEGEND_LOW_'+xMetricId)
+  const rightLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
+    getLang('LEGEND_HIGH_'+xMetricId)
   return (
     <DynamicScatterplot {...{
       ...scatterplot,
@@ -75,6 +81,12 @@ const SedaExplorerChart = ({
     }}
     >
       { legend && <GradientLegend {...legend} /> }
+      { (leftLabel && rightLabel) &&
+        <div className="dynamic-scatterplot__x-labels">
+          <span className="label">{leftLabel}</span>
+          <span className="label">{rightLabel}</span>
+        </div>
+      }
     </DynamicScatterplot>
   )
 }

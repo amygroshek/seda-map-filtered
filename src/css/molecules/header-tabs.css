@@ -18,6 +18,7 @@
   position:relative;
   top: 2px;
   white-space:nowrap;
+
 }
 
 
@@ -44,6 +45,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   letter-spacing: 0;
+  max-width: 100%;
 }
 
 .tab-label .tab-label__title {
@@ -51,12 +53,18 @@
   line-height:1;
   font-size: var(--header-title-size);
   color: var(--tab-text);
+  overflow:hidden;
+  text-overflow: ellipsis;
+  max-width:100%;
 }
 
 .tab-label .tab-label__subtitle {
   text-transform: none;
   font-size: var(--header-subheader-size);
   color: var(--tab-text);
+  overflow:hidden;
+  text-overflow: ellipsis;
+  max-width:100%;
 }
 
 .header-tabs .tab__indicator {

@@ -133,7 +133,7 @@ const HeaderSecondary = ({
         }, 
         {
           id: 'split',
-          label: "Map + Chart",
+          label: "Chart + Map",
           icon: <VerticalSplitIcon />
         }
       ]}
@@ -201,10 +201,10 @@ SedaHeader.propTypes = {
 }
 
 const mapStateToProps = (
-  { ui: { helpOpen } },
+  { active, ui: { helpOpen } },
   ownProps
 ) => ({
-  helpOpen,
+  helpOpen: helpOpen || Boolean(active),
   view: ownProps.match.params.view,
   metric: ownProps.match.params.metric,
   region: ownProps.match.params.region

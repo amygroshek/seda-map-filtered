@@ -7,6 +7,18 @@ import features from './features';
 import sections from './sections';
 import ui from './ui';
 
+
+const active = (state = null, { type, feature }) => {
+  switch (type) {
+    case 'SET_ACTIVE_LOCATION':
+      return feature
+    case 'CLEAR_ACTIVE_LOCATION':
+      return null
+    default:
+      return state
+  }
+}
+
 export default combineReducers({ 
   map, 
   scatterplot, 
@@ -14,5 +26,6 @@ export default combineReducers({
   selected,
   features,
   sections,
-  ui
+  ui,
+  active,
 })

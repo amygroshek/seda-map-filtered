@@ -9,7 +9,6 @@ import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
 import GradientLegend from '../molecules/GradientLegend';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
-import MapVisualLegend from '../molecules/MapVisualLegend';
 
 const colors = getChoroplethColors();
 
@@ -24,7 +23,26 @@ const HelpPanelContent = (props) => {
   return (
     <div className="help-content">
       <div className="visual-help">
-        { (context.view === 'map' || context.view === 'split') &&
+
+        {/* { (context.view === 'map' || context.view === 'split') &&
+            <MapVisualLegend colors={colors} className={
+              classNames(
+                "visual-help__preview", 
+                {"visual-help__preview--schools": context.region === 'schools'}
+              )}
+            />
+        } */}
+        { (context.view === 'chart' || context.view === 'split') &&
+            <Typography paragraph={true}>
+              {getLang('WT_CHART', populateContext(context))}
+            </Typography>
+        }
+        { (context.view === 'chart' || context.view === 'split') &&
+            <Typography>
+              {getLang('WT_CHART_'+context.secondary, populateContext(context))}
+            </Typography>
+        }
+                { (context.view === 'map' || context.view === 'split') &&
         <Typography paragraph={true}>
           {getLang('WT_MAP', populateContext({
             ...props, 
@@ -41,14 +59,6 @@ const HelpPanelContent = (props) => {
           <Typography paragraph={true}>
             {getLang('WT_MAP_ZOOMED', populateContext(props))}
           </Typography>
-        }
-        { (context.view === 'map' || context.view === 'split') &&
-            <MapVisualLegend colors={colors} className={
-              classNames(
-                "visual-help__preview", 
-                {"visual-help__preview--schools": context.region === 'schools'}
-              )}
-            />
         }
         <div className="visual-help__legend">
           <GradientLegend vertical={true} />
@@ -119,16 +129,7 @@ const HelpPanelContent = (props) => {
             </li>
           </ul>
         </div>
-        { (context.view === 'chart' || context.view === 'split') &&
-            <Typography paragraph={true}>
-              {getLang('WT_CHART', populateContext(context))}
-            </Typography>
-        }
-        { (context.view === 'chart' || context.view === 'split') &&
-            <Typography>
-              {getLang('WT_CHART_'+context.secondary, populateContext(context))}
-            </Typography>
-        }
+        
       </div>
       <HelpAccordion elevation={0} />
     </div>

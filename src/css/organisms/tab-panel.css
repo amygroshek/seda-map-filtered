@@ -1,4 +1,4 @@
-.tab-panel {
+.panel {
   width: var(--help-width);  
   flex-shrink:0;
   margin-left: calc(-1 * var(--help-width));
@@ -14,16 +14,22 @@
 
 }
 
+.panel .button--panel {
+  padding: 8px 16px 8px 8px;
+  margin: 8px 0 0 0;
+  box-shadow:none;
+}
 
-.tab-panel.tab-panel--on {
+
+.panel.panel--on {
   margin-left:0;
 }
 
-.tab-panel .button--close {
+.panel .button--close {
   margin-right: -16px;
 }
 
-.tab-panel .tab-panel__toolbar {
+.panel .panel__toolbar {
   min-height: 56px;
   display: flex;
   justify-content: space-between;
@@ -32,22 +38,75 @@
 }
 
 
-.tab-panel .tab {
+.panel .tab {
   min-width: 1px;
   width:50%;
 }
 
-.tab-panel .tabs__root .MuiTabs-flexContainer {
+.panel .tabs__root .MuiTabs-flexContainer {
   height: 48px;
 }
 
-.tab-panel__content {
+.panel__content {
   flex-grow: 1;
   overflow:auto;
 }
 
 @media(min-width: 1200px) {
-  .tab-panel {
+  .panel {
 
   }
+}
+
+.panel.location-panel {
+  transition: transform 0.2s ease-in-out;
+  transform: translateX(-100%);
+  position: fixed;
+  top:104px;
+  left: 0px;
+  bottom: 40px;
+  z-index: 60;
+  width: var(--help-width);
+  margin-left: 0!important;
+
+}
+
+.location-panel.panel--on {
+  transform: translateX(0);
+}
+
+.location-summary__stats {
+  padding: 16px;
+  
+}
+.panel .tab-label .tab-label__title,
+.panel .tab-label .tab-label__subtitle {
+  color: var(--text);
+}
+
+.panel .panel__bottom-button {
+  position:absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  padding: 8px 16px;
+}
+
+.panel .panel__bottom-button .MuiButton-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.panel .panel__bottom-button .MuiButton-label span:first-child {
+  text-transform: none;
+  font-family: var(--heading-font);
+  margin-bottom: 4px;
+}
+
+.panel .accordion-item { box-shadow: none; }
+
+.panel .tab-label {
+  max-width: calc(100% - 40px);
 }

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { getChoroplethColors, getValuePositionForMetric, getMetricRange } from '../../modules/config';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
 import { getFeatureProperty } from '../../modules/features';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { defaultMapStyle } from '../../style/map-style';
@@ -15,6 +15,7 @@ import MapTooltip from '../seda/SedaMapTooltip';
 import GradientLegend from '../molecules/GradientLegend';
 import BaseMap from '../molecules/BaseMap';
 import { getLang } from '../../constants/lang';
+import { handleLocationActivation } from '../../actions/featuresActions';
 
 const selectedColors = getSelectedColors();
 // const choroplethColors = getChoroplethColors();
@@ -108,6 +109,8 @@ const mapStateToProps = ({
   })
 }
 
+
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onHover: (feature, coords) => {
     dispatch(onHoverFeature(feature, 'map'))
@@ -121,9 +124,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   resetHighlightedState: () => {
     updateRoute(ownProps, { highlightedState: 'us' })
   },
-  onClick: (feature) => 
-    dispatch(onSelectFeature(feature, ownProps.match.params.region)),
+  onClick: (feature) => dispatch(
+    handleLocationActivation(feature)
+  )
 })
+
 
 export default compose(
   withRouter,

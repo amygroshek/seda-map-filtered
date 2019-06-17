@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SummaryCardStack from '../organisms/SummaryCardStack';
-import { Button } from '@material-ui/core';
 import { getSelectedColors } from '../../modules/config';
 import { getTooltipText } from '../../style/scatterplot-style';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature, onViewportChange, onHoverFeature, updateMapSize } from "../../actions/mapActions";
+import { onRemoveSelectedFeature, onViewportChange, onHoverFeature, updateMapSize, setActiveLocation } from "../../actions/mapActions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
 import * as _debounce from 'lodash.debounce';
 
@@ -22,12 +21,6 @@ const SedaLocations = ({
     <SummaryCardStack
       {...stackProps}
     >
-      <Button 
-        color="primary"
-        variant="contained"
-        classes={{root: 'summary-group__stats-button'}} 
-        onClick={onShowStats}
-      >Show Full Stats</Button>
     </SummaryCardStack>
   )
 }
@@ -109,6 +102,7 @@ const mapDispatchToProps = (dispatch) => ({
       getLocationFromFeature(feature)
     )[0];
     if (l) {
+      dispatch(setActiveLocation(feature))
       dispatch(onViewportChange({ 
         latitude: parseFloat(l.lat), 
         longitude: parseFloat(l.lon),

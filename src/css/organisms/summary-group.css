@@ -39,6 +39,7 @@
 
 .summary-group .MuiTabs-scroller .MuiTabs-flexContainer {
   align-items: flex-start;
+  /* flex-direction: row-reverse; */
 }
 
 

@@ -58,6 +58,21 @@
   box-shadow: 0 0 0 2px #f00;
 }
 
+.dynamic-scatterplot__x-labels {
+  position: absolute;
+  bottom: 8px;
+  left: 24px;
+  right: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--small-font-size);
+  letter-spacing: 0.5px;
+  font-family: var(--alt-font);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
 @keyframes heartBeat {
   0% {
     transform: translate(-50%, -50%) scale(1);

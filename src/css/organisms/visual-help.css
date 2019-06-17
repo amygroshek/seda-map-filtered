@@ -14,7 +14,8 @@
 }
 
 .visual-help__legend-concept {
-  font-size: 12px;
+  font-size: var(--small-text-size);
+  letter-spacing: 0.5px;
   font-family: var(--alt-font);
   color: var(--text-secondary);
   display: block;
@@ -55,7 +56,7 @@
   font-weight: normal;
 }
 
-.visual-help__list--chart .visual-help__list-item .circle {
+.visual-help__list .visual-help__list-item .circle {
   color: transparent;
 }
 

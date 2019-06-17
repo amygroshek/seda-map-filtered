@@ -1,6 +1,7 @@
 import { loadFeaturesFromRoute, loadFeatureFromCoords } from "../utils/tilequery";
 import { addFeatureToRoute } from '../modules/router';
-import { addToFeatureIdMap } from "./mapActions";
+import { addToFeatureIdMap, setActiveLocation } from "./mapActions";
+import { getRegionFromId } from "../modules/config";
 
 
 /** ACTIONS */
@@ -48,6 +49,7 @@ export const loadLocation = (location) =>
     loadFeatureFromCoords(location)
       .then(feature => {
         dispatch(onLoadFeaturesSuccess([feature]))
+        dispatch(handleLocationActivation(feature))
         addFeatureToRoute(dispatch, pathname, feature)
       })
       .catch((error) => {
@@ -69,9 +71,25 @@ export const loadRouteLocations = (locations) =>
       .then(features => {
         dispatch(onLoadFeaturesSuccess(features))
         dispatch(addToFeatureIdMap(features))
+        features.forEach(f => dispatch({
+          type: 'ADD_SELECTED_FEATURE',
+          feature: f,
+          region: getRegionFromId(f.properties.id)
+        }))
       })
       .catch((error) => {
         console.error(error)
         dispatch(onLoadFeaturesError(error))
       })
+  }
+
+
+export const handleLocationActivation = (feature) => 
+  (dispatch, getState) => {
+    dispatch({
+      type: 'ADD_SELECTED_FEATURE',
+      feature: feature,
+      region: getRegionFromId(feature.properties.id)
+    })
+    dispatch(setActiveLocation(feature))
   }

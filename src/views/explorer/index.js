@@ -1,6 +1,6 @@
 
 import { withRouter } from 'react-router-dom';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,6 +12,9 @@ import Section from '../../components/templates/Section';
 import SedaExplorerMap from '../../components/seda/SedaExplorerMap';
 import SedaExplorerChart from '../../components/seda/SedaExplorerChart';
 import SedaExplorerHelp from '../../components/seda/SedaExplorerHelp';
+import FullSummaryCard from '../../components/organisms/LocationSummary';
+import SedaIntro from '../../components/seda/SedaIntro';
+import { updateRoute } from '../../modules/router';
 
 const SplitSection = ({
   leftComponent,
@@ -36,8 +39,14 @@ const ExplorerView = ({
   selected,
   helpOpen,
   view, 
-  onLayoutChange 
+  onLayoutChange,
+  active,
+  others,
+  clearActiveLocation,
+  onMetricChange,
+  ...props
 }) => {
+  const [introOn, setIntroOn] = useState(true);
   // flag potential layout change after loading locations
   useEffect(() => {
     loadRouteLocations(locations)
@@ -69,7 +78,14 @@ const ExplorerView = ({
       root: 'page--explorer', 
       main: 'page__body--explorer page__' 
     }}>
+      { introOn && <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> }
       <SedaExplorerHelp open={helpOpen} />
+      <FullSummaryCard 
+        feature={active} 
+        compareFeatures={others} 
+        onClose={clearActiveLocation}
+        metric={props.match.params.metric}
+      />
       <SplitSection
         id="map"
         classes={classes}
@@ -93,12 +109,14 @@ ExplorerView.propTypes = {
 
 const mapStateToProps = 
   (
-    { selected, ui: { helpOpen } },
+    { features,active, selected, ui: { helpOpen } },
     { 
       match: { params: { locations, region, view }}
     }
   ) => ({
     view,
+    active,
+    others: (selected[region] || []).map(id => features[id]),
     classes: {
       content: 'section__content--' + (
         view === 'map' ? 'right' :
@@ -112,12 +130,17 @@ const mapStateToProps =
     selected: selected[region] || []
   })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations)),
   onLayoutChange: (view) =>
     ['map', 'split'].indexOf(view) > -1 &&
-      dispatch(updateMapSize())
+      dispatch(updateMapSize()),
+  clearActiveLocation: () => 
+    dispatch({ type: 'CLEAR_ACTIVE_LOCATION'}),
+  onMetricChange: (metricId) => {
+      updateRoute(ownProps, { metric: metricId })
+  },
 })
 
 

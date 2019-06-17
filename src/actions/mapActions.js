@@ -93,13 +93,14 @@ export const onRegionChange = (region) =>
       region
     )
 
+
 /**
  * Thunk that adds a feature to the selected list
  * and updates the route
  * @param {object} feature  
  * @param {string} region e.g. "counties" 
  */
-export const onSelectFeature = (feature, region) => 
+export const onPinFeature = (feature, region) => 
   (dispatch, getState) => {
     dispatch({
       type: 'ADD_SELECTED_FEATURE',
@@ -108,6 +109,11 @@ export const onSelectFeature = (feature, region) =>
     });
     addFeatureToRoute(dispatch, getState().router.location.pathname, feature)
   }
+
+export const setActiveLocation = (feature) => ({
+  type: 'SET_ACTIVE_LOCATION',
+  feature
+})
 
 /**
  * Thunk that dispatches remove action and

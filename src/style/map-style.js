@@ -120,6 +120,9 @@ export const getCircleLayer = ({
     minzoom: getCircleMinZoom(region),
     interactive: region === 'schools',
     ...getHighlightedStateFilter(highlightedState),
+    layout: {
+      'visibility': demographic === 'all' ? 'visible' : 'none'
+    },
     paint: {
       'circle-color': getFillStyle([demographic, metric].join('_'), 'schools', colors),
       'circle-opacity': getCircleOpacity(region),
@@ -141,7 +144,7 @@ export const getCircleLayer = ({
   })
 };
 
-export const getCircleCasingLayer = ({layerId, region, highlightedState}) => fromJS({
+export const getCircleCasingLayer = ({layerId, demographic, region, highlightedState}) => fromJS({
   id: layerId || (region + '-circle-casing'),
   source: 'composite',
   'source-layer': 'schools',
@@ -149,6 +152,9 @@ export const getCircleCasingLayer = ({layerId, region, highlightedState}) => fro
   minzoom: getCircleMinZoom(region),
   interactive: false,
   ...getHighlightedStateFilter(highlightedState),
+  layout: {
+    'visibility': demographic === 'all' ? 'visible' : 'none'
+  },
   paint: {
     'circle-stroke-opacity': getCircleOpacity(region),
     'circle-radius': getCircleRadius(region, 1),

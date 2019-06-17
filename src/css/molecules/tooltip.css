@@ -16,6 +16,13 @@
   transition: transform 0.4s cubic-bezier(0,1,1,1);
   transform-origin: top left;
 }
+.tooltip__content::after {
+  display: block;
+  content: 'click to see more';
+  color: #ccc;
+  font-style:italic;
+  margin-top: 4px;
+}
 
 .tooltip__title {
   line-height: 1.2;
