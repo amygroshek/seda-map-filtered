@@ -79,7 +79,7 @@ const mapStateToProps = (
     items: getQuestionIdsForContext(context).map(id => ({
       id,
       heading: getLang(id, populateContext(context)),
-      content: getContentForContext(id, context)
+      htmlContent: getContentForContext(id, context)
     }))
   })
 

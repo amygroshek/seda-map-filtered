@@ -100,6 +100,16 @@ const LANG = {
   'SUMMARY_GRD_NONE': 'No school-based opportunity data for $[name].', 
   'SUMMARY_COH_NONE': 'No change in community educational opportunity data for $[name].', 
 
+  'LOCATION_COMPARE_FEATURES_TITLE': 'Compare $[region]',
+  'LOCATION_COMPARE_FEATURES': 'Select another place from the map, chart, or search to compare it with $[name].',
+  'LOCATION_EXPORT_REPORT_TITLE': 'Export a Report',
+  'LOCATION_EXPORT_REPORT': `Select one of the options below to export a PDF report or Powerpoint presentation about the educational opportunity in $[name].`,
+  'LOCATION_DIFFERENCES_TITLE': 'Opportunity Differences',
+  'LOCATION_DIFFERENCES': '',
+  'LOCATION_SIMILAR_PLACES_TITLE': 'Similar $[region]',
+  'LOCATION_SIMILAR_PLACES': `The following places are similar to $[name] based on size, socioeconomic status, and other factors:`,
+
+
   // Explainers
   'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
   'EXPLAINER_GRD': 'Shows how much students learn on average while they are in school',

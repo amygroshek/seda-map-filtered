@@ -10,7 +10,8 @@ export default function AccordionItem({
   id, 
   expanded, 
   heading, 
-  content,
+  htmlContent,
+  children,
   onChange,
   ...rest
 }) {
@@ -33,10 +34,10 @@ export default function AccordionItem({
       <ExpansionPanelDetails 
         classes={{root: 'accordion-item__content'}}
       >
-        { typeof content === 'string' && 
-          <div dangerouslySetInnerHTML={{'__html': content }} />
+        { htmlContent && 
+          <div dangerouslySetInnerHTML={{'__html': htmlContent }} />
         }
-        { typeof content !== 'string' && content }
+        { children }
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
@@ -46,9 +47,7 @@ AccordionItem.propTypes = {
   id: PropTypes.string,
   expanded: PropTypes.bool,
   heading: PropTypes.string,
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
+  htmlContent: PropTypes.string,
+  children: PropTypes.node,
   onChange: PropTypes.func,
 }

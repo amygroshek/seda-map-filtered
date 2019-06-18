@@ -12,7 +12,7 @@ import Section from '../../components/templates/Section';
 import SedaExplorerMap from '../../components/seda/SedaExplorerMap';
 import SedaExplorerChart from '../../components/seda/SedaExplorerChart';
 import SedaExplorerHelp from '../../components/seda/SedaExplorerHelp';
-import FullSummaryCard from '../../components/organisms/LocationSummary';
+import LocationDetailsPanel from '../../components/organisms/LocationDetailsPanel';
 import SedaIntro from '../../components/seda/SedaIntro';
 import { updateRoute } from '../../modules/router';
 
@@ -80,9 +80,9 @@ const ExplorerView = ({
     }}>
       { introOn && <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> }
       <SedaExplorerHelp open={helpOpen} />
-      <FullSummaryCard 
+      <LocationDetailsPanel 
         feature={active} 
-        compareFeatures={others} 
+        others={others} 
         onClose={clearActiveLocation}
         metric={props.match.params.metric}
       />

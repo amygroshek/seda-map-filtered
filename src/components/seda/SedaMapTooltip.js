@@ -1,55 +1,58 @@
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import Tooltip from '../atoms/Tooltip';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { getStateName } from '../../constants/statesFips';
 import { getTooltipText } from '../../style/scatterplot-style';
+import { getFeatureProperty } from '../../modules/features';
 
-/**
- * Gets the location name for the title of the tooltip
- * @param {*} feature 
- */
-const getFeatureTitle = (feature) => {
-  if (
-    feature && 
-    feature.properties && 
-    feature.properties.name
-  ) {
-    return feature.properties.name + ', '
-      + getStateName(feature.properties.id)
+
+const ConnectedTooltip = ({feature, xVar, yVar, ...rest}) => {
+  const featureId = getFeatureProperty(feature, 'id');
+  const title = [
+    getFeatureProperty(feature, 'name'),
+    getFeatureProperty(feature, 'state')
+  ].join(', ')
+  const values = {
+    [xVar]: getFeatureProperty(feature, xVar),
+    [yVar]: getFeatureProperty(feature, yVar)
   }
-  return null;
+  const content = useMemo(
+    () => featureId ? getTooltipText(values) : '', 
+    [featureId]
+  )
+  return (
+    <Tooltip 
+      title={title} 
+      content={content} 
+      {...rest}
+    />
+  )
 }
 
-// TODO: Performance enhancement by using useMemo for
-// get tooltip text
 const mapStateToProps = ({ 
-  map: { coords, viewport },
+  map: { coords: { x, y }, viewport },
   sections: { map: { hovered } }
 }, {
   match: { params: { metric, demographic } }
 }) => {
-  const varName = [demographic, metric].join('_')
+  // console.log('mapping', x, y)
   return {
-    x: coords && coords.x,
-    y: coords && coords.y,
-    visible: Boolean(hovered) && coords && coords.x && coords.y,
-    title: getFeatureTitle(hovered),
-    content: hovered && hovered.properties &&
-      getTooltipText({
-        [varName]: hovered.properties[varName],
-        [demographic+'_ses']: hovered.properties[demographic+'_ses']
-      }),
+    x,
+    y,
+    xVar: [demographic, 'ses'].join('_'),
+    yVar: [demographic, metric].join('_'),
+    feature: hovered,
     above: viewport && viewport.height && 
-      coords && coords.y > (viewport.height / 1.25),
+      y && y > (viewport.height / 1.25),
     left: viewport && viewport.width && 
-      coords && coords.x > (viewport.width / 1.5) 
+      x && x > (viewport.width / 1.5) 
   }
 }
 
 const MapTooltip = compose(
   withRouter,
   connect(mapStateToProps, null)
-)(Tooltip)
+)(ConnectedTooltip)
 
 export default MapTooltip

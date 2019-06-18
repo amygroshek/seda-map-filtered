@@ -1,27 +1,18 @@
 
-
-.accordion {
-
-}
-
-.accordion .accordion-item.Mui-expanded {
+.accordion-item.Mui-expanded.MuiExpansionPanel-root {
   margin: 0;
   box-shadow: 
     0 -1px 0 var(--grey2), 
     inset 0 -1px 0 var(--grey2);
 }
-
-.accordion .accordion-item__heading {
+.accordion-item__heading.MuiExpansionPanelSummary-root {
   padding: 0 12px 0 16px;
-  
 }
-
-.accordion .accordion-item__heading .MuiTypography-root {
+.accordion-item__heading .MuiTypography-root {
   font-family: var(--heading-font);
   font-size: 12.5px;
 }
-
-.accordion .accordion-item__content {
+.accordion-item__content.MuiExpansionPanelDetails-root {
   padding: 0px 16px 24px 16px;
   display: block;
 }
