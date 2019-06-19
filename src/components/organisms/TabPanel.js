@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames';
-import CloseButton from '../molecules/CloseButton';
-import { Paper, Toolbar, Typography, Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, Typography } from '@material-ui/core';
 import { getLang } from '../../constants/lang';
+import Panel from '../molecules/Panel';
 
 const TabPanel = ({ 
   open, 
@@ -14,22 +13,15 @@ const TabPanel = ({
   children
 }) => {
   return (
-    <Paper
-      square={true}
-      elevation={2}
-      classes={{
-        root: classNames(
-          'tab-panel', 
-          { 'tab-panel--on': open }
-        )
-      }}
-    >
-      <Toolbar classes={{ root: 'tab-panel__toolbar' }}>
+    <Panel
+      title={
         <Typography variant="h6">
-          { getLang('HELP_PANEL_TITLE') }
+          {getLang('HELP_PANEL_TITLE')}
         </Typography>
-        <CloseButton onClick={onClose} />
-      </Toolbar>
+      }
+      onClose={onClose}
+      open={open}
+    >
       { tabs && 
         <Tabs 
           value={value} 
@@ -55,10 +47,8 @@ const TabPanel = ({
           }
         </Tabs>
       }
-      <div className="tab-panel__content">
-        { children }
-      </div>
-    </Paper>
+      { children }
+    </Panel>
   )
 }
 

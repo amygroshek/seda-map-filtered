@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { getChoroplethColors, getValuePositionForMetric, getMetricRange } from '../../modules/config';
-import { onHoverFeature, onViewportChange, onSelectFeature, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
 import { getFeatureProperty } from '../../modules/features';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { defaultMapStyle } from '../../style/map-style';
@@ -15,9 +15,11 @@ import MapTooltip from '../seda/SedaMapTooltip';
 import GradientLegend from '../molecules/GradientLegend';
 import BaseMap from '../molecules/BaseMap';
 import { getLang } from '../../constants/lang';
+import { handleLocationActivation } from '../../actions/featuresActions';
+import * as _debounce from 'lodash.debounce';
 
 const selectedColors = getSelectedColors();
-// const choroplethColors = getChoroplethColors();
+const choroplethColors = getChoroplethColors();
 
 const SedaExplorerMap = ({
   region, 
@@ -27,9 +29,9 @@ const SedaExplorerMap = ({
   highlightedState,
   idMap,
   selectedIds,
+  hoveredPosition,
   hoveredId,
   resetHighlightedState,
-  legend, 
   onViewportChange, 
   onHover, 
   onClick
@@ -61,15 +63,30 @@ const SedaExplorerMap = ({
       hoveredId={hoveredId}
       {...{onViewportChange, onHover, onClick}}
     >
-      <GradientLegend {...legend} />
-      <MapTooltip />
+      <GradientLegend 
+        colors={choroplethColors} 
+        startLabel={getLang('LEGEND_LOW_'+metric)}
+        endLabel={getLang('LEGEND_HIGH_'+metric)}
+        colorRange={getMetricRange(metric, demographic, region, 'map')}
+        legendRange={getMetricRange(metric, demographic, region)}
+        markerPosition={hoveredPosition}
+      />
+      { hoveredId && <MapTooltip /> }
     </BaseMap>
   )
 }
 
 SedaExplorerMap.propTypes = {
-  map: PropTypes.object,
-  legend: PropTypes.object,
+  region: PropTypes.string, 
+  viewport: PropTypes.object, 
+  metric: PropTypes.string, 
+  demographic: PropTypes.string, 
+  highlightedState: PropTypes.string,
+  hoveredPosition: PropTypes.number,
+  idMap: PropTypes.object,
+  selectedIds: PropTypes.array,
+  hoveredId: PropTypes.string,
+  resetHighlightedState: PropTypes.func,
   onViewportChange: PropTypes.func,
   onHover: PropTypes.func,
   onClick: PropTypes.func,
@@ -83,35 +100,30 @@ const mapStateToProps = ({
 { match: { params: { region, metric, demographic, highlightedState, ...params } } }
 ) => {
   return ({
+    idMap,
     region,
     metric, 
     demographic,
     highlightedState,
     hoveredId: getHoveredId(hovered),
-    idMap,
+    hoveredPosition: hovered && hovered.properties ?
+      getValuePositionForMetric(
+        getFeatureProperty(hovered, demographic + '_' + metric),
+        demographic + '_' + metric,
+        region
+      ) : null,
     selectedIds: selected[region] || [],
     viewport: getMapViewport(viewport, params),
-    legend: {
-      startLabel: getLang('LEGEND_LOW_'+metric),
-      endLabel: getLang('LEGEND_HIGH_'+metric),
-      colors: getChoroplethColors(),
-      colorRange: getMetricRange(metric, demographic, region, 'map'),
-      legendRange: getMetricRange(metric, demographic, region),
-      markerPosition: hovered && hovered.properties ?
-        getValuePositionForMetric(
-          getFeatureProperty(hovered, demographic + '_' + metric),
-          demographic + '_' + metric,
-          region
-        ) : null,
-      vertical: false
-    }
   })
 }
+
+const debouncedDispatch = 
+  _debounce((dispatch, func) => dispatch(func()),10)
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onHover: (feature, coords) => {
     dispatch(onHoverFeature(feature, 'map'))
-    dispatch(onCoordsChange(coords))
+    debouncedDispatch(dispatch, () => onCoordsChange(coords))
     dispatch(addToFeatureIdMap([ feature ]))
   },
   onViewportChange: (vp) => {
@@ -121,9 +133,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   resetHighlightedState: () => {
     updateRoute(ownProps, { highlightedState: 'us' })
   },
-  onClick: (feature) => 
-    dispatch(onSelectFeature(feature, ownProps.match.params.region)),
+  onClick: (feature) => dispatch(
+    handleLocationActivation(feature)
+  )
 })
+
 
 export default compose(
   withRouter,

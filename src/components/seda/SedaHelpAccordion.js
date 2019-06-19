@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
-// import TabPanel from '../organisms/TabPanel';
+import React, { useState, useMemo } from 'react'
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { getLang, populateContext } from '../../constants/lang';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-// import { Typography } from '@material-ui/core';
 import Accordion from '../organisms/Accordion';
 import { isGapDemographic } from '../../modules/config';
 
@@ -43,11 +42,33 @@ const getContentForContext = (qId, context) => {
   }
 }
 
-const SedaHelpAccordion = ({ dispatch, match, location, history, staticContext, ...props}) => {
+const SedaHelpAccordion = ({ 
+  region, 
+  metric, 
+  view, 
+  demographic, 
+}) => {
   const [ expanded, setExpanded ] = useState([]);
+  const items = useMemo(() => {
+    const context = {
+      region, 
+      metric, 
+      view, 
+      demographic, 
+      secondary: 'ses', 
+      concept:  'concept_' + metric,
+      demographic1: demographic[0],
+      demographic2: demographic[1]
+    }
+    return getQuestionIdsForContext(context).map(id => ({
+      id,
+      heading: getLang(id, populateContext(context)),
+      htmlContent: getContentForContext(id, context)
+    }))
+  }, [])
   return (
     <Accordion
-      {...props} 
+      items={items}
       expanded={expanded}
       onToggle={(itemId) => setExpanded(
         expanded.indexOf(itemId) > -1 ?
@@ -58,33 +79,18 @@ const SedaHelpAccordion = ({ dispatch, match, location, history, staticContext, 
   )
 }
 
+SedaHelpAccordion.propTypes = {
+  region: PropTypes.string,
+  demographic: PropTypes.string,
+  metric: PropTypes.string,
+  view: PropTypes.string
+}
 
 
 const mapStateToProps = (
   state,
   { match: { params: { region, demographic, metric, view }}}
-) => { 
-  const context = {
-    region, 
-    metric, 
-    view, 
-    demographic, 
-    secondary: 'ses', 
-    concept:  'concept_' + metric,
-    demographic1: demographic[0],
-    demographic2: demographic[1]
-  }
-  
-  return ({
-    items: getQuestionIdsForContext(context).map(id => ({
-      id,
-      heading: getLang(id, populateContext(context)),
-      content: getContentForContext(id, context)
-    }))
-  })
-
-} 
-
+) => ({region, demographic, metric, view})
 
 export default compose(
   withRouter,

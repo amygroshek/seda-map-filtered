@@ -7,7 +7,6 @@ import { getScatterplotOptions } from '../../style/scatterplot-style';
 import CircleOverlay from '../organisms/CircleOverlay';
 import { getSizerFunction } from '../../utils';
 import { getDataForId } from '../../modules/scatterplot';
-import { Typography } from '@material-ui/core';
 
 const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
 
@@ -151,16 +150,7 @@ function DynamicScatterplot({
       { error &&
         <span className="notification notification--error">{ error }</span>
       }
-      { heading &&
-        <div className='dynamic-scatterplot__heading'>
-          <Typography variant='h6' component="span" className='dynamic-scatterplot__title'>
-            { heading.title }
-          </Typography>
-          <Typography variant='body2' component="span" className='dynamic-scatterplot__subtitle'>
-            { heading.subtitle }
-          </Typography>
-        </div>
-      }
+
       <SedaScatterplot
         {...{
           endpoint,

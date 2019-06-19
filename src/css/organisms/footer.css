@@ -47,5 +47,6 @@
 .site-footer .stanford-logo {
   margin: 0 16px 0 4px;
   width: 80px;
+  height: 40px;
   fill: var(--text-secondary);
 }

@@ -5,6 +5,15 @@
   color: #fff;
   margin-top:0;
   padding:0 48px;
+  position: fixed;
+  width:100vw;
+  height:100vh;
+  top:0;
+  left:0;
+  z-index:10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media(min-width: 960px) {
@@ -55,13 +64,23 @@
 
 /** Intro Cards **/
 
+.section--intro .section__image {
+  margin: 0 auto 0;
+}
+
 .section--intro .card {
   margin: 0 0 32px 0;
   width: 100%;
   flex:1;
   max-width: 420px;
+  min-width: 140px;
 }
 
+.section--intro .card__title {
+  text-transform: capitalize;
+  font-size: 16px;
+  white-space: normal;
+}
 
 
 @media(min-width: 960px) {
@@ -71,7 +90,9 @@
 }
 
 .section--intro .card__text {
-  line-height: 1.714285714285714;
+  line-height: 24px;
+  font-size: 14px;
+  white-space: normal;
 }
 
 .section--intro .card .hint__text {

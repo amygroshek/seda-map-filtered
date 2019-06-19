@@ -1,6 +1,6 @@
 const initialState = {
   menuOpen: false,
-  helpOpen: true,
+  helpOpen: false,
   statsViewActive: false,
   helpTab: 0
 }

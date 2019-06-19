@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Typography, Button } from '@material-ui/core';
 import { getLang } from '../../constants/lang';
-import Card from '../base/Card';
+import Card from '../molecules/Card';
 
 function MapIntro({onMeasureClick}) {
   return (
@@ -24,14 +24,10 @@ function MapIntro({onMeasureClick}) {
       <div className="section__cards">
           <Card
             dark={true}
-            title={getLang('INTRO_CARD_TITLE_AVG')}
+            title={getLang('LABEL_CONCEPT_AVG')}
           >
             <Typography paragraph={true} className="card__text">
-              {/* {getLangWithComponents('INTRO_CARD_DESCRIPTION_AVG', { 
-                avg: <Hint key='intro-avg' text={getLang('EXPLAINER_AVG')}>
-                    {getLang('LABEL_AVG')}
-                  </Hint>
-                })} */}
+              {getLang('INTRO_CARD_DESCRIPTION_AVG')}
             </Typography>
             <Button 
               onClick={() => onMeasureClick('avg')}
@@ -41,16 +37,11 @@ function MapIntro({onMeasureClick}) {
             >Go</Button>
           </Card>
           <Card 
-            title={getLang('INTRO_CARD_TITLE_GRD')}
+            title={getLang('LABEL_CONCEPT_GRD')}
             dark={true}
           >
             <Typography paragraph={true} className="card__text">
-              {/* {getLangWithComponents('INTRO_CARD_DESCRIPTION_GRD', { 
-                grd:  
-                  <Hint key='intro-grd' text={getLang('EXPLAINER_GRD')}>
-                    {getLang('LABEL_GRD')}
-                  </Hint>
-                })} */}
+              {getLang('INTRO_CARD_DESCRIPTION_GRD')}
             </Typography>
             <Button 
               onClick={() => onMeasureClick('grd')}
@@ -60,16 +51,11 @@ function MapIntro({onMeasureClick}) {
             >Go</Button>
           </Card>
           <Card 
-            title={getLang('INTRO_CARD_TITLE_COH')}
+            title={getLang('LABEL_CONCEPT_COH')}
             dark={true}
           >
             <Typography paragraph={true} className="card__text">
-              {/* {getLangWithComponents('INTRO_CARD_DESCRIPTION_COH', { 
-                coh:  
-                  <Hint key='intro-coh' text={getLang('EXPLAINER_COH')}>
-                    {getLang('LABEL_COH')}
-                  </Hint>
-                })} */}
+              {getLang('INTRO_CARD_DESCRIPTION_COH')}
             </Typography>
             <Button 
               variant="contained" 
@@ -79,12 +65,7 @@ function MapIntro({onMeasureClick}) {
             >Go</Button>
           </Card>
       </div>
-      <div className="section__footer">
-        <Typography component="span" variant="button">
-        { getLang('INTRO_CARD_HINT') }
-        </Typography>
-        
-      </div>
+
       
     </div>
   )

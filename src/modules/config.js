@@ -7,7 +7,8 @@ import {
   CHOROPLETH_COLORS, 
   BASE_VARS,
   MAP_ID_LENGTH_TO_REGION,
-  MAX_LOCATIONS
+  MAX_LOCATIONS,
+  NO_DATA_COLOR
 } from '../constants/dataOptions';
 
 /**
@@ -27,7 +28,17 @@ export const getChoroplethColors = () => CHOROPLETH_COLORS
 
 export const getColorStep = (stepNum) => getChoroplethColors()[stepNum]
 
-export const getColorForValue = () => {}
+const getClosestStop = (stops, goal) =>
+  stops.reduce(function(prev, curr) {
+    return (Math.abs(curr[0] - goal) < Math.abs(prev[0] - goal) ? curr : prev);
+  });
+  
+export const getColorForValue = (value, varName, region) => {
+  if (!value) { return NO_DATA_COLOR; }
+  const stops = getStopsForVarName(varName, region)
+  const closest = getClosestStop(stops, value)
+  return closest[1]
+}
 
 /**
  * Gets the configuation for regions
@@ -346,3 +357,21 @@ export const getGradient = ({
     'linear-gradient(to right, ' + colorStepsString + ')';
 }
 
+/**
+ * Returns if the provided value is high, low, mid, or none
+ * @param {*} value value for the provided metric
+ * @param {*} metric the metric ID
+ */
+export const getHighLow = (value, metric) => {
+  if (!value) { return 'NONE'; }
+  switch (metric) {
+    case 'avg':
+      return value > 0.3 ? 'HIGH' : value < -0.3 ? 'LOW' : 'MID'
+    case 'coh':
+      return value > 0.1 ? 'HIGH' : value < -0.1 ? 'LOW' : 'MID'
+    case 'grd':
+      return value > 1.09 ? 'HIGH' : value < 0.91 ? 'LOW' : 'MID'
+    default:
+      return ''
+  }
+}

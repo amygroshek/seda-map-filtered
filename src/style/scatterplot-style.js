@@ -542,9 +542,12 @@ const getMapXAxis = ({ metric, demographic, region }) => {
     ,
     nameGap: 8,
     nameTextStyle: {
-      fontSize: 12.8,
+      fontSize: 14,
       fontWeight: 'normal',
-      color: '#031232',
+      color: getComputedStyle(document.documentElement)
+        .getPropertyValue('--text'),
+      fontFamily: getComputedStyle(document.documentElement)
+        .getPropertyValue('--heading-font')
     },
     splitLine: { show: false },
   }
@@ -641,9 +644,17 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
       }
     },
     splitLine: { show: false },
-    name: getLang('LABEL_' + metric.id.toUpperCase()),
+    name: getLang('LABEL_' + metric.id),
     nameGap: 80,
     nameLocation: 'middle',
+    nameTextStyle: {
+      fontSize: 14,
+      fontWeight: 'normal',
+      color: getComputedStyle(document.documentElement)
+        .getPropertyValue('--text'),
+      fontFamily: getComputedStyle(document.documentElement)
+        .getPropertyValue('--heading-font')
+    },
     ...rest
   }
 }

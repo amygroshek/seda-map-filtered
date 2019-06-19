@@ -15,20 +15,20 @@ const branding = {
 };
 
 const links = [
-  {
-    id: 'export',
-    label: getLang('FOOTER_EXPORT_LABEL'),
-    items: [
-      {
-        id: 'pdf',
-        label: getLang('FOOTER_EXPORT_PDF'),
-      },
-      {
-        id: 'ppt',
-        label: getLang('FOOTER_EXPORT_PPT'),
-      }
-    ],
-  },
+  // {
+  //   id: 'export',
+  //   label: getLang('FOOTER_EXPORT_LABEL'),
+  //   items: [
+  //     {
+  //       id: 'pdf',
+  //       label: getLang('FOOTER_EXPORT_PDF'),
+  //     },
+  //     {
+  //       id: 'ppt',
+  //       label: getLang('FOOTER_EXPORT_PPT'),
+  //     }
+  //   ],
+  // },
   {
     id: 'share',
     label: getLang('FOOTER_SHARE_LABEL'),

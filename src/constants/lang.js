@@ -47,10 +47,10 @@ const LANG = {
   'LABEL_GRD': 'growth in test scores',
   'LABEL_COH': 'changes in test scores',
   'LABEL_SEG': 'Segregation Measure',
-  'LABEL_SES': 'Socioeconomic Status',
+  'LABEL_SES': 'socioeconomic status',
   'LABEL_PCT': 'Percent',
 
-  'LABEL_SHORT_AVG': 'Scores:',
+  'LABEL_SHORT_AVG': 'AVG:',
   'LABEL_SHORT_GRD': 'Growth:',
   'LABEL_SHORT_COH': 'Change:',
   'LABEL_SHORT_SES': 'SES:',
@@ -87,6 +87,29 @@ const LANG = {
   'LABEL_DISTRICTS_SINGULAR': 'school district',
   'LABEL_SCHOOLS_SINGULAR': 'school',
 
+  'SUMMARY_AVG_LOW': '$[name] has low community educational opportunity because students scores are $[value] grade levels behind their grade level.',
+  'SUMMARY_AVG_MID': '$[name] has average community educational opportunity because students scores close to their grade level.',
+  'SUMMARY_AVG_HIGH': '$[name] has high community educational opportunity because students scores are $[value] grade levels ahead of their grade level.',
+  'SUMMARY_GRD_LOW': '$[name] has low school-based opportunity because students only learn $[value] grade levels per year.',
+  'SUMMARY_GRD_MID': '$[name] has average school-based opportunity because students learn $[value] grade levels per year.',
+  'SUMMARY_GRD_HIGH': '$[name] has high school-based opportunity because students learn $[value] grade levels per year.',
+  'SUMMARY_COH_LOW': 'Community educational opportunity is improving for $[name] because test scores have improved $[value] grade levels from 2009-2016.',
+  'SUMMARY_COH_MID': 'Community educational opportunity is not changing for $[name] because test scores have changed minimally from 2009-2016.',
+  'SUMMARY_COH_HIGH': 'Community educational opportunity is declining for $[name] because test scores have dropped $[value] grade levels from 2009-2016.',
+  'SUMMARY_AVG_NONE': 'No community educational opportunity data for $[name].', 
+  'SUMMARY_GRD_NONE': 'No school-based opportunity data for $[name].', 
+  'SUMMARY_COH_NONE': 'No change in community educational opportunity data for $[name].', 
+
+  'LOCATION_COMPARE_FEATURES_TITLE': 'Compare $[region]',
+  'LOCATION_COMPARE_FEATURES': 'Select another place from the map, chart, or search to compare it with $[name].',
+  'LOCATION_EXPORT_REPORT_TITLE': 'Export a Report',
+  'LOCATION_EXPORT_REPORT': `Select one of the options below to export a PDF report or Powerpoint presentation about the educational opportunity in $[name].`,
+  'LOCATION_DIFFERENCES_TITLE': 'Opportunity Differences',
+  'LOCATION_DIFFERENCES': '',
+  'LOCATION_SIMILAR_PLACES_TITLE': 'Similar $[region]',
+  'LOCATION_SIMILAR_PLACES': `The following places are similar to $[name] based on size, socioeconomic status, and other factors:`,
+
+
   // Explainers
   'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
   'EXPLAINER_GRD': 'Shows how much students learn on average while they are in school',
@@ -122,12 +145,12 @@ const LANG = {
   // Section Descriptions
 
   // Scatterplot Titles
-  'SP_TITLE_AVG_SES': 'Achievement and Socioeconomic Status',
-  'SP_TITLE_AVG_FRL': 'Achievement and % Free or Reduced Lunch Program ',
-  'SP_TITLE_GRD_SES': 'Average Growth Per Year and Socioeconomic Status',
-  'SP_TITLE_GRD_FRL': 'Average Growth Per Year and % Free or Reduced Lunch Program',
-  'SP_TITLE_COH_SES': 'Changes in Achievement and Socioeconomic Status',
-  'SP_TITLE_COH_FRL': 'Changes in Achievement and % Free or Reduced Lunch Program',
+  'SP_TITLE_AVG_SES': 'Community Educational Opportunity and Socioeconomic Status',
+  'SP_TITLE_AVG_FRL': 'Community Educational Opportunity and % Free or Reduced Lunch Program ',
+  'SP_TITLE_GRD_SES': 'School-based Opportunity and Socioeconomic Status',
+  'SP_TITLE_GRD_FRL': 'School-based Opportunity and % Free or Reduced Lunch Program',
+  'SP_TITLE_COH_SES': 'Changes in Community Educational Opportunity and Socioeconomic Status',
+  'SP_TITLE_COH_FRL': 'Changes in Community Educational Opportunity and % Free or Reduced Lunch Program',
   
   'OP_TITLE_AVG': 'Achievement Differences Between $[dem1] and $[dem2]',
   'OP_TITLE_GRD': 'Growth Differences Between $[dem1] and $[dem2]',
@@ -187,15 +210,12 @@ const LANG = {
   'AXIS_SEG_HIGH_GAP': 'more',
 
   // Intro Section
-  'INTRO_TITLE': 'Which measure would you like to explore?',
+  'INTRO_TITLE': 'What type of educational opportunity would you like to explore?',
   'INTRO_DESCRIPTION': 'Using over 330 million test scores across the U.S., we have calculated $[avg], $[grd], and $[coh] to measure educational opportunity.',
   'SEARCH_PLACEHOLDER': 'Find a city, county, district, or school',
-  'INTRO_CARD_TITLE_AVG': 'Educational Opportunity',
-  'INTRO_CARD_DESCRIPTION_AVG': 'Explore educational opportunity within communities by comparing $[avg] to socioeconomic status and poverty measures',
-  'INTRO_CARD_TITLE_GRD': 'School Performance',
-  'INTRO_CARD_DESCRIPTION_GRD': 'Explore the quality of education for schools and communities by viewing $[grd] that show how much students are learning each year.',
-  'INTRO_CARD_TITLE_COH': 'Changes in Opportunity',
-  'INTRO_CARD_DESCRIPTION_COH': 'Explore how opportunity is changing over time in your community by viewing the $[coh] from 2009 - 2016.',
+  'INTRO_CARD_DESCRIPTION_AVG': 'Average test scores are influenced by children`s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. ',
+  'INTRO_CARD_DESCRIPTION_GRD': 'Growth of test scores show how much students learn each year they are in school. It is a better measure of school quality and shows school-based opportunity.',
+  'INTRO_CARD_DESCRIPTION_COH': 'Change in test scores show how test scores are improving or declining in an an area from 2009 - 2016.  This shows how community educational opportunity is changing.',
   'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
 
   // Map Legend (Mobile)
@@ -205,6 +225,10 @@ const LANG = {
   'LEGEND_HIGH_GRD': 'growth above 1 grade ▶',
   'LEGEND_LOW_COH': '◀ scores dropping',
   'LEGEND_HIGH_COH': 'scores improving ▶',
+  'LEGEND_LOW_SES': '◀ poorer',
+  'LEGEND_HIGH_SES': 'richer ▶',
+  'LEGEND_LOW_FRLP': '◀ lower poverty',
+  'LEGEND_HIGH_FRLP': 'higher poverty ▶',
 
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',
@@ -249,8 +273,8 @@ const LANG = {
   'WT_AVG_NONGAP_LOW_CONCEPT': 'Low Community Educational Opportunity',
   'WT_GRD_NONGAP_HIGH_CONCEPT': 'High School-based Opportunity',
   'WT_GRD_NONGAP_LOW_CONCEPT': 'Low School-based Opportunity',
-  'WT_COH_NONGAP_HIGH_CONCEPT': 'High Community Opportunity Growth',
-  'WT_COH_NONGAP_LOW_CONCEPT': 'Low Community Opportunity Growth',
+  'WT_COH_NONGAP_HIGH_CONCEPT': 'Improvement in Community Opportunity',
+  'WT_COH_NONGAP_LOW_CONCEPT': 'Decrease in Community Opportunity Growth',
 
 
   'WT_AVG_NONGAP_HIGH': 'average scores above grade level',
@@ -259,9 +283,9 @@ const LANG = {
   'WT_GRD_NONGAP_HIGH': 'students learn more than 1 grade level per year',
   'WT_GRD_NONGAP_MID': 'students learn 1 grade level per year',
   'WT_GRD_NONGAP_LOW': 'students learn less than 1 grade level per year',
-  'WT_COH_NONGAP_HIGH': 'test scores are improving over time',
-  'WT_COH_NONGAP_MID': 'test scores are not changing over time',
-  'WT_COH_NONGAP_LOW': 'test scores are decreasing over time',
+  'WT_COH_NONGAP_HIGH': 'test scores are improving',
+  'WT_COH_NONGAP_MID': 'test scores are not changing',
+  'WT_COH_NONGAP_LOW': 'test scores are decreasing',
 
   'WT_AVG_GAP_HIGH': '$[demographic1] students\' test scores are higher than $[demographic2] students\'',
   'WT_AVG_GAP_MID': '$[demographic1] students\' test scores are equal to $[demographic2] students\'',
@@ -371,7 +395,7 @@ const isKeyMatch = (
 }
 
 /** Checks if the LANG key exists */
-const hasLangKey = (key) =>
+export const hasLangKey = (key) =>
   LANG.hasOwnProperty(key.toUpperCase())
 
 /**

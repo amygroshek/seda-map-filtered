@@ -1,0 +1,38 @@
+
+.stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats__item {
+  border-bottom: 4px solid;
+  margin-right: 2px;
+  border-right-color:#fff !important;
+}
+
+.stats__item-label {
+  font-family: var(--alt-font);
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  
+}
+
+.stats__item-value {
+  font-weight: bold;
+  font-family: var(--alt-font);
+  margin-left: 4px;
+}
+
+.stats--horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.stats--horizontal .stats__item {
+  width:33.333%;
+}

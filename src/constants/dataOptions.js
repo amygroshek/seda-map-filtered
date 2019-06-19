@@ -127,7 +127,7 @@ export const METRICS = [
       '*_*_gap': [-0.3333, 0.3333],
       '*_schools': [-1.5, 1.5],
       'map_*_*': [ -0.333, 0.3333 ],
-      '*': [ -0.4, 0.4 ],
+      '*': [ -0.5, 0.5 ],
     },
     map: true,
     scatterplot: true,

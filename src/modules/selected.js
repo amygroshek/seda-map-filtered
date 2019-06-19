@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { MAP_REGION_TO_ID_LENGTH } from '../constants/dataOptions';
+import { MAP_REGION_TO_ID_LENGTH, MAX_LOCATIONS } from '../constants/dataOptions';
 
 /** Stores a list of feature IDs by region */
 const createRegionListReducer = (region) => 
@@ -10,24 +10,12 @@ const createRegionListReducer = (region) =>
           (action.region === region || region === 'all') &&
           state.indexOf(action.feature.properties.id) === -1
         ) {
-          return state.length === 7 ?
+          // do not allow more than MAX_LOCATIONS
+          return state.length === MAX_LOCATIONS ?
             [ ...state.slice(1), action.feature.properties.id ] :
             [ ...state, action.feature.properties.id ]
         }
         return state   
-      case 'LOAD_FEATURES_SUCCESS':
-        return [
-          ...state,
-          ...action.features
-            .filter(f =>
-              (
-                region === 'all' || 
-                f.properties.id.length === MAP_REGION_TO_ID_LENGTH[region]
-              ) &&
-              state.indexOf(f.properties.id) === -1
-            )
-            .map(f => f.properties.id)
-        ]
       case 'REMOVE_SELECTED_FEATURE':
         return (
           action.feature.properties.id.length === MAP_REGION_TO_ID_LENGTH[region] || 
