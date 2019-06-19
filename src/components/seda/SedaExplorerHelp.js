@@ -13,126 +13,147 @@ import { getChoroplethColors, isGapDemographic } from '../../modules/config';
 const colors = getChoroplethColors();
 
 
-const HelpPanelContent = (props) => {
-  const context = { ...props }
-  const isGap = isGapDemographic(props.demographic)
-  if (isGap) {
-    context['demographic1'] = props['demographic'][1]
-    context['demographic2'] = props['demographic'][0]
+const SedaExplorerHelp = ({
+  open,
+  tab,
+  viewport, 
+  region, 
+  demographic, 
+  metric, 
+  view, 
+  secondary = 'ses',
+  onClose,
+  onTabChange,
+}) => {
+  const isGap = isGapDemographic(demographic)
+  const context = {
+    demographic1: isGap && demographic[1],
+    demographic2: isGap && demographic[0],
+    demographic,
+    region, 
+    metric,
+    secondary
   }
   return (
-    <div className="help-content">
-      <div className="visual-help">
+    <TabPanel 
+      open={open} 
+      value={tab} 
+      onClose={onClose} 
+      onTabChange={onTabChange}
+    >
+      <div className="help-content">
+        <div className="visual-help">
 
-        {/* { (context.view === 'map' || context.view === 'split') &&
-            <MapVisualLegend colors={colors} className={
-              classNames(
-                "visual-help__preview", 
-                {"visual-help__preview--schools": context.region === 'schools'}
-              )}
-            />
-        } */}
-        { (context.view === 'chart' || context.view === 'split') &&
-            <Typography paragraph={true}>
-              {getLang('WT_CHART', populateContext(context))}
-            </Typography>
-        }
-        { (context.view === 'chart' || context.view === 'split') &&
-            <Typography>
-              {getLang('WT_CHART_'+context.secondary, populateContext(context))}
-            </Typography>
-        }
-                { (context.view === 'map' || context.view === 'split') &&
-        <Typography paragraph={true}>
-          {getLang('WT_MAP', populateContext({
-            ...props, 
-            region: context.region === 'schools' ? 
-              'districts' : context.region 
-            }
-          ))}
-        </Typography>
-        }
-        { (
-            (context.viewport && context.viewport.zoom > 9) || 
-            context.region === 'schools'
-          ) &&
+          {/* { (context.view === 'map' || context.view === 'split') &&
+              <MapVisualLegend colors={colors} className={
+                classNames(
+                  "visual-help__preview", 
+                  {"visual-help__preview--schools": context.region === 'schools'}
+                )}
+              />
+          } */}
+          { (view === 'chart' || view === 'split') &&
+              <Typography paragraph={true}>
+                {getLang('WT_CHART', populateContext(context))}
+              </Typography>
+          }
+          { (view === 'chart' || view === 'split') &&
+              <Typography>
+                {getLang('WT_CHART_'+secondary, populateContext(context))}
+              </Typography>
+          }
+          { (view === 'map' || view === 'split') &&
           <Typography paragraph={true}>
-            {getLang('WT_MAP_ZOOMED', populateContext(props))}
+            {getLang('WT_MAP', populateContext({
+              ...context, 
+              region: region === 'schools' ? 
+                'districts' : region 
+              }
+            ))}
           </Typography>
-        }
-        <div className="visual-help__legend">
-          <GradientLegend vertical={true} />
-          <ul className={classNames("visual-help__list", "visual-help__list--" + context.view)}>
-            <li className="visual-help__list-item">
-              <span 
-                className="circle circle--dark"
-                style={{background: colors[6]}}
-              >1</span>
-              <div>
-                <span className="visual-help__legend-concept">
-                  {
-                    getLang(
-                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH_CONCEPT', 
-                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
-                    )
-                  }
-                </span>
+          }
+          { (
+              (viewport && viewport.zoom > 9) || 
+              region === 'schools'
+            ) &&
+            <Typography paragraph={true}>
+              {getLang('WT_MAP_ZOOMED', populateContext(context))}
+            </Typography>
+          }
+          <div className="visual-help__legend">
+            <GradientLegend vertical={true} />
+            <ul className={classNames("visual-help__list", "visual-help__list--" + context.view)}>
+              <li className="visual-help__list-item">
+                <span 
+                  className="circle circle--dark"
+                  style={{background: colors[6]}}
+                >1</span>
+                <div>
+                  <span className="visual-help__legend-concept">
+                    {
+                      getLang(
+                        'WT_' + metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH_CONCEPT', 
+                        populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + metric)
+                      )
+                    }
+                  </span>
+                  <span>
+                    {
+                      getLang(
+                        'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH', 
+                        populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + metric)
+                      )
+                    }
+                  </span>
+                </div>
+                
+              </li>
+              <li className="visual-help__list-item">
+                <span 
+                  className="circle"
+                  style={{background: colors[3]}}
+                >2</span>
                 <span>
                   {
                     getLang(
-                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_HIGH', 
-                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
+                      'WT_' + metric + '_' + (isGap ? '' : 'NON') + 'GAP_MID', 
+                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + metric)
                     )
                   }
                 </span>
-              </div>
-              
-            </li>
-            <li className="visual-help__list-item">
-              <span 
-                className="circle"
-                style={{background: colors[3]}}
-              >2</span>
-              <span>
-                {
-                  getLang(
-                    'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_MID', 
-                    populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
-                  )
-                }
-              </span>
-            </li>
-            <li className="visual-help__list-item">
-              <span 
-                className="circle circle--dark"
-                style={{background: colors[0]}}
-              >3</span>
-              <div>
-                <span className="visual-help__legend-concept">
-                  {
-                    getLang(
-                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW_CONCEPT', 
-                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
-                    )
-                  }
-                </span>
-                <span>
-                  {
-                    getLang(
-                      'WT_' + context.metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW', 
-                      populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + context.metric)
-                    )
-                  }
-                </span>
-              </div>
-              
-            </li>
-          </ul>
+              </li>
+              <li className="visual-help__list-item">
+                <span 
+                  className="circle circle--dark"
+                  style={{background: colors[0]}}
+                >3</span>
+                <div>
+                  <span className="visual-help__legend-concept">
+                    {
+                      getLang(
+                        'WT_' + metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW_CONCEPT', 
+                        populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + metric)
+                      )
+                    }
+                  </span>
+                  <span>
+                    {
+                      getLang(
+                        'WT_' + metric + '_' + (isGap ? '' : 'NON') + 'GAP_LOW', 
+                        populateContext(context, 'WT_CONTEXT_' + (isGap ? 'GAP_' : '') + metric)
+                      )
+                    }
+                  </span>
+                </div>
+                
+              </li>
+            </ul>
+          </div>
         </div>
-        
+        <HelpAccordion elevation={0} />
       </div>
-      <HelpAccordion elevation={0} />
-    </div>
+    </TabPanel>
+    
   )
 }
 
@@ -141,11 +162,12 @@ const mapStateToProps = (
   { match: { params: { region, demographic, metric, view }}}
 ) => ({
   open: helpOpen,
-  value: helpTab,
-
-  children: <HelpPanelContent
-    {...{ viewport, tab: helpTab, region, demographic, metric, view, secondary: 'ses' }}
-  />
+  tab: helpTab,
+  viewport, 
+  region, 
+  demographic, 
+  metric, 
+  view, 
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -170,4 +192,4 @@ export default compose(
     mapStateToProps, 
     mapDispatchToProps
   )
-)(TabPanel)
+)(SedaExplorerHelp)

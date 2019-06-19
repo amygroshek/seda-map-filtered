@@ -39,8 +39,12 @@ Tooltip.propTypes = {
   ]),
   x: PropTypes.number,
   y: PropTypes.number,
-  above: PropTypes.bool,
-  left: PropTypes.bool,
+  above: PropTypes.oneOfType(
+    [PropTypes.number, PropTypes.bool]
+  ),
+  left: PropTypes.oneOfType(
+    [PropTypes.number, PropTypes.bool]
+  ),
   offset: PropTypes.object,
 }
 

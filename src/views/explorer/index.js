@@ -1,6 +1,6 @@
 
 import { withRouter } from 'react-router-dom';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -33,20 +33,37 @@ SplitSection.propTypes = {
 }
 
 const ExplorerView = ({ 
-  classes,
   loadRouteLocations, 
   locations, 
   selected,
   helpOpen,
   view, 
   onLayoutChange,
+  region,
   active,
-  others,
+  metric,
+  features,
   clearActiveLocation,
   onMetricChange,
   ...props
 }) => {
+  // use state to track if the intro is on / off
   const [introOn, setIntroOn] = useState(true);
+
+  // use memo to store other features
+  const others = useMemo(() => 
+    selected[region].map(fId => features[fId])
+  , [ region, selected ])
+
+  const classes = useMemo(() => ({
+    content: 'section__content--' + (
+      view === 'map' ? 'right' :
+        view === 'chart' ? 'left' : 'split' 
+    ),
+    root: "section--explorer" + 
+      (helpOpen ? " section--explorer-help" : "")
+  }), [view, helpOpen])
+
   // flag potential layout change after loading locations
   useEffect(() => {
     loadRouteLocations(locations)
@@ -58,10 +75,10 @@ const ExplorerView = ({
 
   // flag potential layout change when there are 0 or 1 locations
   useEffect(() => {
-    if (selected.length === 0 || selected.length === 1) {
+    if (selected[region].length === 0 || selected[region].length === 1) {
       onLayoutChange('map')
     }
-  }, [ selected ])
+  }, [ selected, region ])
 
   // flag layout change when view changes
   useEffect(() => { 
@@ -84,21 +101,21 @@ const ExplorerView = ({
         feature={active} 
         others={others} 
         onClose={clearActiveLocation}
-        metric={props.match.params.metric}
+        metric={metric}
       />
       <SplitSection
         id="map"
         classes={classes}
         rightComponent={<SedaExplorerMap />}
         leftComponent={<SedaExplorerChart />}
-        footerContent={Boolean(selected.length) && <SedaLocations />}
+        footerContent={Boolean(selected[region].length) && <SedaLocations />}
       />
     </SedaPage>
   )
 }
 
 ExplorerView.propTypes = {
-  selected: PropTypes.array,
+  selected: PropTypes.object,
   locations: PropTypes.string,
   helpOpen: PropTypes.bool,
   view: PropTypes.string, 
@@ -109,37 +126,28 @@ ExplorerView.propTypes = {
 
 const mapStateToProps = 
   (
-    { features,active, selected, ui: { helpOpen } },
-    { 
-      match: { params: { locations, region, view }}
-    }
+    { features, active, selected, ui: { helpOpen } },
+    { match: { params: { locations, metric, region, view } } }
   ) => ({
     view,
     active,
-    others: (selected[region] || []).map(id => features[id]),
-    classes: {
-      content: 'section__content--' + (
-        view === 'map' ? 'right' :
-          view === 'chart' ? 'left' : 'split' 
-      ),
-      root: "section--explorer" + 
-        (helpOpen ? " section--explorer-help" : "")
-    },
+    features,
+    region,
+    metric,
     helpOpen,
     locations,
-    selected: selected[region] || []
+    selected
   })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations)),
-  onLayoutChange: (view) =>
-    ['map', 'split'].indexOf(view) > -1 &&
+  onLayoutChange: (view) => ['map', 'split'].indexOf(view) > -1 &&
       dispatch(updateMapSize()),
   clearActiveLocation: () => 
     dispatch({ type: 'CLEAR_ACTIVE_LOCATION'}),
   onMetricChange: (metricId) => {
-      updateRoute(ownProps, { metric: metricId })
+    updateRoute(ownProps, { metric: metricId })
   },
 })
 

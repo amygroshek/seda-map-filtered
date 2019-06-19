@@ -15,6 +15,8 @@ import DynamicScatterplot from '../organisms/DynamicScatterplot';
 import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions/scatterplotActions";
 
 
+const COLORS = getChoroplethColors();
+
 /**
  * Gets the variables for the map section
  * @param {string} region 
@@ -56,23 +58,39 @@ const getScatterplotHeading = (region, metric, demographic, highlightedState) =>
   }
 }
 
+
 const SedaExplorerChart = ({
-  scatterplot,
-  legend,
+  region,
+  metric,
+  demographic,
+  highlightedState,
+  hovered,
+  data,
+  selected,
   onData,
   onReady,
   onHover,
   onClick,
   onError,
 }) => {
+  const scatterplot = getVars(region, metric, demographic);
   const xMetricId = getMetricIdFromVarName(scatterplot.xVar)
   const leftLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
     getLang('LEGEND_LOW_'+xMetricId)
   const rightLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
     getLang('LEGEND_HIGH_'+xMetricId)
+
   return (
     <DynamicScatterplot {...{
       ...scatterplot,
+      region,
+      data,
+      hovered,
+      heading: getScatterplotHeading(region, metric, demographic, highlightedState),
+      variant: 'map',
+      colors: COLORS,
+      selected: selected[region] ? selected[region] : [],
+      highlightedState: getStateFipsFromAbbr(highlightedState),
       onData,
       onReady,
       onHover,
@@ -80,7 +98,19 @@ const SedaExplorerChart = ({
       onError
     }}
     >
-      { legend && <GradientLegend {...legend} /> }
+      <GradientLegend {...{
+        colors: COLORS,
+        colorRange: getMetricRange(metric, demographic, region, 'map'),
+        legendRange: getMetricRange(metric, demographic, region),
+        markerPosition: hovered && hovered.properties ?
+          getValuePositionForMetric(
+            getFeatureProperty(hovered, demographic + '_' + metric),
+            demographic + '_' + metric,
+            region
+          ) : null,
+        vertical: true
+      }} /> 
+      
       { (leftLabel && rightLabel) &&
         <div className="dynamic-scatterplot__x-labels">
           <span className="label">{leftLabel}</span>
@@ -109,29 +139,13 @@ const mapStateToProps = ({
 { match: { params: { region, metric, demographic, highlightedState } } }
 ) => {
   return ({
-    scatterplot: {
-      ...getVars(region, metric, demographic),
-      heading: getScatterplotHeading(region, metric, demographic, highlightedState),
-      region,
-      data,
-      hovered,
-      variant: 'map',
-      colors: getChoroplethColors(),
-      selected: selected[region] ? selected[region] : [],
-      highlightedState: getStateFipsFromAbbr(highlightedState),
-    },
-    legend: {
-      colors: getChoroplethColors(),
-      colorRange: getMetricRange(metric, demographic, region, 'map'),
-      legendRange: getMetricRange(metric, demographic, region),
-      markerPosition: hovered && hovered.properties ?
-        getValuePositionForMetric(
-          getFeatureProperty(hovered, demographic + '_' + metric),
-          demographic + '_' + metric,
-          region
-        ) : null,
-      vertical: true
-    }
+    region,
+    metric,
+    demographic,
+    highlightedState,
+    hovered,
+    data,
+    selected,
   })
 }
 

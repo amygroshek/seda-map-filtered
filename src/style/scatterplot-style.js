@@ -770,7 +770,6 @@ const getDescriptionForVarName = (varName, value) => {
  * @param {*} values 
  */
 export const getTooltipText = (values) => {
-  console.log('getting ttext');
   const text = Object.keys(values).reduce((str, varName) => {
     return str + getDescriptionForVarName(varName, values[varName])
   }, '')
