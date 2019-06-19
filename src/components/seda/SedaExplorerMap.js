@@ -16,7 +16,6 @@ import GradientLegend from '../molecules/GradientLegend';
 import BaseMap from '../molecules/BaseMap';
 import { getLang } from '../../constants/lang';
 import { handleLocationActivation } from '../../actions/featuresActions';
-import * as _debounce from 'lodash.debounce';
 
 const selectedColors = getSelectedColors();
 const choroplethColors = getChoroplethColors();
@@ -117,13 +116,14 @@ const mapStateToProps = ({
   })
 }
 
-const debouncedDispatch = 
-  _debounce((dispatch, func) => dispatch(func()),10)
+// was using this to debounce hover, but not needed currently
+// const debouncedDispatch = 
+//   _debounce((dispatch, func) => dispatch(func()),10)
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onHover: (feature, coords) => {
     dispatch(onHoverFeature(feature, 'map'))
-    debouncedDispatch(dispatch, () => onCoordsChange(coords))
+    dispatch(onCoordsChange(coords))
     dispatch(addToFeatureIdMap([ feature ]))
   },
   onViewportChange: (vp) => {

@@ -75,13 +75,11 @@ const BaseMap = ({
     if (!layer || !featureId || !mapRef.current) { return; }
     const id = layer.idMap && idMap && idMap[featureId] ? 
       idMap[featureId] : featureId
-    if (mapRef.current.getMap().isStyleLoaded()) {
-      mapRef.current.getMap().setFeatureState({
-        source: layer.style.get('source'), 
-        sourceLayer: layer.style.get('source-layer'), 
-        id
-      }, state);
-    }
+    mapRef.current.getMap().setFeatureState({
+      source: layer.style.get('source'), 
+      sourceLayer: layer.style.get('source-layer'), 
+      id
+    }, state);
 
   }
 
@@ -105,7 +103,7 @@ const BaseMap = ({
   const handleHover = ({ features, point }) => {
     const newHoveredFeature = 
       features && features.length > 0 ? features[0] : null
-    onHover(newHoveredFeature, { x: point[0], y: point[1] })
+    onHover(newHoveredFeature, { x: Math.round(point[0]), y: Math.round(point[1]) })
   }
 
   // handler for feature click

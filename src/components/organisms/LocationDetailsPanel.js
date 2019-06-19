@@ -34,7 +34,7 @@ const LocationDetailsPanel = ({
   // variable to highlight fo the location
   const varName = 'all_'+metric;
   // track state for expanded / collapsed items
-  const [ expanded, setExpanded ] = useState(['s2']);
+  const [ expanded, setExpanded ] = useState(['compare']);
   // id of the location
   const id = feature && feature.properties ? feature.properties.id : null;
   // name of the location
@@ -69,7 +69,8 @@ const LocationDetailsPanel = ({
         summary={getLang(`SUMMARY_${metric}_${highLow}`, { value, name })}
       />
       <AccordionItem 
-        id="compare" 
+        id="compare"
+        expanded={expanded.indexOf('compare') > -1}
         heading={ getLang('LOCATION_COMPARE_FEATURES_TITLE', {region}) }
         onChange={toggleExpanded}
       >
@@ -83,7 +84,8 @@ const LocationDetailsPanel = ({
         />
       </AccordionItem>
       <AccordionItem 
-        id="similar" 
+        id="similar"
+        expanded={expanded.indexOf('similar') > -1}
         heading={ getLang('LOCATION_SIMILAR_PLACES_TITLE', {region}) }
         onChange={toggleExpanded}
       >
@@ -92,6 +94,7 @@ const LocationDetailsPanel = ({
       </AccordionItem>
       <AccordionItem 
         id="opportunity" 
+        expanded={expanded.indexOf('opportunity') > -1}
         heading={ getLang('LOCATION_DIFFERENCES_TITLE') }
         onChange={toggleExpanded}
       >
@@ -100,6 +103,7 @@ const LocationDetailsPanel = ({
       </AccordionItem>
       <AccordionItem 
         id="export" 
+        expanded={expanded.indexOf('export') > -1}
         heading={ getLang('LOCATION_EXPORT_REPORT_TITLE') }
         onChange={toggleExpanded}
       >

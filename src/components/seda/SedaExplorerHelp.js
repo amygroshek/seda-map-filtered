@@ -9,6 +9,7 @@ import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
 import GradientLegend from '../molecules/GradientLegend';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
+import MapVisualLegend from '../molecules/MapVisualLegend';
 
 const colors = getChoroplethColors();
 
@@ -44,14 +45,14 @@ const SedaExplorerHelp = ({
       <div className="help-content">
         <div className="visual-help">
 
-          {/* { (context.view === 'map' || context.view === 'split') &&
+          { (view === 'map' || view === 'split') &&
               <MapVisualLegend colors={colors} className={
                 classNames(
                   "visual-help__preview", 
                   {"visual-help__preview--schools": context.region === 'schools'}
                 )}
               />
-          } */}
+          }
           { (view === 'chart' || view === 'split') &&
               <Typography paragraph={true}>
                 {getLang('WT_CHART', populateContext(context))}

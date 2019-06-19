@@ -106,13 +106,14 @@ const HeaderSecondary = ({
   view, 
   metric,
   helpOpen,
+  hasActiveLocation,
   region,
   onHelpClick,
   onViewChange, 
 }) => {
   return <div className="header__inner-content">
     <HelpButton
-      className={classNames({ 'button--help-on': helpOpen })}
+      className={classNames({ 'button--help-on': helpOpen && !hasActiveLocation})}
       onClick={() => onHelpClick(!helpOpen) }
     />
     <SedaSearch inputProps={{
@@ -159,6 +160,7 @@ const SedaHeader = ({
   region,
   width,
   helpOpen,
+  hasActiveLocation,
   onMetricChange,
   onOptionChange,
   onViewChange,
@@ -174,7 +176,7 @@ const SedaHeader = ({
       <HeaderPrimary {...{width, metric, onMetricChange }} />
     }
     secondaryContent={
-      <HeaderSecondary {...{metric, region, view, helpOpen, onViewChange, onHelpClick}} />
+      <HeaderSecondary {...{metric, region, view, helpOpen, hasActiveLocation, onViewChange, onHelpClick}} />
     }
     actionContent={
       <MenuButton onClick={onMenuClick}>
@@ -204,17 +206,31 @@ const mapStateToProps = (
   { active, ui: { helpOpen } },
   ownProps
 ) => ({
-  helpOpen: helpOpen || Boolean(active),
+  helpOpen: helpOpen,
   view: ownProps.match.params.view,
   metric: ownProps.match.params.metric,
-  region: ownProps.match.params.region
+  region: ownProps.match.params.region,
+  hasActiveLocation: Boolean(active),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onHelpClick: (open) => dispatch({
-    type: 'TOGGLE_HELP',
-    open: open
-  }),
+  onHelpClick: (o) => dispatch(
+    ((open) => (d, getState) => {
+      const state = getState();
+      console.log(open, state)
+      if (open && Boolean(state.active)) {
+        d({
+          type: 'CLEAR_ACTIVE_LOCATION'
+        })
+      } 
+      if (open !== ownProps.helpOpen) {
+        d({
+          type: 'TOGGLE_HELP',
+          open: open
+        })
+      }
+    })(o)
+  ),
   onMenuClick: () => dispatch({
     type: 'TOGGLE_MENU',
     open: true
