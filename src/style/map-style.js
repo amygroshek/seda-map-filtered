@@ -244,10 +244,20 @@ export const getChoroplethOutlineCasing = ({layerId, region}) => fromJS({
   }
 })
 
-const getHighlightedStateFilter = (state) =>
-  state && state !== 'us' ? 
-    { filter: [ "==", ["get", "state"], state.toUpperCase()] } : 
-    {}
+
+// NOTE: currently disabled, uncomment other return statement
+//    to enable
+/**
+ * Returns a mapboxgl filter that hides anything not in the selected state
+ * @param {*} state 
+ */
+const getHighlightedStateFilter = (state) => {
+  return {}
+  // return state && state !== 'us' ? 
+  //   { filter: [ "==", ["get", "state"], state.toUpperCase()] } : 
+  //   {}
+}
+
 
 
 const isIdInRegion = (id, region) => {
