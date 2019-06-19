@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -13,7 +13,7 @@ import { loadLocation } from "../../actions/featuresActions";
 import GradientLegend from '../molecules/GradientLegend';
 import DynamicScatterplot from '../organisms/DynamicScatterplot';
 import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions/scatterplotActions";
-
+import { Typography } from '@material-ui/core';
 
 const COLORS = getChoroplethColors();
 
@@ -43,7 +43,7 @@ const getVars = (region, metric, demographic) => ({
  */
 const getScatterplotHeading = (region, metric, demographic, highlightedState) => {
   const vars = getVars(region, metric, demographic)
-  const titleKey = 'SP_TITLE_' + metric.toUpperCase() + '_' +
+  const titleKey = 'SP_TITLE_' + metric + '_' +
     (vars.xVar.indexOf('ses') > -1 ? 'SES' : 'FRL')
   const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
   const grades = metric === 'avg' ? 'grades 3 - 8' :
@@ -79,17 +79,18 @@ const SedaExplorerChart = ({
     getLang('LEGEND_LOW_'+xMetricId)
   const rightLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
     getLang('LEGEND_HIGH_'+xMetricId)
-
+  const heading = useMemo(() =>
+    getScatterplotHeading(region, metric, demographic, highlightedState)
+  , [region, metric, demographic, highlightedState])
   return (
     <DynamicScatterplot {...{
       ...scatterplot,
       region,
       data,
-      hovered,
-      heading: getScatterplotHeading(region, metric, demographic, highlightedState),
       variant: 'map',
       colors: COLORS,
-      selected: selected[region] ? selected[region] : [],
+      hovered,
+      selected: selected[region],
       highlightedState: getStateFipsFromAbbr(highlightedState),
       onData,
       onReady,
@@ -98,6 +99,16 @@ const SedaExplorerChart = ({
       onError
     }}
     >
+      { heading &&
+        <div className='dynamic-scatterplot__heading'>
+          <Typography variant='h6' component="span" className='dynamic-scatterplot__title'>
+            { heading.title }
+          </Typography>
+          <Typography variant='body2' component="span" className='dynamic-scatterplot__subtitle'>
+            { heading.subtitle }
+          </Typography>
+        </div>
+      }
       <GradientLegend {...{
         colors: COLORS,
         colorRange: getMetricRange(metric, demographic, region, 'map'),
