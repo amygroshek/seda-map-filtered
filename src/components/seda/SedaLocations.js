@@ -55,6 +55,7 @@ const getCards = (selected, features) =>
 const SedaLocations = ({
   selected,
   features,
+  activeId,
   onCardDismiss, 
   onCardHover, 
   onCardClick, 
@@ -64,7 +65,7 @@ const SedaLocations = ({
   const cards = useMemo(() => getCards(selected, features), [ selected ])
   return (
     <SummaryCardStack
-      {...{cards, onCardDismiss, onCardHover, onCardClick, onCardEntered, onCardExited}}
+      {...{activeId, cards, onCardDismiss, onCardHover, onCardClick, onCardEntered, onCardExited}}
     >
     </SummaryCardStack>
   )
@@ -82,12 +83,15 @@ SedaLocations.propTypes = {
 }
 
 const mapStateToProps = (
-  { selected, features, active }, 
+  { selected, features, active, ui: { helpOpen } }, 
   { match: { params: {region} }}
 ) => ({
-  activeId: active && active.properties ? active.properties.id : null,
-  selected: (selected[region] || []),
-  features
+  // NOTE: adding helpOpen conditional here because activeId determines
+  // if the pinned locations shift or not
+  activeId: !helpOpen && active && active.properties ? active.properties.id : null,
+  selected: selected[region],
+  features,
+  region
 })
 
 const mapDispatchToProps = (dispatch) => ({

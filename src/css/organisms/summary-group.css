@@ -8,6 +8,10 @@
   flex-direction: column-reverse;
 }
 
+.summary-group--shift {
+  margin-left: var(--panel-width);
+}
+
 @media(min-width: 600px) {
   .summary-group {
     flex-direction: row;

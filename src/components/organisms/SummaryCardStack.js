@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import SummaryCard from '../molecules/SummaryCard';
 import { Tabs, Tab } from '@material-ui/core';
@@ -53,7 +54,7 @@ const SummaryCardStack = ({
     </CardTransition>
   ))
   return (
-    <div className="summary-group">
+    <div className={classNames("summary-group", { 'summary-group--shift': activeId })}>
       <TransitionGroup
         component={Tabs}
         className='summary-group__cards'
