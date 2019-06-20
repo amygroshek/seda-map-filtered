@@ -6,7 +6,7 @@
   margin-bottom:0;
 }
 
-.location-summary__stats .location-item__name {
+.location-summary__stats .location-item__heading {
   display: none
 }
 
@@ -18,6 +18,21 @@
   margin: -8px -16px 16px;
   padding: 8px 16px;
 
+}
+
+.location-item__heading {
+  display: flex;
+  align-items:center;
+}
+
+.location-item .marker--circle {
+  width: 8px;
+  height: 8px;
+  border:none;
+  color: transparent;
+  margin-right: 8px;
+  margin-bottom: 6px;
+  
 }
 
 .location-item__name {

@@ -4,7 +4,13 @@ import classNames from 'classnames'
 import { Typography } from '@material-ui/core';
 import LocationItem from './LocationItem';
 
-const LocationList = ({summary, feature, className, others = []}) => {
+const LocationList = ({
+  summary, 
+  metrics = ['avg', 'grd', 'coh'],
+  demographic = 'all', 
+  feature, className, 
+  others = []
+}) => {
   return feature ? (
     <div className={classNames('location-list', className)}>
       { summary && 
@@ -13,7 +19,13 @@ const LocationList = ({summary, feature, className, others = []}) => {
       {
         others.map((f,i) =>
           f.properties.id !== feature.properties.id && 
-            <LocationItem key={'f'+i} feature={f} />
+            <LocationItem 
+              key={'f'+i} 
+              number={i} 
+              feature={f}
+              demographic={demographic}
+              metrics={metrics}
+            />
         )
       }
     </div>
@@ -22,8 +34,10 @@ const LocationList = ({summary, feature, className, others = []}) => {
 
 LocationList.propTypes = {
   summary: PropTypes.string,
+  demographic: PropTypes.string,
   feature: PropTypes.object,
   others: PropTypes.array,
+  metrics: PropTypes.array,
   className: PropTypes.string,
 }
 

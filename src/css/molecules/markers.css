@@ -1,5 +1,8 @@
 
-.circle {
+
+
+.circle,
+.marker.marker--circle {
   width: 24px;
   height: 24px;
   border-radius: 100%;
@@ -27,9 +30,10 @@
 
 }
 
-
 .marker {
   width: 8px;
   height: 8px;
   border-radius: 4px;
+  font-size: 12px;
+  font-family: var(--heading-font);
 }

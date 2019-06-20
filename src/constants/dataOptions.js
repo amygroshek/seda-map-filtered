@@ -12,7 +12,7 @@ export const DEFAULT_VIEWPORT = {
   zoom: 3.15
 }
 
-export const MAX_LOCATIONS = 7;
+export const MAX_LOCATIONS = 6;
 
 /**
  * default vars for each section
