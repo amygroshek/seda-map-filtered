@@ -8,13 +8,19 @@ import {
   BASE_VARS,
   MAP_ID_LENGTH_TO_REGION,
   MAX_LOCATIONS,
-  NO_DATA_COLOR
+  NO_DATA_COLOR,
+  REGION_DOMAINS,
+  DOT_SIZES
 } from '../constants/dataOptions';
+import * as scale from 'd3-scale';
+
 
 /**
  * Gets the configuration for base variables
  */
 export const getBaseVars = () => BASE_VARS
+
+export const getDotSize = () => DOT_SIZES
 
 /**
  * Gets the configuration for selected colors
@@ -47,6 +53,8 @@ export const getRegions = () => REGIONS
 
 export const getSingularRegions = () => 
   REGIONS.map(r => ({id: r.id, label: r.singular}))
+
+export const getRegionDomain = (id) => REGION_DOMAINS[id]
 
 /**
  * Gets the configuration for demographics
@@ -332,7 +340,30 @@ export const getMetricRangeFromVarName = (varName, region, type) => {
   return getMetricRange(metricId, demId, region, type);
 }
 
+/**
+ * Returns a scale function that can be used to map data values
+ * to dot sizes
+ * @param {object} data data to generate scale for (e.g. { '01001': 3.4, ... })
+ * @param {object} options range and exponent options for scale
+ */
+export const getSizerFunctionForRegion = (
+  region, 
+  range = getDotSize(), 
+  exponent = 1
+) => {
+  return scale.scalePow()
+    .exponent(exponent)
+    .domain(getRegionDomain(region))
+    .range(range)
+    .clamp(true);
+}
 
+/**
+ * Returns a CSS gradient string with the given colors
+ * to match the provided value range and color distribution
+ * range.
+ * @param {*} param0 configuration for gradient string
+ */
 export const getGradient = ({
   colors = getChoroplethColors(), 
   legendRange = [0,1], 

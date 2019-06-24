@@ -1,7 +1,14 @@
 import LANG from "./lang";
 
 /** min / max dot sizes */
-export const DOT_SIZES = [ 6, 48 ]
+export const DOT_SIZES = [ 8, 48 ]
+
+/** data ranges to map to size ranges */
+export const REGION_DOMAINS = {
+  'counties': [ 1000, 100000 ],
+  'districts': [ 1000, 10000 ],
+  'schools': [ 10, 500 ],
+}
 
 /**
  * default viewport on map view

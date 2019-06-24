@@ -1,8 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName, getDemographicLabel } from '../modules/config';
+import { getSizerFunctionForRegion, isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName, getDemographicLabel } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
-import { getSizerFunction } from '../utils';
 
 /** GRID CONFIGURATION  */
 
@@ -837,7 +836,7 @@ export const getScatterplotOptions = (
   region
 ) => {
   if (!data[xVar] || !data[yVar] || !data[zVar]) { return {} }
-  const sizer = getSizerFunction(data[zVar], { range: [ 8, 48 ]})
+  const sizer = getSizerFunctionForRegion(region)
   const options = {
     grid: grid(variant),
     visualMap: visualMap(variant, { varName: yVar, highlightedState, region }),

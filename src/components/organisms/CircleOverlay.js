@@ -1,25 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getSelectedColors } from '../../modules/config';
-
-const colors = getSelectedColors();
-
-/**
- * Returns a percent based on where the value falls 
- * within the range
- * @param {number} value 
- * @param {array<number>} range 
- */
-const getPercentOfRange = (value, range) =>
-  ( (value - range[0]) / (range[1] - range[0]) ) * 100
 
 const CircleOverlay = ({ 
-  circles, 
-  xRange, 
-  yRange, 
-  sizer,
-  variant,
+  circles,
+  colors = [ '#f00' ],
   onHover, 
   onClick,
   ...rest
@@ -35,7 +20,7 @@ const CircleOverlay = ({
           (c.y || c.y === 0) && 
           (c.z || c.z === 0) ?
           <div 
-            key={'circle-' + variant + i}
+            key={'circle-' + i}
             className={
               classNames(
                 "circle-overlay__circle", 
@@ -43,25 +28,22 @@ const CircleOverlay = ({
               )
             }
             style={{
-              
-              transform: 'translate(' +
-                getPercentOfRange(c.x, xRange) + '%,' +
-                (100 - getPercentOfRange(c.y, yRange)) + '%)'
+              transform: `translate(${c.x},${c.y})`
             }}
           >
             <div 
               className="circle"
               style={{
                 background: colors[i%colors.length],
-                width: sizer(c.z) + 'px',
-                height: sizer(c.z) + 'px',
+                width: c.z + 'px',
+                height: c.z + 'px',
               }}
               onMouseOver={(e) => onHover(c, e)}
               onClick={(e) => onClick(c, e)}
             />
           </div>
           :
-          <div key={'circle-' + variant + i} />
+          <div key={'circle-' + i} />
         )
       }
     </div>
@@ -78,10 +60,7 @@ CircleOverlay.propTypes = {
       active: PropTypes.bool
     })
   ),
-  variant: PropTypes.string,
-  xRange: PropTypes.array,
-  yRange: PropTypes.array,
-  sizer: PropTypes.func,
+  colors: PropTypes.array,
   onHover: PropTypes.func,
   onClick: PropTypes.func,
 }

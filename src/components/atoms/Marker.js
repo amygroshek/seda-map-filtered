@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const Marker = ({ color, className, style, ...rest }) => {
+const Marker = ({ children, color, className, style, ...rest }) => {
   return (
     <div
       className={classNames('marker', className)}
@@ -11,7 +11,7 @@ const Marker = ({ color, className, style, ...rest }) => {
         ...style
       }}
       {...rest}
-    ></div>
+    >{children}</div>
   )
 }
 
@@ -19,6 +19,7 @@ Marker.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
+  children: PropTypes.node,
 }
 
 export default Marker

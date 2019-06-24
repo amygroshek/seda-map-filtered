@@ -48,7 +48,7 @@ const ExplorerView = ({
   ...props
 }) => {
   // use state to track if the intro is on / off
-  const [introOn, setIntroOn] = useState(true);
+  const [introOn, setIntroOn] = useState(false);
 
   // use memo to store other features
   const others = useMemo(() => 

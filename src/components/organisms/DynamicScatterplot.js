@@ -2,12 +2,10 @@ import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from '../../style/echartTheme';
-import { getBaseVars, getMetricRangeFromVarName } from '../../modules/config'
+import { getBaseVars } from '../../modules/config'
 import { getScatterplotOptions } from '../../style/scatterplot-style';
-import CircleOverlay from '../organisms/CircleOverlay';
-import { getSizerFunction } from '../../utils';
-import { getDataForId } from '../../modules/scatterplot';
 
+const baseVars = getBaseVars()
 const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
 
 /**
@@ -33,69 +31,15 @@ const getStateHighlights = (stateId, data) => {
     getStateIds(Object.keys(data['name']), stateId) : []
 }
 
-/**
- * Gets an object containing the state to render a circle
- * @param {string} id 
- * @param {number|string} x 
- * @param {number|string} y 
- * @param {number|string} z 
- * @param {boolean} active 
- */
-const getCircle = (id, x, y, z, active) => ({
-  id,
-  active,
-  x: parseFloat(x),
-  y: parseFloat(y),
-  z: parseFloat(z)
-})
-
-/**
- * Returns an object with props to render the circle overlay
- * @param {string} xVar 
- * @param {string} yVar 
- * @param {string} zVar 
- * @param {object} data 
- * @param {string} region 
- * @param {array} selected 
- * @param {Feature} hovered 
- */
-const getCircleOverlay = 
-  (xVar, yVar, zVar, data, region, selected, hovered) => {
-    if (!data || !data[xVar] || !data[yVar] || !data[zVar]) {
-      return {}
-    }
-    const hoveredId = hovered && hovered.properties && hovered.properties.id ?
-      hovered.properties.id : null
-    // add circles for selected items
-    const circles = selected.map(s => 
-      getCircle(s, data[xVar][s], data[yVar][s], data[zVar][s], hoveredId === s)
-    )
-    // add circle for hovered item if it exists
-    if (hoveredId && selected.indexOf(hoveredId) === -1) {
-      const featProps = hovered.properties
-      circles.push(
-        getCircle(hoveredId, featProps[xVar], featProps[yVar], featProps[zVar], true)
-      )
-    }
-    return {
-      xRange: getMetricRangeFromVarName(xVar, region),
-      yRange: getMetricRangeFromVarName(yVar, region),
-      sizer: getSizerFunction(data[zVar], { range: [ 12, 52 ]}),
-      circles
-    }
-}
 
 function DynamicScatterplot({
   data,
   xVar,
   yVar,
   zVar,
-  heading,
   region,
-  hovered,
   highlightedState,
   variant,
-  selected,
   freeze,
   error,
   children,
@@ -123,13 +67,6 @@ function DynamicScatterplot({
     () => getStateHighlights(highlightedState, data && data[region]),
     [highlightedState, region, data[region]]
   );  
-  // memoize circle overlay
-  const circleOverlay = useMemo(() => {
-    return getCircleOverlay(
-      xVar, yVar, zVar, 
-      data[region], region, selected, hovered
-    )
-  }, [xVar, yVar, zVar, data[region], selected, hovered])
   // fetch any additional school level data for highlighted states
   useEffect(() => {
     if (!freeze && region === 'schools' && highlightedState && highlightedState !== 'us') {
@@ -168,31 +105,11 @@ function DynamicScatterplot({
         }}
         prefix={region}
         options={scatterplotOptions}
-        metaVars={getBaseVars()}
+        metaVars={baseVars}
         onHover={(loc) => loc && loc.id ?
           onHover({ id: loc.id, properties: loc }) :
           onHover(null)
         }
-      />
-      <CircleOverlay
-        {...circleOverlay}
-        variant={variant}
-        style={scatterplotOptions.grid}
-        onHover={(circle) => {
-          onHover({
-            id: circle.id, 
-            properties: { 
-              id: circle.id,
-              ...getDataForId(circle.id, data[region])
-            }
-          })
-        }}
-        onClick={(circle) => { 
-          onClick({
-            id: circle.id,
-            ...getDataForId(circle.id, data[region])
-          })
-        }}
       />
       {children}
     </div>

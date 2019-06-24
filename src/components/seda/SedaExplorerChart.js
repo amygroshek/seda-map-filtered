@@ -14,8 +14,26 @@ import GradientLegend from '../molecules/GradientLegend';
 import DynamicScatterplot from '../organisms/DynamicScatterplot';
 import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions/scatterplotActions";
 import { Typography } from '@material-ui/core';
+import LocationMarkers from '../molecules/LocationMarkers';
 
 const COLORS = getChoroplethColors();
+
+const ConnectedMarkers = compose(
+  withRouter,
+  connect(
+    (
+      { selected, features, sections: { map: { hovered } } }, 
+      { match: { params: { region, metric, demographic }}}
+    ) => ({
+      xVar: [demographic, 'ses'].join('_'), 
+      yVar: [demographic, metric].join('_'), 
+      zVar: 'all_sz', 
+      selected: selected[region], 
+      region, 
+      features, 
+      hovered,
+    }), null)
+)(LocationMarkers)
 
 /**
  * Gets the variables for the map section
@@ -66,7 +84,6 @@ const SedaExplorerChart = ({
   highlightedState,
   hovered,
   data,
-  selected,
   onData,
   onReady,
   onHover,
@@ -89,8 +106,6 @@ const SedaExplorerChart = ({
       data,
       variant: 'map',
       colors: COLORS,
-      hovered,
-      selected: selected[region],
       highlightedState: getStateFipsFromAbbr(highlightedState),
       onData,
       onReady,
@@ -109,6 +124,7 @@ const SedaExplorerChart = ({
           </Typography>
         </div>
       }
+      <ConnectedMarkers />
       <GradientLegend {...{
         colors: COLORS,
         colorRange: getMetricRange(metric, demographic, region, 'map'),
@@ -144,7 +160,6 @@ SedaExplorerChart.propTypes = {
 
 const mapStateToProps = ({ 
   scatterplot: { data },
-  selected,
   sections: { map: { hovered } },
 },
 { match: { params: { region, metric, demographic, highlightedState } } }
@@ -156,7 +171,6 @@ const mapStateToProps = ({
     highlightedState,
     hovered,
     data,
-    selected,
   })
 }
 
