@@ -34,13 +34,13 @@ const mapStateToProps = ({
   map: { coords: { x, y }, viewport },
   sections: { map: { hovered } }
 }, {
-  match: { params: { metric, demographic } }
+  match: { params: { metric, demographic, secondary } }
 }) => {
   // console.log('mapping', x, y)
   return {
     x,
     y,
-    xVar: [demographic, 'ses'].join('_'),
+    xVar: [demographic, secondary].join('_'),
     yVar: [demographic, metric].join('_'),
     feature: hovered,
     above: viewport && viewport.height && 

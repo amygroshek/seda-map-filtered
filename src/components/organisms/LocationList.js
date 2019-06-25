@@ -21,7 +21,7 @@ const LocationList = ({
           f.properties.id !== feature.properties.id && 
             <LocationItem 
               key={'f'+i} 
-              number={i} 
+              number={i+1} 
               feature={f}
               demographic={demographic}
               metrics={metrics}

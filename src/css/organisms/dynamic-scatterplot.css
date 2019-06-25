@@ -12,28 +12,6 @@
   right: 100px;
   bottom: 32px;
   left: 24px;
-  pointer-events: none;
-}
-
-.dynamic-scatterplot .location-markers .marker__root {
-  transition: transform 0.4s ease-in-out 0.5s;
-}
-
-.dynamic-scatterplot .location-markers .marker__root.marker__root--hover {
-  transition: none;
-  
-}
-
-.dynamic-scatterplot .location-markers .marker {
-  /* pointer-events: all; */
-  color: #fff;
-  text-shadow: 0 0 2px #000;
-  box-shadow: 0 0 2px #000;
-}
-
-.dynamic-scatterplot .circle {
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s cubic-bezier(0,1,.5,1);
 }
 
 .dynamic-scatterplot__heading {

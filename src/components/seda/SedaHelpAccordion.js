@@ -7,7 +7,11 @@ import { withRouter } from 'react-router-dom';
 import Accordion from '../organisms/Accordion';
 import { isGapDemographic } from '../../modules/config';
 
-
+/**
+ * Gets the question IDs to show in the panel given
+ * the current context
+ * @param {*} param0 
+ */
 const getQuestionIdsForContext = ({demographic}) => {
   const isGap = isGapDemographic(demographic)
   const ids = [
@@ -22,7 +26,11 @@ const getQuestionIdsForContext = ({demographic}) => {
   return ids;
 }
 
-
+/**
+ * Gets the text content for the given question id and context
+ * @param {*} qId 
+ * @param {*} context 
+ */
 const getContentForContext = (qId, context) => {
   switch (qId) {
     case 'WT_Q1':
@@ -45,7 +53,8 @@ const getContentForContext = (qId, context) => {
 const SedaHelpAccordion = ({ 
   region, 
   metric, 
-  view, 
+  view,
+  secondary,
   demographic, 
 }) => {
   const [ expanded, setExpanded ] = useState([]);
@@ -55,7 +64,7 @@ const SedaHelpAccordion = ({
       metric, 
       view, 
       demographic, 
-      secondary: 'ses', 
+      secondary, 
       concept:  'concept_' + metric,
       demographic1: demographic[0],
       demographic2: demographic[1]
@@ -83,14 +92,15 @@ SedaHelpAccordion.propTypes = {
   region: PropTypes.string,
   demographic: PropTypes.string,
   metric: PropTypes.string,
-  view: PropTypes.string
+  view: PropTypes.string,
+  secondary: PropTypes.string,
 }
 
 
 const mapStateToProps = (
   state,
-  { match: { params: { region, demographic, metric, view }}}
-) => ({region, demographic, metric, view})
+  { match: { params: { secondary, region, demographic, metric, view }}}
+) => ({region, demographic, metric, view, secondary})
 
 export default compose(
   withRouter,

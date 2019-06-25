@@ -775,6 +775,9 @@ export const getTooltipText = (values) => {
   return text !== '' ? text : getLang('DATA_UNAVAILABLE')
 }
 
+/**
+ * Returns the tooltip config for the given context
+ */
 const getTooltip = ({ data, xVar, yVar, ...rest }) => {
   const xLabel = getLabelFromVarName(xVar);
   const yLabel = getLabelFromVarName(yVar);

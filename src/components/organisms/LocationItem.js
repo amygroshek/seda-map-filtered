@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { getLang } from '../../constants/lang';
 import { getColorForValue, getRegionFromId } from '../../modules/config';
 import StatsItem from '../molecules/StatsItem';
-import Marker from '../atoms/CircleMarker';
+import Marker from '../atoms/BaseMarker';
 import { getSelectedColors } from '../../modules/config';
 
 const round = (num) => Math.round(num*10)/10
@@ -21,7 +21,7 @@ const LocationItem = ({
       <div className="location-item__heading">
         <Marker 
           className="location-item__marker" 
-          color={SELECTED[number]} 
+          color={SELECTED[number-1]} 
           type="circle"
         >
           {number}
