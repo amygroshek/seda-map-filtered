@@ -1,0 +1,189 @@
+.legend-bar {
+  position:relative;
+  width: 100%;
+  background: #fff;
+  padding: 4px;
+  font-weight: 900;
+  color: #777;
+  line-height: 1;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-bar.legend-bar--title {
+  height: 80px;
+}
+
+.legend-bar__title,
+.legend-panel__title {
+  font-size: var(--micro-font-size);
+  font-weight: 900;
+  color: var(--text-secondary);
+  height: 24px;
+  line-height: 16px;
+  background: #eee;
+  padding: 4px;
+  text-transform: capitalize;
+}
+
+.legend-bar__title {
+  margin: -4px -4px 8px -4px;
+}
+
+.legend-bar__labels {
+  order:3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-transform: uppercase;
+  margin: 8px 0 0 0;
+}
+
+.legend-bar__values {
+  order: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: 13px;
+  font-family: var(--alt-font);
+  margin-bottom: 4px;
+  }
+
+.map .legend-bar__values { display :flex; }
+
+.legend-bar__label {
+  font-family: var(--alt-font);
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+
+
+.legend-bar__gradient {
+  position: relative;
+  order: 2;
+  height: 8px;
+}
+
+.legend-bar.legend-bar--secondary .legend-bar__gradient {
+  border: 1px solid var(--darken4);
+  border-top: none;
+}
+
+.legend-bar.legend-bar--secondary .legend-bar__gradient:after {
+  content:"";
+  height: 6px;
+  width:1px;
+  background: var(--darken4);
+  position:absolute;
+  left:50%;
+  bottom:0;
+  display: block;
+}
+.legend-bar.legend-bar--secondary .legend-bar__gradient:before {
+  content:"";
+  height: 6px;
+  width:50%;
+  border: 1px solid var(--darken4);
+  border-top: none;
+  border-bottom:none;
+  position:absolute;
+  left:25%;
+  bottom:0;
+  display: block;
+
+}
+
+.legend-bar__marker {
+  top:0;
+  left:0;
+  bottom: 0;
+  right:0;
+  opacity:0;
+  position: absolute;  
+  height:100%;
+  pointer-events: none;
+  width:100%;
+  transition: transform 0.4s ease 0.01s, opacity 0.4s ease;
+  transform: translateX(50%);
+}
+
+.legend-bar__marker--show { 
+  opacity:1;
+}
+
+
+
+.legend-bar__tick {
+  position: absolute;
+  height: 22px;
+  line-height:16px;
+  background: #000;
+  color: #fff;
+  padding:4px;
+  transform: translateX(-50%);
+  text-align:center;
+  font-family: var(--alt-font);
+  font-weight: normal;
+  border-radius: 2px;
+  font-size: 13px;
+  min-width: 24px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+.legend-bar__tick:after {
+  content:"";
+  width:0;
+  height:0;
+  display:block;
+  border: 6px solid transparent;
+  border-bottom-color: #000;
+  position:absolute;
+  left:0;
+  right:0;
+  margin:auto;
+  top: -12px;
+}
+
+
+/** Vertical */
+
+.legend-bar--vertical {
+  position: absolute;
+  width: 8px;
+  height: auto;
+}
+
+.legend-bar--vertical .legend-bar__gradient {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top:0;
+  width: 100%;
+  height:100%;
+}
+
+.legend-bar--vertical .legend-bar__marker {
+  
+}
+
+.legend-bar--vertical .legend-bar__tick {
+  margin-top: -12px;
+  white-space: nowrap;
+  transform: translateX(-100%);
+  /* left:-200px; */
+}
+
+.legend-bar--vertical .legend-bar__tick:after {
+  border: 6px solid transparent;
+  border-left-color: #000;
+  position:absolute;
+  right:-12px;
+  left:auto;
+  margin:auto;
+  top: 0;
+  bottom: 0;
+}

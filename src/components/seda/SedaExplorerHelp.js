@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
-import GradientLegend from '../molecules/GradientLegend';
+import LegendBar from '../molecules/LegendBar';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
 import MapVisualLegend from '../molecules/MapVisualLegend';
 
@@ -82,7 +82,7 @@ const SedaExplorerHelp = ({
             </Typography>
           }
           <div className="visual-help__legend">
-            <GradientLegend vertical={true} />
+            <LegendBar vertical={true} />
             <ul className={classNames("visual-help__list", "visual-help__list--" + context.view)}>
               <li className="visual-help__list-item">
                 <span 

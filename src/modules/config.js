@@ -191,7 +191,7 @@ export const getLabelFromVarName = (varName) => {
  * Returns the metric id portion of the variable name
  */
 export const getMetricIdFromVarName = (varName) =>
-  varName.split('_')[1]
+  typeof varName === 'string' ? varName.split('_')[1] : null
 
 /**
  * Returns the metric object that corresponds to the metric
@@ -282,6 +282,7 @@ export const getStopsForVarName = (varName, region, colors = getChoroplethColors
  * @returns {number} between 0 - 1
  */
 export const getValuePositionForMetric = (value, varName, region) => {
+  if (!value && value !== 0) { return null; }
   return getValuePositionInRange(
     value,
     getMetricRangeFromVarName(varName, region)

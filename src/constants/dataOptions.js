@@ -215,26 +215,26 @@ export const DEMOGRAPHICS = [
     id: 'h',
     label: LANG['LABEL_H']
   },
-  // {
-  //   id: 'a',
-  //   label: LANG['LABEL_A']
-  // },
-  // {
-  //   id: 'm',
-  //   label: LANG['LABEL_M']
-  // },
-  // {
-  //   id: 'f',
-  //   label: LANG['LABEL_F']
-  // },
-  // {
-  //   id: 'p',
-  //   label: LANG['LABEL_P']
-  // },
-  // {
-  //   id: 'np',
-  //   label: LANG['LABEL_NP']
-  // },
+  {
+    id: 'a',
+    label: LANG['LABEL_A']
+  },
+  {
+    id: 'm',
+    label: LANG['LABEL_M']
+  },
+  {
+    id: 'f',
+    label: LANG['LABEL_F']
+  },
+  {
+    id: 'p',
+    label: LANG['LABEL_P']
+  },
+  {
+    id: 'np',
+    label: LANG['LABEL_NP']
+  },
   {
     id: 'frl',
     'label': LANG['LABEL_FRL']

@@ -9,7 +9,7 @@ import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/states
 import { getFeatureProperty } from '../../modules/features';
 import { getLang, hasLangKey } from '../../constants/lang';
 import { loadLocation } from "../../actions/featuresActions";
-import GradientLegend from '../molecules/GradientLegend';
+import LegendBar from '../molecules/LegendBar';
 import DynamicScatterplot from '../organisms/DynamicScatterplot';
 import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions/scatterplotActions";
 import { Typography } from '@material-ui/core';
@@ -81,6 +81,9 @@ const SedaExplorerChart = ({
   const heading = useMemo(() =>
     getScatterplotHeading(region, metric, demographic, highlightedState)
   , [region, metric, demographic, highlightedState])
+  const hoveredPrimary = Math.round(
+    getFeatureProperty(hovered, demographic + '_' + metric)*100
+  )/100;
   return (
     <DynamicScatterplot {...{
       ...scatterplot,
@@ -107,8 +110,9 @@ const SedaExplorerChart = ({
         </div>
       }
       <SedaLocationMarkers />
-      <GradientLegend {...{
+      <LegendBar {...{
         colors: COLORS,
+        value: hoveredPrimary,
         colorRange: getMetricRange(metric, demographic, region, 'map'),
         legendRange: getMetricRange(metric, demographic, region),
         markerPosition: hovered && hovered.properties ?

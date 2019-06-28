@@ -23,7 +23,9 @@ const CircleMarker = ({
         style={{
           width: size + 'px',
           height: size + 'px',
-          transform: 'translate(' + (-1*size)/2 + 'px, ' + (-1*size)/2 + 'px)'
+          transform: 'translate(' + 
+            ((-1*size)/2) + 'px, ' + 
+            ((-1*size)/2) + 'px)'
         }}
         {...props}
       >

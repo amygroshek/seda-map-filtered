@@ -3,40 +3,44 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getChoroplethColors, getValuePositionForMetric, getMetricRange } from '../../modules/config';
 import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
-import { getFeatureProperty } from '../../modules/features';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { defaultMapStyle } from '../../style/map-style';
 import { getMapViewport, getLayers } from '../../modules/map';
 import { getHoveredId } from '../../modules/sections';
 import { getSelectedColors } from '../../modules/config';
 import MapTooltip from '../seda/SedaMapTooltip';
-import GradientLegend from '../molecules/GradientLegend';
 import BaseMap from '../molecules/BaseMap';
-import { getLang } from '../../constants/lang';
 import { handleLocationActivation } from '../../actions/featuresActions';
+import SedaMapLegend from './SedaMapLegend';
 
 const selectedColors = getSelectedColors();
-const choroplethColors = getChoroplethColors();
 
 const SedaExplorerMap = ({
+  view,
   region, 
   viewport, 
   metric, 
   demographic, 
   highlightedState,
+  secondary,
+  hovered,
   idMap,
+  legendType,
   selectedIds,
-  hoveredPosition,
   hoveredId,
   resetHighlightedState,
   onViewportChange, 
   onHover, 
-  onClick
+  onClick,
+  onLegendToggle,
+  onFullChartClick,
+  onHelpClick
 }) => {
   const zoomLevel = viewport.zoom > 11 ? 'school' :
     viewport.zoom > 8 ? 'district' : 'county'
+  
+  
   useEffect(() => {
     if (viewport.zoom < 4.5 && 
       highlightedState !== 'us' && 
@@ -45,37 +49,47 @@ const SedaExplorerMap = ({
       resetHighlightedState()
     }
   }, [viewport.zoom])
+
+  // map layers for choropleths / dots
   const layers = useMemo(() => {
     return getLayers({
       region, metric, demographic, highlightedState, zoomLevel
     })
   }, [ region, metric, demographic, highlightedState, zoomLevel ])
   return (
-    <BaseMap
-      style={defaultMapStyle}
-      selectedColors={selectedColors}
-      attributionControl={true}
-      layers={layers}
-      viewport={viewport}
-      idMap={idMap}
-      selectedIds={selectedIds}
-      hoveredId={hoveredId}
-      {...{onViewportChange, onHover, onClick}}
-    >
-      <GradientLegend 
-        colors={choroplethColors} 
-        startLabel={getLang('LEGEND_LOW_'+metric)}
-        endLabel={getLang('LEGEND_HIGH_'+metric)}
-        colorRange={getMetricRange(metric, demographic, region, 'map')}
-        legendRange={getMetricRange(metric, demographic, region)}
-        markerPosition={hoveredPosition}
-      />
-      { hoveredId && <MapTooltip /> }
-    </BaseMap>
+    <div className="seda-explorer-map">
+      <BaseMap
+        style={defaultMapStyle}
+        selectedColors={selectedColors}
+        attributionControl={true}
+        layers={layers}
+        viewport={viewport}
+        idMap={idMap}
+        selectedIds={selectedIds}
+        hoveredId={hoveredId}
+        {...{onViewportChange, onHover, onClick}}
+      >
+        { hoveredId && <MapTooltip /> }
+      </BaseMap>
+      { view !== 'split' &&
+          <SedaMapLegend 
+            variant={legendType}
+            metric={metric}
+            demographic={demographic}
+            region={region}
+            secondary={secondary}
+            hovered={hovered}
+            onToggleClick={onLegendToggle}
+            onFullClick={onFullChartClick}
+            onHelpClick={onHelpClick}
+          />
+      }
+    </div>
   )
 }
 
 SedaExplorerMap.propTypes = {
+  active: PropTypes.bool,
   region: PropTypes.string, 
   viewport: PropTypes.object, 
   metric: PropTypes.string, 
@@ -93,32 +107,27 @@ SedaExplorerMap.propTypes = {
 
 const mapStateToProps = ({ 
   selected,
+  ui: { legendType },
   map: { idMap, viewport },
   sections: { map: { hovered } },
 },
-{ match: { params: { region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { secondary, region, metric, demographic, highlightedState, ...params } } }
 ) => {
   return ({
     idMap,
     region,
     metric, 
     demographic,
+    secondary,
     highlightedState,
+    selected,
+    hovered,
+    legendType,
     hoveredId: getHoveredId(hovered),
-    hoveredPosition: hovered && hovered.properties ?
-      getValuePositionForMetric(
-        getFeatureProperty(hovered, demographic + '_' + metric),
-        demographic + '_' + metric,
-        region
-      ) : null,
-    selectedIds: selected[region] || [],
+    selectedIds: selected[region],
     viewport: getMapViewport(viewport, params),
   })
 }
-
-// was using this to debounce hover, but not needed currently
-// const debouncedDispatch = 
-//   _debounce((dispatch, func) => dispatch(func()),10)
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onHover: (feature, coords) => {
@@ -135,7 +144,31 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onClick: (feature) => dispatch(
     handleLocationActivation(feature)
-  )
+  ),
+  onLegendToggle: () => dispatch({
+    type: 'TOGGLE_LEGEND_TYPE'
+  }),
+  onFullChartClick: () => {
+    updateRoute(ownProps, { view: 'chart' })
+  },
+  onHelpClick: () => dispatch(
+    (() => (d, getState) => {
+      const state = getState();
+      const helpOpen = state.ui.helpOpen;
+      const hasActiveLocation = Boolean(state.active);
+      if (hasActiveLocation) {
+        d({
+          type: 'CLEAR_ACTIVE_LOCATION'
+        })
+      } 
+      if (!helpOpen) {
+        d({
+          type: 'TOGGLE_HELP',
+          open: true
+        })
+      }
+    })()
+  ),
 })
 
 

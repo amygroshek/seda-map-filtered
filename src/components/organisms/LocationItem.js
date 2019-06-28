@@ -6,7 +6,7 @@ import StatsItem from '../molecules/StatsItem';
 import Marker from '../atoms/BaseMarker';
 import { getSelectedColors } from '../../modules/config';
 
-const round = (num) => Math.round(num*10)/10
+const round = (num) => Math.round(num*100)/100
 const SELECTED = getSelectedColors();
 
 const LocationItem = ({ 

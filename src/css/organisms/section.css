@@ -114,16 +114,15 @@
   }
 }
 
-.section__right .map .gradient-legend {
+.section__right .map-legend {
   position: absolute;
   bottom: 24px;
   left: auto;
   right: 24px;
   max-width: 320px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
-.section__left .dynamic-scatterplot .gradient-legend {
+.section__left .dynamic-scatterplot .legend-bar {
   position: absolute;
   bottom: 32px;
   top: 24px;

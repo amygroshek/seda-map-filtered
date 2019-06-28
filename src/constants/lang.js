@@ -219,6 +219,8 @@ const LANG = {
   'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
 
   // Map Legend (Mobile)
+  'LEGEND_LOW': '◀ lower',
+  'LEGEND_HIGH': 'higher ▶',
   'LEGEND_LOW_AVG': '◀ below grade level',
   'LEGEND_HIGH_AVG': 'above grade level ▶',
   'LEGEND_LOW_GRD': '◀ growth below 1 grade',

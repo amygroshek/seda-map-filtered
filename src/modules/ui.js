@@ -2,7 +2,8 @@ const initialState = {
   menuOpen: false,
   helpOpen: false,
   statsViewActive: false,
-  helpTab: 0
+  helpTab: 0,
+  legendType: 'chart',
 }
 
 export default (state = initialState, action) => {
@@ -15,6 +16,11 @@ export default (state = initialState, action) => {
       return { ...state, helpTab: action.tab }
     case 'TOGGLE_STATS_VIEW':
       return { ...state, statsViewActive: action.active }
+    case 'TOGGLE_LEGEND_TYPE':
+      return { 
+        ...state, 
+        legendType: state.legendType === 'chart' ? 'condensed' : 'chart'
+      }
     default:
       return state
   }

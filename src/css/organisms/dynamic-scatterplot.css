@@ -14,6 +14,14 @@
   left: 24px;
 }
 
+.dynamic-scatterplot .legend-bar.legend-bar--vertical .legend-bar__values {
+  display: none;
+}
+
+.dynamic-scatterplot .legend-bar.legend-bar--vertical .legend-bar__tick {
+  left: -4px;
+}
+
 .dynamic-scatterplot__heading {
   position: absolute;
   z-index: 10;

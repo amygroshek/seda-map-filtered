@@ -4,7 +4,7 @@
 @import 'card.css';
 @import "./header.css";
 @import "./dynamic-scatterplot.css";
-@import "./gradient-legend.css";
+@import "./legend-bar.css";
 @import "./summary-group.css";
 @import "panel.css";
 @import "accordion.css";
@@ -13,3 +13,5 @@
 @import 'location-preview.css';
 @import 'stats.css';
 @import 'location-markers.css';
+@import 'map-legend.css';
+@import 'scatterplot-preview.css';

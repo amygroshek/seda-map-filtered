@@ -44,9 +44,9 @@ const mapStateToProps = ({
     yVar: [demographic, metric].join('_'),
     feature: hovered,
     above: viewport && viewport.height && 
-      y && y > (viewport.height / 1.25),
+      y && y > (viewport.height / 3),
     left: viewport && viewport.width && 
-      x && x > (viewport.width / 1.5) 
+      x && x > (viewport.width / 3) 
   }
 }
 
