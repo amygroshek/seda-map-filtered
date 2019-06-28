@@ -6,9 +6,20 @@
   height:100%;
 }
 
-.dynamic-scatterplot .circle {
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s cubic-bezier(0,1,.5,1);
+.dynamic-scatterplot .location-markers {
+  position: absolute;
+  top: 24px;
+  right: 100px;
+  bottom: 32px;
+  left: 24px;
+}
+
+.dynamic-scatterplot .legend-bar.legend-bar--vertical .legend-bar__values {
+  display: none;
+}
+
+.dynamic-scatterplot .legend-bar.legend-bar--vertical .legend-bar__tick {
+  left: -4px;
 }
 
 .dynamic-scatterplot__heading {
@@ -40,7 +51,7 @@
   overflow: visible;
 }
 
-.dynamic-scatterplot .circle-overlay__circle {
+.dynamic-scatterplot .marker__root {
   pointer-events:none;
   position:absolute;
   top:0;

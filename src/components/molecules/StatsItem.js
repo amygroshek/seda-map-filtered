@@ -6,8 +6,8 @@ const StatsItem = ({value, label, color, className }) => {
   return (
     <div className={
       classNames("stats__item", className)}
-      style={{ borderColor: color }}
     >
+      <span style={{ background: color }} className="stats__item-marker"></span>
       <span className="label stats__item-label">
         { label }
       </span>

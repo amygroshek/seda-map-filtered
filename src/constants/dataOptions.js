@@ -1,7 +1,14 @@
 import LANG from "./lang";
 
 /** min / max dot sizes */
-export const DOT_SIZES = [ 6, 48 ]
+export const DOT_SIZES = [ 8, 48 ]
+
+/** data ranges to map to size ranges */
+export const REGION_DOMAINS = {
+  'counties': [ 1000, 100000 ],
+  'districts': [ 1000, 10000 ],
+  'schools': [ 10, 500 ],
+}
 
 /**
  * default viewport on map view
@@ -12,7 +19,7 @@ export const DEFAULT_VIEWPORT = {
   zoom: 3.15
 }
 
-export const MAX_LOCATIONS = 7;
+export const MAX_LOCATIONS = 6;
 
 /**
  * default vars for each section
@@ -143,6 +150,7 @@ export const METRICS = [
       '*_*_h': [ -13, 5 ],
       '*_*_wb': [ -4, 14 ],
       '*_*_wh': [ -5, 16 ],
+      'map_*_*': [ -3, 3 ],
       '*': [ -6, 4 ],
     }
   },
@@ -207,26 +215,26 @@ export const DEMOGRAPHICS = [
     id: 'h',
     label: LANG['LABEL_H']
   },
-  // {
-  //   id: 'a',
-  //   label: LANG['LABEL_A']
-  // },
-  // {
-  //   id: 'm',
-  //   label: LANG['LABEL_M']
-  // },
-  // {
-  //   id: 'f',
-  //   label: LANG['LABEL_F']
-  // },
-  // {
-  //   id: 'p',
-  //   label: LANG['LABEL_P']
-  // },
-  // {
-  //   id: 'np',
-  //   label: LANG['LABEL_NP']
-  // },
+  {
+    id: 'a',
+    label: LANG['LABEL_A']
+  },
+  {
+    id: 'm',
+    label: LANG['LABEL_M']
+  },
+  {
+    id: 'f',
+    label: LANG['LABEL_F']
+  },
+  {
+    id: 'p',
+    label: LANG['LABEL_P']
+  },
+  {
+    id: 'np',
+    label: LANG['LABEL_NP']
+  },
   {
     id: 'frl',
     'label': LANG['LABEL_FRL']

@@ -9,11 +9,11 @@ import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/states
 import { getFeatureProperty } from '../../modules/features';
 import { getLang, hasLangKey } from '../../constants/lang';
 import { loadLocation } from "../../actions/featuresActions";
-
-import GradientLegend from '../molecules/GradientLegend';
+import LegendBar from '../molecules/LegendBar';
 import DynamicScatterplot from '../organisms/DynamicScatterplot';
 import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions/scatterplotActions";
 import { Typography } from '@material-ui/core';
+import SedaLocationMarkers from '../seda/SedaLocationMarkers';
 
 const COLORS = getChoroplethColors();
 
@@ -66,7 +66,6 @@ const SedaExplorerChart = ({
   highlightedState,
   hovered,
   data,
-  selected,
   onData,
   onReady,
   onHover,
@@ -82,6 +81,9 @@ const SedaExplorerChart = ({
   const heading = useMemo(() =>
     getScatterplotHeading(region, metric, demographic, highlightedState)
   , [region, metric, demographic, highlightedState])
+  const hoveredPrimary = Math.round(
+    getFeatureProperty(hovered, demographic + '_' + metric)*100
+  )/100;
   return (
     <DynamicScatterplot {...{
       ...scatterplot,
@@ -89,8 +91,6 @@ const SedaExplorerChart = ({
       data,
       variant: 'map',
       colors: COLORS,
-      hovered,
-      selected: selected[region],
       highlightedState: getStateFipsFromAbbr(highlightedState),
       onData,
       onReady,
@@ -109,8 +109,10 @@ const SedaExplorerChart = ({
           </Typography>
         </div>
       }
-      <GradientLegend {...{
+      <SedaLocationMarkers />
+      <LegendBar {...{
         colors: COLORS,
+        value: hoveredPrimary,
         colorRange: getMetricRange(metric, demographic, region, 'map'),
         legendRange: getMetricRange(metric, demographic, region),
         markerPosition: hovered && hovered.properties ?
@@ -133,8 +135,12 @@ const SedaExplorerChart = ({
 }
 
 SedaExplorerChart.propTypes = {
-  scatterplot: PropTypes.object,
-  legend: PropTypes.object,
+  region: PropTypes.string,
+  metric: PropTypes.string,
+  demographic: PropTypes.string,
+  highlightedState: PropTypes.string,
+  hovered: PropTypes.object,
+  data: PropTypes.object,
   onData: PropTypes.func,
   onReady: PropTypes.func,
   onHover: PropTypes.func,
@@ -144,7 +150,6 @@ SedaExplorerChart.propTypes = {
 
 const mapStateToProps = ({ 
   scatterplot: { data },
-  selected,
   sections: { map: { hovered } },
 },
 { match: { params: { region, metric, demographic, highlightedState } } }
@@ -156,7 +161,6 @@ const mapStateToProps = ({
     highlightedState,
     hovered,
     data,
-    selected,
   })
 }
 

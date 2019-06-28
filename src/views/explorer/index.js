@@ -16,6 +16,12 @@ import LocationDetailsPanel from '../../components/organisms/LocationDetailsPane
 import SedaIntro from '../../components/seda/SedaIntro';
 import { updateRoute } from '../../modules/router';
 
+// /** True if the provided view contains the map */
+// const isMap = (view) => view === 'map' || view === 'split'
+
+// /** True if the provided view contains the chart */
+// const isChart = (view) => view === 'chart' || view === 'split'
+
 const SplitSection = ({
   leftComponent,
   rightComponent,
@@ -48,7 +54,7 @@ const ExplorerView = ({
   ...props
 }) => {
   // use state to track if the intro is on / off
-  const [introOn, setIntroOn] = useState(true);
+  const [introOn, setIntroOn] = useState(false);
 
   // use memo to store other features
   const others = useMemo(() => 
@@ -106,8 +112,8 @@ const ExplorerView = ({
       <SplitSection
         id="map"
         classes={classes}
-        rightComponent={<SedaExplorerMap />}
-        leftComponent={<SedaExplorerChart />}
+        rightComponent={<SedaExplorerMap view={view} />}
+        leftComponent={<SedaExplorerChart view={view} />}
         footerContent={Boolean(selected[region].length) && <SedaLocations />}
       />
     </SedaPage>

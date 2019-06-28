@@ -114,7 +114,7 @@ const HeaderSecondary = ({
   return <div className="header__inner-content">
     <HelpButton
       className={classNames({ 'button--help-on': helpOpen && !hasActiveLocation})}
-      onClick={() => onHelpClick(!helpOpen) }
+      onClick={onHelpClick}
     />
     <SedaSearch inputProps={{
       placeholder: getLang('SEARCH_PLACEHOLDER')
@@ -214,22 +214,23 @@ const mapStateToProps = (
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onHelpClick: (o) => dispatch(
-    ((open) => (d, getState) => {
+  onHelpClick: () => dispatch(
+    (() => (d, getState) => {
       const state = getState();
-      console.log(open, state)
-      if (open && Boolean(state.active)) {
+      const helpOpen = state.ui.helpOpen;
+      const hasActiveLocation = Boolean(state.active);
+      if (hasActiveLocation) {
         d({
           type: 'CLEAR_ACTIVE_LOCATION'
         })
       } 
-      if (open !== ownProps.helpOpen) {
+      if (!helpOpen) {
         d({
           type: 'TOGGLE_HELP',
-          open: open
+          open: true
         })
       }
-    })(o)
+    })()
   ),
   onMenuClick: () => dispatch({
     type: 'TOGGLE_MENU',

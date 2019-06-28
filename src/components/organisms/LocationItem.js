@@ -3,47 +3,48 @@ import PropTypes from 'prop-types'
 import { getLang } from '../../constants/lang';
 import { getColorForValue, getRegionFromId } from '../../modules/config';
 import StatsItem from '../molecules/StatsItem';
-import Marker from '../atoms/CircleMarker';
+import Marker from '../atoms/BaseMarker';
+import { getSelectedColors } from '../../modules/config';
 
-const round = (num) => Math.round(num*10)/10
+const round = (num) => Math.round(num*100)/100
+const SELECTED = getSelectedColors();
 
-const LocationItem = ({ feature: {properties }, ...props}) => {
+const LocationItem = ({ 
+  metrics = ['avg', 'grd', 'coh'],
+  demographic = 'all',  
+  number, 
+  feature: { properties }, 
+  ...props
+}) => {
   return (
     <div className="location-item" {...props}>
-      <div className="location-item__marker">
-        <Marker type="circle"></Marker>
-      </div>
-      <div className="location-item__name">
-        {properties.name}
+      <div className="location-item__heading">
+        <Marker 
+          className="location-item__marker" 
+          color={SELECTED[number-1]} 
+          type="circle"
+        >
+          {number}
+        </Marker>
+        <div className="location-item__name">
+          {properties.name}
+        </div>
       </div>
       <div className="stats stats--horizontal">
-        <StatsItem
-          label={ getLang('LABEL_SHORT_AVG') }
-          value={ round(properties['all_avg']) }
-          color={getColorForValue(
-            properties['all_avg'], 
-            'all_avg', 
-            getRegionFromId(properties.id)
-          )}
-        />
-        <StatsItem
-          label={ getLang('LABEL_SHORT_GRD') }
-          value={ round(properties['all_grd']) }
-          color={getColorForValue(
-            properties['all_grd'], 
-            'all_grd', 
-            getRegionFromId(properties.id)
-          )}
-        />
-        <StatsItem
-          label={ getLang('LABEL_SHORT_COH') }
-          value={ round(properties['all_coh']) }
-          color={getColorForValue(
-            properties['all_coh'], 
-            'all_coh', 
-            getRegionFromId(properties.id)
-          )}
-        />
+      {
+        metrics.map((m,i) => (
+          <StatsItem
+            key={"stats"+i}
+            label={ getLang(`LABEL_SHORT_${m}`) }
+            value={ round(properties[`${demographic}_${m}`]) }
+            color={getColorForValue(
+              properties[`${demographic}_${m}`], 
+              `${demographic}_${m}`, 
+              getRegionFromId(properties.id)
+            )}
+          />
+        ))
+      }
       </div>
     </div>
   )
@@ -51,6 +52,9 @@ const LocationItem = ({ feature: {properties }, ...props}) => {
 
 LocationItem.propTypes = {
   feature: PropTypes.object,
+  number: PropTypes.number,
+  metrics: PropTypes.array,
+  demographic: PropTypes.string,
 }
 
 export default LocationItem;

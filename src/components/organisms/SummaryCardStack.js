@@ -2,9 +2,43 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import SummaryCard from '../molecules/SummaryCard';
 import { Tabs, Tab } from '@material-ui/core';
+import LocationItem from './LocationItem';
+import CloseButton from '../molecules/CloseButton';
 
+const LocationPreview = ({
+  className,
+  number,
+  feature,
+  demographic,
+  metrics,
+  onDismiss,
+  onClick,
+  onHover
+}) => {
+  return (
+    <div
+      className={classNames(className, 'location-preview')}
+      onMouseEnter={onHover}
+      onClick={onClick}
+    >
+      <LocationItem
+        number={number} 
+        feature={feature}
+        demographic={demographic}
+        metrics={metrics}
+      />
+      <CloseButton size="small"
+        onClick={(e) => { 
+          e.preventDefault(); 
+          e.stopPropagation(); 
+          onDismiss(feature); 
+          return false; 
+        }} 
+      />
+    </div>
+  )
+}
 
 const CardTransition = (props) => (
   <CSSTransition
@@ -18,6 +52,8 @@ const SummaryCardStack = ({
   cards = [],
   activeId = null,
   children,
+  metrics,
+  demographic,
   onCardDismiss,
   onCardClick,
   onCardHover,
@@ -33,16 +69,15 @@ const SummaryCardStack = ({
       <Tab 
         component="div"
         label={
-          <SummaryCard 
-            key={'loc' + c.id}
-            id={c.id}
-            order={i+1}
-            title={c.title}
-            summary={c.summary}
-            color={c.color}
+          <LocationPreview
+            key={'f'+i} 
+            number={i+1} 
+            feature={c.feature}
+            demographic={demographic}
+            metrics={metrics}
             onDismiss={() => onCardDismiss && onCardDismiss(c)}
             onClick={() => onCardClick && onCardClick(c)}
-            onMouseEnter={() => onCardHover && onCardHover(c)}
+            onHover={() => onCardHover && onCardHover(c)}
           />
         }
         classes={{

@@ -1,8 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getSelectedColors, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName, getDemographicLabel } from '../modules/config';
+import { getSizerFunctionForRegion, isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName, getDemographicLabel } from '../modules/config';
 import { getStateName } from '../constants/statesFips';
 import { getLang } from '../constants/lang';
-import { getSizerFunction } from '../utils';
 
 /** GRID CONFIGURATION  */
 
@@ -17,10 +16,10 @@ export const grid = (variant) => {
       }
     default:
       return { 
-        top: 0, 
-        right: 48,
-        bottom: 48, 
-        left: 0, 
+        top: 8, 
+        right: 8,
+        bottom: 24, 
+        left: 24, 
       }
   }
 }
@@ -44,10 +43,10 @@ const getSeries = (seriesId, type, options) => ({
  * Get the style overrides for the base series
  * @param {boolean} highlightedOn 
  */
-const getBaseSeries = ({ highlightedState, sizer }) => {
+const getBaseSeries = ({ highlightedState, sizer, variant }) => {
   const hl = isStateHighlighed(highlightedState)
   return getSeries('base', 'scatter', {
-    silent: hl,
+    silent: hl || (variant === 'preview'),
     large: hl,
     largeThreshold: 0,
     itemStyle: {
@@ -72,46 +71,7 @@ const getHighlightedSeries = ({ highlightedState, sizer }) =>
     symbolSize: (value) => sizer(value[2])
   })
 
-/**
- * Get the style overrides for the selected series
- */
-const getSelectedSeries = ({ colors = getSelectedColors() }) =>
-  getSeries('selected', 'scatter', {
-    label: {
-      show:true,
-      formatter: ({dataIndex}) => {
-        return dataIndex+1
-      },
-      color: '#fff',
-      textBorderColor: 'rgba(6, 29, 86, 1)',
-      textBorderWidth: 3,
-      fontWeight: 'bolder',
-      fontSize: 16,
-      position: 'top',
-      
-    },
-    'emphasis': {
-      label: { 
-        textBorderColor: '#f00',
-        show:true,
-        color: '#fff',
-        textBorderWidth: 3,
-        fontWeight: 'bolder',
-        fontSize: 16,
-        position: 'top',
-        distance: 5,
-      }
-    },
-    itemStyle: {
-      color: ({dataIndex}) => {
-        return colors[dataIndex % colors.length]
-      },
-      borderWidth: 0,
-      borderColor: 'rgba(0,0,0,0)',
-      shadowColor: '#fff',
-      shadowBlur: 1,
-    }
-  })
+
 
 
 
@@ -119,11 +79,9 @@ const getSelectedSeries = ({ colors = getSelectedColors() }) =>
 export const series = (seriesId, variant, options = {}) => {
   switch(seriesId) {
     case 'base':
-      return getBaseSeries(options)
+      return getBaseSeries({...options, variant})
     case 'highlighted':
       return getHighlightedSeries(options)
-    case 'selected':
-      return getSelectedSeries(options)
     default:
       return getSeries(seriesId, variant, options)
   }
@@ -164,9 +122,14 @@ const getOverlay = (points, lines) => {
     label: {
       show:false
     },
-    markPoint: getMarkPoints(points.map(p => ({
-      axis:'y', x: '93%', y: p.value[1], label: p.name
-    }))),
+    markPoint: getMarkPoints(points.map(
+      ({axis = 'y', value, x, y, name, ...rest}) => ({
+        axis, 
+        x: axis === 'y' ? (x || '93%') : value[0], 
+        y: axis === 'y' ? value[1] : (y || '100%'), 
+        label: name,
+        ...rest
+      }))),
     markLine: getMarkLines(lines)
   }
 }
@@ -175,7 +138,7 @@ const getOverlay = (points, lines) => {
  * Gets a point that falls on the x or y axis
  * @param {object} point 
  */
-const getAxisPoint = ({axis, x, y, label, options }) => {
+const getAxisPoint = ({axis, x, y, label, labelStyle, options }) => {
   const position = axis === 'y' ?
     { x: x, yAxis: y } :
     { y: y, xAxis: x };
@@ -196,9 +159,10 @@ const getAxisPoint = ({axis, x, y, label, options }) => {
             backgroundColor: 'rgba(255,255,255,0.8)',
             textBorderColor: 'transparent',
             textBorderWidth: 0,
-            lineHeight: 18
+            lineHeight: 18,
           }
         },
+        ...labelStyle
       },
       ...options
     }
@@ -223,20 +187,26 @@ const getMarkLines = (lines) => {
  * Gets line data that spans the graph on the x or y axis
  * @param {object} line 
  */
-const getAxisLine = ({axis, position, style}) => {
+const getAxisLine = ({
+  axis = 'y', 
+  position = 0, 
+  lineStyle, 
+  start, 
+  end
+}) => {
   const startPosition = axis === 'y' ?
-    { x: 16, yAxis: position } :
-    { y: 24, xAxis: position };
+    { x: (start || 16), yAxis: position } :
+    { y: (start || 24), xAxis: position };
   const endPosition = axis === 'y' ?
-    { x: '93%', yAxis: position } :
-    { y: '100%', xAxis: position };
+    { x: end || '93%', yAxis: position } :
+    { y: end || '100%', xAxis: position };
   return [
     {
       ...startPosition,
       symbol: 'none',
       lineStyle: {
         color: 'rgba(0,0,0,0.2)',
-        ...style
+        ...lineStyle
       }
     },
     {
@@ -281,6 +251,64 @@ const getMapAverageOverlay = (region) => {
   )
 }
 
+const LabelY = ({position = 0, label = '0', axis = 'y', x = '95%', ...rest}) => {
+  return {
+    value: [0, position], 
+    name: label,
+    axis,
+    x,
+    ...rest
+  }
+}
+const LabelX = ({position = 0, label = '0', axis = 'x', y = '95%', ...rest}) => {
+  return {
+    value: [position, 0], 
+    name: label,
+    axis,
+    y,
+    ...rest
+  }
+}
+const LineY = ({position = 0, ...rest}) => ({
+  axis: 'y',
+  position,
+  ...rest
+})
+const LineX = ({position = 0, ...rest}) => ({
+  axis: 'x',
+  position,
+  ...rest
+})
+
+const getPreviewAverageOverlay = () => {
+  // number of lines to overlay
+  const lines = new Array(1).fill().map(
+    () => LineY({ start: '0%', end: '100%'})
+  )
+  const labels = lines.map(() => LabelY({ x: 12}));
+  return getOverlay(labels, lines)
+}
+
+const getPreviewGrowthOverlay = () => {
+  // number of lines to overlay
+  const lines = new Array(1).fill().map(
+    () => LineY({ position: 1, start: '0%', end: '100%'})
+  )
+  const labels = lines.map(() => LabelY({ x: 12, label: '1', position: 1}));
+  return getOverlay(labels, lines)
+}
+
+const getPreviewSesOverlay = () => {
+  // number of lines to overlay
+  const lines = new Array(1).fill().map(() => LineX({ start: '0%', end: '100%'}))
+  const labels = lines.map(() => 
+    LabelX({ 
+      labelStyle: { align: 'center' },
+      y: '94%'
+    })
+  );
+  return getOverlay(labels, lines)
+}
 
 
 const getMapAverageGapOverlay = () => getOverlay(
@@ -428,14 +456,21 @@ const getOpportunityAverageOverlay = () => ({
   }
 })
 
-const overlays = (variant, { xVar, yVar, region }) => {
-  const yMetricId = getMetricIdFromVarName(yVar);
-  switch(yMetricId + '_' + variant) {
+const getOverlaysForMetric = (variant, metric, { xVar, yVar, region }) => {
+  const identifier = metric + '_' + variant
+  switch(identifier) {
     case 'avg_map':
       if (isGapVar(yVar))
         return [ getMapAverageGapOverlay() ]
       else
         return [ getMapAverageOverlay(region) ]
+    case 'coh_preview':
+    case 'avg_preview':
+        return [ getPreviewAverageOverlay() ]
+    case 'ses_preview':
+        return [ getPreviewSesOverlay() ]
+    case 'grd_preview':
+        return [ getPreviewGrowthOverlay() ]
     case 'grd_map':
       if (isGapVar(yVar))
         return [ getMapGrowthGapOverlay() ]
@@ -451,6 +486,15 @@ const overlays = (variant, { xVar, yVar, region }) => {
     default:
       return []
   }
+}
+
+const overlays = (variant, context) => {
+  const yMetricId = getMetricIdFromVarName(context.yVar);
+  const xMetricId = getMetricIdFromVarName(context.xVar);
+  return [
+    ...getOverlaysForMetric(variant, yMetricId, context),
+    ...getOverlaysForMetric(variant, xMetricId, context)
+  ]
 }
 
 /** VISUAL MAP CONFIGURATION */
@@ -489,6 +533,7 @@ const visualMap = (
 ) => {
   switch (variant) {
     case 'map':
+    case 'preview':
       return [ getMapVisualMap(options) ]
     default:
       return []
@@ -502,25 +547,12 @@ const getXAxis = ({ metric, demographic, region, ...rest }) => {
   return {
     min,
     max,
-    axisLabel: { show: true },
+    axisLabel: { show: false },
     axisLine: { show: false },
     splitLine: { show: true },
-    splitNumber: 7,
-    nameGap: 32,
-    nameLocation: 'middle',
-    name: metric.label + (
-      demographic && demographic.label ? 
-        ' (' + demographic.label + ' students)' : 
-        ''
-    ),
-    nameTextStyle: {
-      fontSize: 12.8,
-      color: '#031232',
-    },
     ...rest
   }
 }
-
 
 
 const getMapXAxis = ({ metric, demographic, region }) => {
@@ -553,24 +585,6 @@ const getMapXAxis = ({ metric, demographic, region }) => {
   }
 }  
 
-
-const getGrowthXAxis = (options) => getXAxis({
-  ...options,
-  splitNumber: 5,
-  interval: 0.2,
-})
-
-const getSocioeconomicXAxis = ({ metric, demographic, region }) => getXAxis({
-  metric,
-  demographic,
-  name: metric.label + (
-    demographic && demographic.label ? 
-      ' (' + demographic.label + ')' : 
-      ''
-  ),
-  region
-})
-
 const xAxis = (variant, { varName, region }) => {
   const metric = getMetricFromVarName(varName);
   const demographic = getDemographicFromVarName(varName);
@@ -579,18 +593,7 @@ const xAxis = (variant, { varName, region }) => {
     case 'map':
       return getMapXAxis({ metric, demographic, region })
     default:
-      if (
-        metric.id === 'grd' && 
-        ['p','np','b'].indexOf(demographic.id) > -1
-      )
-        return getGrowthXAxis({metric, demographic, region})
-      else if (
-        metric.id === 'ses' && 
-        ['wb','wh','wa','pn'].indexOf(demographic.id) > -1
-      )
-        return getSocioeconomicXAxis({ metric, demographic, region })
-      else
-        return getXAxis({metric, demographic, region})
+      return getXAxis({metric, demographic, region})
   }
 }
 
@@ -604,20 +607,9 @@ const getYAxis = ({metric, demographic, region, ...rest}) => {
     min,
     max,
     position: 'right',
-    axisLabel: { 
-      show: true,
-      showMinLabel: false,
-      showMaxLabel: false,
-    },
+    axisLabel: { show: false },
     axisLine: { show: false },
     splitLine: { show: true },
-    splitNumber: 7,
-    name: metric.label + (
-      demographic && demographic.label ? 
-        ' (' + demographic.label + ' students)' : 
-        ''
-    ),
-    nameGap: 32,
     nameLocation: 'middle',
     ...rest
   }
@@ -776,6 +768,9 @@ export const getTooltipText = (values) => {
   return text !== '' ? text : getLang('DATA_UNAVAILABLE')
 }
 
+/**
+ * Returns the tooltip config for the given context
+ */
 const getTooltip = ({ data, xVar, yVar, ...rest }) => {
   const xLabel = getLabelFromVarName(xVar);
   const yLabel = getLabelFromVarName(yVar);
@@ -824,6 +819,8 @@ const tooltip = (variant, { data, xVar, yVar }) => {
   switch(variant) {
     case 'map':
       return getMapTooltip({ data, xVar, yVar })
+    case 'preview':
+      return {}
     default:
       return getTooltip({ data, xVar, yVar })
   }
@@ -837,7 +834,7 @@ export const getScatterplotOptions = (
   region
 ) => {
   if (!data[xVar] || !data[yVar] || !data[zVar]) { return {} }
-  const sizer = getSizerFunction(data[zVar], { range: [ 8, 48 ]})
+  const sizer = getSizerFunctionForRegion(region)
   const options = {
     grid: grid(variant),
     visualMap: visualMap(variant, { varName: yVar, highlightedState, region }),

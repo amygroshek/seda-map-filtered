@@ -27,7 +27,7 @@ export const theme = {
     splitLine: {
       lineStyle: {
         type: 'dashed',
-        color: '#ccc'
+        color: '#eee'
       }
     },
     nameTextStyle: {
@@ -52,6 +52,14 @@ export const theme = {
         borderColor: '#fff',
         color: '#f00',
         opacity:1,
+      }
+    },
+    markLine: {
+      itemStyle: {
+        lineStyle: {
+          color: "#f00",
+          type: 'solid',
+        }
       }
     }
   },

@@ -10,6 +10,7 @@ const DEFAULT_ROUTEVARS = [
   'highlightedState',
   'region', 
   'metric', 
+  'secondary',
   'demographic', 
   'zoom', 
   'lat', 

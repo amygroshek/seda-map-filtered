@@ -23,9 +23,7 @@ const SummaryCard = ({
       {...rest}
     >
       <CardHeader
-        classes={{
-          root: 'summary-card__header'
-        }}
+        classes={{ root: 'summary-card__header' }}
         avatar={
           color && <Marker 
             className="marker--location"

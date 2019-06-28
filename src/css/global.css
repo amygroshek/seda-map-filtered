@@ -54,7 +54,10 @@ body {
   .map__zoom {
     right: 24px;
     left: auto;
-    top: auto;
+    top: 64px;
+    margin: 0;
+    height: 120px;
+    bottom: auto;
   }
 }
 

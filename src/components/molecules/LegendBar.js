@@ -11,7 +11,7 @@ const getTransform = (value, vertical = false) => {
     value = 0.5
   }
   return vertical ?
-    `translateY(-${value*100}%)` :
+    `translateY(${100 - value*100}%)` :
     `translateX(${value*100}%)`
 }
 
@@ -20,38 +20,53 @@ const getTransform = (value, vertical = false) => {
  * Displays a gradient with start / end labels
  * @param {object} props 
  */
-const GradientLegend = ({ 
+const LegendBar = ({ 
+  title,
   startLabel, 
-  endLabel, 
+  endLabel,
+  value,
   markerPosition, 
   colors, 
   vertical = false,
   legendRange = [0, 1],
   colorRange = [0, 1],
+  className,
 }) => {
   const gradientString = 
     getGradient({colors, legendRange, colorRange, vertical})
   return (
     <div 
       className={classNames(
-        'gradient-legend', 
-        { 'gradient-legend--vertical': vertical }
+        'legend-bar', 
+        { 'legend-bar--vertical': vertical },
+        { 'legend-bar--title': title },
+        className,
       )}
     >
-      <div className="gradient-legend__labels">
-        <div className="gradient-legend__label gradient-legend__label--low">
-          {startLabel}
+      {
+        title && 
+        <div className="legend-bar__title">
+          {title}
         </div>
-        <div className="gradient-legend__label gradient-legend__label--high">
-          {endLabel}
-        </div>
-      </div>
+      }
+      {
+        startLabel && endLabel &&
+          <div className="legend-bar__labels">
+            <div className="legend-bar__label legend-bar__label--low">
+              {startLabel}
+            </div>
+            <div className="legend-bar__label legend-bar__label--high">
+              {endLabel}
+            </div>
+          </div>
+      }
+      
 
-      <div className="gradient-legend__values">
-        <div className="gradient-legend__value gradient-legend__value--low">
+      <div className="legend-bar__values">
+        <div className="legend-bar__value legend-bar__value--low">
           {legendRange[0]}
         </div>
-        <div className="gradient-legend__value gradient-legend__value--zero"
+        <div className="legend-bar__value legend-bar__value--zero"
           style={{
             position: 'absolute',
             left:  (getValuePositionInRange((colorRange[1] + colorRange[0])/2, legendRange)*100) +'%'
@@ -59,25 +74,25 @@ const GradientLegend = ({
         >
           {Math.round((colorRange[1] + colorRange[0])/2)}
         </div>
-        <div className="gradient-legend__value gradient-legend__value--high">
+        <div className="legend-bar__value legend-bar__value--high">
           +{legendRange[1]}
         </div>
       </div>
 
       <div 
-        className="gradient-legend__gradient"
+        className="legend-bar__gradient"
         style={{background: gradientString }}
       >
         <div 
           className={classNames(
-            'gradient-legend__marker',
-            { 'gradient-legend__marker--show': Boolean(markerPosition) }
+            'legend-bar__marker',
+            { 'legend-bar__marker--show': Boolean(markerPosition) }
           )}
           style={{
             transform: getTransform(markerPosition, vertical)
           }}
         >
-          <span className='gradient-legend__tick'></span>
+          <span className='legend-bar__tick'>{value}</span>
         </div>
       </div>
 
@@ -86,7 +101,7 @@ const GradientLegend = ({
   )
 }
 
-GradientLegend.propTypes = {
+LegendBar.propTypes = {
   startLabel: PropTypes.string,
   endLabel: PropTypes.string,
   colors: PropTypes.array,
@@ -94,6 +109,7 @@ GradientLegend.propTypes = {
   markerPosition: PropTypes.number,
   legendRange: PropTypes.array,
   colorRange: PropTypes.array,
+  className: PropTypes.string,
 }
 
-export default GradientLegend
+export default LegendBar
