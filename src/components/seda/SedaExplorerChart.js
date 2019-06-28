@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getChoroplethColors, getValuePositionForMetric, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
+import { getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
 import { onHoverFeature } from '../../actions/mapActions';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
@@ -81,9 +81,9 @@ const SedaExplorerChart = ({
   const heading = useMemo(() =>
     getScatterplotHeading(region, metric, demographic, highlightedState)
   , [region, metric, demographic, highlightedState])
-  const hoveredPrimary = Math.round(
-    getFeatureProperty(hovered, demographic + '_' + metric)*100
-  )/100;
+  const hoveredValue = getFeatureProperty(hovered, demographic + '_' + metric)
+  const hoveredPrimary = hoveredValue || hoveredValue === 0 ? 
+    Math.round(hoveredValue*100)/100 : null;
   return (
     <DynamicScatterplot {...{
       ...scatterplot,
@@ -115,12 +115,6 @@ const SedaExplorerChart = ({
         value: hoveredPrimary,
         colorRange: getMetricRange(metric, demographic, region, 'map'),
         legendRange: getMetricRange(metric, demographic, region),
-        markerPosition: hovered && hovered.properties ?
-          getValuePositionForMetric(
-            getFeatureProperty(hovered, demographic + '_' + metric),
-            demographic + '_' + metric,
-            region
-          ) : null,
         vertical: true
       }} /> 
       

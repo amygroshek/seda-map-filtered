@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { getChoroplethColors, getMetricRange } from '../../modules/config';
-import { getValuePositionForMetric } from '../../modules/config';
 import LegendBar from '../molecules/LegendBar';
 import { getLang } from '../../constants/lang';
 import { getFeatureProperty } from '../../modules/features';
@@ -12,11 +11,6 @@ import { Button } from '@material-ui/core';
 
 const choroplethColors = getChoroplethColors();
 
-const getValuePositionForVarName = (feature, varName, region) => {
-  if(!feature || !feature.properties) { return null; }
-  const value = getFeatureProperty(feature, varName)
-  return getValuePositionForMetric(value, varName, region)
-}
 
 const LegendPanel = ({
   title,
@@ -59,19 +53,17 @@ const SedaMapLegend = ({
   onToggleClick,
   onHelpClick,
 }) => {
-  const primaryValue = 
-    Math.round(getFeatureProperty(hovered, `${demographic}_${metric}`)*100)/100
-  const secondaryValue = 
-    Math.round(getFeatureProperty(hovered, `${demographic}_${secondary}`)*100)/100
-  const primaryPosition = getValuePositionForVarName(
-    hovered, `${demographic}_${metric}`, region
-  )
-  const secondaryPosition = getValuePositionForVarName(
-    hovered, `${demographic}_${secondary}`, region
-  )
+  const values = [
+    getFeatureProperty(hovered, `${demographic}_${metric}`),
+    getFeatureProperty(hovered, `${demographic}_${secondary}`)
+  ];
+  const primaryValue = values[0] || values[0] === 0 ?
+    Math.round(values[0]*100)/100 : null;
+  const secondaryValue = values[1] || values[1] === 0 ?
+    Math.round(values[1]*100)/100 : null;
   return (
     <div className={classNames("map-legend", {
-      "map-legend--secondary": secondaryPosition || secondaryPosition === 0
+      "map-legend--secondary": secondaryValue || secondaryValue === 0
     })}>
       { variant === 'chart' &&
         <LegendPanel
@@ -83,24 +75,22 @@ const SedaMapLegend = ({
             <SedaLocationMarkers />
             <LegendBar
               vertical={true}
-              value={getLang('LABEL_SHORT_'+metric) + ' ' + primaryValue}
+              value={primaryValue}
               colors={choroplethColors} 
               startLabel={getLang('LEGEND_LOW')}
               endLabel={getLang('LEGEND_HIGH')}
               colorRange={getMetricRange(metric, demographic, region, 'map')}
               legendRange={getMetricRange(metric, demographic, region)}
-              markerPosition={primaryPosition}
               className="legend-bar--y-preview"
             />
             <LegendBar
-            value={getLang('LABEL_SHORT_'+secondary) + ' ' + secondaryValue}
-            colors={['#ccc', '#ccc']} 
-            startLabel={getLang('LEGEND_LOW_'+secondary)}
-            endLabel={getLang('LEGEND_HIGH_'+secondary)}
-            legendRange={getMetricRange(secondary, demographic, region)}
-            markerPosition={secondaryPosition}
-            className="legend-bar--x-preview"
-          />
+              value={secondaryValue}
+              colors={['#ccc', '#ccc']} 
+              startLabel={getLang('LEGEND_LOW_'+secondary)}
+              endLabel={getLang('LEGEND_HIGH_'+secondary)}
+              legendRange={getMetricRange(secondary, demographic, region)}
+              className="legend-bar--x-preview"
+            />
           </SedaScatterplotPreview>
         </LegendPanel>
       }
@@ -116,8 +106,7 @@ const SedaMapLegend = ({
             startLabel={getLang('LEGEND_LOW_'+metric)}
             endLabel={getLang('LEGEND_HIGH_'+metric)}
             colorRange={getMetricRange(metric, demographic, region, 'map')}
-            legendRange={getMetricRange(metric, demographic, region, 'map')}
-            markerPosition={primaryPosition}
+            legendRange={getMetricRange(metric, demographic, region)}
           />
           <LegendBar 
             className="legend-bar--secondary"
@@ -128,7 +117,6 @@ const SedaMapLegend = ({
             endLabel={getLang('LEGEND_HIGH_'+secondary)}
             colorRange={getMetricRange(secondary, demographic, region, 'map')}
             legendRange={getMetricRange(secondary, demographic, region, 'map')}
-            markerPosition={secondaryPosition}
           />
         </LegendPanel>
       }
