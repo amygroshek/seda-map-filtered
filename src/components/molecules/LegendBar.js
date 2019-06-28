@@ -15,7 +15,6 @@ const getTransform = (value, vertical = false) => {
     `translateX(${value*100}%)`
 }
 
-
 /**
  * Displays a gradient with start / end labels
  * @param {object} props 
@@ -25,7 +24,6 @@ const LegendBar = ({
   startLabel, 
   endLabel,
   value,
-  markerPosition, 
   colors, 
   vertical = false,
   legendRange = [0, 1],
@@ -34,6 +32,9 @@ const LegendBar = ({
 }) => {
   const gradientString = 
     getGradient({colors, legendRange, colorRange, vertical})
+  const markerPosition = value ? 
+    getValuePositionInRange(value, legendRange) :
+    null
   return (
     <div 
       className={classNames(
