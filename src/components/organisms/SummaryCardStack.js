@@ -3,42 +3,9 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Tabs, Tab } from '@material-ui/core';
-import LocationItem from './LocationItem';
-import CloseButton from '../molecules/CloseButton';
 
-const LocationPreview = ({
-  className,
-  number,
-  feature,
-  demographic,
-  metrics,
-  onDismiss,
-  onClick,
-  onHover
-}) => {
-  return (
-    <div
-      className={classNames(className, 'location-preview')}
-      onMouseEnter={onHover}
-      onClick={onClick}
-    >
-      <LocationItem
-        number={number} 
-        feature={feature}
-        demographic={demographic}
-        metrics={metrics}
-      />
-      <CloseButton size="small"
-        onClick={(e) => { 
-          e.preventDefault(); 
-          e.stopPropagation(); 
-          onDismiss(feature); 
-          return false; 
-        }} 
-      />
-    </div>
-  )
-}
+import LocationPreview from '../organisms/LocationPreview';
+
 
 const CardTransition = (props) => (
   <CSSTransition
@@ -54,6 +21,7 @@ const SummaryCardStack = ({
   children,
   metrics,
   demographic,
+  classes = {},
   onCardDismiss,
   onCardClick,
   onCardHover,
@@ -89,7 +57,7 @@ const SummaryCardStack = ({
     </CardTransition>
   ))
   return (
-    <div className={classNames("summary-group", { 'summary-group--shift': activeId })}>
+    <div className={classNames("summary-group", classes.root)}>
       <TransitionGroup
         component={Tabs}
         className='summary-group__cards'

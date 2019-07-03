@@ -73,6 +73,7 @@
   --locations-bar-height: 64px;
   --footer-height: 40px;
   --panel-width: 264px;
+  --scatterplot-heading: 56px;
 
   /** Shadows */
   --shadow-inset: inset 0 1px 3px var(--darken3);

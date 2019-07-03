@@ -3,32 +3,7 @@
   flex-grow: 1;
 }
 
-.section--explorer-help {
-  margin-left: 0;
-}
-
-.section--explorer .section__content--split .map .legend-bar {
-  display: none;
-}
-
-.section--explorer .dynamic-scatterplot {
-  position: absolute;
-  top:0;
-  left:0;
-  right:24px;
-  bottom:0;
-  width:auto;
-  height:auto;
-}
-
-.section--explorer .dynamic-scatterplot {
-  top: 56px;
-}
-
-.section--explorer .dynamic-scatterplot__heading {
-  margin-top: -56px;
-}
-
+/** Hide non-critical items on small resolutions */
 @media(max-width: 700px) {
   .page--explorer .site-footer__link-label,
   .page--explorer .site-footer__copyright,
@@ -40,3 +15,108 @@
 .page--explorer .page__body {
   display: flex;
 }
+
+/** Map */
+
+  /** Legend in bottom right of map */
+  .section--explorer .map-legend {
+    position: absolute;
+    bottom: 24px;
+    left: auto;
+    right: 24px;
+    max-width: 320px;
+  }
+
+  /** No map legend in split view */
+  .section--explorer .section__content--split .map .legend-bar {
+    display: none;
+  }
+
+/** Scatterplot */
+
+  .section--explorer .dynamic-scatterplot {
+    position: absolute;
+    top: var(--scatterplot-heading);
+    left:0;
+    right:24px;
+    bottom:0;
+    width:auto;
+    height:auto;
+  }
+
+  /** Move the heading outside of the scatterplot area */
+  .section--explorer .dynamic-scatterplot__heading {
+    margin-top: calc(-1 * var(--scatterplot-heading));
+  }
+
+  /** 
+   * Position y-axis legend bar on scatterplot 
+   * (match top / bottom for scatterplot grid in scatterplot-style.js)
+   */
+  .section--explorer .dynamic-scatterplot .legend-bar {
+    position: absolute;
+    bottom: 32px;
+    top: 24px;
+    left: auto;
+    right: -16px;
+    width: 8px;
+  }
+
+/** Side Panel */
+
+.section--explorer .section__children {
+  position: absolute;
+  width: var(--panel-width);
+  top:0;
+  bottom: 0;
+  left: calc(-1 * var(--panel-width));
+}
+
+.section--explorer .panel {
+  transition: transform 0.2s ease-in-out;
+}
+
+  /** Location Panel */
+
+  .section--explorer .panel {
+    position: absolute;
+    top:0;
+    left: 0px;
+    bottom: -64px;
+    z-index: 60;
+    width: var(--panel-width);
+  }
+
+
+  /** Modifiers for subpanel */
+
+
+  /** Help Panel or Location Panel are visible */
+  .section--explorer .section__content.section__content--help,
+  .section--explorer .section__content.section__content--location {
+    width: calc(100% - var(--panel-width));
+    margin-left: var(--panel-width);
+  }
+
+  /** Set z-index for active panel*/
+  .section--explorer .section__content.section__content--help .panel.panel--help, 
+  .section--explorer .section__content.section__content--location .panel.panel--location {
+    z-index: 69;
+  }
+
+  /** Location Panel only */
+
+  .section--explorer .section__content.section__content--location .panel.panel--location {
+    z-index: 69;
+  }
+
+  /** Help Panel AND Location Panel */
+
+  .section--explorer .section__content.section__content--help.section__content--location .panel.panel--help {
+    z-index: 70;
+  }
+
+  .section--explorer .section__content.section__content--help.section__content--location .panel.panel--location {
+    transform: translateX(100%);
+    bottom:0;
+  }

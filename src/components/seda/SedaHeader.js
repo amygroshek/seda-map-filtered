@@ -20,7 +20,7 @@ import withWidth from '@material-ui/core/withWidth';
 import { HEADER } from '../../constants/site';
 
 // modules
-import { HighlightedStateControl, RegionControl, DemographicAndGapControl } from './controls';
+import { HighlightedStateControl, RegionControl, DemographicAndGapControl } from './SedaSelectControls';
 import { updateRoute } from '../../modules/router';
 
 // components
@@ -34,6 +34,7 @@ import { getLang } from '../../constants/lang';
 import SelectButton from '../atoms/SelectButton';
 import MenuButton from '../atoms/MenuButton';
 import HelpButton from '../molecules/HelpButton';
+import { toggleHelp } from '../../actions';
 
 const HeaderPrimary = ({metric, width, onMetricChange}) => {
   return <div className='header-tabs'>
@@ -106,14 +107,13 @@ const HeaderSecondary = ({
   view, 
   metric,
   helpOpen,
-  hasActiveLocation,
   region,
   onHelpClick,
   onViewChange, 
 }) => {
   return <div className="header__inner-content">
     <HelpButton
-      className={classNames({ 'button--help-on': helpOpen && !hasActiveLocation})}
+      className={classNames({ 'button--help-on': helpOpen})}
       onClick={onHelpClick}
     />
     <SedaSearch inputProps={{
@@ -160,7 +160,6 @@ const SedaHeader = ({
   region,
   width,
   helpOpen,
-  hasActiveLocation,
   onMetricChange,
   onOptionChange,
   onViewChange,
@@ -176,7 +175,7 @@ const SedaHeader = ({
       <HeaderPrimary {...{width, metric, onMetricChange }} />
     }
     secondaryContent={
-      <HeaderSecondary {...{metric, region, view, helpOpen, hasActiveLocation, onViewChange, onHelpClick}} />
+      <HeaderSecondary {...{metric, region, view, helpOpen, onViewChange, onHelpClick}} />
     }
     actionContent={
       <MenuButton onClick={onMenuClick}>
@@ -203,35 +202,17 @@ SedaHeader.propTypes = {
 }
 
 const mapStateToProps = (
-  { active, ui: { helpOpen } },
+  { ui: { helpOpen } },
   ownProps
 ) => ({
   helpOpen: helpOpen,
   view: ownProps.match.params.view,
   metric: ownProps.match.params.metric,
   region: ownProps.match.params.region,
-  hasActiveLocation: Boolean(active),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onHelpClick: () => dispatch(
-    (() => (d, getState) => {
-      const state = getState();
-      const helpOpen = state.ui.helpOpen;
-      const hasActiveLocation = Boolean(state.active);
-      if (hasActiveLocation) {
-        d({
-          type: 'CLEAR_ACTIVE_LOCATION'
-        })
-      } 
-      if (!helpOpen) {
-        d({
-          type: 'TOGGLE_HELP',
-          open: true
-        })
-      }
-    })()
-  ),
+  onHelpClick: () => dispatch(toggleHelp()),
   onMenuClick: () => dispatch({
     type: 'TOGGLE_MENU',
     open: true

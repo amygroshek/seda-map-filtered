@@ -5,12 +5,11 @@ import { getLang } from '../../constants/lang';
 import Panel from '../molecules/Panel';
 
 const TabPanel = ({ 
-  open, 
   tabs, 
   value, 
   onTabChange,
-  onClose,
-  children
+  children,
+  ...props
 }) => {
   return (
     <Panel
@@ -19,8 +18,7 @@ const TabPanel = ({
           {getLang('HELP_PANEL_TITLE')}
         </Typography>
       }
-      onClose={onClose}
-      open={open}
+      {...props}
     >
       { tabs && 
         <Tabs 

@@ -13,8 +13,7 @@ import MapVisualLegend from '../molecules/MapVisualLegend';
 
 const colors = getChoroplethColors();
 
-
-const SedaExplorerHelp = ({
+const SedaHelp = ({
   open,
   tab,
   viewport, 
@@ -41,6 +40,7 @@ const SedaExplorerHelp = ({
       value={tab} 
       onClose={onClose} 
       onTabChange={onTabChange}
+      classes={{root: 'panel--help'}}
     >
       <div className="help-content">
         <div className="visual-help">
@@ -193,4 +193,4 @@ export default compose(
     mapStateToProps, 
     mapDispatchToProps
   )
-)(SedaExplorerHelp)
+)(SedaHelp)

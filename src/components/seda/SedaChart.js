@@ -4,16 +4,14 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
-import { onHoverFeature } from '../../actions/mapActions';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import { getLang, hasLangKey } from '../../constants/lang';
-import { loadLocation } from "../../actions/featuresActions";
+import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions";
 import LegendBar from '../molecules/LegendBar';
 import DynamicScatterplot from '../organisms/DynamicScatterplot';
-import { onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions/scatterplotActions";
 import { Typography } from '@material-ui/core';
-import SedaLocationMarkers from '../seda/SedaLocationMarkers';
+import SedaLocationMarkers from './SedaLocationMarkers';
 
 const COLORS = getChoroplethColors();
 
@@ -97,8 +95,7 @@ const SedaExplorerChart = ({
       onHover,
       onClick,
       onError
-    }}
-    >
+    }}>
       { heading &&
         <div className='dynamic-scatterplot__heading'>
           <Typography variant='h6' component="span" className='dynamic-scatterplot__title'>

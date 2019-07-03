@@ -15,6 +15,10 @@
   transform: translateY(-36px);
 }
 
+.map-legend .legend-panel__content {
+  pointer-events:none;
+}
+
 .map-legend .legend-actions {
   position: absolute;
   z-index: 99;

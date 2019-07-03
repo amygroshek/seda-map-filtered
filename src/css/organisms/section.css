@@ -1,8 +1,8 @@
 
+/** Section Root */
 
 .section {
   background: #f8f8f8;
-  background: linear-gradient( #fff 15%, #f8f8f8 50%);
   width: 100%;
   height: 100%;
   position: relative;
@@ -16,96 +16,6 @@
   -webkit-transform: translate3d(0,0,0);
 }
 
-/** Section Component Wrapper */
-
-.section__content {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: stretch;
-  align-items:stretch;
-  height:100%;
-  width:100%;
-  text-align: left; 
-  overflow:hidden;
-  /** z-index fix for sticky cards */
-  -webkit-transform: translate3d(0,0,0);
-  transition: transform 0.2s ease-in-out;
-}
-
-/** Section Split View */
-
-.section__left {
-  position:relative;
-  min-width: 100%;
-  height:100%;
-  flex:1;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: stretch;
-  box-sizing: border-box;
-  background: #fff;
-  z-index:5;
-  transform: translateX(0%);
-  transition: transform 0.4s ease-in-out 0.1s;
-  /* display:none; */
-}
-
-@media(min-width: 960px) {
-  .section__left {
-    width: 100%;
-    background:#fff;
-  }
-}
-
-.section__right {
-  position:relative;
-  min-width: 100%;
-  height: 100%;
-  flex:1;
-  z-index:4;
-  transform: translateX(0%);
-  transition: transform 0.4s ease-in-out 0.1s;
-}
-
-
-@media(min-width: 960px) {
-  .section__right {
-    background:#fff;
-    margin-top: 0;
-    max-width: none;
-    box-shadow: -1px 0 0#f4f4f4;
-  }
-}
-
-
-.section__content--split .section__left,
-.section__content--split .section__right {
-  min-width: 50%;
-  z-index:10;
-}
-
-.section__content--left .section__left {
-  z-index:10;
-  transform: translateX(100%);
-}
-.section__content--left .section__right {
-  transform: translateX(-100%);
-}
-.section__content--right .section__right {
-  z-index:10;
-}
-.section__content--right .section__left {
-  transform: translateX(200%);
-}
-
-.section__content--left .section__right {
-
-}
-.section__content--right .section__left {
-
-}
-
 @media(min-width: 960px) {
   .section {
     justify-content: stretch;
@@ -114,28 +24,125 @@
   }
 }
 
-.section__right .map-legend {
-  position: absolute;
-  bottom: 24px;
-  left: auto;
-  right: 24px;
-  max-width: 320px;
-}
+  /** Section Header */
 
-.section__left .dynamic-scatterplot .legend-bar {
-  position: absolute;
-  bottom: 32px;
-  top: 24px;
-  left: auto;
-  right: -16px;
-  width: 8px;
-  border-left: 4px solid #fff;
-}
+  .section__header { }
 
-.section__footer {
-  max-width: 100%;
-}
+  /** Section Content Wrapper */
 
-.section--explorer-help .section__footer {
-  max-width: calc(100vw - var(--panel-width));
-}
+  .section__content {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: stretch;
+    align-items:stretch;
+    height:100%;
+    width:100%;
+    text-align: left; 
+    /** z-index fix for sticky cards */
+    -webkit-transform: translate3d(0,0,0);
+    transition: transform 0.2s ease-in-out;
+  }
+
+    /** Left side of section */
+
+    .section__left {
+      position:relative;
+      min-width: 100%;
+      height:100%;
+      flex:1;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: stretch;
+      box-sizing: border-box;
+      background: #fff;
+      z-index:5;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease-in-out 0.1s;
+    }
+
+    @media(min-width: 960px) {
+      .section__left {
+        width: 100%;
+        background:#fff;
+      }
+    }
+
+    /** Right side of section */
+
+    .section__right {
+      position:relative;
+      min-width: 100%;
+      height: 100%;
+      flex:1;
+      z-index:4;
+      transform: translateX(0%);
+      transition: transform 0.4s ease-in-out 0.1s;
+    }
+
+
+    @media(min-width: 960px) {
+      .section__right {
+        background:#fff;
+        margin-top: 0;
+        max-width: none;
+        box-shadow: -1px 0 0#f4f4f4;
+      }
+    }
+
+    /** Any additional section children */
+
+    .section__children {
+      position: absolute;
+    }
+
+    /** Section Footer */
+
+    .section__footer {
+      max-width: 100%;
+    }
+
+
+/** 
+ * MODIFIERS 
+ */
+
+/** Both components are visible */
+
+  /** Set width to 50 / 50 when split modifier */
+  .section__content--split .section__left,
+  .section__content--split .section__right {
+    min-width: 50%;
+    z-index:10;
+  }
+
+  /** Translate right section to the right side on 50 / 50 */
+  .section__content--split .section__right {
+    transform: translateX(100%);
+  }
+
+/** Left Component is visible */
+
+  /** Translate left section into view on left modifier */
+  .section__content--left .section__left {
+    z-index:10;
+    transform: translateX(0%);
+  }
+
+  /** Translate right section out of view on left modifier */
+  .section__content--left .section__right {
+    transform: translateX(0%);
+  }
+
+/** Right Component is visible */
+
+  /** Translate right section into view on right modifier */
+  .section__content--right .section__right {
+    z-index:10;
+    transform: translate(100%);
+  }
+
+  /** Translate left section out of view on right modifier */
+  .section__content--right .section__left {
+    transform: translateX(100%);
+  }
