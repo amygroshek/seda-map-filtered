@@ -19,8 +19,9 @@ const Panel = ({
       elevation={2}
       classes={{
         root: classNames(
-          classes.root || 'panel', 
-          { [(classes.root || 'panel') + '--on']: open }
+          'panel',
+          classes.root,
+          { 'panel--on': open }
         )
       }}
       {...rest}

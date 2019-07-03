@@ -60,7 +60,7 @@ const LocationDetailsPanel = ({
           subtext={getStateName(id)}
         />
       }
-      classes={{root: 'location-panel panel'}}
+      classes={{root: 'panel--location'}}
       onClose={onClose}
       open={Boolean(feature)}
     > 

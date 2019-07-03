@@ -9,7 +9,7 @@ import { getStateSelectOptions } from '../../constants/statesFips';
 import { getSingularRegions, getDemographics } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
 import { updateRoute } from '../../modules/router';
-import { navigateToStateByAbbr } from '../../actions/mapActions';
+import { navigateToStateByAbbr } from '../../actions';
 
 const RegionInlineMenu = ({region, onChange}) => {
   return (

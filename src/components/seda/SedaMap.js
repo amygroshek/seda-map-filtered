@@ -3,50 +3,43 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap } from '../../actions/mapActions';
+import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation } from '../../actions';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { defaultMapStyle } from '../../style/map-style';
 import { getMapViewport, getLayers } from '../../modules/map';
 import { getHoveredId } from '../../modules/sections';
 import { getSelectedColors } from '../../modules/config';
-import MapTooltip from '../seda/SedaMapTooltip';
+import MapTooltip from './SedaMapTooltip';
 import BaseMap from '../molecules/BaseMap';
-import { handleLocationActivation } from '../../actions/featuresActions';
 import SedaMapLegend from './SedaMapLegend';
 
 const selectedColors = getSelectedColors();
 
 const SedaExplorerMap = ({
-  view,
+  showLegend = true,
   region, 
   viewport, 
   metric, 
   demographic, 
   highlightedState,
-  secondary,
-  hovered,
   idMap,
-  legendType,
   selectedIds,
   hoveredId,
   resetHighlightedState,
   onViewportChange, 
   onHover, 
   onClick,
-  onLegendToggle,
-  onFullChartClick,
-  onHelpClick
 }) => {
   const zoomLevel = viewport.zoom > 11 ? 'school' :
     viewport.zoom > 8 ? 'district' : 'county'
   
-  
+  // reset highlighted state on zoom out
   useEffect(() => {
     if (viewport.zoom < 4.5 && 
       highlightedState !== 'us' && 
       viewport.transitionDuration === 0
     ) {
-      resetHighlightedState()
+      resetHighlightedState && resetHighlightedState()
     }
   }, [viewport.zoom])
 
@@ -57,7 +50,7 @@ const SedaExplorerMap = ({
     })
   }, [ region, metric, demographic, highlightedState, zoomLevel ])
   return (
-    <div className="seda-explorer-map">
+    <div className="seda-map">
       <BaseMap
         style={defaultMapStyle}
         selectedColors={selectedColors}
@@ -71,31 +64,19 @@ const SedaExplorerMap = ({
       >
         { hoveredId && <MapTooltip /> }
       </BaseMap>
-      { view !== 'split' &&
-          <SedaMapLegend 
-            variant={legendType}
-            metric={metric}
-            demographic={demographic}
-            region={region}
-            secondary={secondary}
-            hovered={hovered}
-            onToggleClick={onLegendToggle}
-            onFullClick={onFullChartClick}
-            onHelpClick={onHelpClick}
-          />
-      }
+      { showLegend && <SedaMapLegend /> }
     </div>
   )
 }
 
 SedaExplorerMap.propTypes = {
   active: PropTypes.bool,
+  showLegend: PropTypes.bool,
   region: PropTypes.string, 
   viewport: PropTypes.object, 
   metric: PropTypes.string, 
   demographic: PropTypes.string, 
   highlightedState: PropTypes.string,
-  hoveredPosition: PropTypes.number,
   idMap: PropTypes.object,
   selectedIds: PropTypes.array,
   hoveredId: PropTypes.string,
@@ -111,12 +92,13 @@ const mapStateToProps = ({
   map: { idMap, viewport },
   sections: { map: { hovered } },
 },
-{ match: { params: { secondary, region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { view, secondary, region, metric, demographic, highlightedState, ...params } } }
 ) => {
   return ({
+    showLegend: view === 'map',
     idMap,
     region,
-    metric, 
+    metric,
     demographic,
     secondary,
     highlightedState,
@@ -144,31 +126,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onClick: (feature) => dispatch(
     handleLocationActivation(feature)
-  ),
-  onLegendToggle: () => dispatch({
-    type: 'TOGGLE_LEGEND_TYPE'
-  }),
-  onFullChartClick: () => {
-    updateRoute(ownProps, { view: 'chart' })
-  },
-  onHelpClick: () => dispatch(
-    (() => (d, getState) => {
-      const state = getState();
-      const helpOpen = state.ui.helpOpen;
-      const hasActiveLocation = Boolean(state.active);
-      if (hasActiveLocation) {
-        d({
-          type: 'CLEAR_ACTIVE_LOCATION'
-        })
-      } 
-      if (!helpOpen) {
-        d({
-          type: 'TOGGLE_HELP',
-          open: true
-        })
-      }
-    })()
-  ),
+  )
 })
 
 

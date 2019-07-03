@@ -5,7 +5,7 @@ import SummaryCardStack from '../organisms/SummaryCardStack';
 import { getSelectedColors } from '../../modules/config';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature, onViewportChange, onHoverFeature, updateMapSize, setActiveLocation } from "../../actions/mapActions";
+import { onRemoveSelectedFeature, onViewportChange, onHoverFeature, updateMapSize, setActiveLocation } from "../../actions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
 import * as _debounce from 'lodash.debounce';
 
@@ -17,18 +17,6 @@ const SELECTED_COLORS = getSelectedColors();
 const getLocationNameFromFeature = 
   ({ properties: { name, state }}) =>
     name && state ? [name, state].join(', ') : 'Unknown'
-
-/**
- * Returns the text summary for the location
- */
-// const getLocationSummaryFromFeature = (feature, { metric, demographic }) => {
-//   const keys = [ [demographic, metric].join('_') ]
-//   const keyValues = keys.reduce((obj, k) => ({
-//     ...obj,
-//     [k]: feature.properties[k]
-//   }), {})
-//   return getTooltipText(keyValues)
-// }
 
 /**
  * Returns the color associated with the given index
@@ -56,6 +44,7 @@ const SedaLocations = ({
   selected,
   features,
   activeId,
+  shift,
   metric, 
   secondary,
   demographic,
@@ -66,7 +55,7 @@ const SedaLocations = ({
   onCardExited
 }) => {
   const cards = useMemo(() => getCards(selected, features), [ selected ])
-  return (
+  return (cards && cards.length ?
     <SummaryCardStack {...{
         activeId, 
         cards, 
@@ -76,17 +65,23 @@ const SedaLocations = ({
         onCardEntered, 
         onCardExited,
         metrics: [ metric, secondary ],
-        demographic
+        demographic,
+        classes: {
+          root: shift ? 'summary-group--shift' : ''
+        },
       }}
-    >
-    </SummaryCardStack>
+    /> : null
   )
 }
 
 SedaLocations.propTypes = {
+  metric: PropTypes.string, 
+  secondary: PropTypes.string, 
+  demographic: PropTypes.string, 
   selected: PropTypes.array,
   features: PropTypes.object,
   activeId: PropTypes.string,
+  shift:PropTypes.bool,
   onCardDismiss: PropTypes.func,
   onCardClick: PropTypes.func,
   onCardHover: PropTypes.func,
@@ -98,15 +93,15 @@ const mapStateToProps = (
   { selected, features, active, ui: { helpOpen } }, 
   { match: { params: {region, demographic, metric, secondary } }}
 ) => ({
-  // NOTE: adding helpOpen conditional here because activeId determines
-  // if the pinned locations shift or not
-  activeId: !helpOpen && active && active.properties ? active.properties.id : null,
+
+  activeId: active && active.properties ? active.properties.id : null,
   selected: selected[region],
   features,
   region,
   demographic,
   metric, 
-  secondary
+  secondary,
+  shift: helpOpen || Boolean(active)
 })
 
 const mapDispatchToProps = (dispatch) => ({
