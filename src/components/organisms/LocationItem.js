@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import { getColorForValue, getRegionFromId } from '../../modules/config';
 import StatsItem from '../molecules/StatsItem';
 import Marker from '../atoms/BaseMarker';

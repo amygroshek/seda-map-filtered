@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
-import { getLang, hasLangKey } from '../../constants/lang';
+import { getLang, hasLangKey } from '../../modules/lang';
 import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions";
 import LegendBar from '../molecules/LegendBar';
 import DynamicScatterplot from '../organisms/DynamicScatterplot';

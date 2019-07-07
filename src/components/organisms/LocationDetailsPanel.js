@@ -3,18 +3,61 @@ import PropTypes from 'prop-types'
 import Panel from '../molecules/Panel';
 import HeaderTab from '../molecules/HeaderTab';
 import { Typography } from '@material-ui/core';
-import { getRegionFromId, getHighLow } from '../../modules/config';
+import { getRegionFromId, getHighLow, getColorForValue } from '../../modules/config';
 import { getStateName } from '../../constants/statesFips';
-import { getLang } from '../../constants/lang';
+import { getLang, getDescriptionForVarName } from '../../modules/lang';
 import LocationItem from '../organisms/LocationItem';
 import AccordionItem from '../molecules/AccordionItem';
 import LocationList from './LocationList';
+import StatSummary from './StatSummary';
+import { getFeatureProperty } from '../../modules/features';
+import { roundValue } from '../../utils';
 
-const LocationSummary = ({feature, summary}) => {
+const LocationStatSummary = ({ 
+  feature, 
+  metricId, 
+  demographicId = 'all',
+}) => {
+  
+  const region = getRegionFromId(feature.properties.id)
+  const varName = [demographicId, metricId].join('_');
+  const value = roundValue(getFeatureProperty(feature, varName));
+  const color = getColorForValue(value, varName, region);
+  const title = getLang('LABEL_' + metricId);
+  const up = metricId === 'grd' ? (value > 1) : (value > 0);
+  console.log(getFeatureProperty(feature, varName), value, varName)
+  const formatter = metricId === 'grd' ?
+    (val) => Math.round((val - 1) * 100) + '%': Math.abs
+  const description = getDescriptionForVarName(varName, value, formatter);
+
+  return (
+    <StatSummary 
+      {...{
+        title, 
+        color, 
+        value, 
+        description,
+        formatter,
+        direction: value ?
+          (up ? 'up' : 'down') : null
+      }}
+    />
+  )
+}
+
+const LocationSummary = ({feature}) => {
+  const stats = [ 'avg', 'grd', 'coh', 'ses' ];
   return feature ? (
     <div className="location-summary__stats">
-      <Typography paragraph={true}>{summary}</Typography>
-      <LocationItem feature={feature} />
+      {
+        stats.map((metricId) => 
+          <LocationStatSummary
+            key={metricId}
+            feature={feature}
+            metricId={metricId}
+          />
+        )
+      }
     </div>
   ) : (null)
 }

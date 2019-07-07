@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { getChoroplethColors, getMetricRange } from '../../modules/config';
 import LegendBar from '../molecules/LegendBar';
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import { getFeatureProperty } from '../../modules/features';
 import SedaScatterplotPreview from '../seda/SedaScatterplotPreview';
 import SedaLocationMarkers from '../seda/SedaLocationMarkers';

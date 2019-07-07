@@ -13,7 +13,7 @@ import {
   DOT_SIZES
 } from '../constants/dataOptions';
 import * as scale from 'd3-scale';
-
+import { interpolateRgbBasis } from 'd3-interpolate';
 
 /**
  * Gets the configuration for base variables
@@ -32,18 +32,15 @@ export const getSelectedColors = () => SELECTED_COLORS
  */
 export const getChoroplethColors = () => CHOROPLETH_COLORS
 
+export const getChoroplethColorAtValue = interpolateRgbBasis(CHOROPLETH_COLORS)
+
 export const getColorStep = (stepNum) => getChoroplethColors()[stepNum]
 
-const getClosestStop = (stops, goal) =>
-  stops.reduce(function(prev, curr) {
-    return (Math.abs(curr[0] - goal) < Math.abs(prev[0] - goal) ? curr : prev);
-  });
-  
-export const getColorForValue = (value, varName, region) => {
+export const getColorForValue = (value, varName, region, type = 'map') => {
   if (!value) { return NO_DATA_COLOR; }
-  const stops = getStopsForVarName(varName, region)
-  const closest = getClosestStop(stops, value)
-  return closest[1]
+  const position  = getValuePositionForMetric(value, varName, region, type)
+  console.log(position, getChoroplethColorAtValue(position))
+  return getChoroplethColorAtValue(position)
 }
 
 /**
@@ -281,11 +278,11 @@ export const getStopsForVarName = (varName, region, colors = getChoroplethColors
  * @param {*} metricId 
  * @returns {number} between 0 - 1
  */
-export const getValuePositionForMetric = (value, varName, region) => {
+export const getValuePositionForMetric = (value, varName, region, type) => {
   if (!value && value !== 0) { return null; }
   return getValuePositionInRange(
     value,
-    getMetricRangeFromVarName(varName, region)
+    getMetricRangeFromVarName(varName, region, type)
   )
 }
 

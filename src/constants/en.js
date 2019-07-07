@@ -1,5 +1,3 @@
-import { isGapDemographic } from "../modules/config";
-
 const LANG = {
 
   'NO_DATA': 'Unavailable',
@@ -124,6 +122,26 @@ const LANG = {
   'VALUE_SES': 'Socioeconomic status is $[aboveBelow] national average.',
   'VALUE_SEG': '',
 
+  'VALUE_AVG_HIGH': 'students score <strong>$[value] grade levels above</strong> U.S. average.',
+  'VALUE_AVG_MID': 'students test scores are at the national average.',
+  'VALUE_AVG_LOW': 'students score <strong>$[value] grade levels below</strong> U.S. average.',
+  'VALUE_GRD_HIGH': 'students learn <strong>$[value] more each grade</strong> than the U.S. average.',
+  'VALUE_GRD_MID': 'students learn the same each grade as the U.S. average.',
+  'VALUE_GRD_LOW': 'students learn <strong>$[value] less each grade</strong> than the U.S. average.',
+  'VALUE_COH_HIGH': 'test scores are <strong>improving $[value] each year</strong>.',
+  'VALUE_COH_MID': 'no change in test scores.',
+  'VALUE_COH_LOW': 'test scores are <strong>declining $[value] each year</strong>.',
+
+  'VALUE_SES_ULTRA_HIGH': 'socioeconomic status is <strong>very far above national average</strong>.',
+  'VALUE_SES_VERY_HIGH': 'socioeconomic status is <strong>far above national average</strong>.',
+  'VALUE_SES_HIGH': 'socioeconomic status is <strong>above national average</strong>.',
+  'VALUE_SES_MID': 'socioeconomic status is <strong>about average</strong>.',
+  'VALUE_SES_LOW': 'socioeconomic status is <strong>below national average</strong>.',
+  'VALUE_SES_VERY_LOW': 'socioeconomic status is <strong>far below national average</strong>.',
+  'VALUE_SES_ULTRA_LOW': 'socioeconomic status is <strong>very far below national average</strong>.',
+
+  // 'VALUE_SEG': '',
+
   // Description of gap value for location
   'VALUE_AVG_GAP': 'Difference of $[amount] grade levels between $[gap] students.',
   'VALUE_GRD_GAP': 'Difference in growth $[increasedDecreased] $[amount] grade levels between $[gap] students.',
@@ -216,7 +234,6 @@ const LANG = {
   'INTRO_CARD_DESCRIPTION_AVG': 'Average test scores are influenced by children`s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. ',
   'INTRO_CARD_DESCRIPTION_GRD': 'Growth of test scores show how much students learn each year they are in school. It is a better measure of school quality and shows school-based opportunity.',
   'INTRO_CARD_DESCRIPTION_COH': 'Change in test scores show how test scores are improving or declining in an an area from 2009 - 2016.  This shows how community educational opportunity is changing.',
-  'INTRO_CARD_HINT': 'OR SCROLL TO START EXPLORING ↓',
 
   // Map Legend (Mobile)
   'LEGEND_LOW': '◀ lower',
@@ -334,171 +351,6 @@ const LANG = {
   // How to use conditionals 
   'HOW_*_*_*_*_*': 'How to use content',
 
-
-
-
 }
 
 export default LANG
-
-
-
-const isStringMatch = (s1, s2) =>
-  s1 && s2 && (
-    s1.toUpperCase() === s2.toUpperCase() ||
-    s1 === '*' || s2 === '*'
-  )
-
-
-const isViewMatch = isStringMatch;
-const isRegionMatch = isStringMatch;
-const isMetricMatch = isStringMatch;
-const isSecondaryMatch = isStringMatch;
-
-const isDemographicMatch = (d1, d2) => (
-  (d1 === 'gap' && isGapDemographic(d2)) ||
-  (d2 === 'gap' && isGapDemographic(d1)) ||
-  (d1 === 'nongap' && !isGapDemographic(d2)) ||
-  (d2 === 'nongap' && !isGapDemographic(d1)) ||
-  isStringMatch(d1, d2)
-)
-
-/**
- * Returns true if the provided key matches the region, 
- * demographic, and type passed
- */
-const isKeyMatch = (
-  key, 
-  { 
-    region, 
-    demographic, 
-    view, 
-    metric, 
-    secondary = 'ses'
-  }
-) => {
-  if (key === '*') { return true; }
-  const [
-    contextId,
-    viewId,
-    regionId,
-    metricId,
-    secondaryId,
-    demographicId
-  ] = key.split('_');
-  return (
-    contextId &&
-    isViewMatch(view, viewId) &&
-    isRegionMatch(region, regionId) &&
-    isMetricMatch(metric, metricId) &&
-    isSecondaryMatch(secondary, secondaryId) &&
-    isDemographicMatch(demographic, demographicId)
-  )
-}
-
-/** Checks if the LANG key exists */
-export const hasLangKey = (key) =>
-  LANG.hasOwnProperty(key.toUpperCase())
-
-/**
- * Checks the LANG for any context-specific keys for
- * the provided values.
- */
-export const populateContext = (values = {}, prefix) => {
-  return Object.keys(values).reduce((obj, key) => ({
-    ...obj,
-    [key]: prefix && hasLangKey(prefix + '_' + values[key]) ? 
-      getLang(prefix + '_' + values[key]) :
-        hasLangKey('LABEL_' + values[key]) ? 
-          getLang('LABEL_' + values[key]).toLowerCase() :
-          values[key]
-  }), {})
-}
-
-/**
- * Returns an array of paragraphs matching the provided context
- * @param {string} contextPrefix the prefix used in the LANG for this context
- * @param {object} contextValues the values for the current context
- */
-export const getLanguageForContext = 
-  (contextPrefix, contextValues) =>
-    Object.keys(LANG)
-      .filter(k => 
-        k.startsWith(contextPrefix) && isKeyMatch(k, contextValues)
-      )
-      .map(k => getLang(k, populateContext(contextValues, contextPrefix)))
-
-/**
- * Takes a text string and injects object keys that
- * match $[key]
- * @param {*} text 
- * @param {*} params 
- */
-const interpolate = (text, params = {}) => {
-  const arr = splitLang(text);
-  return arr.map((a) => {
-    if (a && a[0] !== '$') {
-      return a
-    } else {
-      a = a.replace('$[', '')
-      a = a.replace(']', '')
-      if (params[a]) {
-        return params[a]
-      }
-      return a
-    }
-  }).join('')
-}
-
-/**
- * Gets the language string for the given key and data
- * @param {string} key 
- * @param {object} props 
- */
-export const getLang = (key = '', props = {}) => {
-  key = key.toUpperCase();
-  if (!LANG[key]) { return key }
-  return Object.keys(props).length > 0 ?
-    interpolate(LANG[key], props) :
-    LANG[key]
-}
-
-/**
- * Gets the label for the provided metric ID
- * @param {string} id 
- * @return {string}
- */
-export const getLabel = (id) => {
-  return getLang('LABEL_' + id.toUpperCase());
-}
-
-/** Split a lang string at the vars formatted as $[var] */
-export const splitLang = (text) =>
-  text.split(/(\$\[[a-zA-Z0-9_]*\])/)
-
-
-// TAKEN OUT JUNE 11.  Only used in intro, and probably a
-//    a better way.
-//
-// /**
-//  * Gets the language and inserts components for the
-//  * matching keys in the components object.
-//  * e.g. if the lang is "Select a $[button]" and `components`
-//  *  has { button: <Button /> }, it will return an array with
-//  *    [ "Select a ", <Button /> ]
-//  */
-// export const getLangWithComponents = (key, components) => {
-//   const arr = splitLang(getLang(key));
-//   return arr.map((a) => {
-//     if (a && a[0] !== '$') {
-//       return a
-//     } else {
-//       a = a.replace('$[', '')
-//       a = a.replace(']', '')
-//       if (components[a]) {
-//         return components[a]
-//       }
-//       return a;
-//     }
-//   })
-// }

@@ -1,4 +1,4 @@
-import LANG from "./lang";
+import LANG from "./en";
 
 /** min / max dot sizes */
 export const DOT_SIZES = [ 8, 48 ]
@@ -150,7 +150,7 @@ export const METRICS = [
       '*_*_h': [ -13, 5 ],
       '*_*_wb': [ -4, 14 ],
       '*_*_wh': [ -5, 16 ],
-      'map_*_*': [ -3, 3 ],
+      'map_*_*': [ -2.5, 2.5 ],
       '*': [ -6, 4 ],
     }
   },

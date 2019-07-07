@@ -2,7 +2,7 @@ import React from 'react'
 import TabPanel from '../organisms/TabPanel';
 import classNames from 'classnames';
 import { connect } from 'react-redux'
-import { getLang, populateContext } from '../../constants/lang';
+import { getLang, populateContext } from '../../modules/lang';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
