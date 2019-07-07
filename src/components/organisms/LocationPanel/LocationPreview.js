@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
+import { Typography } from '@material-ui/core';
 
 import LocationItem from './LocationItem';
-import CloseButton from '../molecules/CloseButton';
+import LocationStatList from './LocationStatList'
+import CloseButton from '../../molecules/CloseButton';
+import { getStateName } from '../../../constants/statesFips';
 
 const LocationPreview = ({
   className,
-  number,
+  idx,
   feature,
   demographic,
   metrics,
@@ -22,28 +25,31 @@ const LocationPreview = ({
       onClick={onClick}
     >
       <LocationItem
-        number={number} 
+        idx={idx} 
         feature={feature}
-        demographic={demographic}
-        metrics={metrics}
-      />
-      <CloseButton size="small"
-        onClick={(e) => { 
-          e.preventDefault(); 
-          e.stopPropagation(); 
-          onDismiss(feature); 
-          return false; 
-        }} 
-      />
+      >
+        { getStateName(feature.properties.id) }
+      </LocationItem>
+      { onDismiss && 
+        <CloseButton size="small"
+          onClick={(e) => { 
+            e.preventDefault(); 
+            e.stopPropagation(); 
+            onDismiss(feature); 
+            return false; 
+          }} 
+        />
+      }
     </div>
   )
 }
 
 LocationPreview.propTypes = {
   className: PropTypes.string,
-  number: PropTypes.oneOfType([
+  label: PropTypes.oneOfType([
     PropTypes.string, PropTypes.number
   ]),
+  idx: PropTypes.number,
   feature: PropTypes.object,
   demographic: PropTypes.string,
   metrics: PropTypes.array,

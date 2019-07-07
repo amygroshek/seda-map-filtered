@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Tabs, Tab } from '@material-ui/core';
 
-import LocationPreview from '../organisms/LocationPreview';
+import LocationPreview from './LocationPreview';
 
 
 const CardTransition = (props) => (
@@ -15,7 +15,7 @@ const CardTransition = (props) => (
   />
 );
 
-const SummaryCardStack = ({
+const LocationStack = ({
   cards = [],
   activeId = null,
   children,
@@ -39,7 +39,7 @@ const SummaryCardStack = ({
         label={
           <LocationPreview
             key={'f'+i} 
-            number={i+1} 
+            idx={i} 
             feature={c.feature}
             demographic={demographic}
             metrics={metrics}
@@ -72,9 +72,12 @@ const SummaryCardStack = ({
   )
 }
 
-SummaryCardStack.propTypes = {
+LocationStack.propTypes = {
   cards: PropTypes.array,
   activeId: PropTypes.string,
+  metrics: PropTypes.array,
+  demographic: PropTypes.string,
+  classes: PropTypes.object,
   children: PropTypes.node,
   onCardDismiss: PropTypes.func,
   onCardClick: PropTypes.func,
@@ -83,4 +86,4 @@ SummaryCardStack.propTypes = {
   onCardEntered: PropTypes.func,
 }
 
-export default SummaryCardStack
+export default LocationStack

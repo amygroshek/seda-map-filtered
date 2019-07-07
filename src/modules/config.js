@@ -254,23 +254,6 @@ export const getExplorerVarsFromSelection = (region, metric, demographic) => ({
   zVar: 'all_sz'
 })
 
-
-/**
- * Gets the color stops for the provided metric ID
- * @param {string} id 
- * @returns {array}
- */
-export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
-  const demId = getDemographicIdFromVarName(varName);
-  const metricId = getMetricIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId, region, 'map')
-  const range = Math.abs(max - min);
-  const stepSize = range / (colors.length-1);
-  return colors.map((c, i) =>
-    [ (min + (i * stepSize)), c ]
-  )
-}
-
 /**
  * Gets the percent value of where the value sites on
  * the scale for the metric.

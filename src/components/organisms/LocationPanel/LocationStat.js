@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
-import ArrowStat from '../molecules/ArrowStat';
+import ArrowStat from '../../molecules/ArrowStat';
 
-const StatSummary = ({
+const LocationStat = ({
   title,
   value,
   color,
@@ -14,7 +14,9 @@ const StatSummary = ({
 }) => {
   return (
     <div className={classNames("stats-summary")}>
-      <Typography className="stats-summary__title">{title}</Typography>
+      { title && 
+        <Typography className="stats-summary__title">{title}</Typography>
+      }
       <div className="stats-summary__content">
         <ArrowStat 
           value={value}
@@ -31,7 +33,7 @@ const StatSummary = ({
   )
 }
 
-StatSummary.propTypes = {
+LocationStat.propTypes = {
   title: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string, PropTypes.number
@@ -39,6 +41,7 @@ StatSummary.propTypes = {
   color: PropTypes.string,
   direction: PropTypes.string,
   description: PropTypes.string,
+  formatter: PropTypes.func,
 }
 
-export default StatSummary
+export default LocationStat

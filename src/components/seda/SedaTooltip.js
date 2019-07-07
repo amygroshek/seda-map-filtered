@@ -7,7 +7,15 @@ import { getTooltipText } from '../../modules/lang';
 import { getFeatureProperty } from '../../modules/features';
 
 
-const ConnectedTooltip = ({feature, xVar, yVar, ...rest}) => {
+const ConnectedTooltip = ({
+  feature, 
+  xVar, 
+  yVar,
+  x,
+  y,
+  above,
+  left
+}) => {
   const featureId = getFeatureProperty(feature, 'id');
   const title = [
     getFeatureProperty(feature, 'name'),
@@ -22,11 +30,19 @@ const ConnectedTooltip = ({feature, xVar, yVar, ...rest}) => {
     [featureId]
   )
   return (
-    <Tooltip 
-      title={title} 
-      content={content} 
-      {...rest}
-    />
+    <div className="tooltip__wrapper">
+      { (featureId) &&
+        <Tooltip 
+          title={title} 
+          x={x}
+          y={y}
+          above={above}
+          left={left}
+        >
+          <div dangerouslySetInnerHTML={{'__html': content }} />
+        </Tooltip>
+      }
+    </div>
   )
 }
 
@@ -50,9 +66,9 @@ const mapStateToProps = ({
   }
 }
 
-const MapTooltip = compose(
+const SedaTooltip = compose(
   withRouter,
   connect(mapStateToProps, null)
 )(ConnectedTooltip)
 
-export default MapTooltip
+export default SedaTooltip

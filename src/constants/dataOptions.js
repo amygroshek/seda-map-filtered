@@ -10,14 +10,6 @@ export const REGION_DOMAINS = {
   'schools': [ 10, 500 ],
 }
 
-/**
- * default viewport on map view
- */
-export const DEFAULT_VIEWPORT = {
-  latitude: 37.39,
-  longitude: -96.78,
-  zoom: 3.15
-}
 
 export const MAX_LOCATIONS = 6;
 
@@ -72,8 +64,6 @@ export const SELECTED_COLORS = [
   '#FF7B18', 
   '#FFB92A'
 ];
-
-
 
 /**
  * colors for map choropleths

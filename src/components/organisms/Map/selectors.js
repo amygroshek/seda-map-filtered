@@ -1,8 +1,27 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
-import { getStopsForVarName, getRegionFromId } from '../modules/config.js';
+import { getRegionFromId, getChoroplethColors, getDemographicIdFromVarName, getMetricIdFromVarName, getMetricRange } from '../../../modules/config.js';
+import { DEFAULT_VIEWPORT } from './constants';
+
 
 const noDataFill = "#ccc";
+
+
+/**
+ * Gets the color stops for the provided metric ID
+ * @param {string} id 
+ * @returns {array}
+ */
+export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
+  const demId = getDemographicIdFromVarName(varName);
+  const metricId = getMetricIdFromVarName(varName);
+  const [ min, max ] = getMetricRange(metricId, demId, region, 'map')
+  const range = Math.abs(max - min);
+  const stepSize = range / (colors.length-1);
+  return colors.map((c, i) =>
+    [ (min + (i * stepSize)), c ]
+  )
+}
 
 const getFillStyle = (varName, region, colors) => {
   const stops = getStopsForVarName(varName, region, colors).reduce(
@@ -319,3 +338,37 @@ export const getCircleLayers = (context) => {
 }
 
 export const defaultMapStyle = fromJS(MAP_STYLE);
+
+/**
+ * Gets the viewport to use for the map based on the viewport
+ * state and route parameters.
+ * @param {*} vp 
+ * @param {*} routeParams 
+ * @returns {object} valid viewport object
+ */
+export const getMapViewport = (vp, routeParams) => {
+  if (vp && vp.zoom && vp.latitude && vp.longitude) {
+    // viewport is valid
+    return vp;
+  } else if (routeParams && routeParams.zoom && routeParams.lat && routeParams.lon) {
+    // no valid viewport in store, use the one in the route
+    return {
+      latitude: parseFloat(routeParams.lat),
+      longitude: parseFloat(routeParams.lon),
+      zoom: parseFloat(routeParams.zoom),
+      ...vp
+    }
+  }
+  // no viewport in store or route, use default
+  return {
+    ...DEFAULT_VIEWPORT,
+    ...vp
+  }
+}
+
+export const getLayers = (context) => {
+  return [
+    ...getChoroplethLayers(context),
+    ...getCircleLayers(context)
+  ]
+}

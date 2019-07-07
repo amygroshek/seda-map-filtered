@@ -34,7 +34,7 @@ export const getCSSVariable = (varname) =>
     .getPropertyValue(varname)
 
 
-export const roundValue = (val) =>
+export const formatNumber = (val) =>
   Math.round(val*100)/100
 
 export const parseColor = (input) => {

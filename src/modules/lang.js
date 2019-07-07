@@ -187,7 +187,7 @@ const getDescriptionLangKey = (metricId, value) => {
  *          returned for `getDescriptionFromVarName('all_avg', 1.34)`
  */
 export const getDescriptionForVarName = (varName, value, formatter) => {
-  if ((!value || value === -9999) && value !== 0 ) { return 'NO_VALUE'; }
+  if ((!value || value === -9999) && value !== 0 ) { return ''; }
   const metricId = getMetricIdFromVarName(varName);
   const demographicId = getDemographicIdFromVarName(varName);
   const isGap = isGapDemographic(demographicId);

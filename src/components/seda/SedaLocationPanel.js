@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import LocationDetailsPanel from '../organisms/LocationDetailsPanel';
+import LocationPanel from '../organisms/LocationPanel';
 
 const SedaLocationPanel = ({
   active,
@@ -17,7 +17,7 @@ const SedaLocationPanel = ({
     selected.map(fId => features[fId])
   , [ selected ])
   return (
-    <LocationDetailsPanel 
+    <LocationPanel 
       feature={active} 
       others={others}
       onClose={clearActiveLocation}

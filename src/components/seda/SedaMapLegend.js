@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { toggleHelp } from '../../actions';
 import { updateRoute } from '../../modules/router';
-import MapLegend from '../organisms/MapLegend';
+import { MapLegend } from '../organisms/Map';
 
 const mapStateToProps = ({ 
   selected,

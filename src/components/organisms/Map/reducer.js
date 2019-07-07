@@ -1,6 +1,4 @@
 import { combineReducers } from "redux";
-import { DEFAULT_VIEWPORT } from '../constants/dataOptions';
-import { getChoroplethLayers, getCircleLayers } from '../style/map-style';
 
 /**
  * Stores state of current map viewport
@@ -109,38 +107,3 @@ const idMap = (state = {}, {type, features}) => {
 const map = combineReducers({ coords, viewport, idMap })
 
 export default map;
-
-
-/**
- * Gets the viewport to use for the map based on the viewport
- * state and route parameters.
- * @param {*} vp 
- * @param {*} routeParams 
- * @returns {object} valid viewport object
- */
-export const getMapViewport = (vp, routeParams) => {
-  if (vp && vp.zoom && vp.latitude && vp.longitude) {
-    // viewport is valid
-    return vp;
-  } else if (routeParams && routeParams.zoom && routeParams.lat && routeParams.lon) {
-    // no valid viewport in store, use the one in the route
-    return {
-      latitude: parseFloat(routeParams.lat),
-      longitude: parseFloat(routeParams.lon),
-      zoom: parseFloat(routeParams.zoom),
-      ...vp
-    }
-  }
-  // no viewport in store or route, use default
-  return {
-    ...DEFAULT_VIEWPORT,
-    ...vp
-  }
-}
-
-export const getLayers = (context) => {
-  return [
-    ...getChoroplethLayers(context),
-    ...getCircleLayers(context)
-  ]
-}

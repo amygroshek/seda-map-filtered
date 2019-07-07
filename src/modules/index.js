@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import map from './map';
+import map from '../components/organisms/Map/reducer';
 import scatterplot from './scatterplot';
 import search from './search';
 import selected from './selected';

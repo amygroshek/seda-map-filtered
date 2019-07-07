@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { getSelectedColors, getMetricRangeFromVarName, getSizerFunctionForRegion } from '../../modules/config'
-import CircleMarker from '../atoms/CircleMarker';
+import { getSelectedColors, getMetricRangeFromVarName, getSizerFunctionForRegion } from '../../../modules/config'
+import CircleMarker from '../../atoms/CircleMarker';
 
 const colors = getSelectedColors();
 
@@ -83,7 +83,7 @@ const isHoveredSelected = (hovered, selected = []) => {
   return selected.indexOf(hovered.properties.id) > -1
 }
 
-const LocationMarkers = ({
+const ScatterplotOverlay = ({
   xVar, 
   yVar, 
   zVar, 
@@ -165,7 +165,7 @@ const LocationMarkers = ({
   )
 }
 
-LocationMarkers.propTypes = {
+ScatterplotOverlay.propTypes = {
   xVar: PropTypes.string, 
   yVar: PropTypes.string,  
   zVar: PropTypes.string,  
@@ -175,4 +175,4 @@ LocationMarkers.propTypes = {
   hovered: PropTypes.object,
 }
 
-export default LocationMarkers
+export default ScatterplotOverlay

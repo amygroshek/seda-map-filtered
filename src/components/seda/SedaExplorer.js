@@ -15,6 +15,7 @@ import SedaChart from './SedaChart';
 import SedaHelp from './SedaHelp';
 import SedaIntro from './SedaIntro';
 import SedaLocationPanel from './SedaLocationPanel';
+import SedaTooltip from './SedaTooltip';
 
 const ExplorerView = ({ 
   loadRouteLocations, 
@@ -64,7 +65,7 @@ const ExplorerView = ({
       leftComponent={<SedaChart />}
       footerContent={<SedaLocations />}
     >
-      
+      <SedaTooltip />
       <SedaHelp />
       <SedaLocationPanel />
     </SplitSection>

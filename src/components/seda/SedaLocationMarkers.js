@@ -1,7 +1,7 @@
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import LocationMarkers from '../molecules/LocationMarkers';
+import { ScatterplotOverlay } from '../organisms/Scatterplot';
 
 export default compose(
   withRouter,
@@ -18,4 +18,4 @@ export default compose(
       features, 
       hovered,
     }), null)
-)(LocationMarkers)
+)(ScatterplotOverlay)

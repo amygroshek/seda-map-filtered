@@ -9,7 +9,7 @@ import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
 import LegendBar from '../molecules/LegendBar';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
-import MapVisualLegend from '../molecules/MapVisualLegend';
+import MapVisualLegend from '../organisms/Map/MapVisualLegend';
 
 const colors = getChoroplethColors();
 

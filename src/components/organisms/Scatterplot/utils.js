@@ -1,7 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapVar, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName } from '../modules/config';
-import { getLang } from '../modules/lang';
-import { getCSSVariable } from '../utils';
+import { getSizerFunctionForRegion, isGapVar, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName } from '../../../modules/config';
+import { getLang } from '../../../modules/lang';
+import { getCSSVariable } from '../../../utils';
 
 /** GRID CONFIGURATION  */
 
