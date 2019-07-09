@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Tabs, Tab } from '@material-ui/core';
-
-import LocationPreview from './LocationPreview';
+import CloseIcon from '@material-ui/icons/Close';
+import LocationItem from './LocationItem';
 
 
 const CardTransition = (props) => (
@@ -19,8 +19,6 @@ const LocationStack = ({
   cards = [],
   activeId = null,
   children,
-  metrics,
-  demographic,
   classes = {},
   onCardDismiss,
   onCardClick,
@@ -37,15 +35,15 @@ const LocationStack = ({
       <Tab 
         component="div"
         label={
-          <LocationPreview
+          <LocationItem
             key={'f'+i} 
             idx={i} 
             feature={c.feature}
-            demographic={demographic}
-            metrics={metrics}
             onDismiss={() => onCardDismiss && onCardDismiss(c)}
             onClick={() => onCardClick && onCardClick(c)}
             onHover={() => onCardHover && onCardHover(c)}
+            actionIcon={<CloseIcon />}
+            onActionPress={onCardDismiss}
           />
         }
         classes={{

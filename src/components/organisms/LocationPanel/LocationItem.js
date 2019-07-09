@@ -2,16 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Marker from '../../atoms/BaseMarker';
 import { getSelectedColors } from '../../../modules/config';
+import { IconButton } from '@material-ui/core';
+import { getStateName } from '../../../constants/statesFips';
 
 const SELECTED = getSelectedColors();
 
 const LocationItem = ({ 
   idx,
   label,
-  feature: { properties }, 
+  feature, 
   children,
+  actionIcon,
+  onActionPress,
   ...props
 }) => {
+  const stateName = getStateName(
+    feature.properties.id.substring(0,2)
+  )
   return (
     <div className="location-item" {...props}>
       <Marker 
@@ -21,12 +28,26 @@ const LocationItem = ({
         >
           {label ? label  : idx+1}
       </Marker>
-      <div className="location-item__heading">
-        {properties.name}
+      <div className="location-item__content-wrapper">
+        <div className="location-item__heading">
+          <span className="location-item__name">{feature.properties.name}</span>
+          <span className="location-item__state">{stateName}</span>
+        </div>
+        <div className="location-item__content">
+          {children}
+        </div>
       </div>
-      <div className="location-item__content">
-        {children}
-      </div>
+      {
+        actionIcon && onActionPress && 
+          <IconButton size="small" className="location-item__action" onClick={(e) => { 
+            e.preventDefault(); 
+            e.stopPropagation(); 
+            onActionPress({feature}); 
+            return false; 
+          }}>
+            {actionIcon}
+          </IconButton>
+      }
     </div>
   )
 }
@@ -36,6 +57,8 @@ LocationItem.propTypes = {
   idx: PropTypes.number,
   label: PropTypes.string,
   children: PropTypes.node,
+  actionIcon: PropTypes.node,
+  onActionPress: PropTypes.func,
 }
 
 export default LocationItem;

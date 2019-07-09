@@ -1,6 +1,5 @@
 import { 
   isGapDemographic, 
-  getDemographicById, 
   getMetricIdFromVarName, 
   getDemographicIdFromVarName 
 } from "./config";
@@ -141,16 +140,16 @@ export const splitLang = (text) =>
   text.split(/(\$\[[a-zA-Z0-9_]*\])/)
 
 
-const getGapLabel = (gapId) => {
-  const dem1 = 
-    getDemographicById(gapId[0])
-  const dem2 = 
-    getDemographicById(gapId[1] === 'n' ? 'np' : gapId[1])
-  return getLang('LABEL_GAP', {
-    demographic1: dem1.label,
-    demographic2: dem2.label
-  }).toLowerCase()
-}
+// const getGapLabel = (gapId) => {
+//   const dem1 = 
+//     getDemographicById(gapId[0])
+//   const dem2 = 
+//     getDemographicById(gapId[1] === 'n' ? 'np' : gapId[1])
+//   return getLang('LABEL_GAP', {
+//     demographic1: dem1.label,
+//     demographic2: dem2.label
+//   }).toLowerCase()
+// }
 
 /**
  * Gets the proper language key to use given the metric and value

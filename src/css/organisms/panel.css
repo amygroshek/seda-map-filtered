@@ -16,11 +16,10 @@
 }
 
 .panel .button--close {
-  margin-right: -16px;
+  margin-right: -8px;
 }
 
 .panel .panel__toolbar {
-  min-height: 56px;
   display: flex;
   justify-content: space-between;
   border-bottom: var(--divider-border);

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Typography } from '@material-ui/core';
 import LocationItem from './LocationItem';
 
 const LocationList = ({
@@ -19,8 +18,6 @@ const LocationList = ({
               key={'f'+i} 
               idx={i} 
               feature={f}
-              demographic={demographic}
-              metrics={metrics}
             />
         )
       }

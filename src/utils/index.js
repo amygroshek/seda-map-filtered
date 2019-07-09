@@ -38,7 +38,7 @@ export const formatNumber = (val) =>
   Math.round(val*100)/100
 
 export const parseColor = (input) => {
-  if (input.substr(0,1)=="#") {
+  if (input.substr(0,1)==="#") {
     const collen=(input.length-1)/3;
     const fact=[17,1,0.062272][collen-1];
     return [

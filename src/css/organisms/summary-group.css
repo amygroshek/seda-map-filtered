@@ -36,80 +36,12 @@
   }
 }
 
-.summary-group .summary-group__stats-button {
-  padding: 16px 32px;
-  font-size: 1.125em;
-  box-shadow: none;
-}
-
 .summary-group .MuiTabs-scroller .MuiTabs-flexContainer {
   align-items: flex-start;
   /* flex-direction: row-reverse; */
 }
 
-
-
 .summary-group .MuiTabs-indicator { display: none; }
-
-.summary-group .summary-card {
-  background: none;
-  box-shadow: inset -1px 0 0 var(--darken2);
-  width: 100%;
-  height: 100%;
-}
-
-.summary-card .summary-card__header {
-  text-align: left;
-  text-transform: none;
-  letter-spacing: 0;
-  position:relative;
-  width: 100%;
-  height: 100%;
-  padding: 16px 16px 8px;
-}
-
-.summary-card__header .MuiCardHeader-avatar {
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-}
-
-.summary-card__header .MuiCardHeader-content {
-  position: relative;
-  top: -4px;
-  width: calc(100% - 48px);
-}
-
-.summary-card__header .marker {
-  position:absolute;
-  width: 32px;
-  height: 4px;
-  top:0;
-  left:16px;
-  right:0;
-  border-radius: 0;
-}
-
-.summary-card__header .MuiCardHeader-title {
-  font-size: var(--card-title-size);
-  font-family: var(--heading-font);
-  line-height: 24px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 100%;
-  max-height: 24px;
-}
-
-.summary-card__header .MuiCardHeader-subheader {
-  font-size: var(--card-subheader-size);
-  font-family: var(--body-font);
-  line-height: 16px;
-  max-height: 32px;
-  overflow: visible;
-}
-
 
 .summary-group .tab {
   flex: 1;
@@ -137,8 +69,7 @@
 
 .tab.summary-group__cards-exit {
   /* opacity: 1; */
-  flex:1;
-  
+  flex:1;  
 }
 
 .tab.summary-group__cards-exit.summary-group__cards-exit-active {
@@ -147,3 +78,18 @@
   transition: flex 0.2s ease-in;
 }
 
+.summary-group .location-item {
+  padding: 0 8px;
+}
+
+.summary-group .location-item .location-item__content-wrapper {
+  max-width: calc(100% - 56px);
+}
+.summary-group .location-item .location-item__heading {
+  max-width: 100%;
+}
+.summary-group .location-item .location-item__name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow:hidden;
+}
