@@ -2,14 +2,14 @@ import React from 'react'
 import TabPanel from '../organisms/TabPanel';
 import classNames from 'classnames';
 import { connect } from 'react-redux'
-import { getLang, populateContext } from '../../constants/lang';
+import { getLang, populateContext } from '../../modules/lang';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
 import LegendBar from '../molecules/LegendBar';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
-import MapVisualLegend from '../molecules/MapVisualLegend';
+import MapVisualLegend from '../organisms/Map/MapVisualLegend';
 
 const colors = getChoroplethColors();
 

@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SummaryCardStack from '../organisms/SummaryCardStack';
+import { LocationStack } from '../organisms/LocationPanel';
 import { getSelectedColors } from '../../modules/config';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -56,7 +56,7 @@ const SedaLocations = ({
 }) => {
   const cards = useMemo(() => getCards(selected, features), [ selected ])
   return (cards && cards.length ?
-    <SummaryCardStack {...{
+    <LocationStack {...{
         activeId, 
         cards, 
         onCardDismiss, 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Typography, Button } from '@material-ui/core';
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import Card from '../molecules/Card';
 
 function MapIntro({onMeasureClick}) {

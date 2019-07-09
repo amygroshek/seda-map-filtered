@@ -1,4 +1,4 @@
-import LANG from "./lang";
+import LANG from "./en";
 
 
 export const HEADER = {

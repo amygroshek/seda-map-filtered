@@ -5,12 +5,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation } from '../../actions';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
-import { defaultMapStyle } from '../../style/map-style';
-import { getMapViewport, getLayers } from '../../modules/map';
+import { getMapViewport, getLayers, defaultMapStyle } from '../organisms/Map/selectors';
 import { getHoveredId } from '../../modules/sections';
 import { getSelectedColors } from '../../modules/config';
-import MapTooltip from './SedaMapTooltip';
-import BaseMap from '../molecules/BaseMap';
+import MapBase from '../organisms/Map';
 import SedaMapLegend from './SedaMapLegend';
 
 const selectedColors = getSelectedColors();
@@ -51,7 +49,7 @@ const SedaExplorerMap = ({
   }, [ region, metric, demographic, highlightedState, zoomLevel ])
   return (
     <div className="seda-map">
-      <BaseMap
+      <MapBase
         style={defaultMapStyle}
         selectedColors={selectedColors}
         attributionControl={true}
@@ -61,9 +59,7 @@ const SedaExplorerMap = ({
         selectedIds={selectedIds}
         hoveredId={hoveredId}
         {...{onViewportChange, onHover, onClick}}
-      >
-        { hoveredId && <MapTooltip /> }
-      </BaseMap>
+      ></MapBase>
       { showLegend && <SedaMapLegend /> }
     </div>
   )

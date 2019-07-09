@@ -1,7 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapDemographic, isGapVar, getDemographicFromVarName, getLabelFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getDemographicById, getDemographicIdFromVarName, getMetricRangeFromVarName, getDemographicLabel } from '../modules/config';
-import { getStateName } from '../constants/statesFips';
-import { getLang } from '../constants/lang';
+import { getSizerFunctionForRegion, isGapVar, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName } from '../../../modules/config';
+import { getLang } from '../../../modules/lang';
+import { getCSSVariable } from '../../../utils';
 
 /** GRID CONFIGURATION  */
 
@@ -576,10 +576,8 @@ const getMapXAxis = ({ metric, demographic, region }) => {
     nameTextStyle: {
       fontSize: 14,
       fontWeight: 'normal',
-      color: getComputedStyle(document.documentElement)
-        .getPropertyValue('--text'),
-      fontFamily: getComputedStyle(document.documentElement)
-        .getPropertyValue('--heading-font')
+      color: getCSSVariable('--text'),
+      fontFamily: getCSSVariable('--heading-font')
     },
     splitLine: { show: false },
   }
@@ -642,10 +640,8 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
     nameTextStyle: {
       fontSize: 14,
       fontWeight: 'normal',
-      color: getComputedStyle(document.documentElement)
-        .getPropertyValue('--text'),
-      fontFamily: getComputedStyle(document.documentElement)
-        .getPropertyValue('--heading-font')
+      color: getCSSVariable('--text'),
+      fontFamily: getCSSVariable('--heading-font')
     },
     ...rest
   }
@@ -660,169 +656,6 @@ const yAxis = (variant, { varName, region }) => {
       return getMapYAxis({ metric, demographic, region })
     default:
       return getYAxis({ metric, demographic, region })
-  }
-}
-
-/** TOOLTIP CONFIGURATION */
-
-const getGapLabel = (gapId) => {
-  const dem1 = 
-    getDemographicById(gapId[0])
-  const dem2 = 
-    getDemographicById(gapId[1] === 'n' ? 'np' : gapId[1])
-  return getLang('LABEL_GAP', {
-    demographic1: dem1.label,
-    demographic2: dem2.label
-  }).toLowerCase()
-}
-
-const getAverageScoreDescription = (value, varName) => {
-  const demographicId = getDemographicIdFromVarName(varName)
-  const isGap = isGapDemographic(demographicId);
-  const amount = Math.round(value*100)/100
-  return isGap ?
-    getLang('VALUE_AVG_GAP', {
-      amount,
-      gap: getGapLabel(demographicId)
-    })
-    :
-    getLang('VALUE_AVG', {
-      amount: Math.abs(amount),
-      aboveBehind: amount > 0 ? 'above' : 'behind'
-    })
-}
-
-const getSesDescription = (value, varName) => {
-  const demographicId = getDemographicIdFromVarName(varName)
-  const isGap = isGapDemographic(demographicId);
-  const amount = Math.round(value*100)/100
-  return isGap ?
-    getLang('VALUE_SES_GAP', {
-      amount,
-      gap: getGapLabel(demographicId)
-    })
-    :
-    getLang('VALUE_SES', {
-      amount: Math.abs(amount),
-      aboveBelow: amount > 0 ? 'above' : 'below',
-      demographic: getDemographicLabel(demographicId)
-    })
-}
-
-const getGrowthDescription = (value, varName) => {
-  const demographicId = getDemographicIdFromVarName(varName)
-  const isGap = isGapDemographic(demographicId);
-  const amount = Math.round(value*100)/100
-  return isGap ?
-    getLang('VALUE_GRD_GAP', {
-      amount: Math.abs(amount),
-      gap: getGapLabel(demographicId),
-      increasedDecreased: amount > 0 ? 'increased' : 'decreased'
-    })
-    :
-    getLang('VALUE_GRD', { amount })
-}
-
-const getTrendDescription = (value, varName) => {
-  const demographicId = getDemographicIdFromVarName(varName)
-  const isGap = isGapDemographic(demographicId);
-  const amount = Math.round(value*100)/100
-  return isGap ?
-    getLang('VALUE_COH_GAP', {
-      amount: amount > 0 ? 'increased' : 'decreased',
-      increasedDecreased: Math.abs(amount),
-      gap: getGapLabel(demographicId) 
-    })
-    :
-    getLang('VALUE_COH', {
-      risingFalling: amount > 0 ? 'rising' : 'falling',
-      amount: Math.abs(amount)
-    })
-}
-
-const getDescriptionForVarName = (varName, value) => {
-  if (!value || value === -9999) { return ''; }
-  const metric = getMetricFromVarName(varName);
-  switch(metric.id) {
-    case 'avg':
-      return getAverageScoreDescription(value, varName)
-    case 'grd':
-      return getGrowthDescription(value, varName)
-    case 'coh':
-      return getTrendDescription(value, varName)
-    case 'ses':
-      return getSesDescription(value, varName)
-    default:
-      return ''
-  }
-}
-
-/**
- * Get the label for the provided varnames and values
- * @param {*} values 
- */
-export const getTooltipText = (values) => {
-  const text = Object.keys(values).reduce((str, varName) => {
-    return str + getDescriptionForVarName(varName, values[varName])
-  }, '')
-  return text !== '' ? text : getLang('DATA_UNAVAILABLE')
-}
-
-/**
- * Returns the tooltip config for the given context
- */
-const getTooltip = ({ data, xVar, yVar, ...rest }) => {
-  const xLabel = getLabelFromVarName(xVar);
-  const yLabel = getLabelFromVarName(yVar);
-  const placeNames = data && data.name ? data.name : {};
-  return {
-    show:true,
-    trigger: 'item',
-    formatter: ({value}) => {
-      const name = placeNames && placeNames[value[3]] ? 
-        placeNames[value[3]] : getLang('NO_DATA')
-      const stateName = getStateName(value[3])
-      const line1 = xLabel + ': ' + value[0];
-      const line2 = yLabel + ': ' + value[1];
-      return `
-        <div class="tooltip__title">${name}, ${stateName}</div>
-        <div class="tooltip__content">
-          ${line1}<br />
-          ${line2}
-        </div>        
-      `
-    },
-    ...rest
-  }
-}
-
-const getMapTooltip = ({data, xVar, yVar}) => getTooltip({
-  data,
-  xVar,
-  yVar, 
-  extraCssText: 'max-width: 188px; white-space: normal',
-  formatter: ({value}) => {
-    const placeNames = data && data.name ? data.name : {};
-    const name = placeNames && placeNames[value[3]] ? 
-      placeNames[value[3]] : 'Unknown'
-    const stateName = getStateName(value[3])
-    return `
-      <div class="tooltip__title">${name}, ${stateName}</div>
-      <div class="tooltip__content">
-        ${getTooltipText({ [yVar]: value[1], [xVar]: value[0] })}
-      </div>
-    `
-  }
-})
-
-const tooltip = (variant, { data, xVar, yVar }) => {
-  switch(variant) {
-    case 'map':
-      return getMapTooltip({ data, xVar, yVar })
-    case 'preview':
-      return {}
-    default:
-      return getTooltip({ data, xVar, yVar })
   }
 }
 
@@ -844,8 +677,7 @@ export const getScatterplotOptions = (
       series('base', variant, { highlightedState, sizer }),
       series('highlighted', variant, { highlightedState, sizer }),
       ...overlays(variant, { xVar, yVar, region })
-    ],
-    tooltip: tooltip(variant, { data, xVar, yVar })
+    ]
   }
   return options;
 }

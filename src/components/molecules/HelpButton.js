@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames';
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import { IconButton } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 

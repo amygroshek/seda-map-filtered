@@ -30,7 +30,7 @@ import ToggleButtons from '../molecules/ToggleButtons';
 import HeaderTab from '../molecules/HeaderTab';
 import SedaMenu from './SedaMenu';
 import SedaSearch from './SedaSearch';
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import SelectButton from '../atoms/SelectButton';
 import MenuButton from '../atoms/MenuButton';
 import HelpButton from '../molecules/HelpButton';

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Tabs, Tab } from '@material-ui/core';
-
-import LocationPreview from '../organisms/LocationPreview';
+import CloseIcon from '@material-ui/icons/Close';
+import LocationItem from './LocationItem';
 
 
 const CardTransition = (props) => (
@@ -15,12 +15,10 @@ const CardTransition = (props) => (
   />
 );
 
-const SummaryCardStack = ({
+const LocationStack = ({
   cards = [],
   activeId = null,
   children,
-  metrics,
-  demographic,
   classes = {},
   onCardDismiss,
   onCardClick,
@@ -37,15 +35,14 @@ const SummaryCardStack = ({
       <Tab 
         component="div"
         label={
-          <LocationPreview
+          <LocationItem
             key={'f'+i} 
-            number={i+1} 
+            idx={i} 
             feature={c.feature}
-            demographic={demographic}
-            metrics={metrics}
-            onDismiss={() => onCardDismiss && onCardDismiss(c)}
             onClick={() => onCardClick && onCardClick(c)}
             onHover={() => onCardHover && onCardHover(c)}
+            actionIcon={<CloseIcon />}
+            onActionPress={() => onCardDismiss && onCardDismiss(c)}
           />
         }
         classes={{
@@ -72,9 +69,12 @@ const SummaryCardStack = ({
   )
 }
 
-SummaryCardStack.propTypes = {
+LocationStack.propTypes = {
   cards: PropTypes.array,
   activeId: PropTypes.string,
+  metrics: PropTypes.array,
+  demographic: PropTypes.string,
+  classes: PropTypes.object,
   children: PropTypes.node,
   onCardDismiss: PropTypes.func,
   onCardClick: PropTypes.func,
@@ -83,4 +83,4 @@ SummaryCardStack.propTypes = {
   onCardEntered: PropTypes.func,
 }
 
-export default SummaryCardStack
+export default LocationStack

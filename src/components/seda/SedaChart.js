@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
-import { getLang, hasLangKey } from '../../constants/lang';
-import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions";
+import { getLang, hasLangKey } from '../../modules/lang';
+import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange } from "../../actions";
 import LegendBar from '../molecules/LegendBar';
-import DynamicScatterplot from '../organisms/DynamicScatterplot';
+import Scatterplot from '../organisms/Scatterplot';
 import { Typography } from '@material-ui/core';
 import SedaLocationMarkers from './SedaLocationMarkers';
 
@@ -83,7 +83,7 @@ const SedaExplorerChart = ({
   const hoveredPrimary = hoveredValue || hoveredValue === 0 ? 
     Math.round(hoveredValue*100)/100 : null;
   return (
-    <DynamicScatterplot {...{
+    <Scatterplot {...{
       ...scatterplot,
       region,
       data,
@@ -121,7 +121,7 @@ const SedaExplorerChart = ({
           <span className="label">{rightLabel}</span>
         </div>
       }
-    </DynamicScatterplot>
+    </Scatterplot>
   )
 }
 
@@ -160,8 +160,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onScatterplotData(data, region)),
   onReady: () => 
     dispatch(onScatterplotLoaded('map')),
-  onHover: (feature) =>
-    dispatch(onHoverFeature(feature, 'map')),
+  onHover: (feature, e) => {
+    dispatch(onHoverFeature(feature, 'map'))
+    dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
+  },
+    
   onClick: (location) =>
     dispatch(loadLocation(location)),
   onError: (e, sectionId = 'map') =>

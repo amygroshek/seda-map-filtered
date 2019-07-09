@@ -5,7 +5,8 @@ import CloseIcon from '@material-ui/icons/Close';
 const CloseButton = (props) => {
   return (
     <IconButton 
-      className="button--close" 
+      className="button--close"
+      size="small"
       aria-label="close" 
       {...props}
     >

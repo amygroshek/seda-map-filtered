@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import PropTypes from 'prop-types';
-import usePrevious from '../../hooks/usePrevious';
-
-
+import usePrevious from '../../../hooks/usePrevious';
 
 /**
  * Returns the width and height of the provided element
@@ -40,7 +38,7 @@ const getUpdatedMapStyle = (style, layers) => {
   );
 }
 
-const BaseMap = ({
+const MapBase = ({
   style, 
   hoveredId, 
   selectedIds, 
@@ -100,10 +98,15 @@ const BaseMap = ({
     onViewportChange({ ...vp, ...getContainerSize(mapEl.current) })
 
   // handler for feature hover
-  const handleHover = ({ features, point }) => {
+  const handleHover = ({ features, point, srcEvent }) => {
     const newHoveredFeature = 
       features && features.length > 0 ? features[0] : null
-    onHover(newHoveredFeature, { x: Math.round(point[0]), y: Math.round(point[1]) })
+    const coords = srcEvent && srcEvent.pageX && srcEvent.pageY ?
+      { 
+        x: Math.round(srcEvent.pageX), 
+        y: Math.round(srcEvent.pageY) 
+      } : { x: null, y: null }
+    onHover(newHoveredFeature, coords)
   }
 
   // handler for feature click
@@ -166,7 +169,7 @@ const BaseMap = ({
   )
 }
 
-BaseMap.propTypes = {
+MapBase.propTypes = {
   style: PropTypes.object,
   viewport: PropTypes.object, 
   layers: PropTypes.array,
@@ -180,4 +183,4 @@ BaseMap.propTypes = {
   onClick: PropTypes.func,
 }
 
-export default BaseMap;
+export default MapBase;

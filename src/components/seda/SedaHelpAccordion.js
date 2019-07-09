@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-import { getLang, populateContext } from '../../constants/lang';
+import { getLang, populateContext } from '../../modules/lang';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import Accordion from '../organisms/Accordion';

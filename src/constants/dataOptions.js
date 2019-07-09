@@ -1,4 +1,4 @@
-import LANG from "./lang";
+import LANG from "./en";
 
 /** min / max dot sizes */
 export const DOT_SIZES = [ 8, 48 ]
@@ -10,14 +10,6 @@ export const REGION_DOMAINS = {
   'schools': [ 10, 500 ],
 }
 
-/**
- * default viewport on map view
- */
-export const DEFAULT_VIEWPORT = {
-  latitude: 37.39,
-  longitude: -96.78,
-  zoom: 3.15
-}
 
 export const MAX_LOCATIONS = 6;
 
@@ -72,8 +64,6 @@ export const SELECTED_COLORS = [
   '#FF7B18', 
   '#FFB92A'
 ];
-
-
 
 /**
  * colors for map choropleths
@@ -150,7 +140,7 @@ export const METRICS = [
       '*_*_h': [ -13, 5 ],
       '*_*_wb': [ -4, 14 ],
       '*_*_wh': [ -5, 16 ],
-      'map_*_*': [ -3, 3 ],
+      'map_*_*': [ -2.5, 2.5 ],
       '*': [ -6, 4 ],
     }
   },

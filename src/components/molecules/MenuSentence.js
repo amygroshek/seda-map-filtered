@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import InlineMenu from '../atoms/InlineMenu';
 import { Typography } from '@material-ui/core';
-import { splitLang } from '../../constants/lang';
+import { splitLang } from '../../modules/lang';
 
 function MenuSentence({templateString, controls, onChange, ...rest}) {
   let controlIndex = 0;

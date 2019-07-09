@@ -15,6 +15,7 @@ import SedaChart from './SedaChart';
 import SedaHelp from './SedaHelp';
 import SedaIntro from './SedaIntro';
 import SedaLocationPanel from './SedaLocationPanel';
+import SedaTooltip from './SedaTooltip';
 
 const ExplorerView = ({ 
   loadRouteLocations, 
@@ -54,20 +55,22 @@ const ExplorerView = ({
   return introOn ? (
     <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> 
   ) : (
-    <SplitSection
-      id="map"
-      classes={{ root: 'section--explorer' }}
-      helpPanelOn={helpOpen}
-      locationPanelOn={locationActive}
-      activeView={activeView}
-      rightComponent={<SedaMap />}
-      leftComponent={<SedaChart />}
-      footerContent={<SedaLocations />}
-    >
-      
-      <SedaHelp />
-      <SedaLocationPanel />
-    </SplitSection>
+    <>
+      <SedaTooltip />
+      <SplitSection
+        id="map"
+        classes={{ root: 'section--explorer' }}
+        helpPanelOn={helpOpen}
+        locationPanelOn={locationActive}
+        activeView={activeView}
+        rightComponent={<SedaMap />}
+        leftComponent={<SedaChart />}
+        footerContent={<SedaLocations />}
+      >
+        <SedaHelp />
+        <SedaLocationPanel />
+      </SplitSection>
+    </>
   )
 }
 

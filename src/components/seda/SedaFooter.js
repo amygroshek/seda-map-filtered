@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Footer from '../organisms/Footer';
 import { Button } from '@material-ui/core';
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import FacebookIcon from '../atoms/FacebookIcon';
 import TwitterIcon from '../atoms/TwitterIcon';
 import LinkIcon from '@material-ui/icons/Link';

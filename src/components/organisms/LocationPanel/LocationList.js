@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Typography } from '@material-ui/core';
 import LocationItem from './LocationItem';
 
 const LocationList = ({
-  summary, 
   metrics = ['avg', 'grd', 'coh'],
   demographic = 'all', 
   feature, className, 
@@ -13,18 +11,13 @@ const LocationList = ({
 }) => {
   return feature ? (
     <div className={classNames('location-list', className)}>
-      { summary && 
-        <Typography paragraph={true}>{summary}</Typography> 
-      }
       {
         others.map((f,i) =>
           f.properties.id !== feature.properties.id && 
             <LocationItem 
               key={'f'+i} 
-              number={i+1} 
+              idx={i} 
               feature={f}
-              demographic={demographic}
-              metrics={metrics}
             />
         )
       }

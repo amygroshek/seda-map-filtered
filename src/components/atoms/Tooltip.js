@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Tooltip = ({
   title, 
-  content, 
+  children, 
   x, 
   y, 
   above,
@@ -21,11 +21,14 @@ const Tooltip = ({
     <div 
       className="tooltip" 
       style={{ 
-        transform: `translate(${xPos}, ${yPos})` 
-      }}>
-      <div className="tooltip__title">{title}</div>
+        transform: `translate(${xPos}, ${yPos})`,
+      }}
+    >
+      { title && 
+        <div className="tooltip__title">{title}</div>
+      }
       <div className="tooltip__content">
-        {content}
+        {children}
       </div>
     </div>
   )
@@ -33,7 +36,7 @@ const Tooltip = ({
 
 Tooltip.propTypes = {
   title: PropTypes.string,
-  content: PropTypes.oneOfType([
+  children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
   ]),

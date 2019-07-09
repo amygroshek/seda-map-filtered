@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Tabs, Tab, Typography } from '@material-ui/core';
-import { getLang } from '../../constants/lang';
+import { getLang } from '../../modules/lang';
 import Panel from '../molecules/Panel';
 
 const TabPanel = ({ 

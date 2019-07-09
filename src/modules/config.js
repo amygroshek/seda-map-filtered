@@ -13,7 +13,7 @@ import {
   DOT_SIZES
 } from '../constants/dataOptions';
 import * as scale from 'd3-scale';
-
+import { interpolateRgbBasis } from 'd3-interpolate';
 
 /**
  * Gets the configuration for base variables
@@ -32,18 +32,14 @@ export const getSelectedColors = () => SELECTED_COLORS
  */
 export const getChoroplethColors = () => CHOROPLETH_COLORS
 
+export const getChoroplethColorAtValue = interpolateRgbBasis(CHOROPLETH_COLORS)
+
 export const getColorStep = (stepNum) => getChoroplethColors()[stepNum]
 
-const getClosestStop = (stops, goal) =>
-  stops.reduce(function(prev, curr) {
-    return (Math.abs(curr[0] - goal) < Math.abs(prev[0] - goal) ? curr : prev);
-  });
-  
-export const getColorForValue = (value, varName, region) => {
+export const getColorForValue = (value, varName, region, type = 'map') => {
   if (!value) { return NO_DATA_COLOR; }
-  const stops = getStopsForVarName(varName, region)
-  const closest = getClosestStop(stops, value)
-  return closest[1]
+  const position  = getValuePositionForMetric(value, varName, region, type)
+  return getChoroplethColorAtValue(position)
 }
 
 /**
@@ -257,23 +253,6 @@ export const getExplorerVarsFromSelection = (region, metric, demographic) => ({
   zVar: 'all_sz'
 })
 
-
-/**
- * Gets the color stops for the provided metric ID
- * @param {string} id 
- * @returns {array}
- */
-export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
-  const demId = getDemographicIdFromVarName(varName);
-  const metricId = getMetricIdFromVarName(varName);
-  const [ min, max ] = getMetricRange(metricId, demId, region, 'map')
-  const range = Math.abs(max - min);
-  const stepSize = range / (colors.length-1);
-  return colors.map((c, i) =>
-    [ (min + (i * stepSize)), c ]
-  )
-}
-
 /**
  * Gets the percent value of where the value sites on
  * the scale for the metric.
@@ -281,11 +260,11 @@ export const getStopsForVarName = (varName, region, colors = getChoroplethColors
  * @param {*} metricId 
  * @returns {number} between 0 - 1
  */
-export const getValuePositionForMetric = (value, varName, region) => {
+export const getValuePositionForMetric = (value, varName, region, type) => {
   if (!value && value !== 0) { return null; }
   return getValuePositionInRange(
     value,
-    getMetricRangeFromVarName(varName, region)
+    getMetricRangeFromVarName(varName, region, type)
   )
 }
 

@@ -2,7 +2,7 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
-import ScatterplotPreview from '../organisms/ScatterplotPreview';
+import { ScatterplotPreview } from '../organisms/Scatterplot';
 
 const mapStateToProps = ({
   scatterplot: { data }

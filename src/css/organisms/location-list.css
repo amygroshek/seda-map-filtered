@@ -1,0 +1,13 @@
+.location-list .location-item {
+  position:relative;
+  min-height: 32px;
+}
+
+.location-list .location-item .location-item__marker {
+  left:-2px;
+  transform: scale(1);
+}
+
+.location-list .location-item .location-item__state {
+  display: none;
+}
