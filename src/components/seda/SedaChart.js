@@ -7,7 +7,7 @@ import { getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import { getLang, hasLangKey } from '../../modules/lang';
-import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../actions";
+import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange } from "../../actions";
 import LegendBar from '../molecules/LegendBar';
 import Scatterplot from '../organisms/Scatterplot';
 import { Typography } from '@material-ui/core';
@@ -160,8 +160,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onScatterplotData(data, region)),
   onReady: () => 
     dispatch(onScatterplotLoaded('map')),
-  onHover: (feature) =>
-    dispatch(onHoverFeature(feature, 'map')),
+  onHover: (feature, e) => {
+    dispatch(onHoverFeature(feature, 'map'))
+    dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
+  },
+    
   onClick: (location) =>
     dispatch(loadLocation(location)),
   onError: (e, sectionId = 'map') =>

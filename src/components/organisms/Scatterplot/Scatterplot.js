@@ -4,6 +4,7 @@ import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from './echartTheme';
 import { getBaseVars } from '../../../modules/config'
 import { getScatterplotOptions } from './utils';
+import { getStateAbbr } from '../../../constants/statesFips';
 
 const baseVars = getBaseVars()
 const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
@@ -106,10 +107,17 @@ function Scatterplot({
         prefix={region}
         options={scatterplotOptions}
         metaVars={baseVars}
-        onHover={(loc) => loc && loc.id ?
-          onHover({ id: loc.id, properties: loc }) :
-          onHover(null)
-        }
+        onHover={(loc, e) => {
+          return loc && loc.id ?
+            onHover(
+              { 
+                id: loc.id, 
+                properties: { ...loc, state: getStateAbbr(loc.id) } 
+              }, 
+              e.event.event
+            ) :
+            onHover(null, e.event.event)
+        }}
       />
       {children}
     </div>

@@ -28,9 +28,11 @@
   --text-secondary: #5D5D5D;
   --alt-text: #fff;
   --background: #fff;
+  --dark-background: rgba(3, 18, 50, 0.9);
   --alt-background: #F5F8FA;
   --highlight-background: #EBFBFF;
   --footer-background: var(--alt-background);
+
   --body-text: var(--text);
   --body2-text: var(--text-secondary);
   --link-text: var(--link);

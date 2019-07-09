@@ -39,11 +39,10 @@ const LocationStack = ({
             key={'f'+i} 
             idx={i} 
             feature={c.feature}
-            onDismiss={() => onCardDismiss && onCardDismiss(c)}
             onClick={() => onCardClick && onCardClick(c)}
             onHover={() => onCardHover && onCardHover(c)}
             actionIcon={<CloseIcon />}
-            onActionPress={onCardDismiss}
+            onActionPress={() => onCardDismiss && onCardDismiss(c)}
           />
         }
         classes={{

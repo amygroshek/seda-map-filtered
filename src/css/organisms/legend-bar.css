@@ -4,7 +4,7 @@
   background: #fff;
   padding: 4px;
   font-weight: 900;
-  color: #777;
+  color: var(--text-secondary);
   line-height: 1;
   height: 52px;
   display: flex;
@@ -120,7 +120,7 @@
   position: absolute;
   height: 22px;
   line-height:16px;
-  background: #000;
+  background: var(--dark-background);
   color: #fff;
   padding:4px;
   transform: translateX(-50%);

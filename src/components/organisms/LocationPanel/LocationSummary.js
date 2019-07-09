@@ -50,7 +50,7 @@ const LocationSummary = ({
   stats = [ 'avg', 'grd', 'coh', 'ses' ]
 }) => {
   return feature ? (
-    <div className="location-summary__stats">
+    <div className="location-summary">
       {
         stats.map((metricId) => 
           <LocationSummaryStat

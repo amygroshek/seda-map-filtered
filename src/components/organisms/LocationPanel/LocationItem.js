@@ -14,13 +14,14 @@ const LocationItem = ({
   children,
   actionIcon,
   onActionPress,
+  onHover,
   ...props
 }) => {
   const stateName = getStateName(
     feature.properties.id.substring(0,2)
   )
   return (
-    <div className="location-item" {...props}>
+    <div onMouseEnter={onHover} className="location-item" {...props}>
       <Marker 
           className="location-item__marker" 
           color={SELECTED[idx]} 
@@ -42,7 +43,7 @@ const LocationItem = ({
           <IconButton size="small" className="location-item__action" onClick={(e) => { 
             e.preventDefault(); 
             e.stopPropagation(); 
-            onActionPress({feature}); 
+            onActionPress(feature); 
             return false; 
           }}>
             {actionIcon}

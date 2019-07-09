@@ -11,37 +11,46 @@
 }
 
 .tooltip {
+  --background: var(--dark-background);
   position: absolute;
   top:0;
   left:0;
   z-index: 9999;
   margin: 8px;
   padding: 8px;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--background);
   color: #fff;
-  max-width: 188px;
   font-size: var(--micro-font-size);
   z-index: 1000;
   border-radius: 2px;
   pointer-events: none;
   text-align: left;
   transform-origin: top left;
+  max-width: 244px;
 }
 .tooltip__content::after {
   display: block;
-  content: 'click to see more';
+  content: 'click on the map to see more data';
   color: #ccc;
   font-style:italic;
   margin-top: 4px;
 }
 
 .tooltip__title {
-  line-height: 1.2;
-  font-weight: bold;
-  margin-bottom: 4px;
+  font-family: var(--heading-font);
 }
 
 .tooltip__content {
   line-height: 16px;
-  font-size: 12px;
+  margin-top: 8px;
+}
+
+.tooltip .arrow-stat {
+  background: transparent;
+}
+.tooltip .stats-summary .stats-summary__title {
+  display: none;
+}
+.tooltip .stats-summary strong {
+  color: #fff;
 }
