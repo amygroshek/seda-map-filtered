@@ -87,10 +87,12 @@ export const onHoverFeature = (feature, sectionId) => ({
  * for the map tooltip.
  * @param {object} coords e.g. { x: 10, y: 20 }
  */
-export const onCoordsChange = (coords) => ({
-  type: 'SET_COORDS',
-  coords
-});
+export const onCoordsChange = (coords) => {
+  return ({
+    type: 'SET_COORDS',
+    coords
+  });
+} 
 
 /**
  * Returns an action to update the map viewport.

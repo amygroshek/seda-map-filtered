@@ -55,20 +55,22 @@ const ExplorerView = ({
   return introOn ? (
     <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> 
   ) : (
-    <SplitSection
-      id="map"
-      classes={{ root: 'section--explorer' }}
-      helpPanelOn={helpOpen}
-      locationPanelOn={locationActive}
-      activeView={activeView}
-      rightComponent={<SedaMap />}
-      leftComponent={<SedaChart />}
-      footerContent={<SedaLocations />}
-    >
+    <>
       <SedaTooltip />
-      <SedaHelp />
-      <SedaLocationPanel />
-    </SplitSection>
+      <SplitSection
+        id="map"
+        classes={{ root: 'section--explorer' }}
+        helpPanelOn={helpOpen}
+        locationPanelOn={locationActive}
+        activeView={activeView}
+        rightComponent={<SedaMap />}
+        leftComponent={<SedaChart />}
+        footerContent={<SedaLocations />}
+      >
+        <SedaHelp />
+        <SedaLocationPanel />
+      </SplitSection>
+    </>
   )
 }
 

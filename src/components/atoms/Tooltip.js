@@ -15,8 +15,8 @@ const Tooltip = ({
     `calc(-115% + ${x + offset.x}px)` :
     `calc(15% + ${x + offset.x}px)`;
   const yPos = above ?
-    `calc(-183% + ${y + offset.y}px)` :
-    `calc(-63% + ${y + offset.y}px)`
+    `calc(-133% + ${y + offset.y}px)` :
+    `calc(33% + ${y + offset.y}px)`
   return (
     <div 
       className="tooltip" 

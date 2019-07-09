@@ -39,7 +39,6 @@ export const getColorStep = (stepNum) => getChoroplethColors()[stepNum]
 export const getColorForValue = (value, varName, region, type = 'map') => {
   if (!value) { return NO_DATA_COLOR; }
   const position  = getValuePositionForMetric(value, varName, region, type)
-  console.log(position, getChoroplethColorAtValue(position))
   return getChoroplethColorAtValue(position)
 }
 

@@ -11,8 +11,6 @@ const ConnectedTooltip = ({
   feature, 
   metric, 
   secondary,
-  xVar, 
-  yVar,
   x,
   y,
   above,
@@ -65,7 +63,7 @@ const mapStateToProps = ({
     above: window && window.innerHeight && 
       y && y > (window.innerHeight / 3),
     left: window && window.innerWidth && 
-      x && x > (window.innerWidth / 3) 
+      x && x > (window.innerWidth / 2) 
   }
 }
 
