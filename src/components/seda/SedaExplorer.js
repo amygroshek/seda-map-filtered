@@ -103,7 +103,7 @@ const mapStateToProps =
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
-    dispatch(loadRouteLocations(locations)),
+    dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
   onLayoutChange: (view) => ['map', 'split'].indexOf(view) > -1 &&
       dispatch(updateMapSize()),
   onMetricChange: (metricId) => {

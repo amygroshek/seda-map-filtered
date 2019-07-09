@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LocationPanel from '../organisms/LocationPanel';
+import { clearActiveLocation } from '../../actions';
 
 const SedaLocationPanel = ({
   active,
@@ -49,7 +50,7 @@ const mapStateToProps =
 
 const mapDispatchToProps = (dispatch) => ({
   clearActiveLocation: () => 
-    dispatch({ type: 'CLEAR_ACTIVE_LOCATION'}),
+    dispatch(clearActiveLocation()),
 })
 
 export default compose(
