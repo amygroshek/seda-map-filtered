@@ -42,7 +42,8 @@
   --accent4: #1AE9B5;
   --divider: var(--darken2);
   --grey1: #efefef;
-  --grey2: #dfdfdf;
+  --grey2: #DCDCDC;
+  --grey3: #999;
   
 
   /** Margins and spacing */

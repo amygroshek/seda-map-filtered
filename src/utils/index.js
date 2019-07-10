@@ -49,3 +49,14 @@ export const parseColor = (input) => {
   }
   return input.split("(")[1].split(")")[0].split(",").map(Math.round);
 }
+
+
+export const getPositionFromValue = (value, range = [-1, 1]) =>
+  (value - range[0]) / (range[1] - range[0])
+
+
+export const getValueFromPosition = (percent, range = [-1, 1]) => {
+  const value = (((range[1] - range[0]) / 2) * percent)
+  return formatNumber(value)
+}
+  

@@ -60,6 +60,13 @@ const materialTheme = createMuiTheme({
     caption: {
       fontSize: '0.8em',
     },
+    subtitle2: {
+      fontSize: 14,
+      fontFamily: "sharpgrotesk-medium15, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      textTransform: 'uppercase',
+      letterSpacing: '.02em',
+      fontWeight: 'normal',
+    },
     button: {
       fontFamily: "sharpgrotesk-medium15, lato, helvetica neue, Arial, sans-serif, -apple-system",
       textTransform: 'uppercase',

@@ -1,0 +1,148 @@
+/**
+ * Diverging Bar
+ * ---
+ * has a value bar diverging from a midpoint, with
+ * label markers on each end and in the middle.
+ * 
+ */
+
+.diverging-bar {
+  --height: 24px;
+  --bar-height: 14px;
+  --border-color: var(--grey2);
+  --horizontal-divider: 1px dashed var(--border-color);
+  --vertical-divider: 1px solid var(--border-color);
+  --font: var(--alt-font);
+  --label-color: var(--grey3);
+
+  position: relative;
+  width: 100%;
+  height: var(--height);
+  font-family: var(--font);
+}
+
+/* Labels */
+
+  .diverging-bar__labels-wrapper {
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+  }
+
+  .diverging-bar__label {
+    position: relative;
+    top: 1px;
+    color: var(--label-color);
+    background: #fff;
+  }
+
+  .diverging-bar__labels-wrapper .diverging-bar__label {
+    width: 24px;
+    text-align:center;
+  }
+
+  .diverging-bar__bar-wrapper .diverging-bar__label {
+    margin: 0 4px;
+  }
+
+
+/** Bar Area */
+
+.diverging-bar__bar-wrapper {
+  position:absolute;
+  top:0;
+  left:24px;
+  right: 24px;
+  height:100%;
+  width: calc(100% - 48px);
+  align-items: center;
+  z-index: 20;
+}
+
+  .diverging-bar__rect-value {
+    display: block;
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    margin:auto;
+    transform: scaleX(0);
+    transform-origin: top left;
+    transition: transform 0.5s ease-in-out, background 0.5s ease-in-out;
+    height: var(--bar-height);
+    width: 100%;
+    background:#efefef;
+    border: 1px solid var(--border-color);
+  }
+
+  .diverging-bar__label.diverging-bar__label--value {
+    color: var(--text);
+    position: absolute;
+    height: 16px;
+    top:0;
+    bottom:2px;
+    margin:auto 4px;
+    transition: margin, left 0.5s ease-in-out;
+    z-index:100;
+  }
+
+
+/** Line Overlays */
+
+.diverging-bar__line-horizontal {
+  position: absolute;
+  left:24px;
+  right:24px;
+  top:50%;
+  height: 0px;
+  border-top: var(--horizontal-divider);
+  z-index: 1;
+}
+
+.diverging-bar__line-vertical {
+  position: absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  height: 100%;
+  width: 0px;
+  border-left: var(--vertical-divider);
+  z-index: 1;
+}
+
+
+/** Modifiers */
+
+  /** Switch label orientation when below */
+  .diverging-bar--below .diverging-bar__bar-wrapper .diverging-bar__label.diverging-bar__label--value {
+    margin-left: -32px;
+  }
+
+  /** Large Size */
+  .diverging-bar.diverging-bar--large {
+    --height: 32px;
+    --bar-height: 24px;
+  }
+
+  /** Small Size */
+  .diverging-bar.diverging-bar--small {
+    --height: 16px;
+    --bar-height: 8px;
+  }
+
+  .diverging-bar.diverging-bar--unavailable .diverging-bar__label--value {
+    color: var(--label-color);
+    margin:auto;
+    left:0;
+    right:0;
+    width: 80px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }

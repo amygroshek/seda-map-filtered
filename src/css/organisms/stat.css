@@ -1,0 +1,10 @@
+.stat {
+  display: flex;
+  align-items: center;
+}
+
+.stat .stat__label {
+  min-width: 64px;
+  line-height:1;
+  margin-top:2px;
+}
