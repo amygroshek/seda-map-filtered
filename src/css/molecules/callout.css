@@ -1,0 +1,46 @@
+
+.callout,
+.MuiButtonBase-root.callout {
+  --padding: 16px;
+  --background: var(--darken1);
+  --color: var(--text);
+  --icon-color: var(--text-secondary);
+  --icon-size: 24px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: stretch;
+  font-size: var(--font-size);
+  padding: var(--padding);
+  background: var(--highlight-background);
+  color: var(--color);
+  margin: 8px 0;
+  text-align: left;
+}
+
+.callout__icon {
+  margin-right: var(--padding);
+  color: var(--icon-color);
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.callout__icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.callout.callout--help {
+  --background: var(--alt-background);
+  --color: var(--link);
+  --icon-color: var(--link);
+}
+
+.callout.callout--small {
+  --padding: 12px;
+  --font-size: var(--small-font-size);
+  --icon-size: 20px;
+
+  padding: 8px var(--padding) 8px;
+  line-height: 16px;
+}

@@ -9,8 +9,7 @@ const getLowOpacityColor = (color, opacity = 0.5) => {
   return `rgba(${r},${g},${b},${opacity})`;
 }
 
-
-const ArrowStat = ({
+const StatArrow = ({
   value,
   color,
   direction,
@@ -36,7 +35,7 @@ const ArrowStat = ({
   )
 }
 
-ArrowStat.propTypes = {
+StatArrow.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string, PropTypes.number
   ]),
@@ -46,4 +45,4 @@ ArrowStat.propTypes = {
   className: PropTypes.string,
 }
 
-export default ArrowStat
+export default StatArrow

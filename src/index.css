@@ -18,13 +18,13 @@
   background: #eee;
 }
 
-.sandbox .MuiTypography-h3 {
+.sandbox .sandbox__heading {
   margin-bottom: 24px;
 }
 
 .sandbox__component {
   margin: 16px;
-  max-width: 640px;
+  max-width: 360px;
   min-width: 80%;
   padding: 24px;
   background: #fff;

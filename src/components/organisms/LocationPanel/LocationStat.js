@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
-import ArrowStat from '../../molecules/ArrowStat';
+import StatArrow from '../../molecules/StatArrow';
 
 const LocationStat = ({
   title,
@@ -18,7 +18,7 @@ const LocationStat = ({
         <Typography className="stats-summary__title">{title}</Typography>
       }
       <div className="stats-summary__content">
-        <ArrowStat 
+        <StatArrow 
           value={value}
           color={color}
           direction={direction}

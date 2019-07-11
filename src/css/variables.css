@@ -56,7 +56,8 @@
   --body-font: maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system;
   --heading-font: sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system;
   --alt-font: sharpgrotesk-medium15,lato,helvetica neue,Arial,sans-serif,-apple-system;
-  --base-font-size: 14px;
+  --font-size: 14px;
+  --base-font-size: var(--font-size);
   --small-font-size: 13px;
   --micro-font-size: 12px;
   --h1-font-size: 2.67em;

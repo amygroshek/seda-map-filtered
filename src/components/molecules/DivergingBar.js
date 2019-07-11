@@ -32,7 +32,8 @@ const DivergingBar = ({
         }} />
         <span className='diverging-bar__label diverging-bar__label--value'
           style={{
-            left: value || value === 0 ? (100*(value + 1)/2 + '%') : null
+            left: value || value === 0 ? 
+              (100*(value + 1)/2 + '%') : null
           }}
         >
           {valueLabel || value || 'Unavailable' }

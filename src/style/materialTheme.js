@@ -29,27 +29,27 @@ const materialTheme = createMuiTheme({
     fontFamily: "maisonneue-book,lato,helvetica neue,Arial,sans-serif,-apple-system",
     h1: {
       fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
-      fontSize: 42.725,
+      fontSize: 32,
     },
     h2: {
       fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
-      fontSize: 31.25,
+      fontSize: 26,
     },
     h3: {
       fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
-      fontSize: 25,
+      fontSize: 21,
     },
     h4: {
       fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
-      fontSize: 20,
+      fontSize: 18.5,
     },
     h5: {
       fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
-      fontSize: '1.094em',
+      fontSize: 16,
     },
     h6: {
       fontFamily: "sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system",
-      fontSize: '1em',
+      fontSize: 14,
     },
     body1: {
       fontSize: '1em',
@@ -59,6 +59,9 @@ const materialTheme = createMuiTheme({
     },
     caption: {
       fontSize: '0.8em',
+    },
+    subtitle1: {
+      fontSize: 14,
     },
     subtitle2: {
       fontSize: 14,
