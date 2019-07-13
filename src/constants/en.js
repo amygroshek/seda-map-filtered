@@ -105,9 +105,9 @@ const LANG = {
   'SUMMARY_GRD_MID': '$[name] has <strong>average school effectiveness</strong>. Students learn as much each grade as the national average.',
   'SUMMARY_GRD_HIGH': '$[name] has <strong>higher school effectiveness</strong> than average. Students learn <strong>$[value] more each grade</strong> than the national average.',
   
-  'SUMMARY_COH_LOW': '$[name] has <strong>declining educational opportunity</strong>.  Test scores <strong>improved an average of $[value] grade levels each year</strong> from 2009- 2016.',
+  'SUMMARY_COH_LOW': '$[name] has <strong>declining educational opportunity</strong>.  Test scores <strong>declined an average of $[value] grade levels each year</strong> from 2009- 2016.',
   'SUMMARY_COH_MID': '$[name] has <strong>no change in educational opportunity</strong>.  Average test scores did not change from 2009 - 2016.',
-  'SUMMARY_COH_HIGH': '$[name] has <strong>improving educational opportunity</strong>. Test scores <strong>declined and average of $[value] grade levels each year</strong> from 2009-2016.',
+  'SUMMARY_COH_HIGH': '$[name] has <strong>improving educational opportunity</strong>. Test scores <strong>improved an average of $[value] grade levels each year</strong> from 2009-2016.',
   
   'SUMMARY_SES_LOW': '',
   'SUMMARY_SES_MID': '$[name] has average community educational opportunity because students scores close to their grade level.',
