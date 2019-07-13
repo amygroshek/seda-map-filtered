@@ -4,6 +4,7 @@ import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationList from './LocationList';
 import { Typography } from '@material-ui/core';
+import { getSingularRegion } from '../../../modules/config';
 
 const LocationComparison = ({
   id,
@@ -18,8 +19,9 @@ const LocationComparison = ({
     <AccordionItem 
       id={id}
       expanded={expanded}
-      heading={ getLang('LOCATION_COMPARE_FEATURES_TITLE', {region}) }
+      heading={ getLang('LOCATION_COMPARE_FEATURES_TITLE', {region: getSingularRegion(region)}) }
       onChange={onChange}
+      className="panel-section"
     >
       {
         others.length < 1 &&

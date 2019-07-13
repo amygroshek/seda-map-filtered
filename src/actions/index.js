@@ -1,8 +1,8 @@
 import { loadFeaturesFromRoute, loadFeatureFromCoords } from "../utils/tilequery";
-import { getRegionFromId } from "../modules/config";
+import { getRegionFromFeatureId } from "../modules/config";
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
-import { addFeatureToRoute, removeFeatureFromRoute, updateRegionInRoute } from '../modules/router';
+import { addFeatureToRoute, removeFeatureFromRoute, updateRoute } from '../modules/router';
 import { getStateViewport } from '../constants/statesFips';
 
 /** ACTIONS */
@@ -48,6 +48,11 @@ export const setActiveLocation = (feature) => ({
   type: 'SET_ACTIVE_LOCATION',
   feature
 })
+
+/** Returns an action that clears the active location  */
+export const clearActiveLocation = () => (
+  { type: 'CLEAR_ACTIVE_LOCATION'}
+)
 
 /**
  * Returns an action to set the viewport to match the size 
@@ -187,16 +192,22 @@ export const loadLocation = (location) =>
  *  with multuple locations concatenated with a '+'.
  *  e.g. "12019,28.89,-81.17+12015,27.83,-82.61" 
  */
-export const loadRouteLocations = (locations) => 
+export const loadRouteLocations = (locations, region) => 
   (dispatch) => {
     dispatch(onLoadFeaturesRequest(locations))
     return loadFeaturesFromRoute(locations)
       .then(features => {
+        let activeFeature = false;
         dispatch(onLoadFeaturesSuccess(features))
         dispatch(addToFeatureIdMap(features))
-        features.forEach(f => dispatch(
-          addSelectedFeature(f, getRegionFromId(f.properties.id))
-        ))
+        features.forEach((f) => {
+          const featureRegion = getRegionFromFeatureId(f.properties.id)
+          dispatch(addSelectedFeature(f, featureRegion))
+          if (!activeFeature && featureRegion === region) {
+            dispatch(setActiveLocation(f))
+            activeFeature = true;
+          }
+        })
       })
       .catch((error) => {
         dispatch(onLoadFeaturesError(error))
@@ -214,17 +225,33 @@ export const navigateToStateByAbbr = (abbr) =>
     return dispatch(onViewportChange(vp, true))
   }
 
+export const onDemographicChange = (demographic, ownProps) =>
+  (dispatch) => {
+    updateRoute(ownProps, { demographic })
+  }
+
+export const onHighlightedStateChange = (stateAbbr, ownProps) => (dispatch) => {
+  updateRoute(ownProps, { 
+    highlightedState: stateAbbr
+  })
+  dispatch(navigateToStateByAbbr(stateAbbr))
+}
+
 /**
  * Thunk that updates the region in the route
  * @param {*} region 
  */
-export const onRegionChange = (region) => 
-  (dispatch, getState) =>
-    updateRegionInRoute(
-      dispatch, 
-      getState().router.location.pathname, 
-      region
-    )
+export const onRegionChange = (region, ownProps) => 
+  (dispatch) => {
+    const routeUpdates = { region };
+    // set demographic to 'all' if switching to schools
+    if (region === 'schools') {
+      routeUpdates['demographic'] = 'all';
+    }
+    updateRoute(ownProps, routeUpdates)
+    dispatch(clearActiveLocation())
+  }
+    
 
 /**
  * Thunk that adds a feature to the selected list
@@ -259,7 +286,7 @@ export const onRemoveSelectedFeature = (feature) =>
 export const handleLocationActivation = (feature) => 
   (dispatch, getState) => {
     dispatch(
-      addSelectedFeature(feature, getRegionFromId(feature.properties.id))
+      addSelectedFeature(feature, getRegionFromFeatureId(feature.properties.id))
     )
     dispatch(setActiveLocation(feature))
     const pathname = getState().router.location.pathname;

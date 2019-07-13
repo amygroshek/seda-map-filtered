@@ -11,6 +11,7 @@
 .accordion-item__heading .MuiTypography-root {
   font-family: var(--heading-font);
   font-size: 12.5px;
+  text-transform: capitalize;
 }
 .accordion-item__content.MuiExpansionPanelDetails-root {
   padding: 0px 16px 24px 16px;

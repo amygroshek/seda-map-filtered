@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -13,6 +14,7 @@ export default function AccordionItem({
   htmlContent,
   children,
   onChange,
+  className,
   ...rest
 }) {
   return (
@@ -20,19 +22,25 @@ export default function AccordionItem({
       square 
       expanded={expanded} 
       onChange={() => {onChange && onChange(id)}}
-      classes={{root: 'accordion-item'}}
+      classes={{root: classNames('accordion-item', className) }}
       {...rest}
     >
       <ExpansionPanelSummary 
         expandIcon={<ExpandMoreIcon />}
         aria-controls={id + "-content"} 
         id={ id + "-header" }
-        classes={{root: 'accordion-item__heading'}}
+        classes={{root: classNames(
+          'accordion-item__heading', 
+          (Boolean(className) && className+'__heading')
+        )}}
       >
         <Typography>{heading}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails 
-        classes={{root: 'accordion-item__content'}}
+        classes={{root: classNames(
+          'accordion-item__content', 
+          (Boolean(className) && className+'__content')
+        )}}
       >
         { htmlContent && 
           <div dangerouslySetInnerHTML={{'__html': htmlContent }} />
@@ -50,4 +58,5 @@ AccordionItem.propTypes = {
   htmlContent: PropTypes.string,
   children: PropTypes.node,
   onChange: PropTypes.func,
+  className: PropTypes.string,
 }

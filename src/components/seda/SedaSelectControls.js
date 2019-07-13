@@ -8,8 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { getStateSelectOptions } from '../../constants/statesFips';
 import { getSingularRegions, getDemographics } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
-import { updateRoute } from '../../modules/router';
-import { navigateToStateByAbbr } from '../../actions';
+import { onRegionChange, onDemographicChange, onHighlightedStateChange } from '../../actions';
 
 const RegionInlineMenu = ({region, onChange}) => {
   return (
@@ -35,12 +34,7 @@ export const RegionControl = compose(
     }),
     (dispatch, ownProps) => ({
       onChange: (id, option) => {
-        const routeUpdates = { region: option.id };
-        // set demographic to 'all' if switching to schools
-        if (option.id === 'schools') {
-          routeUpdates['demographic'] = 'all';
-        }
-        updateRoute(ownProps, routeUpdates)
+        dispatch(onRegionChange(option.id, ownProps))
       }
     })
   )
@@ -75,9 +69,8 @@ export const DemographicAndGapControl = compose(
       demographic
     }),
     (dispatch, ownProps) => ({
-      onChange: (id, option) => updateRoute(ownProps, { 
-        [id]: option.id
-      })
+      onChange: (id, option) => 
+        dispatch(onDemographicChange(option.id, ownProps))
     })
   )
 )(DemographicAndGapMenu)
@@ -113,12 +106,8 @@ export const HighlightedStateControl = compose(
       highlightedState
     }),
     (dispatch, ownProps) => ({
-      onChange: (id, option) => {
-        updateRoute(ownProps, { 
-          highlightedState: option.id
-        })
-        dispatch(navigateToStateByAbbr(option.id))
-      }
+      onChange: (id, option) =>
+        dispatch(onHighlightedStateChange(option.id, ownProps))
     })
   )
 )(HighlightedStateMenu)

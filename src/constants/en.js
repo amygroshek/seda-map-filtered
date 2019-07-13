@@ -5,11 +5,11 @@ const LANG = {
   // Header
   'LOGO_ALT_TEXT': 'Educational Opportunity Project',
   'TAB_CONCEPT_AVG': 'Average Test Scores',
-  'TAB_METRIC_AVG': 'show community educational opportunity',
-  'TAB_CONCEPT_GRD': 'Growth of Test Scores Per Year',
-  'TAB_METRIC_GRD': 'show school-based opportunity',
-  'TAB_CONCEPT_COH': 'Changes in Test Scores Over Time',
-  'TAB_METRIC_COH': 'show changes in educational opportunity',
+  'TAB_METRIC_AVG': 'reflect educational opportunity',
+  'TAB_CONCEPT_GRD': 'Average Learning Rates',
+  'TAB_METRIC_GRD': 'reflect school effectiveness',
+  'TAB_CONCEPT_COH': 'Average Test Score Trend',
+  'TAB_METRIC_COH': 'reflect changes in educational opportunity',
 
   // Menu
   'MENU_HOME': 'Home',
@@ -42,20 +42,20 @@ const LANG = {
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',
-  'LABEL_GRD': 'growth in test scores',
-  'LABEL_COH': 'changes in test scores',
+  'LABEL_GRD': 'average learning rates',
+  'LABEL_COH': 'average test score trend',
   'LABEL_SEG': 'Segregation Measure',
   'LABEL_SES': 'socioeconomic status',
   'LABEL_PCT': 'Percent',
 
-  'LABEL_SHORT_AVG': 'AVG:',
-  'LABEL_SHORT_GRD': 'Growth:',
-  'LABEL_SHORT_COH': 'Change:',
-  'LABEL_SHORT_SES': 'SES:',
+  'LABEL_SHORT_AVG': 'Avg scores',
+  'LABEL_SHORT_GRD': 'Avg rate',
+  'LABEL_SHORT_COH': 'Avg trend',
+  'LABEL_SHORT_SES': 'SES',
 
-  'LABEL_CONCEPT_AVG': 'community educational opportunity',
-  'LABEL_CONCEPT_GRD': 'school-based educational opportunity',
-  'LABEL_CONCEPT_COH': 'community educational opportunity changes',
+  'LABEL_CONCEPT_AVG': 'educational opportunity',
+  'LABEL_CONCEPT_GRD': 'school effectiveness',
+  'LABEL_CONCEPT_COH': 'educational opportunity outlook',
 
   // Demographic Labels
   'LABEL_ALL': 'all',
@@ -85,20 +85,50 @@ const LANG = {
   'LABEL_DISTRICTS_SINGULAR': 'school district',
   'LABEL_SCHOOLS_SINGULAR': 'school',
 
-  'SUMMARY_AVG_LOW': '$[name] has low community educational opportunity because students scores are $[value] grade levels behind their grade level.',
-  'SUMMARY_AVG_MID': '$[name] has average community educational opportunity because students scores close to their grade level.',
-  'SUMMARY_AVG_HIGH': '$[name] has high community educational opportunity because students scores are $[value] grade levels ahead of their grade level.',
-  'SUMMARY_GRD_LOW': '$[name] has low school-based opportunity because students only learn $[value] grade levels per year.',
-  'SUMMARY_GRD_MID': '$[name] has average school-based opportunity because students learn $[value] grade levels per year.',
-  'SUMMARY_GRD_HIGH': '$[name] has high school-based opportunity because students learn $[value] grade levels per year.',
-  'SUMMARY_COH_LOW': 'Community educational opportunity is improving for $[name] because test scores have improved $[value] grade levels from 2009-2016.',
-  'SUMMARY_COH_MID': 'Community educational opportunity is not changing for $[name] because test scores have changed minimally from 2009-2016.',
-  'SUMMARY_COH_HIGH': 'Community educational opportunity is declining for $[name] because test scores have dropped $[value] grade levels from 2009-2016.',
+  'LABEL_BY_SUBGROUP': '$[metric] by subgroup',
+
+  'TOOLTIP_SUMMARY': 'click on a location for more data.',
+  'TOOLTIP_TYPE_MAP': 'an area on the map',
+  'TOOLTIP_TYPE_CHART': 'an area on the chart',
+
+  'SUMMARY_AVG_LOW': '$[name] has <strong>lower community educational opportunity</strong> than average. Average test scores are <strong>$[value] grade levels below</strong> the national average.',
+  'SUMMARY_AVG_MID': '$[name] has <strong>average community educational opportunity</strong>. Average test scores are similar to the national average.',
+  'SUMMARY_AVG_HIGH': '$[name] has <strong>higher community educational opportunity</strong> than average. Average test scores are <strong>$[value] grade levels above</strong> the national average.',
+  
+  'SUMMARY_AVGSES_LOW': 'Educational opportunity in $[name] is lower than districts with similar socioeconomic status.',
+  'SUMMARY_AVGSES_MID': 'Educational opportunity in $[name] is similar to districts with similar socioeconomic status.',
+  'SUMMARY_AVGSES_HIGH': 'Educational opportunity in $[name] is lower than districts with similar socioeconomic status.',
+  'SUMMARY_AVGSES_NONE': '',
+  
+
+  'SUMMARY_GRD_LOW': '$[name] has <strong>lower school effectiveness</strong> than average.  Students learn <strong>$[value] less each grade</strong> than the national average.',
+  'SUMMARY_GRD_MID': '$[name] has <strong>average school effectiveness</strong>. Students learn as much each grade as the national average.',
+  'SUMMARY_GRD_HIGH': '$[name] has <strong>higher school effectiveness</strong> than average. Students learn <strong>$[value] more each grade</strong> than the national average.',
+  
+  'SUMMARY_COH_LOW': '$[name] has <strong>improving educational opportunity</strong>.  Test scores <strong>improved an average of $[value] grade levels each year</strong> from 2009- 2016.',
+  'SUMMARY_COH_MID': '$[name] has <strong>no change in educational opportunity</strong>.  Average test scores did not change from 2009 - 2016.',
+  'SUMMARY_COH_HIGH': '$[name] has <strong>declining educational opportunity</strong>. Test scores <strong>declined and average of $[value] grade levels each year</strong> from 2009-2016.',
+  
+  'SUMMARY_SES_LOW': '',
+  'SUMMARY_SES_MID': '$[name] has average community educational opportunity because students scores close to their grade level.',
+  'SUMMARY_SES_HIGH': '$[name] has high community educational opportunity because students scores are $[value] grade levels ahead of their grade level.',
+  
   'SUMMARY_AVG_NONE': 'No community educational opportunity data for $[name].', 
   'SUMMARY_GRD_NONE': 'No school-based opportunity data for $[name].', 
   'SUMMARY_COH_NONE': 'No change in community educational opportunity data for $[name].', 
+  'SUMMARY_SES_NONE': '',
 
-  'LOCATION_COMPARE_FEATURES_TITLE': 'Compare $[region]',
+  'CALLOUT_AVG_OPP': 'How do average test scores show educational opportunity?',
+  'CALLOUT_AVG_SES': 'How does socioeconomic status impact educational opportunity?',
+  'CALLOUT_GRD': 'How do learning rates show school effectiveness?',
+  'CALLOUT_COH': 'How does the average trend in test scores show changes in educational opportunity?',
+
+  'BUTTON_GAP_WB': 'Explore the white / Black Gap',
+  'BUTTON_GAP_WH': 'Explore the white / Hispanic Gap',
+  'BUTTON_GAP_PN': 'Explore the Poor / Non-poor Gap',
+  'BUTTON_GAP_MF': 'Explore the male / female Gap',
+
+  'LOCATION_COMPARE_FEATURES_TITLE': '$[region] Comparison',
   'LOCATION_COMPARE_FEATURES': 'Select another place from the map, chart, or search to compare it with $[name].',
   'LOCATION_EXPORT_REPORT_TITLE': 'Export a Report',
   'LOCATION_EXPORT_REPORT': `Select one of the options below to export a PDF report or Powerpoint presentation about the educational opportunity in $[name].`,
@@ -106,7 +136,6 @@ const LANG = {
   'LOCATION_DIFFERENCES': '',
   'LOCATION_SIMILAR_PLACES_TITLE': 'Similar $[region]',
   'LOCATION_SIMILAR_PLACES': `The following places are similar to $[name] based on size, socioeconomic status, and other factors:`,
-
 
   // Explainers
   'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
@@ -157,7 +186,7 @@ const LANG = {
   'TITLE_OPP_GRD': 'Differences in School Performance',
   'TITLE_OPP_COH': 'Differences in Changes of Opportunity',
   'TITLE_ACH_AVG': 'Gaps in Achievement',
-  'TITLE_ACH_GRD': 'Gaps in Growth',
+  'TITLE_ACH_GRD': 'Gaps in Learning Rates',
   'TITLE_ACH_COH': 'Gaps in Opportunity Changes',
 
   // Section Descriptions

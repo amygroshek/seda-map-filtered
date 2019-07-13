@@ -3,31 +3,25 @@
 
 .circle,
 .marker.marker--circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 100%;
-  background: transparent;
+  --size: 24px;
+  --color: var(--text);
+  --background: var(--alt-background);
+
   border: 2px solid #fff;
   cursor: pointer;
-  background:#ccc;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   line-height: 1;
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--size);
+  background: var(--background);
 }
 
 .circle--dark {
-  color: #fff;
-}
-
-.circle--mid {
-
-}
-
-.circle--low {
-  
-
+  --color: #fff;
 }
 
 .marker {

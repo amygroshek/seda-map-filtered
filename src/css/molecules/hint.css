@@ -30,7 +30,7 @@
 }
 
 .hint .hint__container p {
-  font-size: var(--micro-font-size);
+  font-size: var(--mini-font-size);
   color: #fff;
 }
 

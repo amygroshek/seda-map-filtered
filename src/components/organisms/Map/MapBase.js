@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import PropTypes from 'prop-types';
 import usePrevious from '../../../hooks/usePrevious';
@@ -53,6 +53,8 @@ const MapBase = ({
   ...rest
 }) => {
 
+  const [loaded, setLoaded] = useState(false);
+
   // reference to map container DOM element
   const mapEl = useRef(null);
 
@@ -68,6 +70,7 @@ const MapBase = ({
    * @param {object} state 
    */
   const setFeatureState = (featureId, state) => {
+    if (!loaded) { return; }
     const layer = 
       layers.find(l => l.hasFeatureId && l.hasFeatureId(featureId))
     if (!layer || !featureId || !mapRef.current) { return; }
@@ -78,7 +81,6 @@ const MapBase = ({
       sourceLayer: layer.style.get('source-layer'), 
       id
     }, state);
-
   }
 
   // update map style layers when layers change
@@ -132,7 +134,7 @@ const MapBase = ({
       setFeatureState(prev.hoveredId, { hover: false });
     hoveredId &&
       setFeatureState(hoveredId, { hover: true });
-  }, [ hoveredId ])
+  }, [ hoveredId, loaded ])
 
   // set selected outlines when selected IDs change
   useEffect(() => {
@@ -142,7 +144,7 @@ const MapBase = ({
     selectedIds.forEach((id, i) => 
       setFeatureState(id, { selected: selectedColors[i % selectedColors.length] })
     )
-  }, [ selectedIds ])
+  }, [ selectedIds, loaded ])
 
   return (
     <div 
@@ -153,6 +155,7 @@ const MapBase = ({
       <ReactMapGL
         ref={mapRef}
         mapStyle={mapStyle}
+        onLoad={() => setLoaded(true)}
         interactiveLayerIds={interactiveLayerIds}
         onViewportChange={handleViewportChange}
         onHover={handleHover}
