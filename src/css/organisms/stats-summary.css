@@ -1,20 +1,12 @@
 
 
 .stats-summary {
-  --stats-summary-title-font: var(--alt-font);
-  --stats-summary-title-font-size: var(--small-font-size);
-  --stats-summary-description-font: var(--body-font);
-  --stats-summary-description-font-size: var(--micro-font-size);
-
   margin: 0 0 12px 0;
 }
 
 .stats-summary .stats-summary__title {
   margin: 0 0 2px 0;
-  font-family: var(--stats-summary-title-font);
-  font-size: var(--stats-summary-title-font-size);
-  color: var(--text-secondary);
-  text-transform: uppercase;
+  color: var(--text2);
 }
 
 .stats-summary .stats-summary__content {
@@ -23,8 +15,6 @@
 }
 
 .stats-summary .stats-summary__description {
-  font-family: var(--stats-summary-description-font);
-  font-size: var(--stats-summary-description-font-size);
   margin: 0 0 0 8px;
 }
 

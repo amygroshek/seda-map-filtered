@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
-import { getRegionFromId, getChoroplethColors, getDemographicIdFromVarName, getMetricIdFromVarName, getMetricRange } from '../../../modules/config.js';
+import { getRegionFromFeatureId, getChoroplethColors, getDemographicIdFromVarName, getMetricIdFromVarName, getMetricRange } from '../../../modules/config.js';
 import { DEFAULT_VIEWPORT } from './constants';
 
 
@@ -281,7 +281,7 @@ const getHighlightedStateFilter = (state) => {
 
 const isIdInRegion = (id, region) => {
   if (!region || !id) { return false }
-  return getRegionFromId(id) === region
+  return getRegionFromFeatureId(id) === region
 }
 
 export const getChoroplethLayer = ({

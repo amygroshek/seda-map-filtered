@@ -4,7 +4,7 @@
   --padding: 16px;
   --background: var(--darken1);
   --color: var(--text);
-  --icon-color: var(--text-secondary);
+  --icon-color: var(--text2);
   --icon-size: 24px;
 
   display: inline-flex;

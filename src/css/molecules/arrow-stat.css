@@ -5,7 +5,7 @@
   --arrow-stat-font: var(--alt-font);
   --arrow-stat-font-size: var(--small-font-size);
   --arrow-light: var(--alt-text);
-  --arrow-dark: var(--text-secondary);
+  --arrow-dark: var(--text2);
   --arrow-width: 8px;
   --arrow-height: 11px;
 }

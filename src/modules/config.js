@@ -50,6 +50,10 @@ export const getRegions = () => REGIONS
 export const getSingularRegions = () => 
   REGIONS.map(r => ({id: r.id, label: r.singular}))
 
+export const getSingularRegion = (rId) => 
+  rId ? REGIONS.find(r => rId === r.id).singular : ''
+
+
 export const getRegionDomain = (id) => REGION_DOMAINS[id]
 
 /**
@@ -153,12 +157,21 @@ export const intToRegionId = (value, region) => {
  * Gets the region that corresponds to the provided ID
  * @param {string} id 
  */
-export const getRegionFromId = (id) => {
+export const getRegionFromFeatureId = (id) => {
   if (!id) { return null; }
   if (!MAP_ID_LENGTH_TO_REGION[id.length]) {
     throw new Error('No region corresponding to provided ID');
   }
   return MAP_ID_LENGTH_TO_REGION[id.length]
+}
+
+/**
+ * Gets the region that corresponds to the provided ID
+ * @param {string} id 
+ */
+export const getRegionFromFeature = (feature) => {
+  if (!feature || !feature.properties) { return null; }
+  return getRegionFromFeatureId(feature.properties.id);
 }
 
 /**

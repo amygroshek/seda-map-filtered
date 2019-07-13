@@ -34,7 +34,7 @@
 
 .location-item .location-item__heading {
   --font: var(--heading-font);
-  --font-size: var(--micro-font-size);
+  --font-size: var(--mini-font-size);
 
   display: block;
   text-align: left;
@@ -52,7 +52,7 @@
 }
 
 .location-item .location-item__state {
-  color: var(--text-secondary);
+  color: var(--text2);
   font-family: var(--body-font);
   font-weight:normal;
 }
@@ -65,4 +65,5 @@
   text-align:left;
   line-height: 16px;
   font-size: 13px;
+  width:100%;
 }

@@ -166,7 +166,7 @@
 .header__controls .header__button {
   padding: 8px 12px 6px;
   line-height:1;
-  font-size: var(--micro-font-size);
+  font-size: var(--mini-font-size);
 }
 
 .header__controls .header__button.header__button--active {

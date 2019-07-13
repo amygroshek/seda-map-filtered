@@ -4,37 +4,42 @@ import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 import StatArrow from '../../molecules/StatArrow';
 
-const LocationStat = ({
-  title,
+const StatSummary = ({
+  label,
   value,
   color,
-  direction,
   description,
   formatter,
+  valueToColor,
+  valueToPosition,
 }) => {
   return (
     <div className={classNames("stats-summary")}>
-      { title && 
-        <Typography className="stats-summary__title">{title}</Typography>
+      { label && 
+        <Typography variant="subtitle2" className="stats-summary__title">{label}</Typography>
       }
       <div className="stats-summary__content">
         <StatArrow 
           value={value}
           color={color}
-          direction={direction}
+          valueToColor={valueToColor}
+          valueToPosition={valueToPosition}
           formatter={formatter}
         />
-        <p 
-          className="stats-summary__description" 
-          dangerouslySetInnerHTML={{ '__html': description }} 
-        />
+        { description  &&
+          <Typography variant="body1"
+            className="stats-summary__description" 
+            dangerouslySetInnerHTML={{ '__html': description }} 
+          />
+        }
+        
       </div>
     </div>
   )
 }
 
-LocationStat.propTypes = {
-  title: PropTypes.string,
+StatSummary.propTypes = {
+  label: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string, PropTypes.number
   ]),
@@ -42,6 +47,8 @@ LocationStat.propTypes = {
   direction: PropTypes.string,
   description: PropTypes.string,
   formatter: PropTypes.func,
+  valueToPosition: PropTypes.func,
+  valueToColor: PropTypes.func,
 }
 
-export default LocationStat
+export default StatSummary

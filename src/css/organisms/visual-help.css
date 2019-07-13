@@ -17,7 +17,7 @@
   font-size: var(--small-text-size);
   letter-spacing: 0.5px;
   font-family: var(--alt-font);
-  color: var(--text-secondary);
+  color: var(--text2);
   display: block;
   text-transform: uppercase;
 }
@@ -47,7 +47,7 @@
 .visual-help__list-item .circle {
   min-width: 24px;
   min-height: 24px;
-  color: var(--text-secondary);
+  color: var(--text2);
   margin:8px;
   opacity: 0.85;
   box-shadow: 0 0 0 1px var(--darken6);

@@ -12,19 +12,24 @@ const getLowOpacityColor = (color, opacity = 0.5) => {
 const StatArrow = ({
   value,
   color,
-  direction,
   classes = {},
   className,
   formatter,
+  valueToColor,
+  valueToPosition = (v) => v > 0 ? 'up' : (v < 0 ? 'down' : null),
   ...props
 }) => {
-  const valueBg = color ? getLowOpacityColor(color, 0.25) : 'rgba(0,0,0,0.1)';
+  const bgColor = color ? color : (
+    typeof valueToColor === 'function' ? 
+      valueToColor(value) : null
+  )
+  const valueBg = bgColor ? getLowOpacityColor(bgColor, 0.25) : 'rgba(0,0,0,0.1)';
   return (
     <div className={classNames("arrow-stat", classes.root, className)} {...props}>
       <Arrow 
         className={classNames("arrow-stat__arrow", classes.arrow)} 
-        color={color}
-        direction={direction}
+        color={bgColor}
+        direction={valueToPosition(value)}
       />
       <span className="arrow-stat__value"
         style={{ backgroundColor: valueBg }}
@@ -40,7 +45,9 @@ StatArrow.propTypes = {
     PropTypes.string, PropTypes.number
   ]),
   color: PropTypes.string,
-  direction: PropTypes.string,
+  valueToPosition: PropTypes.func,
+  valueToColor: PropTypes.func,
+  formatter: PropTypes.func,
   classes: PropTypes.object,
   className: PropTypes.string,
 }

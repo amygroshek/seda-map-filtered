@@ -23,6 +23,14 @@
 
 /* Labels */
 
+  .diverging-bar__label.diverging-bar__label--min {
+    text-align: left;
+  }
+
+  .diverging-bar__label.diverging-bar__label--min {
+    text-align: right;
+  }
+
   .diverging-bar__labels-wrapper {
     position:absolute;
     top:0;
@@ -40,6 +48,14 @@
     top: 1px;
     color: var(--label-color);
     background: #fff;
+  }
+
+  .diverging-bar__labels-wrapper .diverging-bar__label.diverging-bar__label--min {
+    text-align: left;
+  }
+
+  .diverging-bar__labels-wrapper .diverging-bar__label.diverging-bar__label--max {
+    text-align: right;
   }
 
   .diverging-bar__labels-wrapper .diverging-bar__label {
@@ -86,7 +102,8 @@
     position: absolute;
     height: 16px;
     top:0;
-    bottom:2px;
+    line-height: 1;
+    bottom:-3px;
     margin:auto 4px;
     transition: margin, left 0.5s ease-in-out;
     z-index:100;
@@ -124,6 +141,10 @@
     margin-left: -32px;
   }
 
+  .diverging-bar.diverging-bar--small.diverging-bar--below .diverging-bar__bar-wrapper .diverging-bar__label.diverging-bar__label--value {
+    margin-left: -32px;
+  }
+
   /** Large Size */
   .diverging-bar.diverging-bar--large {
     --height: 32px;
@@ -135,6 +156,21 @@
     --height: 16px;
     --bar-height: 8px;
   }
+  .diverging-bar.diverging-bar--small .diverging-bar__bar-wrapper .diverging-bar__label.diverging-bar__label--value {
+    width: 32px;
+    text-align:center;
+    height: 10px;
+  }
+
+  .diverging-bar.diverging-bar--small.diverging-bar--above .diverging-bar__bar-wrapper .diverging-bar__label.diverging-bar__label--value {
+    margin-left:0;
+  }
+
+  .diverging-bar.diverging-bar--small.diverging-bar--unavailable .diverging-bar__bar-wrapper .diverging-bar__label.diverging-bar__label--value {
+    margin: 4px auto 0;
+    width: 80px;
+  }
+
 
   .diverging-bar.diverging-bar--unavailable .diverging-bar__label--value {
     color: var(--label-color);

@@ -5,6 +5,7 @@ import {
 } from "./config";
 
 import LANG from '../constants/en';
+import { getFormatterForMetric } from "../utils";
 
 
 const isStringMatch = (s1, s2) =>
@@ -185,14 +186,19 @@ const getDescriptionLangKey = (metricId, value) => {
  *    e.g. "Test scores are 1.34 levels above U.S. Average" is
  *          returned for `getDescriptionFromVarName('all_avg', 1.34)`
  */
-export const getDescriptionForVarName = (varName, value, formatter) => {
+export const getDescriptionForVarName = (varName, value) => {
   if ((!value || value === -9999) && value !== 0 ) { return ''; }
   const metricId = getMetricIdFromVarName(varName);
+  const formatter = getFormatterForMetric(metricId)
   const demographicId = getDemographicIdFromVarName(varName);
   const isGap = isGapDemographic(demographicId);
   const langKey = getDescriptionLangKey(metricId, value) +
     (isGap ? '_GAP' : '');
-  return getLang(langKey, { value: formatter ? formatter(value) : value })
+  const formattedValue = '' + formatter(value);
+  return getLang(langKey, { 
+    value: formattedValue[0] === '-' ? 
+      formattedValue.substring(1) : formattedValue
+  })
 }
 
 /**

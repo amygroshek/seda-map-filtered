@@ -34,8 +34,16 @@ export const getCSSVariable = (varname) =>
     .getPropertyValue(varname)
 
 
-export const formatNumber = (val) =>
-  Math.round(val*100)/100
+export const formatNumber = (val, decimals = 2) => {
+  if (!val && val !== 0) { return 'N/A' }
+  const factor = Math.pow(10, decimals);
+  return Math.round(val*factor)/factor
+}
+
+export const formatRate = (v) => {
+  if (!v && v !== 0) { return 'N/A' }
+  return Math.round((v-1)*100) + '%';
+}
 
 export const parseColor = (input) => {
   if (input.substr(0,1)==="#") {
@@ -51,12 +59,28 @@ export const parseColor = (input) => {
 }
 
 
+export const getPercentFromValue  = (value, range = [-1, 1]) => {
+  if (!value && value !== 0) { return null }
+  return (value - range[0]) / (range[1] - range[0])
+}
+  
 export const getPositionFromValue = (value, range = [-1, 1]) =>
-  (value - range[0]) / (range[1] - range[0])
-
+  (!value && value !== 0) ? null : 
+    (getPercentFromValue(value,range)*2)-1
+  
 
 export const getValueFromPosition = (percent, range = [-1, 1]) => {
+  if (!percent && percent !== 0) { return null }
   const value = (((range[1] - range[0]) / 2) * percent)
   return formatNumber(value)
 }
   
+
+export const getFormatterForMetric = (metric) => {
+  switch(metric) {
+    case 'grd':
+      return formatRate
+    default:
+      return formatNumber
+  }
+}

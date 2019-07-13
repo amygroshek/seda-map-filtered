@@ -58,3 +58,120 @@
 .panel.panel--location .location-summary {
   padding: 16px;
 }
+
+.panel .button--panel {
+  margin-left: -8px;
+  margin-right: -8px;
+  width: calc(100% + 16px);
+  color: var(--link);
+  font-size: var(--small-font-size);
+}
+
+.panel .callout {
+  margin: -8px -8px 16px;
+}
+
+.panel .MuiTypography-root + .stat-list {
+  margin-top: 4px;
+}
+
+.panel .MuiTypography-body1 {
+  font-size: var(--small-font-size);
+}
+
+/** Panel Section */
+
+.panel .panel-section .location-item {
+  margin-bottom: 16px;
+  border-top: 1px solid var(--darken1);
+  padding-top: 16px;
+}
+
+.panel .panel-section .location-item__heading {
+  margin-bottom: 8px;
+  margin-left: 20px;
+  color: var(--text2);
+}
+
+.panel .panel-section .location-item__content {
+  font-size: var(--font-size);
+}
+
+.panel .panel-section .location-item__marker {
+  position:absolute;
+  top: 11px;
+  left: -8px;
+  transform: scale(0.75);
+
+}
+
+.panel .panel-section__content {
+  padding: 0 16px 24px 16px;
+}
+
+.panel .panel-section .location-item__content-wrapper {
+  padding:0;
+}
+
+.panel .panel-section__stat-summary {
+  margin: 0 0 16px 0;
+}
+
+.panel .panel-section__subheading {
+  --color: var(--text2);
+
+  text-transform: capitalize;
+  margin-top: 8px;
+}
+
+.panel-section--metric .stat-list {
+  padding-top: 16px;
+  border-top: 1px solid var(--darken1);
+  margin: 16px 0;
+}
+
+
+
+.panel-section__content .stat {
+  position: relative;
+}
+
+.panel-section--summary .panel-section__content .stat.stat--diverging .diverging-bar {
+  position: relative;
+  margin-left: 72px;
+  width: calc(100% - 72px);
+}
+
+.panel-section--summary .panel-section__content {
+  padding-top: 8px;
+}
+
+.panel-section--summary .panel-section__content .stat.stat--diverging {
+  position: relative;
+  padding-top: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.panel-section--summary .stat.stat--diverging {
+  flex-direction: column;
+  align-items: start;
+  margin: 16px 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--darken1);
+}
+
+.panel-section--summary .stat.stat--diverging:first-child {
+  border-top:none;
+}
+
+.panel-section--summary .stat.stat--diverging .stat__label {
+  margin-bottom: 4px;
+  position:absolute;
+  top:16px;
+  line-height: 1;
+}
+
+.panel-section--summary .stat.stat--diverging .stat__description {
+  margin-top: 4px;
+}

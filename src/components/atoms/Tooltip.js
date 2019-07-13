@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
+
 
 const Tooltip = ({
-  title, 
+  title,
+  subtitle, 
   children, 
   x, 
   y, 
@@ -24,9 +27,14 @@ const Tooltip = ({
         transform: `translate(${xPos}, ${yPos})`,
       }}
     >
-      { title && 
-        <div className="tooltip__title">{title}</div>
-      }
+      <div className="tooltip__header">
+        { title && 
+          <Typography variant="h6" className="tooltip__title">{title}</Typography>
+        }
+        { subtitle && 
+          <Typography variant="body1" className="tooltip__subtitle">{subtitle}</Typography>
+        }
+      </div>
       <div className="tooltip__content">
         {children}
       </div>
@@ -36,6 +44,7 @@ const Tooltip = ({
 
 Tooltip.propTypes = {
   title: PropTypes.string,
+  subtitle: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node

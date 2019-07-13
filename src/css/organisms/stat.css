@@ -3,8 +3,11 @@
   align-items: center;
 }
 
+
+
 .stat .stat__label {
-  min-width: 64px;
+  min-width: 72px;
   line-height:1;
   margin-top:2px;
 }
+

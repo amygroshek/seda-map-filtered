@@ -59,3 +59,7 @@ h1, h2, h3, h5, h5, h6,
   color: var(--body2-text);
 }
 
+.MuiTypography-root strong {
+  font-weight: bold;
+  color: var(--body-text);
+}

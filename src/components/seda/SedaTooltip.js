@@ -4,40 +4,62 @@ import Tooltip from '../atoms/Tooltip';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
-import LocationSummary from '../organisms/LocationPanel/LocationSummary';
+import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
+import { getLang, getDescriptionForVarName } from '../../modules/lang';
+import { getMetricIdFromVarName } from '../../modules/config';
+import { getStateName } from '../../constants/statesFips';
+import { Typography } from '@material-ui/core';
 
+
+const getShortVarNameLabel = (varName) => {
+  return getLang('LABEL_SHORT_' + getMetricIdFromVarName(varName))
+}
 
 const ConnectedTooltip = ({
   feature, 
-  metric, 
-  secondary,
   x,
   y,
   above,
-  left
+  left,
+  yVar, 
+  xVar
 }) => {
+  if (!feature || !feature.properties) { return null }
   const featureId = getFeatureProperty(feature, 'id');
-  const title = [
-    getFeatureProperty(feature, 'name'),
-    getFeatureProperty(feature, 'state')
-  ].join(', ')
+  const title = getFeatureProperty(feature, 'name');
+  const stateName = getStateName(featureId);
+  const xVal = getFeatureProperty(feature, xVar);
+  const yVal = getFeatureProperty(feature, yVar);
   const stats = useMemo(
-    () => [metric, secondary], 
-    [metric, secondary]
+    () => [yVar, xVar], 
+    [yVar, xVar]
   )
   return (
     <div className="tooltip__wrapper">
       { (featureId) &&
         <Tooltip 
           title={title} 
+          subtitle={stateName}
           x={x}
           y={y}
           above={above}
           left={left}
         >
-          <LocationSummary 
+          <LocationStatSummaryList 
             feature={feature} 
-            stats={stats} 
+            varNames={stats}
+            size="small"
+            showDescription={false}
+            varNameToLabel={getShortVarNameLabel}
+          />
+          <Typography
+            className="tooltip__description"
+            variant="caption" 
+            dangerouslySetInnerHTML={{
+              '__html': getDescriptionForVarName(yVar,yVal) + ' ' +
+                        getDescriptionForVarName(xVar,xVal) + ' ' +
+                        '<em>' + getLang('TOOLTIP_SUMMARY') + '</em>'
+            }}
           />
         </Tooltip>
       }
@@ -53,8 +75,7 @@ const mapStateToProps = ({
 }) => {
   // console.log('mapping', x, y)
   return {
-    metric,
-    secondary,
+
     x,
     y,
     xVar: [demographic, secondary].join('_'),

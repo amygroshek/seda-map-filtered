@@ -82,7 +82,7 @@
     position: absolute;
     top:0;
     left: 0px;
-    bottom: -64px;
+    bottom: -50px;
     z-index: 60;
     width: var(--panel-width);
   }

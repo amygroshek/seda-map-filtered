@@ -4,14 +4,14 @@ import * as ease from 'd3-ease';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { onViewportChange, onRegionChange, loadLocation } from '../../actions';
-import { getRegionFromId } from '../../modules/config';
+import { getRegionFromFeatureId } from '../../modules/config';
 import Search from '../molecules/Search';
 import { updateRoute } from '../../modules/router';
 import { getStateAbbrFromName } from '../../constants/statesFips';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSuggestionSelected: (hit) => {
-    const region = getRegionFromId(hit.id)
+    const region = getRegionFromFeatureId(hit.id)
     const state = getStateAbbrFromName(hit.state_name);
     if (hit) {
       dispatch(onViewportChange({ 

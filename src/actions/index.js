@@ -1,5 +1,5 @@
 import { loadFeaturesFromRoute, loadFeatureFromCoords } from "../utils/tilequery";
-import { getRegionFromId } from "../modules/config";
+import { getRegionFromFeatureId } from "../modules/config";
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRoute } from '../modules/router';
@@ -201,7 +201,7 @@ export const loadRouteLocations = (locations, region) =>
         dispatch(onLoadFeaturesSuccess(features))
         dispatch(addToFeatureIdMap(features))
         features.forEach((f) => {
-          const featureRegion = getRegionFromId(f.properties.id)
+          const featureRegion = getRegionFromFeatureId(f.properties.id)
           dispatch(addSelectedFeature(f, featureRegion))
           if (!activeFeature && featureRegion === region) {
             dispatch(setActiveLocation(f))
@@ -286,7 +286,7 @@ export const onRemoveSelectedFeature = (feature) =>
 export const handleLocationActivation = (feature) => 
   (dispatch, getState) => {
     dispatch(
-      addSelectedFeature(feature, getRegionFromId(feature.properties.id))
+      addSelectedFeature(feature, getRegionFromFeatureId(feature.properties.id))
     )
     dispatch(setActiveLocation(feature))
     const pathname = getState().router.location.pathname;

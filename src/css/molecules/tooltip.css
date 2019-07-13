@@ -20,29 +20,38 @@
   padding: 8px;
   background: var(--background);
   color: #fff;
-  font-size: var(--micro-font-size);
+  font-size: var(--mini-font-size);
   z-index: 1000;
   border-radius: 2px;
   pointer-events: none;
   text-align: left;
   transform-origin: top left;
-  max-width: 244px;
-}
-.tooltip__content::after {
-  display: block;
-  content: 'click on the map to see more data';
-  color: #ccc;
-  font-style:italic;
-  margin-top: 4px;
+  width: 244px;
 }
 
 .tooltip__title {
-  font-family: var(--heading-font);
+  font-size: var(--micro-font-size);
+  white-space:nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .tooltip__content {
   line-height: 16px;
   margin-top: 8px;
+}
+
+.tooltip .tooltip__description {
+  display: block;
+  margin-top: 8px;
+}
+
+.tooltip .tooltip__content strong {
+  color: #fff;
+}
+
+.tooltip .tooltip__content em {
+  color: var(--grey3);
 }
 
 .tooltip .arrow-stat {
@@ -53,4 +62,47 @@
 }
 .tooltip .stats-summary strong {
   color: #fff;
+}
+
+.tooltip .stat.stat--diverging.stat--long {
+  margin:0 0 8px 0;
+  padding:0;
+}
+
+.tooltip .stat .stat__label {
+  position:absolute;
+  margin-top: 1px;
+  font-size: var(--mini-font-size);
+}
+
+.tooltip .diverging-bar {
+  margin-left: 64px;
+  width: calc(100% - 64px);
+}
+
+.tooltip .diverging-bar__label {
+  background: transparent;
+}
+
+.tooltip .diverging-bar__rect-value {
+  background: #f00;
+}
+
+.tooltip .diverging-bar__label.diverging-bar__label--value {
+  color: #fff;
+  text-shadow: 
+  -1px -1px 0 var(--text),  
+   1px -1px 0 var(--text),
+   -1px 1px 0 var(--text),
+    1px 1px 0 var(--text);
+  margin-top: 3px;
+  background: rgba(0,0,40,0.25);
+}
+
+.tooltip .diverging-bar {
+  --border-color: var(--lighten2);
+}
+
+.tooltip .diverging-bar.diverging-bar--below .diverging-bar__label.diverging-bar__label--value {
+  text-indent: -4px;
 }
