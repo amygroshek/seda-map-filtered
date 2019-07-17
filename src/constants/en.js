@@ -52,6 +52,7 @@ const LANG = {
   'LABEL_SHORT_GRD': 'Avg rate',
   'LABEL_SHORT_COH': 'Avg trend',
   'LABEL_SHORT_SES': 'SES',
+  'LABEL_SHORT_FRL': 'Free Lunch',
 
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
@@ -169,6 +170,8 @@ const LANG = {
   'VALUE_SES_VERY_LOW': 'socioeconomic status is <strong>far below national average</strong>.',
   'VALUE_SES_ULTRA_LOW': 'socioeconomic status is <strong>very far below national average</strong>.',
 
+  'VALUE_FRL': '<strong>$[value] of students</strong> qualify for free or reduced lunch program.',
+
   // 'VALUE_SEG': '',
 
   // Description of gap value for location
@@ -275,8 +278,8 @@ const LANG = {
   'LEGEND_HIGH_COH': 'scores improving ▶',
   'LEGEND_LOW_SES': '◀ poorer',
   'LEGEND_HIGH_SES': 'richer ▶',
-  'LEGEND_LOW_FRLP': '◀ lower poverty',
-  'LEGEND_HIGH_FRLP': 'higher poverty ▶',
+  'LEGEND_LOW_FRL': '◀ more poverty',
+  'LEGEND_HIGH_FRL': 'less poverty ▶',
 
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',

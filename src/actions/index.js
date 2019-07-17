@@ -247,6 +247,9 @@ export const onRegionChange = (region, ownProps) =>
     // set demographic to 'all' if switching to schools
     if (region === 'schools') {
       routeUpdates['demographic'] = 'all';
+      routeUpdates['secondary'] = 'frl';
+    } else {
+      routeUpdates['secondary'] = 'ses';
     }
     updateRoute(ownProps, routeUpdates)
     dispatch(clearActiveLocation())

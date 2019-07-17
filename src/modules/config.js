@@ -251,22 +251,6 @@ export const isGapDemographic = (id) => {
 }
 
 /**
- * Gets the variables for the map section
- * @param {string} region 
- * @param {string} metric 
- * @param {string} demographic 
- */
-export const getExplorerVarsFromSelection = (region, metric, demographic) => ({
-  yVar: region === 'schools' ? 
-    'all_' + metric : 
-    demographic + '_' + metric,
-  xVar: region === 'schools' ? 
-    'frl_pct' : 
-    demographic + '_ses',
-  zVar: 'all_sz'
-})
-
-/**
  * Gets the percent value of where the value sites on
  * the scale for the metric.
  * @param {*} value 
@@ -282,9 +266,10 @@ export const getValuePositionForMetric = (value, varName, region, type) => {
 }
 
 
-export const getValuePositionInRange = (value, range) => {
+export const getValuePositionInRange = (value, range, invert = false) => {
   const [ min, max ] = range
-  return Math.min(1, Math.max(0, (value - min) / (max - min)))
+  const pos = Math.min(1, Math.max(0, (value - min) / (max - min)));
+  return invert ? (1 - pos) : pos;
 }
 
 /**

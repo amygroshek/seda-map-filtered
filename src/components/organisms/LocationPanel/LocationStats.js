@@ -53,6 +53,13 @@ LocationStatSummary.propTypes = {
 }
 
 
+const getPositionForMetric = (metric, value, range) => {
+  if (metric === 'frl') {
+    return getPercentFromValue(value, range);
+  }
+  return getPositionFromValue(value, range);
+}
+
 export const LocationStatDiverging = ({
   feature,
   otherFeature,
@@ -71,10 +78,11 @@ export const LocationStatDiverging = ({
   formatter = formatter || getFormatterForMetric(metricId);
   const value = getFeatureProperty(feature, varName);
   const percent = getPercentFromValue(value, range);
-  const position = getPositionFromValue(value, range);
-  const color = getChoroplethColorAtValue(percent);
+  const position = getPositionForMetric(metricId, value, range);
+  const color = metricId === 'frl' ? 
+    getChoroplethColorAtValue(1-percent) :
+    getChoroplethColorAtValue(percent)
   const midPoint = metricId === 'grd' ? 1 : 0;
-
   // get min / max labels if showing
   const labels = showLabels ?
     { minLabel: formatter(range[0]), maxLabel: formatter(range[1]) } :
@@ -98,6 +106,7 @@ export const LocationStatDiverging = ({
       color={color}
       description={description}
       midPoint={midPoint}
+      full = { metricId === 'frl' }
       {...labels}
       {...rest}
     />

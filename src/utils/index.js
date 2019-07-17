@@ -45,6 +45,11 @@ export const formatRate = (v) => {
   return Math.round((v-1)*100) + '%';
 }
 
+const formatFreeLunch = (v) => {
+  if (!v && v !== 0) { return 'N/A' }
+  return Math.round(v * 100) + '%'
+}
+
 export const parseColor = (input) => {
   if (input.substr(0,1)==="#") {
     const collen=(input.length-1)/3;
@@ -80,6 +85,8 @@ export const getFormatterForMetric = (metric) => {
   switch(metric) {
     case 'grd':
       return formatRate
+    case 'frl':
+      return formatFreeLunch
     default:
       return formatNumber
   }

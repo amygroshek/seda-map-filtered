@@ -26,7 +26,7 @@ const getVars = (region, metric, demographic) => ({
     'all_' + metric : 
     demographic + '_' + metric,
   xVar: region === 'schools' ? 
-    'frl_pct' : 
+    'all_frl' : 
     demographic + '_ses',
   zVar: 'all_sz'
 })

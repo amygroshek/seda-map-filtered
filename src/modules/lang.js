@@ -175,6 +175,8 @@ const getDescriptionLangKey = (metricId, value) => {
         value > -0.5 ? `VALUE_SES_MID` :
         value > -1.5 ? `VALUE_SES_LOW` :
         value > -2.5 ? `VALUE_SES_VERY_LOW` : `VALUE_SES_ULTRA_LOW`
+    case 'frl':
+      return 'VALUE_FRL'
     default:
       return 'DESCRIPTION_UNAVAILABLE'
   }

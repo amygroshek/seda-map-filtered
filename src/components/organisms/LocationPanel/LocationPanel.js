@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import Panel from '../../molecules/Panel';
-import { getRegionFromFeatureId, getMetricIdFromVarName } from '../../../modules/config';
+import { getRegionFromFeature, getRegionFromFeatureId, getMetricIdFromVarName } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationComparison from './LocationComparison';
@@ -11,12 +11,15 @@ import { LocationAvgSection, LocationGrdSection, LocationCohSection } from './Lo
 
 
 const LocationSummary = ({feature}) => {
-  
+  const region = getRegionFromFeature(feature);
+  const varNames = [ 'all_avg', 'all_grd', 'all_coh' ]
+  region === 'schools' ? varNames.push('all_frl') : varNames.push('all_ses')
   return (
     <div className="panel-section panel-section--summary">
       <div className="panel-section__content">
         <LocationStatSummaryList 
           feature={feature} 
+          varNames={varNames}
           varNameToLabel={(varName) => {
             return getLang('LABEL_SHORT_' + getMetricIdFromVarName(varName))
           }} />

@@ -2,6 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+const getLabelPosition = (position, full = false) => {
+  return full ?
+    (100*(position) + '%') :
+    (100*(position + 1)/2 + '%')
+}
+
 const DivergingBar = ({
   minLabel,
   maxLabel,
@@ -15,6 +21,7 @@ const DivergingBar = ({
   color,
   className,
   size,
+  full = false
 }) => {
   position = Math.min(1, Math.max(-1, position));
   const isValue = Boolean(value) || value === 0;
@@ -26,31 +33,34 @@ const DivergingBar = ({
       classNames(
         "diverging-bar", 
         className,
-        { "diverging-bar--large": size === 'large' },
-        { "diverging-bar--small": size === 'small' },
-        { "diverging-bar--above": value && value > midPoint },
-        { "diverging-bar--below": value && value < midPoint },
-        { "diverging-bar--mid": value === midPoint },
-        { "diverging-bar--unavailable": !value && value !== 0 }
+        { 
+          "diverging-bar--full": full,
+          "diverging-bar--large": size === 'large',
+          "diverging-bar--small": size === 'small',
+          "diverging-bar--above": value && value > midPoint,
+          "diverging-bar--below": value && value < midPoint,
+          "diverging-bar--mid": value === midPoint,
+          "diverging-bar--unavailable": !value && value !== 0 
+        }
       )
     }>
       <div className='diverging-bar__bar-wrapper'>
         <span className='diverging-bar__rect-value' style={{
           background: color,
-          transform: isValue ? 'scaleX(' + position/2 + ')' : null,
+          transform: isValue ? 'scaleX(' + (full ? position : position/2) + ')' : null,
         }} />
         {
           (markerPosition || markerPosition === 0) && 
             <span className='diverging-bar__marker marker' style={{
               background: markerColor,
-              transform: markerPosition ? 'scaleX(' + markerPosition/2 + ')' : null,
+              transform: markerPosition ? 'scaleX(' + (full ? markerPosition : markerPosition/2) + ')' : null,
             }} />
         }
         
         <span className='diverging-bar__label diverging-bar__label--value'
           style={{
             left: isValue ? 
-              (100*(position + 1)/2 + '%') : null
+              getLabelPosition(position, full) : null
           }}
         >
           { valueLabel }
@@ -82,6 +92,8 @@ DivergingBar.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   size: PropTypes.string,
+  /** determines if it is a full bar or diverging */
+  full: PropTypes.bool,
 }
 
 export default DivergingBar

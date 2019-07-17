@@ -29,11 +29,13 @@ const LegendBar = ({
   legendRange = [0, 1],
   colorRange = [0, 1],
   className,
+  invert = false,
+  formatter,
 }) => {
   const gradientString = 
     getGradient({colors, legendRange, colorRange, vertical})
   const markerPosition = value ? 
-    getValuePositionInRange(value, legendRange) :
+    getValuePositionInRange(value, legendRange, invert) :
     null
   return (
     <div 
@@ -93,7 +95,9 @@ const LegendBar = ({
             transform: getTransform(markerPosition, vertical)
           }}
         >
-          <span className='legend-bar__tick'>{value}</span>
+          <span className='legend-bar__tick'>
+            {formatter ? formatter(value) : value}
+          </span>
         </div>
       </div>
 
