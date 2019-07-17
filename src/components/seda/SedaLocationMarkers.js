@@ -17,5 +17,6 @@ export default compose(
       region, 
       features, 
       hovered,
+      invertX: region === 'schools'
     }), null)
 )(ScatterplotOverlay)

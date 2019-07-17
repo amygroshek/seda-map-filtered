@@ -96,7 +96,7 @@
    -1px 1px 0 var(--text),
     1px 1px 0 var(--text);
   margin-top: 3px;
-  background: rgba(0,0,40,0.25);
+  background: none;
 }
 
 .tooltip .diverging-bar {

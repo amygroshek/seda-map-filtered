@@ -547,6 +547,7 @@ const getXAxis = ({ metric, demographic, region, ...rest }) => {
   return {
     min,
     max,
+    inverse: (region === 'schools'),
     axisLabel: { show: false },
     axisLine: { show: false },
     splitLine: { show: true },
@@ -560,6 +561,7 @@ const getMapXAxis = ({ metric, demographic, region }) => {
   return {
     min, 
     max,
+    inverse: (region === 'schools'),
     axisLabel: {
       inside: true,
       formatter: (value) => {

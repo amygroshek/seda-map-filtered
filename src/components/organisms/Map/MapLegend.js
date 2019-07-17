@@ -8,6 +8,7 @@ import { getFeatureProperty } from '../../../modules/features';
 import SedaScatterplotPreview from '../../seda/SedaScatterplotPreview';
 import SedaLocationMarkers from '../../seda/SedaLocationMarkers';
 import { Button } from '@material-ui/core';
+import { getFormatterForMetric, formatNumber } from '../../../utils';
 
 const choroplethColors = getChoroplethColors();
 
@@ -57,9 +58,11 @@ const MapLegend = ({
     getFeatureProperty(hovered, `${demographic}_${secondary}`)
   ];
   const primaryValue = values[0] || values[0] === 0 ?
-    Math.round(values[0]*100)/100 : null;
+    formatNumber(values[0]) : null;
   const secondaryValue = values[1] || values[1] === 0 ?
-    Math.round(values[1]*100)/100 : null;
+    formatNumber(values[1]) : null;
+  const yFormatter = getFormatterForMetric(metric);
+  const xFormatter = getFormatterForMetric(secondary);
   return (
     <div className={classNames("map-legend", {
       "map-legend--secondary": secondaryValue || secondaryValue === 0
@@ -81,6 +84,7 @@ const MapLegend = ({
               colorRange={getMetricRange(metric, demographic, region, 'map')}
               legendRange={getMetricRange(metric, demographic, region)}
               className="legend-bar--y-preview"
+              formatter={yFormatter}
             />
             <LegendBar
               value={secondaryValue}
@@ -88,7 +92,9 @@ const MapLegend = ({
               startLabel={getLang('LEGEND_LOW_'+secondary)}
               endLabel={getLang('LEGEND_HIGH_'+secondary)}
               legendRange={getMetricRange(secondary, demographic, region)}
+              invert={secondary === 'frl'}
               className="legend-bar--x-preview"
+              formatter={xFormatter}
             />
           </SedaScatterplotPreview>
         </LegendPanel>

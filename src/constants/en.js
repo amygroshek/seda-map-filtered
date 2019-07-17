@@ -52,6 +52,7 @@ const LANG = {
   'LABEL_SHORT_GRD': 'Avg rate',
   'LABEL_SHORT_COH': 'Avg trend',
   'LABEL_SHORT_SES': 'SES',
+  'LABEL_SHORT_FRL': 'Free Lunch',
 
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
@@ -105,9 +106,9 @@ const LANG = {
   'SUMMARY_GRD_MID': '$[name] has <strong>average school effectiveness</strong>. Students learn as much each grade as the national average.',
   'SUMMARY_GRD_HIGH': '$[name] has <strong>higher school effectiveness</strong> than average. Students learn <strong>$[value] more each grade</strong> than the national average.',
   
-  'SUMMARY_COH_LOW': '$[name] has <strong>improving educational opportunity</strong>.  Test scores <strong>improved an average of $[value] grade levels each year</strong> from 2009- 2016.',
+  'SUMMARY_COH_LOW': '$[name] has <strong>declining educational opportunity</strong>.  Test scores <strong>declined an average of $[value] grade levels each year</strong> from 2009- 2016.',
   'SUMMARY_COH_MID': '$[name] has <strong>no change in educational opportunity</strong>.  Average test scores did not change from 2009 - 2016.',
-  'SUMMARY_COH_HIGH': '$[name] has <strong>declining educational opportunity</strong>. Test scores <strong>declined and average of $[value] grade levels each year</strong> from 2009-2016.',
+  'SUMMARY_COH_HIGH': '$[name] has <strong>improving educational opportunity</strong>. Test scores <strong>improved an average of $[value] grade levels each year</strong> from 2009-2016.',
   
   'SUMMARY_SES_LOW': '',
   'SUMMARY_SES_MID': '$[name] has average community educational opportunity because students scores close to their grade level.',
@@ -168,6 +169,8 @@ const LANG = {
   'VALUE_SES_LOW': 'socioeconomic status is <strong>below national average</strong>.',
   'VALUE_SES_VERY_LOW': 'socioeconomic status is <strong>far below national average</strong>.',
   'VALUE_SES_ULTRA_LOW': 'socioeconomic status is <strong>very far below national average</strong>.',
+
+  'VALUE_FRL': '<strong>$[value] of students</strong> qualify for free or reduced lunch program.',
 
   // 'VALUE_SEG': '',
 
@@ -275,8 +278,8 @@ const LANG = {
   'LEGEND_HIGH_COH': 'scores improving ▶',
   'LEGEND_LOW_SES': '◀ poorer',
   'LEGEND_HIGH_SES': 'richer ▶',
-  'LEGEND_LOW_FRLP': '◀ lower poverty',
-  'LEGEND_HIGH_FRLP': 'higher poverty ▶',
+  'LEGEND_LOW_FRL': '◀ more poverty',
+  'LEGEND_HIGH_FRL': 'less poverty ▶',
 
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',

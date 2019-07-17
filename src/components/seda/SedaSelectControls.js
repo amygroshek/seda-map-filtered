@@ -47,7 +47,7 @@ const DemographicAndGapMenu = ({demographic, onChange}) => {
       label='Demographics'
       value={demographic}
       options={[
-        ...getDemographics().filter(d => d.id !== 'frl'), 
+        ...getDemographics(), 
         // ...getGaps()      
       ]}
       formatter={(option) => option.label + (

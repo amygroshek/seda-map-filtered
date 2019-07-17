@@ -11,8 +11,11 @@ const colors = getSelectedColors();
  * @param {number} value 
  * @param {array<number>} range 
  */
-const getPercentOfRange = (value, range) =>
-  ( (value - range[0]) / (range[1] - range[0]) ) * 100
+const getPercentOfRange = (value, range, invert = false) => {
+  const percent = ( (value - range[0]) / (range[1] - range[0]) ) * 100
+  return invert ? (100 - percent) : percent;
+}
+  
 
 /**
  * Returns object with position and size of a circle for a feature
@@ -46,7 +49,7 @@ const getCircles = ({
   yValueToPercent,
   zValueToRadius,
   features, 
-  selected, 
+  selected,
 }) => {
     if (!features) { return {} }    
     // add circles for selected items
@@ -91,14 +94,16 @@ const ScatterplotOverlay = ({
   region, 
   features, 
   hovered,
+  invertX = false
 }) => {
   // function that converts xValue to the % position on the scale
   const xValueToPercent = useMemo(() => 
     (val) => getPercentOfRange(
       val, 
       getMetricRangeFromVarName(xVar, region), 
+      invertX
     )
-    , [xVar, region]
+    , [xVar, region, invertX]
   )
   // function that converts yValue to the % position on the scale
   const yValueToPercent = useMemo(() => 

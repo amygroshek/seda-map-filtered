@@ -97,6 +97,11 @@
     border: 1px solid var(--border-color);
   }
 
+  /** bar starts on left for full variant */
+  .diverging-bar--full .diverging-bar__rect-value {
+    left: 0;
+  }
+
   .diverging-bar__label.diverging-bar__label--value {
     color: var(--text);
     position: absolute;
@@ -131,6 +136,9 @@
   width: 0px;
   border-left: var(--vertical-divider);
   z-index: 1;
+}
+.diverging-bar--full .diverging-bar__line-vertical {
+  display: none;
 }
 
 

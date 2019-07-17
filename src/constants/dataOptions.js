@@ -155,13 +155,15 @@ export const METRICS = [
     scatterplot: true
   },
   {
-    id: 'pct',
-    label: 'Percent',
-    description: '',
+    id: 'frl',
+    label: LANG['LABEL_FRL'],
+    description: LANG['EXPLAINER_FRL'],
     range: {
-      '*': [0, 1],
+      '*': [ 0, 1 ],
     },
-  }
+    map: false,
+    scatterplot: true
+  },
 ]
 
 /**
@@ -224,10 +226,6 @@ export const DEMOGRAPHICS = [
   {
     id: 'np',
     label: LANG['LABEL_NP']
-  },
-  {
-    id: 'frl',
-    'label': LANG['LABEL_FRL']
   }
 ]
 
