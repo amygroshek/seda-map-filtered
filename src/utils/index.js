@@ -1,4 +1,6 @@
 
+import { scaleLinear } from 'd3-scale';
+
 /**
  * Maps the data object to new keys based on the provided keyMap
  * @param {object} obj the object for which the keys should be mapped
@@ -64,20 +66,44 @@ export const parseColor = (input) => {
 }
 
 
-export const getPercentFromValue  = (value, range = [-1, 1]) => {
+/**
+ * 
+ * @param {*} value 
+ * @param {*} range 
+ */
+export const getPercentFromValue  = (value, range = [-0.5, 0.5]) => {
   if (!value && value !== 0) { return null }
   return (value - range[0]) / (range[1] - range[0])
 }
-  
-export const getPositionFromValue = (value, range = [-1, 1]) =>
-  (!value && value !== 0) ? null : 
-    (getPercentFromValue(value,range)*2)-1
+
+/**
+ * Returns a number between -1 and 1 of where the value falls in
+ * the range.
+ */
+export const getPositionFromValue = (value, range = [-0.5, 0.5]) => {
+  if (!value && value !== 0) { return null; }
+  const totalRange = range[1] - range[0];
+  const targetRange = [ range[0] / totalRange, range[1] / totalRange ]; 
+  const scale = scaleLinear()
+    .domain(range)
+    .range(targetRange)
+    .clamp(true);
+  return scale(value);
+}
   
 
-export const getValueFromPosition = (percent, range = [-1, 1]) => {
+/**
+ * 
+ */
+export const getValueFromPosition = (percent, range = [-0.5, 0.5]) => {
   if (!percent && percent !== 0) { return null }
-  const value = (((range[1] - range[0]) / 2) * percent)
-  return formatNumber(value)
+  const totalRange = range[1] - range[0];
+  const targetRange = [ range[0] / totalRange, range[1] / totalRange ]; 
+  const scale = scaleLinear()
+    .domain(range)
+    .range(targetRange)
+    .clamp(true);
+  return formatNumber(scale.invert(percent));
 }
   
 

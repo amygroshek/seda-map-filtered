@@ -64,7 +64,7 @@ const ExplorerView = ({
         locationPanelOn={locationActive}
         activeView={activeView}
         rightComponent={<SedaMap />}
-        leftComponent={<SedaChart />}
+        leftComponent={<SedaChart onError={(e)=> console.log('error with chart', e)} />}
         footerContent={<SedaLocations />}
       >
         <SedaHelp />

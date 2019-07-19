@@ -56,13 +56,12 @@ export const BASE_VARS = {
  * Colors for selected locations
  */
 export const SELECTED_COLORS = [
-  '#A24BFF', 
-  '#C289FF', 
-  '#BF00D0', 
-  '#FF6DCF', 
-  '#FFC5EC', 
-  '#FF7B18', 
-  '#FFB92A'
+  '#F46800', 
+  '#8C1AF4', 
+  '#B2002A', 
+  '#F84EBF', 
+  '#3F00B3', 
+  '#FF0C0C'
 ];
 
 /**
@@ -136,12 +135,15 @@ export const METRICS = [
     map: false,
     scatterplot: true,
     range: {
-      '*_*_b': [ -11, 5 ],
-      '*_*_h': [ -13, 5 ],
+      '*_districts_h': [-5, 3],
+      '*_counties_h': [-5.5, 0.5],
+      '*_*_b': [ -6, 2 ],
+      '*_*_h': [ -6, 2 ],
       '*_*_wb': [ -4, 14 ],
       '*_*_wh': [ -5, 16 ],
       'map_*_*': [ -3, 3 ],
-      '*': [ -6, 4 ],
+      '*_counties': [-5, 3],
+      '*': [ -5, 4 ],
     }
   },
   {
