@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
+import { getScatterplotVars, getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
 import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import { getLang, hasLangKey } from '../../modules/lang';
@@ -15,21 +15,6 @@ import SedaLocationMarkers from './SedaLocationMarkers';
 
 const COLORS = getChoroplethColors();
 
-/**
- * Gets the variables for the map section
- * @param {string} region 
- * @param {string} metric 
- * @param {string} demographic 
- */
-const getVars = (region, metric, demographic) => ({
-  yVar: region === 'schools' ? 
-    'all_' + metric : 
-    demographic + '_' + metric,
-  xVar: region === 'schools' ? 
-    'all_frl' : 
-    demographic + '_ses',
-  zVar: 'all_sz'
-})
 
 /**
  * Returns a title and subtitle for the scatterplot based on
@@ -40,7 +25,7 @@ const getVars = (region, metric, demographic) => ({
  * @param {*} highlightedState 
  */
 const getScatterplotHeading = (region, metric, demographic, highlightedState) => {
-  const vars = getVars(region, metric, demographic)
+  const vars = getScatterplotVars(region, metric, demographic)
   const titleKey = 'SP_TITLE_' + metric + '_' +
     (vars.xVar.indexOf('ses') > -1 ? 'SES' : 'FRL')
   const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
@@ -70,7 +55,7 @@ const SedaExplorerChart = ({
   onClick,
   onError,
 }) => {
-  const scatterplot = getVars(region, metric, demographic);
+  const scatterplot = getScatterplotVars(region, metric, demographic);
   const xMetricId = getMetricIdFromVarName(scatterplot.xVar)
   const leftLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
     getLang('LEGEND_LOW_'+xMetricId)

@@ -384,3 +384,22 @@ export const getHighLow = (value, metric) => {
       return ''
   }
 }
+
+/**
+ * Gets the variables for the map section
+ * @param {string} region 
+ * @param {string} metric 
+ * @param {string} demographic 
+ */
+export const getScatterplotVars = (region, metric, demographic) => {
+  const vars = {
+    yVar: region === 'schools' ? 
+      'all_' + metric : 
+      demographic + '_' + metric,
+    zVar: 'all_sz'
+  }
+  const useAll = ['m', 'f', 'p', 'np'].indexOf(demographic) > -1;
+  vars['xVar'] = region === 'schools' ? 'all_frl' : 
+    (useAll ? 'all_ses' : demographic + '_ses')
+  return vars
+}

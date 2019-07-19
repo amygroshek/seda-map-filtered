@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
 import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
 import { getLang, getDescriptionForVarName } from '../../modules/lang';
-import { getMetricIdFromVarName } from '../../modules/config';
+import { getMetricIdFromVarName, getScatterplotVars } from '../../modules/config';
 import { getStateName } from '../../constants/statesFips';
 import { Typography } from '@material-ui/core';
 
@@ -71,15 +71,14 @@ const mapStateToProps = ({
   map: { coords: { x, y } },
   sections: { map: { hovered } }
 }, {
-  match: { params: { metric, demographic, secondary } }
+  match: { params: { metric, demographic, region } }
 }) => {
-  // console.log('mapping', x, y)
+  const vars = getScatterplotVars(region, metric, demographic);
   return {
-
     x,
     y,
-    xVar: [demographic, secondary].join('_'),
-    yVar: [demographic, metric].join('_'),
+    xVar: vars.xVar,
+    yVar: vars.yVar,
     feature: hovered,
     above: window && window.innerHeight && 
       y && y > (window.innerHeight / 3),

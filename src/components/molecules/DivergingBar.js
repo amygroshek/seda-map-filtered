@@ -2,12 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-const getLabelPosition = (position, full = false) => {
-  return full ?
-    (100*(position) + '%') :
-    (100*(position + 1)/2 + '%')
-}
-
 const DivergingBar = ({
   minLabel,
   maxLabel,
@@ -16,6 +10,7 @@ const DivergingBar = ({
   value,
   formatter,
   position,
+  midPosition = '50%',
   markerPosition,
   markerColor = '#f00',
   color,
@@ -40,27 +35,28 @@ const DivergingBar = ({
           "diverging-bar--above": value && value > midPoint,
           "diverging-bar--below": value && value < midPoint,
           "diverging-bar--mid": value === midPoint,
-          "diverging-bar--unavailable": !value && value !== 0 
+          "diverging-bar--unavailable": !isValue
         }
       )
     }>
       <div className='diverging-bar__bar-wrapper'>
         <span className='diverging-bar__rect-value' style={{
           background: color,
-          transform: isValue ? 'scaleX(' + (full ? position : position/2) + ')' : null,
+          transform: isValue ? 'scaleX(' + (position) + ')' : null,
+          left: midPosition
         }} />
         {
           (markerPosition || markerPosition === 0) && 
             <span className='diverging-bar__marker marker' style={{
               background: markerColor,
-              transform: markerPosition ? 'scaleX(' + (full ? markerPosition : markerPosition/2) + ')' : null,
+              transform: markerPosition ? 'scaleX(' + markerPosition + ')' : null,
+              left: midPosition
             }} />
         }
-        
         <span className='diverging-bar__label diverging-bar__label--value'
           style={{
             left: isValue ? 
-              getLabelPosition(position, full) : null
+              'calc(' + midPosition + ' + ' + position*100 + '%)' : 0
           }}
         >
           { valueLabel }
@@ -71,8 +67,13 @@ const DivergingBar = ({
         <span className='diverging-bar__label diverging-bar__label--mid'>{midLabel}</span>
         <span className='diverging-bar__label diverging-bar__label--max'>{maxLabel}</span>
       </div>
-      <span className='diverging-bar__line-horizontal' />
-      <span className='diverging-bar__line-vertical' />
+      <div className='diverging-bar__lines-wrapper'>
+        <span className='diverging-bar__line-horizontal' />
+        <span 
+          className='diverging-bar__line-vertical' 
+          style={{left: midPosition}}
+        />
+      </div>
     </div>
   )
 }
@@ -87,8 +88,10 @@ DivergingBar.propTypes = {
   midLabel: PropTypes.oneOfType([
     PropTypes.string, PropTypes.number
   ]),
-  value: PropTypes.number,
-  valueLabel: PropTypes.string,
+  position: PropTypes.number,
+  value: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.number
+  ]),
   color: PropTypes.string,
   className: PropTypes.string,
   size: PropTypes.string,

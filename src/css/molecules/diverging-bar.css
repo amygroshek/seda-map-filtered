@@ -117,10 +117,19 @@
 
 /** Line Overlays */
 
+.diverging-bar__lines-wrapper {
+  position:absolute;
+  top:0;
+  left:24px;
+  right: 24px;
+  height:100%;
+  width: calc(100% - 48px);
+}
+
 .diverging-bar__line-horizontal {
   position: absolute;
-  left:24px;
-  right:24px;
+  left:0;
+  right:0;
   top:50%;
   height: 0px;
   border-top: var(--horizontal-divider);

@@ -1,18 +1,14 @@
 
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Typography } from '@material-ui/core';
 import { getChoroplethColorAtValue } from '../../modules/config.js';
 import DivergingBar from '../../components/molecules/DivergingBar';
 import StatDiverging from '../../components/molecules/StatDiverging.js';
-import { formatNumber, getValueFromPosition } from '../../utils/index.js';
+import { formatNumber, getValueFromPosition, getPercentFromValue } from '../../utils/index.js';
 import Callout from '../../components/molecules/Callout';
 import HelpIcon from '@material-ui/icons/Help';
-
-const getRandomVal = () => 
-  Math.round(
-    100 * ( (Math.random() * 2) - 1 )
-  ) / 100
+import { LocationStatDiverging } from '../../components/organisms/LocationPanel/LocationStats'
 
 const SandboxComponent = ({
   heading,
@@ -30,8 +26,6 @@ const SandboxComponent = ({
 
 
 const SandboxView = () => {
-  const [ val, setVal ] = useState(-0.5);
-  setTimeout(() => setVal(getRandomVal()), 4000)
   return (
     <div className='sandbox'>
       <SandboxComponent heading="Typography">
@@ -56,12 +50,13 @@ const SandboxView = () => {
         <DivergingBar
           minLabel="-3"
           maxLabel="3"
-          value={-1*val}
-          color={getChoroplethColorAtValue((-1*val + 1)/2)}
+          position={-0.5/6}
+          value={-0.5}
         />
         <DivergingBar
-          value={val}
-          color={getChoroplethColorAtValue((val + 1)/2)}
+          position={0.5/6}
+          value={0.5}
+          color={'#f00'}
         />
       </SandboxComponent>
       <SandboxComponent heading="Stat Diverging">
@@ -69,24 +64,54 @@ const SandboxView = () => {
           label="White"
           minLabel="-3"
           maxLabel="3"
-          value={-1*val}
-          valueLabel={getValueFromPosition(-1*val, [-3, 3])}
-          color={getChoroplethColorAtValue((-1*val + 1)/2)}
+          position={0.5}
+          value={getValueFromPosition(0.5, [-3, 3])}
+          color={getChoroplethColorAtValue((0.5 + 1)/2)}
         />
         <StatDiverging
           label="Black"
           minLabel="-3"
           maxLabel="3"
-          value={formatNumber(-0.6*val)}
-          valueLabel={getValueFromPosition(-0.6*val, [-3, 3])}
-          color={getChoroplethColorAtValue((-0.6*val + 1)/2)}
+          position={formatNumber(-0.6*-0.5)}
+          value={getValueFromPosition(-0.6*-0.5, [-3, 3])}
+          color={getChoroplethColorAtValue((-0.6*-0.5 + 1)/2)}
         />
         <StatDiverging
           label="Asian"
           minLabel="-3"
           maxLabel="3"
-          value={null}
+          position={null}
           color={null}
+        />
+        <LocationStatDiverging
+          feature={{
+            properties: { 
+              'id': '12345',
+              'all_ses': -0.5,
+            }
+          }}
+          midPosition={(getPercentFromValue(0, [-6, 2]) * 100) + '%'}
+          varName='all_ses'
+          range={[-6, 2]}
+          midPoint={0}
+          label="Offset"
+          minLabel="-6"
+          maxLabel="2"   
+        />
+        <LocationStatDiverging
+          feature={{
+            properties: { 
+              'id': '12345',
+              'all_ses': 0.65,
+            }
+          }}
+          midPosition={'0%'}
+          varName='all_ses'
+          range={[0, 1]}
+          midPoint={0}
+          label="Positive"
+          minLabel="0"
+          maxLabel="1"   
         />
       </SandboxComponent>
     </div>
