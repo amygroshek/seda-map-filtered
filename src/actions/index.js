@@ -230,6 +230,11 @@ export const onDemographicChange = (demographic, ownProps) =>
     updateRoute(ownProps, { demographic })
   }
 
+export const setDemographicAndMetric = (demographic, metric, ownProps) =>
+(dispatch) => {
+  updateRoute(ownProps, { demographic, metric })
+}
+
 export const onHighlightedStateChange = (stateAbbr, ownProps) => (dispatch) => {
   updateRoute(ownProps, { 
     highlightedState: stateAbbr

@@ -26,6 +26,7 @@ const LocationMetric = ({
   metric,
   children,
   formatter,
+  onGapClick,
   ...rest
 }) => {
   if (!feature) { return null; }
@@ -53,7 +54,7 @@ const LocationMetric = ({
         formatter={formatter}
         varNameToLabel={statToLabel}
       />
-      <PanelButton langKey='BUTTON_GAP_PN' />
+      <PanelButton langKey='BUTTON_GAP_PN' onClick={() => onGapClick('pn', metric)} />
       <LocationStatList
         feature={feature}
         varNames={['w', 'b', 'h', 'a'].map(d => d+'_'+metric)}
@@ -61,8 +62,8 @@ const LocationMetric = ({
         formatter={formatter}
         varNameToLabel={statToLabel}
       />
-      <PanelButton langKey='BUTTON_GAP_WB' />
-      <PanelButton langKey='BUTTON_GAP_WH' />
+      <PanelButton langKey='BUTTON_GAP_WB' onClick={() => onGapClick('wb', metric)} />
+      <PanelButton langKey='BUTTON_GAP_WH' onClick={() => onGapClick('wh', metric)} />
       <LocationStatList
         feature={feature}
         varNames={['m', 'f'].map(d => d+'_'+metric)}
@@ -70,7 +71,7 @@ const LocationMetric = ({
         formatter={formatter}
         varNameToLabel={statToLabel}
       />
-      <PanelButton langKey='BUTTON_GAP_MF' />
+      <PanelButton langKey='BUTTON_GAP_MF' onClick={() => onGapClick('mf', metric)} />
     </AccordionItem>
   )
 }

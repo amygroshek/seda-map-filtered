@@ -71,11 +71,10 @@ const LANG = {
   'LABEL_FRL': 'free / reduced lunch program',
 
   // Gap Labels
-  'LABEL_WB': 'Differences between white and Black',
-  'LABEL_WH': 'Differences between white and Hispanic',
-  'LABEL_WA': 'Differences between white and Asian',
-  'LABEL_PN': 'Differences between poor and non-poor',
-  'LABEL_MF': 'Differences between male and female',
+  'LABEL_WB': 'white / Black gap',
+  'LABEL_WH': 'white / Hispanic gap',
+  'LABEL_PN': 'poor / non-poor gap',
+  'LABEL_MF': 'male / female gap',
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
 
   // Region Labels
@@ -236,11 +235,11 @@ const LANG = {
   'AXIS_AVG_GAP_HIGH': '$[value] grade level\ndifference',
 
   'AXIS_GRD_GAP_ZERO': 'no\n difference',
-  'AXIS_GRD_GAP_LOW': '-$[value] growth gap',
+  'AXIS_GRD_GAP_LOW': '$[value] growth gap',
   'AXIS_GRD_GAP_HIGH': '$[value] growth gap',
 
   'AXIS_COH_GAP_ZERO': 'no\ndifference',
-  'AXIS_COH_GAP_LOW': '-$[value]\n trend gap',
+  'AXIS_COH_GAP_LOW': '$[value]\n trend gap',
   'AXIS_COH_GAP_HIGH': '$[value]\ntrend gap',
 
   'AXIS_SES_ZERO': 'average socioeconomic status',

@@ -33,6 +33,7 @@ const LocationPanel = ({
   metric,
   others = [],
   onClose,
+  onGapClick,
 }) => {
   // track state for expanded / collapsed items
   const [ expanded, setExpanded ] = useState(['metric_'+metric]);
@@ -68,18 +69,21 @@ const LocationPanel = ({
         feature={feature}
         expanded={expanded.indexOf('metric_avg') > -1}
         onChange={toggleExpanded}
+        onGapClick={onGapClick}
       />
       <LocationGrdSection
         id="metric_grd"
         feature={feature}
         expanded={expanded.indexOf('metric_grd') > -1}
         onChange={toggleExpanded}
+        onGapClick={onGapClick}
       />
       <LocationCohSection
         id="metric_coh"
         feature={feature}
         expanded={expanded.indexOf('metric_coh') > -1}
         onChange={toggleExpanded}
+        onGapClick={onGapClick}
       />
       <LocationComparison
         id="compare"
@@ -109,6 +113,7 @@ LocationPanel.propTypes = {
   metric: PropTypes.string,
   icon: PropTypes.any,
   onClose: PropTypes.func,
+  onGapClick: PropTypes.func,
 }
 
 export default LocationPanel

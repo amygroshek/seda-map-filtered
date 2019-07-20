@@ -1,7 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapVar, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName } from '../../../modules/config';
+import { getSizerFunctionForRegion, isGapVar, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
-import { getCSSVariable } from '../../../utils';
+import { getCSSVariable, formatNumber } from '../../../utils';
 
 /** GRID CONFIGURATION  */
 
@@ -225,32 +225,6 @@ const getLangKeyForAxisLabel = (value, metric) => {
   return base + position + single;
 }
 
-const getMapAverageOverlay = (region) => {
-  // show lines and labels every 2 grades for schools
-  const increment = region === 'schools' ? 2 : 1
-  // schools go from -7 : 7, others go -3 : 3
-  const start = region === 'schools' ? -6 : -3
-  // number of lines to overlay
-  const numLines = 7
-  return getOverlay(
-    new Array(numLines).fill().map((v, i) => {
-      const position = start + (i * increment);
-      const labelKey =
-        getLangKeyForAxisLabel(position, 'avg')
-      const label = getLang(labelKey, { value: Math.abs(position) })
-      return {
-        value: [0, position], 
-        name: label,
-        visualMap: false
-      }
-    }),
-    new Array(numLines).fill().map((v, i) => ({
-      axis: 'y',
-      position: start + (i * increment)
-    }))
-  )
-}
-
 const LabelY = ({position = 0, label = '0', axis = 'y', x = '95%', ...rest}) => {
   return {
     value: [0, position], 
@@ -310,112 +284,88 @@ const getPreviewSesOverlay = () => {
   return getOverlay(labels, lines)
 }
 
+/** Returns an amount for how much to increment each step for the axis overlay */
+const getIncrementForVarName = (varName) => {
+  const metricId = getMetricIdFromVarName(varName);
+  // grd / coh gaps are 0.1
+  if (isGapVar(varName) && metricId !== 'avg') { return 0.1 }
+  switch (metricId) {
+    case 'avg':
+      return 1;
+    case 'grd':
+      return 0.2;
+    case 'coh':
+      return 0.2;
+    default:
+      return 1;
+  }
+}
 
-const getMapAverageGapOverlay = () => getOverlay(
-  new Array(8).fill().map((v, i) => {
-    const position = 0 - i;
-    const labelKey =
-      getLangKeyForAxisLabel(position, 'avg_gap')
-    const label = getLang(labelKey, { value: position })
-    return {
-      value: [0, position], 
-      name: label,
-      visualMap: false
-    }
-  }),
-  new Array(8).fill().map((v, i) => ({
-    axis: 'y',
-    position: 0 - i
-  }))
-)
+/**
+ * Returns an array with an equal number of lines 
+ * above / below a provided center, with a provided
+ * increment.
+ * @param {number} num length of the returned array (must be odd)
+ * @param {number} inc amount to increment for each step
+ * @param {number} center the center point of the array
+ */
+const getPositionArray = (count, inc, center = 0, range) => {
+  // numLines must be odd so it is balanced above / below axis
+  if (count % 2 === 0) { count = count - 1; }
+  const offset = (count - 1) / 2;
+  return new Array(count).fill()
+    .map((v, i) => ((i - offset) * inc) + center)
+    .filter(v => range && range.length === 2 ? 
+        (v > range[0] && v < range[1]) : true
+    )
+}
 
-const getMapGrowthOverlay = (region) => {
-  // show lines and labels every 2 grades for schools
-  const increment = region === 'schools' ? 0.5 : 0.2
-  // schools go from -7 : 7, others go -3 : 3
-  const start = region === 'schools' ? 0 : 0.4
-  const numLines = region === 'schools' ? 5 : 7
-  return getOverlay(
-    new Array(numLines).fill().map((v, i) => {
-      const position = Math.round((start + (i * increment)) * 10)/10;
+/**
+ * Returns an array of eCharts label objects for the provided positions
+ * @param {array} positions 
+ * @param {string} langPrefix 
+ * @param {string} axis 
+ * @param {function} formatter 
+ */
+const createLabels = 
+  (positions, langPrefix, axis = 'y', formatter = formatNumber) =>
+    positions.map((pos) => {
       const labelKey =
-        getLangKeyForAxisLabel(position, 'grd')
-      const label = getLang(labelKey, { value: Math.abs(position) })
+        getLangKeyForAxisLabel(pos, langPrefix)
+      const label = getLang(labelKey, { value: formatter(pos) })
       return {
-        value: [0, position], 
+        value: axis === 'y' ? [0, pos] : [pos, 0], 
         name: label,
         visualMap: false
       }
-    }),
-    new Array(numLines).fill().map((v, i) => ({
-      axis: 'y',
-      position: Math.round((start + (i * increment)) * 10)/10
-    }))
-  )
+    })
+
+/**
+ * Returns and array of eCharts line objects for provided positions
+ * @param {*} positions 
+ * @param {*} axis 
+ */
+const createLines = (positions, axis = 'y') =>
+  positions.map((position) => ({ axis, position }))
+
+/**
+ * Get the line and label overlays based on the variable name
+ * @param {*} varName 
+ * @param {*} region 
+ */
+const getOverlayForVarName = (varName) => {
+  const isGap = isGapVar(varName);
+  const metricId = getMetricIdFromVarName(varName);
+  const numLines = 9;
+  const inc = getIncrementForVarName(varName);
+  const midPoint = getMidpointForVarName(varName);
+  const range = getMetricRangeFromVarName(varName);
+  const positions = getPositionArray(numLines, inc, midPoint, range);
+  const langPrefix = isGap ? metricId + '_gap' : metricId;
+  const labels = createLabels(positions, langPrefix, 'y');
+  const lines = createLines(positions, 'y')
+  return getOverlay(labels, lines);
 }
-
-
-
-const getMapGrowthGapOverlay = () => getOverlay(
-  new Array(5).fill().map((v, i) => {
-    const position = Math.round((-0.4 + (i * (1)/5)) * 10) / 10;
-    const labelKey =
-      getLangKeyForAxisLabel(position, 'grd_gap')
-    const label = getLang(labelKey, { value: Math.abs(position) })
-    return {
-      value: [0, position], 
-      name: label,
-      visualMap: false
-    }
-  }),
-  new Array(5).fill().map((v, i) => ({
-    axis: 'y',
-    position: -0.4 + (i * 1/5)
-  }))
-)
-
-const getMapTrendOverlay = (region) => {
-  // show lines and labels every 2 grades for schools
-  const increment = region === 'schools' ? 0.5 : 0.2
-  // schools go from -7 : 7, others go -3 : 3
-  const start = region === 'schools' ? -1 : -0.4
-  const numLines = 5
-  return getOverlay(
-    new Array(numLines).fill().map((v, i) => {
-      const position = Math.round((start + (i * increment))*10)/10;
-      const labelKey =
-        getLangKeyForAxisLabel(position, 'coh')
-      const label = getLang(labelKey, { value: Math.abs(position) })
-      return {
-        value: [0, position], 
-        name: label,
-        visualMap: false
-      }
-    }),
-    new Array(numLines).fill().map((v, i) => ({
-      axis: 'y',
-      position: start + (i * increment)
-    }))
-  )
-}
-
-const getMapTrendGapOverlay = () => getOverlay(
-  new Array(5).fill().map((v, i) => {
-    const position = Math.round((-0.2 + (i * 0.1))*10)/10;
-    const labelKey =
-      getLangKeyForAxisLabel(position, 'coh_gap')
-    const label = getLang(labelKey, { value: Math.abs(position) })
-    return {
-      value: [0, position], 
-      name: label,
-      visualMap: false
-    }
-  }),
-  new Array(5).fill().map((v, i) => ({
-    axis: 'y',
-    position: -0.2 + (i * 0.1)
-  }))
-)
 
 const getOpportunityAverageOverlay = () => ({
   type: 'line',
@@ -456,31 +406,20 @@ const getOpportunityAverageOverlay = () => ({
   }
 })
 
-const getOverlaysForMetric = (variant, metric, { xVar, yVar, region }) => {
+const getOverlaysForMetric = (variant, metric, { yVar, region }) => {
   const identifier = metric + '_' + variant
   switch(identifier) {
+    case 'grd_map':
+    case 'coh_map':
     case 'avg_map':
-      if (isGapVar(yVar))
-        return [ getMapAverageGapOverlay() ]
-      else
-        return [ getMapAverageOverlay(region) ]
+      return [ getOverlayForVarName(yVar, region) ]
     case 'coh_preview':
     case 'avg_preview':
-        return [ getPreviewAverageOverlay() ]
+      return [ getPreviewAverageOverlay() ]
     case 'ses_preview':
-        return [ getPreviewSesOverlay() ]
+      return [ getPreviewSesOverlay() ]
     case 'grd_preview':
-        return [ getPreviewGrowthOverlay() ]
-    case 'grd_map':
-      if (isGapVar(yVar))
-        return [ getMapGrowthGapOverlay() ]
-      else
-        return [ getMapGrowthOverlay(region) ]
-    case 'coh_map':
-      if (isGapVar(yVar))
-        return [ getMapTrendGapOverlay() ]
-      else
-        return [ getMapTrendOverlay(region) ]
+      return [ getPreviewGrowthOverlay() ]
     case 'avg_opp':
       return [ getOpportunityAverageOverlay() ]
     default:

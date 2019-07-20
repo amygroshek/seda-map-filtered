@@ -403,3 +403,8 @@ export const getScatterplotVars = (region, metric, demographic) => {
     (useAll ? 'all_ses' : demographic + '_ses')
   return vars
 }
+
+
+export const getMidpointForVarName = (varName) =>
+  varName.split('_')[1] === 'grd' && !isGapVar(varName) ?
+    1 : 0

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getStateSelectOptions } from '../../constants/statesFips';
-import { getSingularRegions, getDemographics } from '../../modules/config';
+import { getSingularRegions, getDemographics, getGaps } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
 import { onRegionChange, onDemographicChange, onHighlightedStateChange } from '../../actions';
 
@@ -48,7 +48,7 @@ const DemographicAndGapMenu = ({demographic, onChange}) => {
       value={demographic}
       options={[
         ...getDemographics(), 
-        // ...getGaps()      
+        ...getGaps()      
       ]}
       formatter={(option) => option.label + (
         demographic.length === 1 || demographic === 'all' ? ' students' : ''

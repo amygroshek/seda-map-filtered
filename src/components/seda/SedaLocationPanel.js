@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LocationPanel from '../organisms/LocationPanel';
-import { clearActiveLocation } from '../../actions';
+import { clearActiveLocation, setDemographicAndMetric } from '../../actions';
 
 const SedaLocationPanel = ({
   active,
@@ -12,6 +12,7 @@ const SedaLocationPanel = ({
   features,
   selected,
   clearActiveLocation,
+  onGapClick,
 }) => {
   // use memo to store other features
   const others = useMemo(() => 
@@ -23,6 +24,7 @@ const SedaLocationPanel = ({
       others={others}
       onClose={clearActiveLocation}
       metric={metric}
+      onGapClick={onGapClick}
     />
   )
 }
@@ -48,7 +50,10 @@ const mapStateToProps =
     selected: selected[region]
   })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onGapClick: (gapId, metricId) => {
+    dispatch(setDemographicAndMetric(gapId, metricId, ownProps))
+  },
   clearActiveLocation: () => 
     dispatch(clearActiveLocation()),
 })

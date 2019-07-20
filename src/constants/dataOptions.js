@@ -92,7 +92,7 @@ export const METRICS = [
       'map_counties': [ -3, 3 ],
       'map_districts': [ -3.5, 3.5 ],
       'map_schools': [ -5, 5 ],
-      '*_*_gap': [ -7, 0 ],
+      '*_*_gap': [ -1.5, 4.75 ],
       '*_counties': [ -4, 3 ],
       '*_districts': [ -4.5, 4.5 ],
       '*_schools': [ -8, 8 ],
@@ -106,10 +106,11 @@ export const METRICS = [
     description: LANG['EXPLAINER_GRD'],
     range: {
       'map_*_gap': [ -0.4, 0.4 ],
-      '*_*_gap': [ -0.3, 0.5 ],
       'map_schools': [ 0, 2 ],
-      '*_schools': [ -0.6, 2.6 ],
       'map_*_*': [ 0.5, 1.5 ],
+      '*_*_wb': [ -0.3, 0.45 ],
+      '*_*_gap': [ -0.4, 0.4 ],
+      '*_schools': [ -0.6, 2.6 ],
       '*': [ 0.3, 1.7 ],
     },
     map: true,
@@ -120,7 +121,7 @@ export const METRICS = [
     label: LANG['LABEL_COH'],
     description: LANG['EXPLAINER_COH'],
     range: {
-      '*_*_gap': [-0.3333, 0.3333],
+      '*_*_gap': [-0.25, 0.25],
       '*_schools': [-1.5, 1.5],
       'map_*_*': [ -0.333, 0.3333 ],
       '*': [ -0.5, 0.5 ],
@@ -139,8 +140,10 @@ export const METRICS = [
       '*_counties_h': [-5.5, 0.5],
       '*_*_b': [ -6, 2 ],
       '*_*_h': [ -6, 2 ],
-      '*_*_wb': [ -4, 14 ],
-      '*_*_wh': [ -5, 16 ],
+      '*_districts_wb': [ -1, 6 ],
+      '*_*_wb': [ 0, 5 ],
+      '*_districts_wh': [ -1, 5 ],
+      '*_*_wh': [ -0.5, 4.5 ],
       'map_*_*': [ -3, 3 ],
       '*_counties': [-5, 3],
       '*': [ -5, 4 ],
@@ -242,10 +245,6 @@ export const GAPS = [
   {
     id: 'wh',
     label: LANG['LABEL_WH']
-  },
-  {
-    id: 'wa',
-    label: LANG['LABEL_WA']
   },
   {
     id: 'pn',
