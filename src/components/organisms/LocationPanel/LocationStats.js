@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { getRegionFromFeatureId, getColorForValue, getMetricIdFromVarName, getMetricRangeFromVarName } from '../../../modules/config';
+import { getValuePositionInRange, getPositionForVarNameValue, getRegionFromFeatureId, getColorForVarNameValue, getMetricIdFromVarName, getMetricRangeFromVarName, getFormatterForVarName } from '../../../modules/config';
 import { getLang, getDescriptionForVarName } from '../../../modules/lang';
 
 import StatSummary from './StatSummary';
 import { getFeatureProperty } from '../../../modules/features';
-import { getFormatterForMetric } from '../../../utils';
 
-import { getPositionFromValue, getPercentFromValue } from '../../../utils';
-import { getChoroplethColorAtValue } from '../../../modules/config';
+import { getPositionFromValue } from '../../../utils';
 import StatDiverging from '../../molecules/StatDiverging';
 
 
@@ -27,9 +25,9 @@ export const LocationStatSummary = ({
   const region = getRegionFromFeatureId(feature.properties.id)
   const metricId = getMetricIdFromVarName(varName);
   const value = getFeatureProperty(feature, varName);
-  const color = getColorForValue(value, varName, region);
+  const color = getColorForVarNameValue(value, varName, region);
   const label = getLang('LABEL_' + metricId);
-  const formatter = getFormatterForMetric(metricId);
+  const formatter = getFormatterForVarName(varName);
   const valueToPosition = getMetricValueToPosition(metricId);
   const description = getDescriptionForVarName(varName, value, formatter);
 
@@ -52,28 +50,6 @@ LocationStatSummary.propTypes = {
   varName: PropTypes.string,
 }
 
-/**
- * Gets the position of where the bar should extend to 
- * for a value based on the metric
- * @param {*} metric 
- * @param {*} value 
- * @param {*} range 
- */
-const getPositionForMetric = (metric, value, range) =>
-  metric === 'frl' ?
-    getPercentFromValue(value, range) :
-    getPositionFromValue(value, range)
-
-const getColorForVarNameValue = (value, varName, region) => {
-  const metricId = getMetricIdFromVarName(varName)
-  const colorRange = getMetricRangeFromVarName('all_'+metricId, region, 'map');
-  /** get the % of where the value falls within the color range  */
-  const percent = getPercentFromValue(value, colorRange);
-  return varName.indexOf('frl') > -1 ? 
-    getChoroplethColorAtValue(1-percent) :
-    getChoroplethColorAtValue(percent)
-}
-
 export const LocationStatDiverging = ({
   feature,
   otherFeature,
@@ -90,11 +66,11 @@ export const LocationStatDiverging = ({
   const metricId = getMetricIdFromVarName(varName);
   const value = getFeatureProperty(feature, varName);
   range = range || getMetricRangeFromVarName(varName, region, 'map');
-  formatter = formatter || getFormatterForMetric(metricId);
+  formatter = formatter || getFormatterForVarName(varName);
   const color = getColorForVarNameValue(value, varName, region)
-  const position = getPositionForMetric(metricId, value, range);
+  const position = getPositionForVarNameValue(varName, value, range);
   const midPoint = metricId === 'grd' ? 1 : 0;
-  const midPosition = (getPercentFromValue(midPoint, range) * 100) + '%';
+  const midPosition = (getValuePositionInRange(midPoint, range) * 100) + '%';
   
   // get min / max labels if showing
   const labels = showLabels ?

@@ -2,10 +2,10 @@
 import React from 'react'
 
 import { Typography } from '@material-ui/core';
-import { getChoroplethColorAtValue } from '../../modules/config.js';
+import { getChoroplethColorAtValue, getValuePositionForVarName } from '../../modules/config.js';
 import DivergingBar from '../../components/molecules/DivergingBar';
 import StatDiverging from '../../components/molecules/StatDiverging.js';
-import { formatNumber, getValueFromPosition, getPercentFromValue } from '../../utils/index.js';
+import { formatNumber } from '../../utils/index.js';
 import Callout from '../../components/molecules/Callout';
 import HelpIcon from '@material-ui/icons/Help';
 import { LocationStatDiverging } from '../../components/organisms/LocationPanel/LocationStats'
@@ -65,7 +65,7 @@ const SandboxView = () => {
           minLabel="-3"
           maxLabel="3"
           position={0.5}
-          value={getValueFromPosition(0.5, [-3, 3])}
+          value={0.33}
           color={getChoroplethColorAtValue((0.5 + 1)/2)}
         />
         <StatDiverging
@@ -73,7 +73,7 @@ const SandboxView = () => {
           minLabel="-3"
           maxLabel="3"
           position={formatNumber(-0.6*-0.5)}
-          value={getValueFromPosition(-0.6*-0.5, [-3, 3])}
+          value={0.66666666}
           color={getChoroplethColorAtValue((-0.6*-0.5 + 1)/2)}
         />
         <StatDiverging
@@ -90,7 +90,7 @@ const SandboxView = () => {
               'all_ses': -0.5,
             }
           }}
-          midPosition={(getPercentFromValue(0, [-6, 2]) * 100) + '%'}
+          midPosition={(getValuePositionForVarName(0, [-6, 2]) * 100) + '%'}
           varName='all_ses'
           range={[-6, 2]}
           midPoint={0}

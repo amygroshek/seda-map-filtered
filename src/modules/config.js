@@ -14,6 +14,7 @@ import {
 } from '../constants/dataOptions';
 import * as scale from 'd3-scale';
 import { interpolateRgbBasis } from 'd3-interpolate';
+import { getPositionFromValue, formatPercentDiff, formatPercent, formatNumber } from '../utils';
 
 /**
  * Gets the configuration for base variables
@@ -36,11 +37,7 @@ export const getChoroplethColorAtValue = interpolateRgbBasis(CHOROPLETH_COLORS)
 
 export const getColorStep = (stepNum) => getChoroplethColors()[stepNum]
 
-export const getColorForValue = (value, varName, region, type = 'map') => {
-  if (!value) { return NO_DATA_COLOR; }
-  const position  = getValuePositionForMetric(value, varName, region, type)
-  return getChoroplethColorAtValue(position)
-}
+
 
 /**
  * Gets the configuation for regions
@@ -175,94 +172,10 @@ export const getRegionFromFeature = (feature) => {
 }
 
 /**
- * Gets an object mapping of variable name to label
- * @param {array} varNames an array of variable names
- */
-export const getLabelsFromVarNames = (varNames) => {
-  return varNames.reduce((labelCollection, varName) => {
-    labelCollection[varName] = getLabelFromVarName(varName);
-    return labelCollection;
-  }, {})
-}
-
-/**
- * Returns a string with the label for the given variable name, in
- * the format {METRIC_LABEL} ({DEMOGRAPHIC_LABEL})
- * @param {*} varName 
- */
-export const getLabelFromVarName = (varName) => {
-  const [demId, metricId] = varName.split('_');
-  return getMetricLabel(metricId) 
-    + ' (' + getDemographicLabel(demId) + ')'
-}
-
-/**
- * Returns the metric id portion of the variable name
- */
-export const getMetricIdFromVarName = (varName) =>
-  typeof varName === 'string' ? varName.split('_')[1] : null
-
-/**
- * Returns the metric object that corresponds to the metric
- * id in the variable name.
- * @param {string} varName 
- */
-export const getMetricFromVarName = (varName) =>
-  getMetricById(getMetricIdFromVarName(varName))
-
-/**
- * Returns the demographic id portion of the variable name
- */
-export const getDemographicIdFromVarName = (varName) =>
-  varName.split('_')[0]
-
-/**
- * Returns the demographic object that corresponds to the demographic
- * id in the variable name.
- * @param {string} varName 
- */
-export const getDemographicFromVarName = (varName) => {
-  const id = getDemographicIdFromVarName(varName)
-  const dem = getDemographicById(id);
-  return dem ? dem : getGapById(id)
-}
-
-/**
- * Returns array of gap demographics that contain the provided demographic id
- * e.g. 'b' will return [ 'wb' ]
- */
-export const getGapsForDemographicId = (id) => {
-
-}
-
-/**
- * Returns true if the variable name (e.g. wb_avg) represents a gap
- */
-export const isGapVar = (varName) => {
-  const id = getDemographicIdFromVarName(varName)
-  return Boolean(getGapById(id))
-}
-
-/**
  * Returns true if the demographic id represents a gap
  */
 export const isGapDemographic = (id) => {
   return Boolean(getGapById(id))
-}
-
-/**
- * Gets the percent value of where the value sites on
- * the scale for the metric.
- * @param {*} value 
- * @param {*} metricId 
- * @returns {number} between 0 - 1
- */
-export const getValuePositionForMetric = (value, varName, region, type) => {
-  if (!value && value !== 0) { return null; }
-  return getValuePositionInRange(
-    value,
-    getMetricRangeFromVarName(varName, region, type)
-  )
 }
 
 
@@ -306,16 +219,6 @@ export const getMetricRange = (id, demographic, region, type = '') => {
     Object.keys(metric.range)
       .find(k => isRangeKeyMatch(k, { demographic, region, type }))
   return rangeKey && metric.range[rangeKey] ? metric.range[rangeKey] : null
-}
-
-/**
- * Returns an array containing the min and max for the
- * provided varname and region
- */
-export const getMetricRangeFromVarName = (varName, region, type) => {
-  const metricId = getMetricIdFromVarName(varName)
-  const demId = getDemographicIdFromVarName(varName)
-  return getMetricRange(metricId, demId, region, type);
 }
 
 /**
@@ -405,6 +308,141 @@ export const getScatterplotVars = (region, metric, demographic) => {
 }
 
 
+/**
+ * **********************
+ * VARNAME SELECTORS
+ * **********************
+ */
+
+export const getColorForVarNameValue = (value, varName, region, type = 'map') => {
+  if (!value) { return NO_DATA_COLOR; }
+  const percent  = getValuePositionForVarName(value, varName, region, type)
+  return varName.indexOf('frl') > -1 ? 
+    getChoroplethColorAtValue(1-percent) :
+    getChoroplethColorAtValue(percent)
+}
+
+/**
+ * Returns true if the variable name (e.g. wb_avg) represents a gap
+ * @param {*} varName 
+ */
+export const isGapVarName = (varName) => {
+  const id = getDemographicIdFromVarName(varName)
+  return Boolean(getGapById(id))
+}
+
+/**
+ * Returns an array containing the min and max for the
+ * provided varname and region
+ */
+export const getMetricRangeFromVarName = (varName, region, type) => {
+  const metricId = getMetricIdFromVarName(varName)
+  const demId = getDemographicIdFromVarName(varName)
+  return getMetricRange(metricId, demId, region, type);
+}
+
+/**
+ * Returns the diverging midpoint for the provided varName
+ * @param {string} varName 
+ */
 export const getMidpointForVarName = (varName) =>
-  varName.split('_')[1] === 'grd' && !isGapVar(varName) ?
+  varName.split('_')[1] === 'grd' && !isGapVarName(varName) ?
     1 : 0
+
+/**
+ * Gets the position of where the bar should extend to 
+ * for a value based on the metric
+ * @param {string} varName 
+ * @param {number} value 
+ * @param {array} range 
+ */
+export const getPositionForVarNameValue = (varName, value, range) => {
+  const midPoint = getMidpointForVarName(varName);
+  return varName.indexOf('frl') > -1 ?
+    getValuePositionInRange(value, range) :
+    getPositionFromValue(value, range, midPoint)
+}
+
+/**
+ * Gets an object mapping of variable name to label
+ * @param {array} varNames an array of variable names
+ */
+export const getLabelsFromVarNames = (varNames) => {
+  return varNames.reduce((labelCollection, varName) => {
+    labelCollection[varName] = getLabelFromVarName(varName);
+    return labelCollection;
+  }, {})
+}
+
+/**
+ * Returns a string with the label for the given variable name, in
+ * the format {METRIC_LABEL} ({DEMOGRAPHIC_LABEL})
+ * @param {*} varName 
+ */
+export const getLabelFromVarName = (varName) => {
+  const [demId, metricId] = varName.split('_');
+  return getMetricLabel(metricId) 
+    + ' (' + getDemographicLabel(demId) + ')'
+}
+
+/**
+ * Returns the metric id portion of the variable name
+ */
+export const getMetricIdFromVarName = (varName) =>
+  typeof varName === 'string' ? varName.split('_')[1] : null
+
+/**
+ * Returns the metric object that corresponds to the metric
+ * id in the variable name.
+ * @param {string} varName 
+ */
+export const getMetricFromVarName = (varName) =>
+  getMetricById(getMetricIdFromVarName(varName))
+
+/**
+ * Returns the demographic id portion of the variable name
+ */
+export const getDemographicIdFromVarName = (varName) =>
+  varName.split('_')[0]
+
+/**
+ * Returns the demographic object that corresponds to the demographic
+ * id in the variable name.
+ * @param {string} varName 
+ */
+export const getDemographicFromVarName = (varName) => {
+  const id = getDemographicIdFromVarName(varName)
+  const dem = getDemographicById(id);
+  return dem ? dem : getGapById(id)
+}
+
+/**
+ * Gets the percent value of where the value sites on
+ * the scale for the metric.
+ * @param {*} value 
+ * @param {*} varName 
+ * @returns {number} between 0 - 1
+ */
+export const getValuePositionForVarName = (value, varName, region, type) => {
+  if (!value && value !== 0) { return null; }
+  return getValuePositionInRange(
+    value,
+    getMetricRangeFromVarName(varName, region, type)
+  )
+}
+
+/**
+ * Returns a function to format values for the provided varName
+ * @param {*} varName 
+ */
+export const getFormatterForVarName = (varName) => {
+  const metric = getMetricIdFromVarName(varName);
+  switch(metric) {
+    case 'grd':
+      return formatPercentDiff
+    case 'frl':
+      return formatPercent
+    default:
+      return formatNumber
+  }
+}
