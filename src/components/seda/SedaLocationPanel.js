@@ -36,6 +36,7 @@ SedaLocationPanel.propTypes = {
   region: PropTypes.string,
   selected: PropTypes.array,
   clearActiveLocation: PropTypes.func,
+  onGapClick: PropTypes.func,
 }
 
 const mapStateToProps = 

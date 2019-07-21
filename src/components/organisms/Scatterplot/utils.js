@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapVar, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName } from '../../../modules/config';
+import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import { getCSSVariable, formatNumber } from '../../../utils';
 
@@ -288,7 +288,7 @@ const getPreviewSesOverlay = () => {
 const getIncrementForVarName = (varName) => {
   const metricId = getMetricIdFromVarName(varName);
   // grd / coh gaps are 0.1
-  if (isGapVar(varName) && metricId !== 'avg') { return 0.1 }
+  if (isGapVarName(varName) && metricId !== 'avg') { return 0.1 }
   switch (metricId) {
     case 'avg':
       return 1;
@@ -354,7 +354,7 @@ const createLines = (positions, axis = 'y') =>
  * @param {*} region 
  */
 const getOverlayForVarName = (varName) => {
-  const isGap = isGapVar(varName);
+  const isGap = isGapVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
   const numLines = 9;
   const inc = getIncrementForVarName(varName);

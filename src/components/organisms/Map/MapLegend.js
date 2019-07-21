@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { getChoroplethColors, getMetricRange } from '../../../modules/config';
+import { getChoroplethColors, getMetricRange, getFormatterForVarName } from '../../../modules/config';
 import LegendBar from '../../molecules/LegendBar';
 import { getLang } from '../../../modules/lang';
 import { getFeatureProperty } from '../../../modules/features';
 import SedaScatterplotPreview from '../../seda/SedaScatterplotPreview';
 import SedaLocationMarkers from '../../seda/SedaLocationMarkers';
 import { Button } from '@material-ui/core';
-import { getFormatterForMetric, formatNumber } from '../../../utils';
+import { formatNumber } from '../../../utils';
 
 const choroplethColors = getChoroplethColors();
 
@@ -61,8 +61,8 @@ const MapLegend = ({
     formatNumber(values[0]) : null;
   const secondaryValue = values[1] || values[1] === 0 ?
     formatNumber(values[1]) : null;
-  const yFormatter = getFormatterForMetric(metric);
-  const xFormatter = getFormatterForMetric(secondary);
+  const yFormatter = getFormatterForVarName(metric);
+  const xFormatter = getFormatterForVarName(secondary);
   return (
     <div className={classNames("map-legend", {
       "map-legend--secondary": secondaryValue || secondaryValue === 0

@@ -10,7 +10,7 @@ import { Typography, Button } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Callout from '../../molecules/Callout';
 import HelpIcon from '@material-ui/icons/Help'
-import { formatNumber, formatRate } from '../../../utils';
+import { formatNumber, formatPercentDiff } from '../../../utils';
 
 const PanelButton = ({ langKey, ...rest }) => {
   return (
@@ -177,7 +177,7 @@ export const LocationGrdSection = ({feature, ...rest}) => {
     <LocationMetric
       metric="grd"
       feature={feature}
-      formatter={formatRate}
+      formatter={formatPercentDiff}
       {...rest}
     >
       <div className='panel-section__stat-summary'>
@@ -186,12 +186,12 @@ export const LocationGrdSection = ({feature, ...rest}) => {
           range={range}
           varName={'all_grd'}
           label='Avg Rate'
-          formatter={formatRate}
-          minLabel={formatRate(range[0])}
-          maxLabel={formatRate(range[1])}
+          formatter={formatPercentDiff}
+          minLabel={formatPercentDiff(range[0])}
+          maxLabel={formatPercentDiff(range[1])}
         />
       </div>
-      <MetricSummary metric='grd' name={name} value={formatRate(value)} />
+      <MetricSummary metric='grd' name={name} value={formatPercentDiff(value)} />
       <Callout
         type="help"
         size="small"

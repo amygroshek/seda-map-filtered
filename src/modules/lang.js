@@ -1,11 +1,11 @@
 import { 
   isGapDemographic, 
   getMetricIdFromVarName, 
-  getDemographicIdFromVarName 
+  getDemographicIdFromVarName, 
+  getFormatterForVarName
 } from "./config";
 
 import LANG from '../constants/en';
-import { getFormatterForMetric } from "../utils";
 
 
 const isStringMatch = (s1, s2) =>
@@ -191,7 +191,7 @@ const getDescriptionLangKey = (metricId, value) => {
 export const getDescriptionForVarName = (varName, value) => {
   if ((!value || value === -9999) && value !== 0 ) { return ''; }
   const metricId = getMetricIdFromVarName(varName);
-  const formatter = getFormatterForMetric(metricId)
+  const formatter = getFormatterForVarName(metricId);
   const demographicId = getDemographicIdFromVarName(varName);
   const isGap = isGapDemographic(demographicId);
   const langKey = getDescriptionLangKey(metricId, value) +
