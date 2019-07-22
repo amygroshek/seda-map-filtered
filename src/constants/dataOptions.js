@@ -137,7 +137,7 @@ export const METRICS = [
     scatterplot: true,
     range: {
       '*_districts_h': [-5, 3],
-      '*_counties_h': [-5.5, 0.5],
+      '*_counties_h': [-4, 2],
       '*_*_b': [ -6, 2 ],
       '*_*_h': [ -6, 2 ],
       '*_districts_wb': [ -1, 6 ],

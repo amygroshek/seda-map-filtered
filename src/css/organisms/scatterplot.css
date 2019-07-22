@@ -10,7 +10,7 @@
 
 /** Override chart size to make space for Y Axis */
 .scatterplot .echarts-for-react {
-  width: calc(100% - var(--axis-right));
+  width: calc(100% - var(--axis-right))!important;
 }
 
 /** Heading */

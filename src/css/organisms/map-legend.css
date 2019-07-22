@@ -71,6 +71,7 @@
   font-size: var(--micro-font-size);
   position:absolute;
   white-space: nowrap;
+  text-transform: capitalize;
 }
 
 /** Overlay */
@@ -99,7 +100,7 @@
 
   /** Axis Name */
   .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__title {
-    top: 20px;
+    top: 24px;
     left:0;
     right:0;
     text-align:center;

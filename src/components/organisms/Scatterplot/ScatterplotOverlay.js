@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { getSelectedColors, getMetricRangeFromVarName, getSizerFunctionForRegion } from '../../../modules/config'
 import CircleMarker from '../../atoms/CircleMarker';
+import { getFeatureProperty } from '../../../modules/features';
 
 const colors = getSelectedColors();
 
@@ -16,6 +17,7 @@ const getPercentOfRange = (value, range, invert = false) => {
   return invert ? (100 - percent) : percent;
 }
   
+const hasVal = (val) => val || val === 0
 
 /**
  * Returns object with position and size of a circle for a feature
@@ -30,11 +32,16 @@ const getCircleForFeature = ({
   zValueToRadius,
 }) => {
   if (!feature || !feature.properties) { return null; }
+  const xVal = getFeatureProperty(feature, xVar);
+  const yVal = getFeatureProperty(feature, yVar);
   return {
     id: feature.properties.id,
-    x: xValueToPercent ? (xValueToPercent(feature.properties[xVar]) + '%') : '0%',
-    y: yValueToPercent ? (yValueToPercent(feature.properties[yVar]) + '%') : '0%',
-    z: zValueToRadius ? Math.max(20, zValueToRadius(feature.properties[zVar])) : 8,
+    x: xValueToPercent && hasVal(xVal) ? 
+      (xValueToPercent(xVal) + '%') : null,
+    y: yValueToPercent && hasVal(yVal) ? 
+      (yValueToPercent(yVal) + '%') : null,
+    z: zValueToRadius ? 
+      Math.max(20, zValueToRadius(feature.properties[zVar])) : 8,
     data: feature
   }
 }
