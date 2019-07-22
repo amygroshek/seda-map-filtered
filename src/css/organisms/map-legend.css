@@ -1,5 +1,4 @@
 .map-legend {
-  width: 288px;
   pointer-events: all;
 }
 
@@ -11,51 +10,8 @@
   transition: transform 0.2s ease-in-out;
 }
 
-.map-legend:hover .legend-panel {
-  transform: translateY(-36px);
-}
-
 .map-legend .legend-panel__content {
   pointer-events:none;
-}
-
-.map-legend .legend-actions {
-  position: absolute;
-  z-index: 99;
-  bottom:4px;
-  width: 100%;
-}
-
-.map-legend  .legend-panel--condensed .legend-bar {
-  position:relative;
-  transition: margin 0.2s ease-in-out;
-}
-
-.map-legend  .legend-panel--condensed .legend-bar:nth-child(1) {
-  z-index: 8;
-}
-
-.map-legend  .legend-panel--condensed .legend-bar:nth-child(2) {
-  z-index:7;
-}
-
-.map-legend  .legend-panel--condensed .legend-bar .legend-bar__values {
-  order:3;
-  margin: 4px 0 0 0;
-}
-
-.map-legend  .legend-panel--condensed .legend-bar .legend-bar__labels {
-  order:1;
-  margin: 0 0 4px 0;
-}
-
-
-.map-legend .legend-panel--condensed .legend-bar:nth-child(2) {
-  margin-top: -80px;
-}
-
-.map-legend.map-legend--secondary .legend-panel--condensed .legend-bar:nth-child(2) {
-  margin-top: 0;
 }
 
 .map-legend .legend-panel__title {
@@ -64,63 +20,157 @@
   z-index:9;
 }
 
-/** Chart Legends */
+/** CONDENSED VIEW */
 
-.map-legend .legend-panel--chart {
-  /* padding-bottom: 16px; */
+.legend-panel--condensed .legend-bar {
+  position:relative;
 }
 
-.map-legend .legend-panel--chart .legend-bar.legend-bar--x-preview {
+.legend-panel--condensed .legend-bar:nth-child(1) {
+  z-index: 8;
+}
+
+.legend-panel--condensed .legend-bar:nth-child(2) {
+  z-index:7;
+}
+
+.legend-panel--condensed .legend-bar .legend-bar__values {
+  order:3;
+  margin: 4px 0 0 0;
+}
+
+.legend-panel--condensed .legend-bar .legend-bar__labels {
+  order:1;
+  margin: 0 0 4px 0;
+}
+
+.legend-panel--condensed .legend-bar.legend-bar--secondary .legend-bar__gradient {
+  background: none!important;
+} 
+
+/** PREVIEW CHART VIEW */
+
+.legend-panel--chart .legend-panel__content {
+  width: 320px;
+  height: 240px;
+  max-width: 320px;
+}
+
+.scatterplot-preview {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left:32px;
+  right: 32px;
+  width: 288px;
+  height: 208px;
+}
+
+/** Axis Titles */
+.scatterplot-preview .legend-bar .legend-bar__title {
+  font-size: var(--micro-font-size);
+  position:absolute;
+  white-space: nowrap;
+}
+
+/** Overlay */
+
+  .scatterplot-preview .location-markers {
+    position: absolute;
+    top: 8px; bottom: 8px; right: 8px; left: 8px;
+  }
+
+  .scatterplot-preview .location-markers .marker__root {
+    width: 100%; height: 100%; position: absolute;
+  }
+
+
+/** X Axis */
+
+.scatterplot-preview .legend-bar.legend-bar--x-preview {
   height: auto;
   position:absolute;
   bottom:0px;
   background: transparent;
-  left:20px;
-  right: 4px;
+  left:8px;
+  right:8px;
   width:auto;
 }
 
-.map-legend .legend-panel--chart .legend-bar.legend-bar--x-preview .legend-bar__gradient {
-  position:static;
-  height: 0px;
-}
-.map-legend .legend-panel--chart .legend-bar.legend-bar--vertical .legend-bar__labels,
-.map-legend .legend-panel--chart .legend-bar.legend-bar--vertical .legend-bar__values,
-.map-legend .legend-panel--chart .legend-bar.legend-bar--x-preview .legend-bar__values {
+  /** Axis Name */
+  .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__title {
+    top: 20px;
+    left:0;
+    right:0;
+    text-align:center;
+  }
+
+  /** Hide gradient */
+  .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__gradient {
+    position:static;
+    height: 0px;
+  }
+
+  /** Axis Labels */
+  .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__labels {
+    position:absolute;
+    top: 0px;
+    left:0;
+    right:0;
+  }
+
+
+/** Y axis */
+
+  /** Axis container */
+  .legend-panel--chart .legend-bar.legend-bar--vertical {
+    position:absolute;
+    left:-40px;
+    top:8px;
+    bottom:8px;
+    right:auto;
+  }
+
+
+
+  /** Axis Name */
+  .scatterplot-preview .legend-bar.legend-bar--y-preview .legend-bar__title {
+    top:0; bottom:0;
+    height:16px;
+    margin:auto;
+    margin-left: 16px;
+    text-align: center;
+    transform: translateX(-50%) rotate(-90deg); 
+  }
+
+  /** Labels Wrapper */
+  .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__labels {
+    position: absolute;
+    transform: rotate(-90deg);
+    height: 24px;
+    display: flex;
+    width: 188px;
+    transform-origin: top left;
+    top: auto;
+    bottom: -24px;
+    left: 32px;
+  }
+
+  /** Color Gradent */
+  .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__gradient {
+    box-shadow: 0 0 0 2px #fff, -2px 0 4px rgba(0,0,0,0.5);
+  }
+
+/** Hide axis values for preview chart */
+.scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__values,
+.scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__values {
   display:none;
-}
-
-.map-legend .legend-panel--chart .legend-bar.legend-bar--x-preview .legend-bar__labels {
-  margin-top:-4px;
-}
-
-.map-legend .legend-panel--chart .legend-bar.legend-bar--vertical .legend-bar__labels {
-  position: absolute;
-  transform: rotate(-90deg);
-  height: 24px;
-  display: flex;
-  width: 156px;
-  transform-origin: top left;
-  top: auto;
-  bottom: -24px;
-  left: 12px;
-}
-
-
-.map-legend .legend-panel--chart .legend-bar.legend-bar--vertical {
-  position:absolute;
-  left:-8px;
-  top:8px;
-  bottom:24px;
-  right:auto;
-}
-
-.map-legend .legend-panel--chart .legend-bar.legend-bar--vertical .legend-bar__gradient {
-  box-shadow: 0 0 0 2px #fff, -2px 0 4px rgba(0,0,0,0.5);
 }
 
 
 .map-legend .legend-actions {
   display: flex;
   justify-content: space-between;
+  margin-top: 8px;
+  width: 100%;
 }

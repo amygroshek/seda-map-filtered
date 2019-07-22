@@ -280,6 +280,17 @@ const LANG = {
   'LEGEND_LOW_FRL': '◀ more poverty',
   'LEGEND_HIGH_FRL': 'less poverty ▶',
 
+  'LEGEND_SHORT_LOW_AVG': '◀ lower',
+  'LEGEND_SHORT_HIGH_AVG': 'higher ▶',
+  'LEGEND_SHORT_LOW_GRD': '◀ lower',
+  'LEGEND_SHORT_HIGH_GRD': 'higher ▶',
+  'LEGEND_SHORT_LOW_COH': '◀ lower',
+  'LEGEND_SHORT_HIGH_COH': 'higher ▶',
+  'LEGEND_SHORT_LOW_SES': '◀ poorer',
+  'LEGEND_SHORT_HIGH_SES': 'richer ▶',
+  'LEGEND_SHORT_LOW_FRL': '◀ high poverty',
+  'LEGEND_SHORT_HIGH_FRL': 'low poverty ▶',
+
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',
   'LEGEND_LOW_GRD_GAP': 'growth gap decreasing',

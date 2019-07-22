@@ -214,12 +214,12 @@ export const getLabelForVarName = (varName) => {
 /**
  * Returns array containing low / high labels for legend bar
  */
-export const getLegendEndLabelsForVarName = (varName) => {
+export const getLegendEndLabelsForVarName = (varName, langPrefix = 'LEGEND_') => {
   const [ demographic, metric ] = varName.split('_');
   const isGap = isGapDemographic(demographic);
   return isGap ? 
-    [ getLang(`LEGEND_LOW_${metric}_GAP`), getLang(`LEGEND_HIGH_${metric}_GAP`) ] :
-    [ getLang(`LEGEND_LOW_${metric}`), getLang(`LEGEND_HIGH_${metric}`) ]
+    [ getLang(`${langPrefix}LOW_${metric}_GAP`), getLang(`${langPrefix}HIGH_${metric}_GAP`) ] :
+    [ getLang(`${langPrefix}LOW_${metric}`), getLang(`${langPrefix}HIGH_${metric}`) ]
 }
 
 /**

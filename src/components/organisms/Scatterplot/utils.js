@@ -21,7 +21,7 @@ export const grid = (variant) => {
         bottom: getCSSVariable('--sp-prev-bottom'),
         left: getCSSVariable('--sp-prev-left'),
       }
-  }
+  } 
 }
 
 const isStateHighlighed = (highlightedState) =>

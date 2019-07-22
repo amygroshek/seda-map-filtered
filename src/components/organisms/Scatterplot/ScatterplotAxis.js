@@ -10,14 +10,15 @@ const choroplethColors = getChoroplethColors();
 const ScatterplotAxis = ({
   axis = 'x',
   region, 
-  varName, 
+  varName,
+  labelPrefix = 'LEGEND_',
   hovered,
   ...rest
 }) => {
   const vertical = axis === 'y';
   const invert = getInvertedFromVarName(varName);
   const title = getLabelForVarName(varName);
-  const [ startLabel, endLabel ] = getLegendEndLabelsForVarName(varName);
+  const [ startLabel, endLabel ] = getLegendEndLabelsForVarName(varName, labelPrefix);
   const legendRange = getMetricRangeFromVarName(varName, region);
   const colorRange = getMetricRangeFromVarName(varName, region, 'map');
   const value = getFeatureProperty(hovered, varName);
