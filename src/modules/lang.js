@@ -204,6 +204,25 @@ export const getDescriptionForVarName = (varName, value) => {
 }
 
 /**
+ * Returns string label for provided `varName`
+ */
+export const getLabelForVarName = (varName) => {
+  const [ demographic, metric ] = varName.split('_');
+  return getLang('LABEL_' + metric) + ' (' + getLang('LABEL_' + demographic) + ')';
+}
+
+/**
+ * Returns array containing low / high labels for legend bar
+ */
+export const getLegendEndLabelsForVarName = (varName) => {
+  const [ demographic, metric ] = varName.split('_');
+  const isGap = isGapDemographic(demographic);
+  return isGap ? 
+    [ getLang(`LEGEND_LOW_${metric}_GAP`), getLang(`LEGEND_HIGH_${metric}_GAP`) ] :
+    [ getLang(`LEGEND_LOW_${metric}`), getLang(`LEGEND_HIGH_${metric}`) ]
+}
+
+/**
  * Get the label for the provided varnames and values
  * @param {*} values 
  */

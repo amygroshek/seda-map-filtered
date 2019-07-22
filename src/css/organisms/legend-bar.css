@@ -11,11 +11,11 @@
   flex-direction: column;
 }
 
-.legend-bar.legend-bar--title {
+.legend-panel--condensed .legend-bar.legend-bar--title {
   height: 80px;
 }
 
-.legend-bar__title,
+.legend-panel--condensed .legend-bar__title,
 .legend-panel__title {
   font-size: var(--mini-font-size);
   font-weight: 900;
@@ -27,7 +27,7 @@
   text-transform: capitalize;
 }
 
-.legend-bar__title {
+.legend-panel--condensed .legend-bar__title {
   margin: -4px -4px 8px -4px;
 }
 

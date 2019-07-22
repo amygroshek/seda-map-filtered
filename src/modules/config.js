@@ -295,16 +295,26 @@ export const getHighLow = (value, metric) => {
  * @param {string} demographic 
  */
 export const getScatterplotVars = (region, metric, demographic) => {
-  const vars = {
-    yVar: region === 'schools' ? 
-      'all_' + metric : 
-      demographic + '_' + metric,
-    zVar: 'all_sz'
+  if (region === 'schools') {
+    return {
+      yVar: 'all_' + metric,
+      xVar: 'all_frl',
+      zVar: 'all_sz',
+    }
+  }
+  if (isGapDemographic(demographic)) {
+    return {
+      yVar: demographic[0] + '_' + metric,
+      xVar: demographic[1] + '_' + metric,
+      zVar: 'all_sz'
+    }
   }
   const useAll = ['m', 'f', 'p', 'np'].indexOf(demographic) > -1;
-  vars['xVar'] = region === 'schools' ? 'all_frl' : 
-    (useAll ? 'all_ses' : demographic + '_ses')
-  return vars
+  return {
+    yVar: demographic + '_' + metric,
+    xVar: useAll ? 'all_ses' : demographic + '_ses',
+    zVar: 'all_sz'
+  }
 }
 
 
@@ -446,3 +456,6 @@ export const getFormatterForVarName = (varName) => {
       return formatNumber
   }
 }
+
+export const getInvertedFromVarName = (varName) =>
+  (varName.includes('frl'))

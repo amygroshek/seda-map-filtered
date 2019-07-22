@@ -84,7 +84,7 @@ function Scatterplot({
     }
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
   return (
-    <div className='dynamic-scatterplot'>
+    <div className='scatterplot'>
       { error &&
         <span className="notification notification--error">{ error }</span>
       }

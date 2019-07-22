@@ -4,48 +4,24 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { getScatterplotVars, getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
-import { getStateFipsFromAbbr, getStatePropByAbbr } from '../../constants/statesFips';
+import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { getFeatureProperty } from '../../modules/features';
 import { getLang, hasLangKey } from '../../modules/lang';
 import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange } from "../../actions";
 import LegendBar from '../molecules/LegendBar';
 import Scatterplot from '../organisms/Scatterplot';
-import { Typography } from '@material-ui/core';
 import SedaLocationMarkers from './SedaLocationMarkers';
+import SedaScatterplotHeading from '../organisms/Scatterplot/SedaScatterplotHeading';
+import ScatterplotAxis from '../organisms/Scatterplot/ScatterplotAxis';
 
 const COLORS = getChoroplethColors();
-
-
-/**
- * Returns a title and subtitle for the scatterplot based on
- * provided data selections
- * @param {*} region 
- * @param {*} metric 
- * @param {*} demographic 
- * @param {*} highlightedState 
- */
-const getScatterplotHeading = (region, metric, demographic, highlightedState) => {
-  const vars = getScatterplotVars(region, metric, demographic)
-  const titleKey = 'SP_TITLE_' + metric + '_' +
-    (vars.xVar.indexOf('ses') > -1 ? 'SES' : 'FRL')
-  const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
-  const grades = metric === 'avg' ? 'grades 3 - 8' :
-    metric === 'grd' ? 'from grades 3 - 8' : 'from 2009 - 2016'
-  return {
-    title: getLang(titleKey),
-    subtitle:  getLang('LABEL_' + metric) + ', ' + 
-      state + ' ' +
-      getLang('LABEL_' + region.toUpperCase()).toLowerCase() + ', ' + 
-      getLang('LABEL_' + demographic.toUpperCase()) + ' students, ' +
-      ' ' + grades
-  }
-}
 
 
 const SedaExplorerChart = ({
   region,
   metric,
   demographic,
+  secondary,
   highlightedState,
   hovered,
   data,
@@ -56,17 +32,6 @@ const SedaExplorerChart = ({
   onError,
 }) => {
   const scatterplot = getScatterplotVars(region, metric, demographic);
-  const xMetricId = getMetricIdFromVarName(scatterplot.xVar)
-  const leftLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
-    getLang('LEGEND_LOW_'+xMetricId)
-  const rightLabel = hasLangKey('LEGEND_LOW_'+xMetricId) && 
-    getLang('LEGEND_HIGH_'+xMetricId)
-  const heading = useMemo(() =>
-    getScatterplotHeading(region, metric, demographic, highlightedState)
-  , [region, metric, demographic, highlightedState])
-  const hoveredValue = getFeatureProperty(hovered, demographic + '_' + metric)
-  const hoveredPrimary = hoveredValue || hoveredValue === 0 ? 
-    Math.round(hoveredValue*100)/100 : null;
   return (
     <Scatterplot {...{
       ...scatterplot,
@@ -81,31 +46,22 @@ const SedaExplorerChart = ({
       onClick,
       onError
     }}>
-      { heading &&
-        <div className='dynamic-scatterplot__heading'>
-          <Typography variant='h6' component="span" className='dynamic-scatterplot__title'>
-            { heading.title }
-          </Typography>
-          <Typography variant='body2' component="span" className='dynamic-scatterplot__subtitle'>
-            { heading.subtitle }
-          </Typography>
-        </div>
-      }
+      <SedaScatterplotHeading />
       <SedaLocationMarkers />
-      <LegendBar {...{
-        colors: COLORS,
-        value: hoveredPrimary,
-        colorRange: getMetricRange(metric, demographic, region, 'map'),
-        legendRange: getMetricRange(metric, demographic, region),
-        vertical: true
-      }} /> 
-      
-      { (leftLabel && rightLabel) &&
-        <div className="dynamic-scatterplot__x-labels">
-          <span className="label">{leftLabel}</span>
-          <span className="label">{rightLabel}</span>
-        </div>
-      }
+      <ScatterplotAxis
+        axis='y'
+        varName={scatterplot.yVar}
+        hovered={hovered}
+        region={region}
+        className='scatterplot__axis scatterplot__axis--y'
+      />
+      <ScatterplotAxis
+        axis='x'
+        varName={scatterplot.xVar}
+        hovered={hovered}
+        region={region}
+        className='scatterplot__axis scatterplot__axis--x'
+      />
     </Scatterplot>
   )
 }
@@ -128,11 +84,12 @@ const mapStateToProps = ({
   scatterplot: { data },
   sections: { map: { hovered } },
 },
-{ match: { params: { region, metric, demographic, highlightedState } } }
+{ match: { params: { region, metric, secondary, demographic, highlightedState } } }
 ) => {
   return ({
     region,
     metric,
+    secondary,
     demographic,
     highlightedState,
     hovered,

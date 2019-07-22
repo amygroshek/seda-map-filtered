@@ -93,7 +93,7 @@ export const METRICS = [
       'map_districts': [ -3.5, 3.5 ],
       'map_schools': [ -5, 5 ],
       '*_*_gap': [ -1.5, 4.75 ],
-      '*_counties': [ -4, 3 ],
+      '*_counties': [ -4.5, 2.5 ],
       '*_districts': [ -4.5, 4.5 ],
       '*_schools': [ -8, 8 ],
     },
@@ -145,7 +145,7 @@ export const METRICS = [
       '*_districts_wh': [ -1, 5 ],
       '*_*_wh': [ -0.5, 4.5 ],
       'map_*_*': [ -3, 3 ],
-      '*_counties': [-5, 3],
+      '*_counties': [-4, 3],
       '*': [ -5, 4 ],
     }
   },

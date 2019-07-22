@@ -9,17 +9,17 @@ export const grid = (variant) => {
   switch(variant) {
     case 'map':
       return {
-        top: 24,
-        right: 100,
-        bottom: 32,
-        left: 24,
+        top: getCSSVariable('--sp-top'),
+        right: getCSSVariable('--sp-right'),
+        bottom: getCSSVariable('--sp-bottom'),
+        left: getCSSVariable('--sp-left'),
       }
     default:
       return { 
-        top: 8, 
-        right: 8,
-        bottom: 24, 
-        left: 24, 
+        top: getCSSVariable('--sp-prev-top'),
+        right: getCSSVariable('--sp-prev-right'),
+        bottom: getCSSVariable('--sp-prev-bottom'),
+        left: getCSSVariable('--sp-prev-left'),
       }
   }
 }
@@ -125,7 +125,7 @@ const getOverlay = (points, lines) => {
     markPoint: getMarkPoints(points.map(
       ({axis = 'y', value, x, y, name, ...rest}) => ({
         axis, 
-        x: axis === 'y' ? (x || '93%') : value[0], 
+        x: axis === 'y' ? (x || '100%') : value[0], 
         y: axis === 'y' ? value[1] : (y || '100%'), 
         label: name,
         ...rest
@@ -198,7 +198,7 @@ const getAxisLine = ({
     { x: (start || 16), yAxis: position } :
     { y: (start || 24), xAxis: position };
   const endPosition = axis === 'y' ?
-    { x: end || '93%', yAxis: position } :
+    { x: end || '100%', yAxis: position } :
     { y: end || '100%', xAxis: position };
   return [
     {
@@ -509,17 +509,8 @@ const getMapXAxis = ({ metric, demographic, region }) => {
           (value*100)+'%' : value
       }
     },
-    name: region === 'schools' ? 
-      getLang('LABEL_PCT') + ' ' + getLang('LABEL_FRL') :
-      getLang('LABEL_SES')
-    ,
-    nameGap: 8,
-    nameTextStyle: {
-      fontSize: 14,
-      fontWeight: 'normal',
-      color: getCSSVariable('--text'),
-      fontFamily: getCSSVariable('--heading-font')
-    },
+    nameGap: 0,
+    nameTextStyle: {},
     splitLine: { show: false },
   }
 }  
@@ -575,15 +566,6 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
       }
     },
     splitLine: { show: false },
-    name: getLang('LABEL_' + metric.id),
-    nameGap: 80,
-    nameLocation: 'middle',
-    nameTextStyle: {
-      fontSize: 14,
-      fontWeight: 'normal',
-      color: getCSSVariable('--text'),
-      fontFamily: getCSSVariable('--heading-font')
-    },
     ...rest
   }
 }
