@@ -242,7 +242,7 @@ const LANG = {
   'AXIS_COH_GAP_LOW': '$[value]\n trend gap',
   'AXIS_COH_GAP_HIGH': '$[value]\ntrend gap',
 
-  'AXIS_SES_ZERO': 'average socioeconomic status',
+  'AXIS_SES_ZERO': 'national\naverage',
   'AXIS_SES_LOW': 'poorer',
   'AXIS_SES_HIGH': 'richer',
 
@@ -257,6 +257,8 @@ const LANG = {
   'AXIS_SEG_ZERO_GAP': 'no gap in\nsegregation',
   'AXIS_SEG_LOW_GAP': 'less',
   'AXIS_SEG_HIGH_GAP': 'more',
+
+  'LINE_EQUAL_OPPORTUNITY': 'no gap ($[demographic1] = $[demographic2])',
 
   // Intro Section
   'INTRO_TITLE': 'What type of educational opportunity would you like to explore?',

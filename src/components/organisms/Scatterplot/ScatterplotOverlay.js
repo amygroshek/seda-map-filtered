@@ -45,6 +45,7 @@ const getCircleForFeature = ({
     data: feature
   }
 }
+
 /**
  * Returns an array of circle data for the provided features
  */

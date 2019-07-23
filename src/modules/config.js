@@ -303,9 +303,12 @@ export const getScatterplotVars = (region, metric, demographic) => {
     }
   }
   if (isGapDemographic(demographic)) {
+    const dem1 = demographic[0];
+    // if poor / non-poor, get correct demographic
+    const dem2 = demographic[1] === 'n' ? 'np' : demographic[1];
     return {
-      yVar: demographic[0] + '_' + metric,
-      xVar: demographic[1] + '_' + metric,
+      yVar: dem1 + '_' + metric,
+      xVar: dem2 + '_' + metric,
       zVar: 'all_sz'
     }
   }
