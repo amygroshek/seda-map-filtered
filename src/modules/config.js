@@ -240,36 +240,6 @@ export const getSizerFunctionForRegion = (
 }
 
 /**
- * Returns a CSS gradient string with the given colors
- * to match the provided value range and color distribution
- * range.
- * @param {*} param0 configuration for gradient string
- */
-export const getGradient = ({
-  colors = getChoroplethColors(), 
-  legendRange = [0,1], 
-  colorRange = [0,1], 
-  vertical = false
-}) => {
-  const legendExtent = legendRange[1] - legendRange[0]; // 6
-  const colorExtent = colorRange[1] - colorRange[0]; // 7
-  // size of the color range relative to the legend range
-  const colorRangePercent = 100 * colorExtent / legendExtent; // 116.666%
-  const steps = colors.length - 1;
-  const colorStepSize = colorRangePercent / steps; // 16.666665714285714%
-  const colorStartPercent = 100 *
-    (colorRange[0] - legendRange[0]) / 
-    (legendRange[1] - legendRange[0])
-    // 100 * -1 / 6 = -16.6666%
-  const colorStepsString = colors.map((c, i) =>  c + ' ' + 
-    (colorStartPercent + (colorStepSize * i)) + '%'
-  ).join(',')
-  return vertical ?
-    'linear-gradient(to top, ' + colorStepsString + ')' :
-    'linear-gradient(to right, ' + colorStepsString + ')';
-}
-
-/**
  * Returns if the provided value is high, low, mid, or none
  * @param {*} value value for the provided metric
  * @param {*} metric the metric ID
@@ -289,22 +259,59 @@ export const getHighLow = (value, metric) => {
 }
 
 /**
- * Gets the variables for the map section
+ * Gets the vars for the map section
+ */
+export const getMapVars = (region, metric, demographic) => {
+  if (region === 'schools') {
+    return {
+      yVar: 'all_' + metric,
+      xVar: 'all_frl',
+      zVar: 'all_sz',
+    }
+  }
+  const useAll = ['m', 'f', 'p', 'np'].indexOf(demographic) > -1;
+  return {
+    yVar: demographic + '_' + metric,
+    xVar: useAll ? 'all_ses' : demographic + '_ses',
+    zVar: 'all_sz'
+  }
+}
+
+/**
+ * Gets the variables for the chart section
  * @param {string} region 
  * @param {string} metric 
  * @param {string} demographic 
  */
 export const getScatterplotVars = (region, metric, demographic) => {
-  const vars = {
-    yVar: region === 'schools' ? 
-      'all_' + metric : 
-      demographic + '_' + metric,
-    zVar: 'all_sz'
+  if (region === 'schools') {
+    return {
+      yVar: 'all_' + metric,
+      xVar: 'all_frl',
+      zVar: 'all_sz',
+    }
+  }
+  if (isGapDemographic(demographic)) {
+    let dem1 = demographic[0];
+    
+    let dem2 = demographic[1];
+    // if poor / non-poor, get correct demographic and order
+    if (dem2 === 'n') {
+      dem1 = 'np';
+      dem2 = 'p';
+    }
+    return {
+      yVar: dem2 + '_' + metric,
+      xVar: dem1 + '_' + metric,
+      zVar: 'all_sz'
+    }
   }
   const useAll = ['m', 'f', 'p', 'np'].indexOf(demographic) > -1;
-  vars['xVar'] = region === 'schools' ? 'all_frl' : 
-    (useAll ? 'all_ses' : demographic + '_ses')
-  return vars
+  return {
+    yVar: demographic + '_' + metric,
+    xVar: useAll ? 'all_ses' : demographic + '_ses',
+    zVar: 'all_sz'
+  }
 }
 
 
@@ -330,6 +337,9 @@ export const isGapVarName = (varName) => {
   const id = getDemographicIdFromVarName(varName)
   return Boolean(getGapById(id))
 }
+
+export const isVersusFromVarNames = (xVar, yVar) =>
+  xVar.split('_')[1] === yVar.split('_')[1]
 
 /**
  * Returns an array containing the min and max for the
@@ -437,6 +447,9 @@ export const getValuePositionForVarName = (value, varName, region, type) => {
  */
 export const getFormatterForVarName = (varName) => {
   const metric = getMetricIdFromVarName(varName);
+  const isGap = isGapVarName(varName);
+
+  if (isGap) { return formatNumber }
   switch(metric) {
     case 'grd':
       return formatPercentDiff
@@ -446,3 +459,6 @@ export const getFormatterForVarName = (varName) => {
       return formatNumber
   }
 }
+
+export const getInvertedFromVarName = (varName) =>
+  (varName.includes('frl'))

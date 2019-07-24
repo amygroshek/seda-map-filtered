@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { getChoroplethColors, getMetricRange, getFormatterForVarName } from '../../../modules/config';
-import LegendBar from '../../molecules/LegendBar';
-import { getLang } from '../../../modules/lang';
-import { getFeatureProperty } from '../../../modules/features';
+import { getScatterplotVars, getMapVars, isVersusFromVarNames } from '../../../modules/config';
 import SedaScatterplotPreview from '../../seda/SedaScatterplotPreview';
 import SedaLocationMarkers from '../../seda/SedaLocationMarkers';
 import { Button } from '@material-ui/core';
-import { formatNumber } from '../../../utils';
-
-const choroplethColors = getChoroplethColors();
+import ScatterplotAxis from '../Scatterplot/ScatterplotAxis';
 
 const LegendPanel = ({
   title,
@@ -21,9 +16,11 @@ const LegendPanel = ({
 }) => {
   return (
     <div className={classNames("legend-panel", className)} {...rest}>
-      <div className="legend-panel__title">
-        {title}
-      </div>
+      { title &&
+        <div className="legend-panel__title">
+          {title}
+        </div>
+      }
       { expanded && 
         <div className="legend-panel__content">
           {children}
@@ -47,99 +44,92 @@ const MapLegend = ({
   demographic,
   region,
   secondary,
+  view = 'map',
   hovered,
   variant,
   onFullClick,
   onToggleClick,
   onHelpClick,
+  classes = {}
 }) => {
-  const values = [
-    getFeatureProperty(hovered, `${demographic}_${metric}`),
-    getFeatureProperty(hovered, `${demographic}_${secondary}`)
-  ];
-  const primaryValue = values[0] || values[0] === 0 ?
-    formatNumber(values[0]) : null;
-  const secondaryValue = values[1] || values[1] === 0 ?
-    formatNumber(values[1]) : null;
-  const yFormatter = getFormatterForVarName(metric);
-  const xFormatter = getFormatterForVarName(secondary);
+  const vars = getScatterplotVars(region, metric, demographic);
+  const mapVars = getMapVars(region, metric, demographic);
+  // force condensed for split view
+  variant = view === 'split' ? 'condensed' : variant;
+  const isVersus = isVersusFromVarNames(vars.xVar, vars.yVar);
   return (
-    <div className={classNames("map-legend", {
-      "map-legend--secondary": secondaryValue || secondaryValue === 0
-    })}>
+    <div className={classNames(
+      "map-legend", 
+      classes.root, 
+      { "map-legend--split-view": view === 'split' }
+    )}>
       { variant === 'chart' &&
         <LegendPanel
-          title={getLang(`label_${metric}`) + ' vs. ' + getLang(`label_${secondary}`)}
           expanded={true}
-          className="legend-panel--chart"
+          className={classNames(
+            "legend-panel--chart",
+            { "legend-panel--versus": isVersus }
+          )}
         >
           <SedaScatterplotPreview>
-            <SedaLocationMarkers />
-            <LegendBar
-              vertical={true}
-              value={primaryValue}
-              colors={choroplethColors} 
-              startLabel={getLang('LEGEND_LOW')}
-              endLabel={getLang('LEGEND_HIGH')}
-              colorRange={getMetricRange(metric, demographic, region, 'map')}
-              legendRange={getMetricRange(metric, demographic, region)}
-              className="legend-bar--y-preview"
-              formatter={yFormatter}
+            <SedaLocationMarkers {...{...vars}} />
+            <ScatterplotAxis
+              axis='y'
+              varName={vars.yVar}
+              hovered={hovered}
+              region={region}
+              className='legend-bar--y-preview'
+              labelPrefix='LEGEND_SHORT_'
             />
-            <LegendBar
-              value={secondaryValue}
-              colors={['#ccc', '#ccc']} 
-              startLabel={getLang('LEGEND_LOW_'+secondary)}
-              endLabel={getLang('LEGEND_HIGH_'+secondary)}
-              legendRange={getMetricRange(secondary, demographic, region)}
-              invert={secondary === 'frl'}
-              className="legend-bar--x-preview"
-              formatter={xFormatter}
+            <ScatterplotAxis
+              axis='x'
+              varName={vars.xVar}
+              hovered={hovered}
+              region={region}
+              labelPrefix='LEGEND_SHORT_'
+              className='legend-bar--x-preview'
             />
           </SedaScatterplotPreview>
         </LegendPanel>
       }
-      { variant === 'condensed' &&
+      { (variant === 'condensed' || isVersus) &&
         <LegendPanel
-          title={getLang('LABEL_'+metric)}
           expanded={true}
           className="legend-panel--condensed"
         >
-          <LegendBar
-            colors={choroplethColors} 
-            value={primaryValue}
-            startLabel={getLang('LEGEND_LOW_'+metric)}
-            endLabel={getLang('LEGEND_HIGH_'+metric)}
-            colorRange={getMetricRange(metric, demographic, region, 'map')}
-            legendRange={getMetricRange(metric, demographic, region)}
+          <ScatterplotAxis
+            axis='x'
+            varName={mapVars.yVar}
+            hovered={hovered}
+            region={region}
           />
-          <LegendBar 
-            className="legend-bar--secondary"
-            value={secondaryValue}
-            title={getLang('LABEL_'+secondary)}
-            colors={['#fff', '#fff']} 
-            startLabel={getLang('LEGEND_LOW_'+secondary)}
-            endLabel={getLang('LEGEND_HIGH_'+secondary)}
-            colorRange={getMetricRange(secondary, demographic, region, 'map')}
-            legendRange={getMetricRange(secondary, demographic, region, 'map')}
-          />
+          { !isVersus &&
+            <ScatterplotAxis
+              axis='x'
+              varName={mapVars.xVar}
+              hovered={hovered}
+              region={region}
+              className='legend-bar--secondary'
+            />
+          }
         </LegendPanel>
       }
-      
-      <div className="legend-actions">
-        <Button variant="contained" color="primary" onClick={onToggleClick}>
-          { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }
-        </Button>
-        {
-          variant === 'chart' &&
-            <Button variant="contained" color="primary" onClick={onFullClick}>
-              Show Full Chart
-            </Button>
-        }
-        <Button variant="contained" color="secondary" onClick={onHelpClick}>
-          Help
-        </Button>
-      </div>
+      { view === 'map' &&
+        <div className="legend-actions">
+          <Button variant="contained" color="primary" onClick={onToggleClick}>
+            { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }
+          </Button>
+          {
+            variant === 'chart' &&
+              <Button variant="contained" color="primary" onClick={onFullClick}>
+                Show Full Chart
+              </Button>
+          }
+          <Button variant="contained" color="secondary" onClick={onHelpClick}>
+            Help
+          </Button>
+        </div>
+      }
     </div>
   )
 }
@@ -151,6 +141,7 @@ MapLegend.propTypes = {
   region: PropTypes.string,
   secondary: PropTypes.string,
   hovered: PropTypes.object,
+  classes: PropTypes.object,
   onFullClick: PropTypes.func,
   onToggleClick: PropTypes.func,
   onHelpClick: PropTypes.func,

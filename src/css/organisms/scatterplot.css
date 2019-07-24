@@ -1,0 +1,189 @@
+
+
+
+.scatterplot {
+  --axis-right: 56px;
+  --axis-bottom: 40px;
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
+/** Override chart size to make space for Y Axis */
+.scatterplot .echarts-for-react {
+  width: calc(100% - var(--axis-right))!important;
+  height: calc(100% - var(--axis-bottom))!important;
+}
+
+/** Heading */
+
+.scatterplot__heading {
+  position: absolute;
+  z-index: 10;
+  top: var(--padding);
+  left: var(--padding);
+  right: 96px;
+  pointer-events: none;
+}
+.scatterplot__heading .scatterplot__title {
+  display: block;
+  line-height: 24px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+.scatterplot__heading .scatterplot__subtitle {
+  color: var(--body2-text);
+  display: block;
+  line-height: 16px;
+}
+
+
+/** Overlay */
+
+.scatterplot .marker__root {
+  pointer-events:none;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+.scatterplot .circle:hover {
+  animation-name: heartBeat;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  box-shadow: 0 0 0 2px #f00;
+}
+
+.scatterplot .location-markers {
+  position: absolute;
+  top: var(--sp-top);
+  right: calc(var(--axis-right) + var(--sp-right));
+  bottom: calc(var(--axis-bottom) + var(--sp-bottom));
+  left: var(--sp-left);
+}
+
+/** X Axis */
+
+.scatterplot__axis.scatterplot__axis--x {
+  position: absolute;
+  bottom:0;
+  left: 16px;
+  right: var(--axis-right);
+  width:auto;
+  padding:0;
+  height: 40px;
+}
+
+.scatterplot__axis.scatterplot__axis--x .legend-bar__title {
+  position:absolute;
+  left:0;right:0;
+  top: 12px;
+  text-align:center;
+}
+
+.scatterplot__axis.scatterplot__axis--x .legend-bar__gradient {
+  background: none!important;
+  height:0;
+  position:absolute;
+  top: -16px;
+  left:4px;
+  right:var(--sp-right);
+  width:calc(100% - var(--sp-right));
+}
+
+
+.scatterplot__axis.scatterplot__axis--x .legend-bar__labels {
+  margin-top: 16px;
+}
+
+
+/** Y Axis */
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__values {
+  display: none;
+}
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__tick {
+  left: -4px;
+}
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__title {
+  transform: translateX(50%) rotate(-90deg);
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  right: 40px;
+  text-align: center;
+  height: 20px;
+  margin: auto;
+  transform-origin: center center;
+  white-space: nowrap;
+}
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__labels {
+  position:absolute;
+  top:0;bottom:0;left:0;right:0;
+  margin:0;
+  height:100%;
+}
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__label {
+  position:absolute;
+  white-space: nowrap;
+}
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__label--low {
+  bottom:0;
+  left:-6px;
+  transform: rotate(-90deg);
+  transform-origin: left bottom 0;
+}
+
+.scatterplot__axis.scatterplot__axis--y .legend-bar__label--high {
+  top:0;
+  left:-10px;
+  transform: translateX(-100%) rotate(-90deg);
+  transform-origin: top right;
+  margin-left: -100%;
+}
+
+/** No gradient on versus chart */
+.scatterplot--versus .legend-bar--vertical .legend-bar__tick:after {
+  border: 6px solid transparent;
+  border-right-color: #000;
+  position:absolute;
+  left:-12px;
+  right:auto;
+  margin:auto;
+  top: 0;
+  bottom: 0;
+}
+.scatterplot--versus .scatterplot__axis.scatterplot__axis--y .legend-bar__gradient {
+  background: none!important;
+  left:-24px;
+}
+
+
+
+@keyframes heartBeat {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    border-width: 2px;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    border-width: 1.5px;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.1);
+    border-width: 1.9px;
+  }
+}

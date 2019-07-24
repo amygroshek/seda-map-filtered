@@ -1,7 +1,57 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName } from '../../../modules/config';
+import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName, isVersusFromVarNames } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import { getCSSVariable, formatNumber } from '../../../utils';
+
+/** UTILS */
+
+/** Returns an amount for how much to increment each step for the axis overlay */
+const getIncrementForVarName = (varName) => {
+  const metricId = getMetricIdFromVarName(varName);
+  // grd / coh gaps are 0.1
+  if (isGapVarName(varName) && metricId !== 'avg') { return 0.1 }
+  switch (metricId) {
+    case 'avg':
+      return 1;
+    case 'grd':
+      return 0.2;
+    case 'coh':
+      return 0.2;
+    default:
+      return 1;
+  }
+}
+
+/**
+ * Returns an array with an equal number of lines 
+ * above / below a provided center, with a provided
+ * increment.
+ * @param {number} num length of the returned array (must be odd)
+ * @param {number} inc amount to increment for each step
+ * @param {number} center the center point of the array
+ */
+const getPositionArray = (count, inc, center = 0, range) => {
+  // numLines must be odd so it is balanced above / below axis
+  if (count % 2 === 0) { count = count - 1; }
+  const offset = (count - 1) / 2;
+  return new Array(count).fill()
+    .map((v, i) => ((i - offset) * inc) + center)
+    .filter(v => range && range.length === 2 ? 
+        (v > range[0] && v < range[1]) : true
+    )
+}
+
+
+const isStateHighlighed = (highlightedState) =>
+  highlightedState && highlightedState !== 'us'
+
+const getLangKeyForAxisLabel = (value, metric) => {
+  const base = 'AXIS_' + metric.toUpperCase()
+  const position = value === 0 ? '_ZERO' :
+    value > 0 ? '_HIGH' : '_LOW'
+  const single = value === 1 ? '_SINGLE' : ''
+  return base + position + single;
+}
 
 /** GRID CONFIGURATION  */
 
@@ -9,23 +59,20 @@ export const grid = (variant) => {
   switch(variant) {
     case 'map':
       return {
-        top: 24,
-        right: 100,
-        bottom: 32,
-        left: 24,
+        top: getCSSVariable('--sp-top'),
+        right: getCSSVariable('--sp-right'),
+        bottom: getCSSVariable('--sp-bottom'),
+        left: getCSSVariable('--sp-left'),
       }
     default:
       return { 
-        top: 8, 
-        right: 8,
-        bottom: 24, 
-        left: 24, 
+        top: getCSSVariable('--sp-prev-top'),
+        right: getCSSVariable('--sp-prev-right'),
+        bottom: getCSSVariable('--sp-prev-bottom'),
+        left: getCSSVariable('--sp-prev-left'),
       }
-  }
+  } 
 }
-
-const isStateHighlighed = (highlightedState) =>
-  highlightedState && highlightedState !== 'us'
 
 /** SERIES CONFIGURATION */
 
@@ -72,10 +119,6 @@ const getHighlightedSeries = ({ highlightedState, sizer }) =>
   })
 
 
-
-
-
-
 export const series = (seriesId, variant, options = {}) => {
   switch(seriesId) {
     case 'base':
@@ -87,50 +130,21 @@ export const series = (seriesId, variant, options = {}) => {
   }
 }
 
-/** SCATTERPLOT OVERLAY CONFIGURATION */
 
+/** SCATTERPLOT OVERLAY CONFIGURATION */
 
 /**
  * Gets `series.markPoints` echart options based on an
  * array of points.
  * @param {array<{axis, x, y, label, options}>} points
  */
-const getMarkPoints = (points) => {
+const getAxisLabels = (points) => {
   return {
     animation: false,
     silent: true,
     data: points
-      .map(p => p.axis ? getAxisPoint(p) : null)
+      .map(p => p.axis ? getAxisLabel(p) : null)
       .filter(p => p)
-  }
-}
-
-/**
- * Gets a echarts `series` containing any marked lines or
- * points for the graph.
- * @param {array} points 
- * @param {array} lines 
- */
-const getOverlay = (points, lines) => {
-  return {
-    type: 'scatter',
-    animation: false,
-    silent: true,
-    visualMap: false,
-    data: points,
-    symbolSize: 1,
-    label: {
-      show:false
-    },
-    markPoint: getMarkPoints(points.map(
-      ({axis = 'y', value, x, y, name, ...rest}) => ({
-        axis, 
-        x: axis === 'y' ? (x || '93%') : value[0], 
-        y: axis === 'y' ? value[1] : (y || '100%'), 
-        label: name,
-        ...rest
-      }))),
-    markLine: getMarkLines(lines)
   }
 }
 
@@ -138,7 +152,7 @@ const getOverlay = (points, lines) => {
  * Gets a point that falls on the x or y axis
  * @param {object} point 
  */
-const getAxisPoint = ({axis, x, y, label, labelStyle, options }) => {
+const getAxisLabel = ({axis, x, y, label, labelStyle, options }) => {
   const position = axis === 'y' ?
     { x: x, yAxis: y } :
     { y: y, xAxis: x };
@@ -148,7 +162,7 @@ const getAxisPoint = ({axis, x, y, label, labelStyle, options }) => {
       symbolSize: 1,
       label: {
         formatter: '{val|' + label + '}',
-        align: 'right',
+        align: axis === 'y' ? 'right' : 'center',
         rich: {
           val: {
             fontSize: 11.7,
@@ -159,7 +173,7 @@ const getAxisPoint = ({axis, x, y, label, labelStyle, options }) => {
             backgroundColor: 'rgba(255,255,255,0.8)',
             textBorderColor: 'transparent',
             textBorderWidth: 0,
-            lineHeight: 18,
+            lineHeight: axis === 'y' ? 18 : 12,
           }
         },
         ...labelStyle
@@ -173,7 +187,7 @@ const getAxisPoint = ({axis, x, y, label, labelStyle, options }) => {
  * array of lines.
  * @param {array<{axis, position, style}>} lines 
  */
-const getMarkLines = (lines) => {
+const getAxisLines = (lines) => {
   return {
     animation: false,
     silent: true,
@@ -198,7 +212,7 @@ const getAxisLine = ({
     { x: (start || 16), yAxis: position } :
     { y: (start || 24), xAxis: position };
   const endPosition = axis === 'y' ?
-    { x: end || '93%', yAxis: position } :
+    { x: end || '100%', yAxis: position } :
     { y: end || '100%', xAxis: position };
   return [
     {
@@ -216,110 +230,6 @@ const getAxisLine = ({
   ]
 }
 
-
-const getLangKeyForAxisLabel = (value, metric) => {
-  const base = 'AXIS_' + metric.toUpperCase()
-  const position = value === 0 ? '_ZERO' :
-    value > 0 ? '_HIGH' : '_LOW'
-  const single = value === 1 ? '_SINGLE' : ''
-  return base + position + single;
-}
-
-const LabelY = ({position = 0, label = '0', axis = 'y', x = '95%', ...rest}) => {
-  return {
-    value: [0, position], 
-    name: label,
-    axis,
-    x,
-    ...rest
-  }
-}
-const LabelX = ({position = 0, label = '0', axis = 'x', y = '95%', ...rest}) => {
-  return {
-    value: [position, 0], 
-    name: label,
-    axis,
-    y,
-    ...rest
-  }
-}
-const LineY = ({position = 0, ...rest}) => ({
-  axis: 'y',
-  position,
-  ...rest
-})
-const LineX = ({position = 0, ...rest}) => ({
-  axis: 'x',
-  position,
-  ...rest
-})
-
-const getPreviewAverageOverlay = () => {
-  // number of lines to overlay
-  const lines = new Array(1).fill().map(
-    () => LineY({ start: '0%', end: '100%'})
-  )
-  const labels = lines.map(() => LabelY({ x: 12}));
-  return getOverlay(labels, lines)
-}
-
-const getPreviewGrowthOverlay = () => {
-  // number of lines to overlay
-  const lines = new Array(1).fill().map(
-    () => LineY({ position: 1, start: '0%', end: '100%'})
-  )
-  const labels = lines.map(() => LabelY({ x: 12, label: '1', position: 1}));
-  return getOverlay(labels, lines)
-}
-
-const getPreviewSesOverlay = () => {
-  // number of lines to overlay
-  const lines = new Array(1).fill().map(() => LineX({ start: '0%', end: '100%'}))
-  const labels = lines.map(() => 
-    LabelX({ 
-      labelStyle: { align: 'center' },
-      y: '94%'
-    })
-  );
-  return getOverlay(labels, lines)
-}
-
-/** Returns an amount for how much to increment each step for the axis overlay */
-const getIncrementForVarName = (varName) => {
-  const metricId = getMetricIdFromVarName(varName);
-  // grd / coh gaps are 0.1
-  if (isGapVarName(varName) && metricId !== 'avg') { return 0.1 }
-  switch (metricId) {
-    case 'avg':
-      return 1;
-    case 'grd':
-      return 0.2;
-    case 'coh':
-      return 0.2;
-    default:
-      return 1;
-  }
-}
-
-/**
- * Returns an array with an equal number of lines 
- * above / below a provided center, with a provided
- * increment.
- * @param {number} num length of the returned array (must be odd)
- * @param {number} inc amount to increment for each step
- * @param {number} center the center point of the array
- */
-const getPositionArray = (count, inc, center = 0, range) => {
-  // numLines must be odd so it is balanced above / below axis
-  if (count % 2 === 0) { count = count - 1; }
-  const offset = (count - 1) / 2;
-  return new Array(count).fill()
-    .map((v, i) => ((i - offset) * inc) + center)
-    .filter(v => range && range.length === 2 ? 
-        (v > range[0] && v < range[1]) : true
-    )
-}
-
 /**
  * Returns an array of eCharts label objects for the provided positions
  * @param {array} positions 
@@ -334,7 +244,9 @@ const createLabels =
         getLangKeyForAxisLabel(pos, langPrefix)
       const label = getLang(labelKey, { value: formatter(pos) })
       return {
-        value: axis === 'y' ? [0, pos] : [pos, 0], 
+        value: axis === 'y' ? [0, pos] : [pos, 0],
+        axis: axis,
+        y: '97%',
         name: label,
         visualMap: false
       }
@@ -349,11 +261,40 @@ const createLines = (positions, axis = 'y') =>
   positions.map((position) => ({ axis, position }))
 
 /**
+ * Gets a echarts `series` containing any marked lines or
+ * points for the graph.
+ * @param {array} points 
+ * @param {array} lines 
+ */
+const getOverlay = (points, lines) => {
+  return {
+    type: 'scatter',
+    animation: false,
+    silent: true,
+    visualMap: false,
+    data: points,
+    symbolSize: 1,
+    label: {
+      show:false
+    },
+    markPoint: getAxisLabels(points.map(
+      ({axis = 'y', value, x, y, name, ...rest}) => ({
+        axis, 
+        x: axis === 'y' ? (x || '100%') : value[0], 
+        y: axis === 'y' ? value[1] : (y || '100%'), 
+        label: name,
+        ...rest
+      }))),
+    markLine: getAxisLines(lines)
+  }
+}
+
+/**
  * Get the line and label overlays based on the variable name
  * @param {*} varName 
  * @param {*} region 
  */
-const getOverlayForVarName = (varName) => {
+const getOverlayForVarName = (varName, axis = 'y') => {
   const isGap = isGapVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
   const numLines = 9;
@@ -362,89 +303,134 @@ const getOverlayForVarName = (varName) => {
   const range = getMetricRangeFromVarName(varName);
   const positions = getPositionArray(numLines, inc, midPoint, range);
   const langPrefix = isGap ? metricId + '_gap' : metricId;
-  const labels = createLabels(positions, langPrefix, 'y');
-  const lines = createLines(positions, 'y')
+  const labels = axis === 'y' ?
+    createLabels(positions, langPrefix, axis) :
+    createLabels([ getMidpointForVarName(varName) ], langPrefix, axis)
+  const lines = createLines(positions, axis)
   return getOverlay(labels, lines);
 }
 
-const getOpportunityAverageOverlay = () => ({
-  type: 'line',
-  animation: false,
-  silent: true,
-  visualMap: false,
-  data: [[-4, -4], [4, 4]],
-  symbolSize: 0.1,
-  label: {
-    show:false
-  },
-  itemStyle: {
-    color: '#999'
-  },
-  markLine: {
-    animation: false,
-    silent: true,
-    label: {
-      position: 'middle',
-      formatter: function(value) {
-        return value.name
-      } 
-    },
-    lineStyle: {
-      type: 'dashed',
-      color: '#999'
-    },
-    data: [
-      [
-        { 
-          name: getLang('OPP_DIFF_EQUAL_LINE'), 
-          coord: [-4, -4], 
-          symbol: 'none',
-        },
-        { coord: [ 4,  4], symbol: 'none' },
-      ]
-    ]
-  }
-})
+const getPreviewOverlayForVarName = (varName, axis = 'y') => {
+  const positions = varName.includes('grd') ? [ 1 ] : [ 0 ];
+  const labels = createLabels(positions, 'PREV', axis);
+  const lines = createLines(positions, axis)
+  return getOverlay(labels, lines);
+}
 
-const getOverlaysForMetric = (variant, metric, { yVar, region }) => {
-  const identifier = metric + '_' + variant
-  switch(identifier) {
-    case 'grd_map':
-    case 'coh_map':
-    case 'avg_map':
-      return [ getOverlayForVarName(yVar, region) ]
-    case 'coh_preview':
-    case 'avg_preview':
-      return [ getPreviewAverageOverlay() ]
-    case 'ses_preview':
-      return [ getPreviewSesOverlay() ]
-    case 'grd_preview':
-      return [ getPreviewGrowthOverlay() ]
-    case 'avg_opp':
-      return [ getOpportunityAverageOverlay() ]
-    default:
-      return []
+
+const getOverlaysForContext = (variant, {xVar, yVar }) => {
+  const overlays = [];
+  if (variant === 'map') {
+    overlays.push(getOverlayForVarName(xVar, 'x'))
+    overlays.push(getOverlayForVarName(yVar, 'y'))
+    overlays.push(getVersusOverlay(xVar, yVar))
   }
+  if (variant === 'preview') {
+    overlays.push(getPreviewOverlayForVarName(xVar, 'x'))
+    overlays.push(getPreviewOverlayForVarName(yVar, 'y'))
+    overlays.push(getVersusOverlay(xVar, yVar))
+  }
+  return overlays;
 }
 
 const overlays = (variant, context) => {
-  const yMetricId = getMetricIdFromVarName(context.yVar);
-  const xMetricId = getMetricIdFromVarName(context.xVar);
-  return [
-    ...getOverlaysForMetric(variant, yMetricId, context),
-    ...getOverlaysForMetric(variant, xMetricId, context)
-  ]
+  return getOverlaysForContext(variant, context)
+}
+
+/** 
+ * Returns where to place the diagonal line label 
+ * for the provided metric
+ */
+const getLabelCoordsForMetric = (metricId) => {
+  switch (metricId) {
+    case 'avg':
+      return [ [ -3, -3 ], [ -2, -2 ] ];
+    case 'grd':
+      return  [ [ 0.5, 0.5 ], [ 0.7, 0.7 ] ];
+    case 'coh':
+      return [ [ -0.3, -0.3 ], [ -0.4, -0.4 ] ];
+    default: 
+      return [ [ -0.1, -0.1 ], [ 0.1, 0.1 ] ]
+  }
+}
+
+
+/** Return a series with a diagonal line */
+const getVersusOverlay = (xVar, yVar) => { 
+  const isVs = isVersusFromVarNames(xVar, yVar);
+  // return empty series if this is not a versus chart
+  if (!isVs) { return { id: 'versus', type: 'line', data: [], markLine: {} }}
+  const xDem = getDemographicFromVarName(xVar);
+  const yDem = getDemographicFromVarName(yVar);
+  const metricId = getMetricIdFromVarName(xVar);
+  const [ labelStart, labelEnd ] = getLabelCoordsForMetric(metricId);
+  return ({
+    id: 'versus',
+    type: 'line',
+    animation: false,
+    silent: true,
+    visualMap: false,
+    data: [[-6, -6], [6, 6]],
+    symbolSize: 0.1,
+    label: {
+      show:false
+    },
+    itemStyle: {
+      color: '#999'
+    },
+    markLine: {
+      animation: false,
+      silent: true,
+      label: {
+        position: 'middle',
+        formatter: function(value) {
+          return value.name
+        } 
+      },
+      lineStyle: {
+        width: 0,
+        color: '#000'
+      },
+      data: [
+        [
+          { 
+            coord: labelStart, 
+            symbol: 'none',
+          },
+          {
+            coord: labelEnd,
+            symbol: 'none',
+            name: getLang('LINE_EQUAL_OPPORTUNITY', {
+              demographic1: getLang('LABEL_' + xDem.id),
+              demographic2: getLang('LABEL_' + yDem.id)
+            }),
+          },
+        ]
+      ]
+    }
+  })
 }
 
 /** VISUAL MAP CONFIGURATION */
 
+const COLORS = getChoroplethColors();
+
+/** Returns chart colors based on variable names */
+const getChartColorsFromVarNames = (xVar, yVar) => {
+  const isVersus = isVersusFromVarNames(xVar, yVar);
+  const isGap = isGapVarName(yVar);
+  return isVersus ? ['#eee'] :
+    isGap ? [...COLORS].reverse() : COLORS
+}
+
 const getMapVisualMap = ({
-  varName,
-  colors = getChoroplethColors(), 
+  xVar,
+  yVar,
   highlightedState,
   region
 }) => {
-  const range = getMetricRangeFromVarName(varName, region, 'map')
+  const range = getMetricRangeFromVarName(yVar, region, 'map');
+  const colors = getChartColorsFromVarNames(xVar, yVar);
   return {
     type: 'continuous',
     min: range[0],
@@ -502,24 +488,17 @@ const getMapXAxis = ({ metric, demographic, region }) => {
     max,
     inverse: (region === 'schools'),
     axisLabel: {
-      inside: true,
+      inside: false,
       formatter: (value) => {
         // percent for schools
         return region === 'schools' ?
           (value*100)+'%' : value
       }
     },
-    name: region === 'schools' ? 
-      getLang('LABEL_PCT') + ' ' + getLang('LABEL_FRL') :
-      getLang('LABEL_SES')
-    ,
-    nameGap: 8,
-    nameTextStyle: {
-      fontSize: 14,
-      fontWeight: 'normal',
-      color: getCSSVariable('--text'),
-      fontFamily: getCSSVariable('--heading-font')
-    },
+    axisLine: { show: false },
+    interval: getIncrementForVarName(`${demographic.id}_${metric.id}`),
+    nameGap: 0,
+    nameTextStyle: {},
     splitLine: { show: false },
   }
 }  
@@ -575,15 +554,6 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
       }
     },
     splitLine: { show: false },
-    name: getLang('LABEL_' + metric.id),
-    nameGap: 80,
-    nameLocation: 'middle',
-    nameTextStyle: {
-      fontSize: 14,
-      fontWeight: 'normal',
-      color: getCSSVariable('--text'),
-      fontFamily: getCSSVariable('--heading-font')
-    },
     ...rest
   }
 }
@@ -611,7 +581,7 @@ export const getScatterplotOptions = (
   const sizer = getSizerFunctionForRegion(region)
   const options = {
     grid: grid(variant),
-    visualMap: visualMap(variant, { varName: yVar, highlightedState, region }),
+    visualMap: visualMap(variant, { xVar, yVar, highlightedState, region }),
     xAxis: xAxis(variant, { varName: xVar, region }),
     yAxis: yAxis(variant, { varName: yVar, region }),
     series: [

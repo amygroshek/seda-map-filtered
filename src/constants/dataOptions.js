@@ -13,22 +13,6 @@ export const REGION_DOMAINS = {
 
 export const MAX_LOCATIONS = 6;
 
-/**
- * default vars for each section
- */
-export const SECTIONS = {
-  'map': {
-    xVar: 'all_ses',
-    yVar: 'all_avg',
-    zVar: 'all_sz',
-  },
-  'master': {
-    xVar: 'all_ses',
-    yVar: 'all_avg',
-    zVar: 'all_sz',
-    region: 'counties',
-  },
-}
 
 export const MAP_REGION_TO_ID_LENGTH = {
   'counties': 5,
@@ -92,8 +76,12 @@ export const METRICS = [
       'map_counties': [ -3, 3 ],
       'map_districts': [ -3.5, 3.5 ],
       'map_schools': [ -5, 5 ],
+      '*_counties_np': [ -4, 3 ],
       '*_*_gap': [ -1.5, 4.75 ],
-      '*_counties': [ -4, 3 ],
+      '*_counties_b': [ -4, 2 ],
+      '*_counties_w': [ -4, 4 ],
+      '*_counties': [ -4.5, 2.5 ],
+      '*_districts_b': [ -4, 3 ],
       '*_districts': [ -4.5, 4.5 ],
       '*_schools': [ -8, 8 ],
     },
@@ -108,10 +96,11 @@ export const METRICS = [
       'map_*_gap': [ -0.4, 0.4 ],
       'map_schools': [ 0, 2 ],
       'map_*_*': [ 0.5, 1.5 ],
+      '*_*_b': [0.4, 1.4],
       '*_*_wb': [ -0.3, 0.45 ],
       '*_*_gap': [ -0.4, 0.4 ],
       '*_schools': [ -0.6, 2.6 ],
-      '*': [ 0.3, 1.7 ],
+      '*': [ 0.4, 1.6 ],
     },
     map: true,
     scatterplot: true,
@@ -137,7 +126,7 @@ export const METRICS = [
     scatterplot: true,
     range: {
       '*_districts_h': [-5, 3],
-      '*_counties_h': [-5.5, 0.5],
+      '*_counties_h': [-4, 2],
       '*_*_b': [ -6, 2 ],
       '*_*_h': [ -6, 2 ],
       '*_districts_wb': [ -1, 6 ],
@@ -145,7 +134,7 @@ export const METRICS = [
       '*_districts_wh': [ -1, 5 ],
       '*_*_wh': [ -0.5, 4.5 ],
       'map_*_*': [ -3, 3 ],
-      '*_counties': [-5, 3],
+      '*_counties': [-4, 3],
       '*': [ -5, 4 ],
     }
   },

@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
 import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
 import { getLang, getDescriptionForVarName } from '../../modules/lang';
-import { getMetricIdFromVarName, getScatterplotVars } from '../../modules/config';
+import { getMetricIdFromVarName, getScatterplotVars, getMapVars } from '../../modules/config';
 import { getStateName } from '../../constants/statesFips';
 import { Typography } from '@material-ui/core';
 
@@ -69,11 +69,13 @@ const ConnectedTooltip = ({
 
 const mapStateToProps = ({ 
   map: { coords: { x, y } },
-  sections: { map: { hovered } }
+  sections: { hovered, active }
 }, {
   match: { params: { metric, demographic, region } }
 }) => {
-  const vars = getScatterplotVars(region, metric, demographic);
+  const vars = active === 'chart' ? 
+    getScatterplotVars(region, metric, demographic) :
+    getMapVars(region, metric, demographic)
   return {
     x,
     y,

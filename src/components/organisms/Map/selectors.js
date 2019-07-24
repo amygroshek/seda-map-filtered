@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import MAP_STYLE from './style.json';
-import { getRegionFromFeatureId, getChoroplethColors, getDemographicIdFromVarName, getMetricIdFromVarName, getMetricRange } from '../../../modules/config.js';
+import { getRegionFromFeatureId, getChoroplethColors, getDemographicIdFromVarName, getMetricIdFromVarName, getMetricRange, isGapVarName } from '../../../modules/config.js';
 import { DEFAULT_VIEWPORT } from './constants';
 
 
@@ -15,6 +15,8 @@ const noDataFill = "#ccc";
 export const getStopsForVarName = (varName, region, colors = getChoroplethColors()) => {
   const demId = getDemographicIdFromVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
+  const isGap = isGapVarName(varName);
+  colors = isGap ? [...colors].reverse() : colors;
   const [ min, max ] = getMetricRange(metricId, demId, region, 'map')
   const range = Math.abs(max - min);
   const stepSize = range / (colors.length-1);

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import Marker from './BaseMarker';
 
+const hasVal = (val) => val || val === 0
+
 const CircleMarker = ({ 
   className,
   x,
@@ -12,7 +14,7 @@ const CircleMarker = ({
   children, 
   ...props 
 }) => {
-  return (
+  return hasVal(x) && hasVal(y) ? (
     <div 
       className={classNames("marker__root", className)}
       style={{transform: `translate(${x}, ${y})`}}
@@ -32,8 +34,7 @@ const CircleMarker = ({
         {children}
       </Marker>
     </div>
-    
-  )
+  ) : null
 }
 
 CircleMarker.propTypes = {

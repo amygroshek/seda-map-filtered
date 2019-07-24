@@ -24,7 +24,21 @@
     bottom: 24px;
     left: auto;
     right: 24px;
-    max-width: 320px;
+  }
+
+  /** Map legend in split view */
+  .section--explorer .map-legend.map-legend--split-view {
+    bottom: 40px;
+    right: 0;
+    left:auto;
+    min-width: 200px;
+  }
+
+  .section--explorer .map-legend.map-legend--split-view .legend-bar__title {
+    display: none;
+  }
+  .section--explorer .map-legend.map-legend--split-view .legend-bar {
+    height: 48px;
   }
 
   /** No map legend in split view */
@@ -34,7 +48,7 @@
 
 /** Scatterplot */
 
-  .section--explorer .dynamic-scatterplot {
+  .section--explorer .scatterplot {
     position: absolute;
     top: var(--scatterplot-heading);
     left:0;
@@ -45,7 +59,7 @@
   }
 
   /** Move the heading outside of the scatterplot area */
-  .section--explorer .dynamic-scatterplot__heading {
+  .section--explorer .scatterplot__heading {
     margin-top: calc(-1 * var(--scatterplot-heading));
   }
 
@@ -53,13 +67,17 @@
    * Position y-axis legend bar on scatterplot 
    * (match top / bottom for scatterplot grid in scatterplot-style.js)
    */
-  .section--explorer .dynamic-scatterplot .legend-bar {
+  .section--explorer .scatterplot__axis--y {
     position: absolute;
-    bottom: 32px;
-    top: 24px;
+    bottom: calc(var(--sp-bottom) + 32px);
+    top: var(--sp-top);
     left: auto;
     right: -16px;
-    width: 8px;
+  }
+  
+  /** No values on legend bar for scatterplot axis */
+  .section--explorer .scatterplot__axis .legend-bar__values {
+    display: none;
   }
 
 /** Side Panel */

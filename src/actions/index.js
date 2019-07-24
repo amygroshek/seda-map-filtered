@@ -81,11 +81,18 @@ export const addToFeatureIdMap = (features) => ({
  * Returns an action to set the hovered feature for
  * a section.
  */
-export const onHoverFeature = (feature, sectionId) => ({
+export const onHoverFeature = (feature) => ({
   type: 'SET_HOVERED_FEATURE',
-  feature,
-  sectionId
+  feature
 });
+
+/** Sets the section the user is currently interacting with */
+export const onHoverSection = (sectionId) => {
+  return {
+    type: 'SET_ACTIVE_SECTION',
+    sectionId
+  }
+}
 
 /**
  * Returns an action to set the coordinates

@@ -56,7 +56,7 @@ const LANG = {
 
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
-  'LABEL_CONCEPT_COH': 'educational opportunity outlook',
+  'LABEL_CONCEPT_COH': 'educational opportunity changes',
 
   // Demographic Labels
   'LABEL_ALL': 'all',
@@ -68,14 +68,20 @@ const LANG = {
   'LABEL_F': 'female',
   'LABEL_P': 'poor',
   'LABEL_NP': 'non-poor',
+  'LABEL_N': 'non-poor',
   'LABEL_FRL': 'free / reduced lunch program',
 
   // Gap Labels
   'LABEL_WB': 'white / Black gap',
   'LABEL_WH': 'white / Hispanic gap',
-  'LABEL_PN': 'poor / non-poor gap',
+  'LABEL_PN': 'non-poor / poor gap',
   'LABEL_MF': 'male / female gap',
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
+
+  'LABEL_SHORT_BW': 'white / Black',
+  'LABEL_SHORT_HW': 'white / Hispanic',
+  'LABEL_SHORT_PN': 'poor / non-poor',
+  'LABEL_SHORT_FM': 'male / female',
 
   // Region Labels
   'LABEL_COUNTIES': 'counties',
@@ -194,13 +200,21 @@ const LANG = {
   // Section Descriptions
 
   // Scatterplot Titles
-  'SP_TITLE_AVG_SES': 'Community Educational Opportunity and Socioeconomic Status',
-  'SP_TITLE_AVG_FRL': 'Community Educational Opportunity and % Free or Reduced Lunch Program ',
-  'SP_TITLE_GRD_SES': 'School-based Opportunity and Socioeconomic Status',
-  'SP_TITLE_GRD_FRL': 'School-based Opportunity and % Free or Reduced Lunch Program',
-  'SP_TITLE_COH_SES': 'Changes in Community Educational Opportunity and Socioeconomic Status',
-  'SP_TITLE_COH_FRL': 'Changes in Community Educational Opportunity and % Free or Reduced Lunch Program',
-  
+  'SP_TITLE_AVG_SES': 'Educational Opportunity vs. Socioeconomic Status',
+  'SP_TITLE_AVG_FRL': 'Educational Opportunity vs. % Free or Reduced Lunch Program ',
+  'SP_TITLE_GRD_SES': 'School Effectiveness vs. Socioeconomic Status',
+  'SP_TITLE_GRD_FRL': 'School Effectiveness vs. % Free or Reduced Lunch Program',
+  'SP_TITLE_COH_SES': 'Changes in Educational Opportunity and Socioeconomic Status',
+  'SP_TITLE_COH_FRL': 'Changes in Educational Opportunity and % Free or Reduced Lunch Program',
+  'SP_TITLE_AVG_SES_GAP': 'Differences in Educational Opportunity vs. Socioeconomic Status',
+  'SP_TITLE_GRD_SES_GAP': 'Differences in School Effectiveness vs. Socioeconomic Status',
+  'SP_TITLE_COH_SES_GAP': 'Differences in Educational Opportunity Change and Socioeconomic Status',
+
+  'SP_TITLE': '$[metric] vs. $[secondary]',
+  'SP_TITLE_GAP': 'Difference in $[metric] vs. $[secondary]',
+  'SP_TITLE_VS': 'Differences in $[metric]',
+  'SP_SUBTITLE': '$[place] $[region], $[demographic], grades 3 - 8 from 2009 - 2016',
+
   'OP_TITLE_AVG': 'Achievement Differences Between $[dem1] and $[dem2]',
   'OP_TITLE_GRD': 'Growth Differences Between $[dem1] and $[dem2]',
   'OP_TITLE_COH': 'Change in Achievement Differences Between $[dem1] and $[dem2]',
@@ -208,6 +222,7 @@ const LANG = {
   // Axis Names
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
   'AXIS_NAME_SES': '',
+
 
   // Axis Labels
   'AXIS_AVG_ZERO': 'average\nperformance',
@@ -242,7 +257,7 @@ const LANG = {
   'AXIS_COH_GAP_LOW': '$[value]\n trend gap',
   'AXIS_COH_GAP_HIGH': '$[value]\ntrend gap',
 
-  'AXIS_SES_ZERO': 'average socioeconomic status',
+  'AXIS_SES_ZERO': 'national\naverage',
   'AXIS_SES_LOW': 'poorer',
   'AXIS_SES_HIGH': 'richer',
 
@@ -257,6 +272,13 @@ const LANG = {
   'AXIS_SEG_ZERO_GAP': 'no gap in\nsegregation',
   'AXIS_SEG_LOW_GAP': 'less',
   'AXIS_SEG_HIGH_GAP': 'more',
+
+  // PREVIEW CHART AXIS LABELS
+  'AXIS_PREV_ZERO': 'avg',
+  'AXIS_PREV_HIGH_SINGLE': 'avg',
+
+
+  'LINE_EQUAL_OPPORTUNITY': 'no gap ($[demographic1] = $[demographic2])',
 
   // Intro Section
   'INTRO_TITLE': 'What type of educational opportunity would you like to explore?',
@@ -280,12 +302,23 @@ const LANG = {
   'LEGEND_LOW_FRL': '◀ more poverty',
   'LEGEND_HIGH_FRL': 'less poverty ▶',
 
+  'LEGEND_SHORT_LOW_AVG': '◀ lower',
+  'LEGEND_SHORT_HIGH_AVG': 'higher ▶',
+  'LEGEND_SHORT_LOW_GRD': '◀ lower',
+  'LEGEND_SHORT_HIGH_GRD': 'higher ▶',
+  'LEGEND_SHORT_LOW_COH': '◀ lower',
+  'LEGEND_SHORT_HIGH_COH': 'higher ▶',
+  'LEGEND_SHORT_LOW_SES': '◀ poorer',
+  'LEGEND_SHORT_HIGH_SES': 'richer ▶',
+  'LEGEND_SHORT_LOW_FRL': '◀ high poverty',
+  'LEGEND_SHORT_HIGH_FRL': 'low poverty ▶',
+
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',
-  'LEGEND_LOW_GRD_GAP': 'growth gap decreasing',
-  'LEGEND_HIGH_GRD_GAP': 'growth gap increasing',
-  'LEGEND_LOW_COH_GAP': 'trend gap decreasing',
-  'LEGEND_HIGH_COH_GAP': 'trend gap increasing',
+  'LEGEND_LOW_GRD_GAP': 'smaller gap',
+  'LEGEND_HIGH_GRD_GAP': 'larger gap',
+  'LEGEND_LOW_COH_GAP': 'smaller gap',
+  'LEGEND_HIGH_COH_GAP': 'larger gap',
 
   'HELP_PANEL_TITLE': 'Help',
   'HELP_PANEL_HOW_TAB': 'How to explore',

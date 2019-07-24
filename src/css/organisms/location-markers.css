@@ -1,14 +1,14 @@
-.dynamic-scatterplot .location-markers {
+.scatterplot .location-markers {
   pointer-events: none;
 }
-.dynamic-scatterplot .location-markers .marker__root {
+.scatterplot .location-markers .marker__root {
   transition: transform 0.4s ease-in-out 0.5s;
 }
-.dynamic-scatterplot .location-markers .marker__root.marker__root--hover {
+.scatterplot .location-markers .marker__root.marker__root--hover {
   transition: none;
 }
 
-.dynamic-scatterplot .location-markers .marker,
+.scatterplot .location-markers .marker,
 .scatterplot-preview .location-markers .marker {
   color: #fff;
   text-shadow: 0 0 2px #000;

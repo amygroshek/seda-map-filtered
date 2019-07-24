@@ -94,6 +94,17 @@
 
   --divider-border: 1px solid var(--divider);
 
+  /** Scatterplot Margins */
+  --sp-top: 24px;
+  --sp-right: 100px;
+  --sp-left: 24px;
+  --sp-bottom: 24px;
+
+  /** Preview Margins */
+  --sp-prev-top: 8px;
+  --sp-prev-right: 8px;
+  --sp-prev-left: 8px;
+  --sp-prev-bottom: 8px;
 
   /** DEPRECATED*/
   --shadow2: 0 1px 4px var(--darken4);

@@ -5,7 +5,7 @@ import { LocationStack } from '../organisms/LocationPanel';
 import { getSelectedColors } from '../../modules/config';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature, onViewportChange, onHoverFeature, updateMapSize, setActiveLocation } from "../../actions";
+import { onRemoveSelectedFeature, onViewportChange, updateMapSize, setActiveLocation } from "../../actions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
 import * as _debounce from 'lodash.debounce';
 
@@ -110,7 +110,7 @@ const mapDispatchToProps = (dispatch) => ({
       feature
     )),
   onCardHover: ({feature}) => {
-    dispatch(onHoverFeature(feature, 'map'))
+    // dispatch(onHoverFeature(feature))
   },
   onCardClick: ({feature}) => {
     const l = parseLocationsString(

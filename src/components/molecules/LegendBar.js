@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getGradient, getValuePositionInRange } from '../../modules/config';
+import { getValuePositionInRange } from '../../modules/config';
 
 /**
  * Get the transform for the marker
@@ -13,6 +13,36 @@ const getTransform = (value, vertical = false) => {
   return vertical ?
     `translateY(${100 - value*100}%)` :
     `translateX(${value*100}%)`
+}
+
+/**
+ * Returns a CSS gradient string with the given colors
+ * to match the provided value range and color distribution
+ * range.
+ * @param {*} param0 configuration for gradient string
+ */
+const getGradient = ({
+  colors, 
+  legendRange = [0,1], 
+  colorRange = [0,1], 
+  vertical = false
+}) => {
+  const legendExtent = legendRange[1] - legendRange[0]; // 6
+  const colorExtent = colorRange[1] - colorRange[0]; // 7
+  // size of the color range relative to the legend range
+  const colorRangePercent = 100 * colorExtent / legendExtent; // 116.666%
+  const steps = colors.length - 1;
+  const colorStepSize = colorRangePercent / steps; // 16.666665714285714%
+  const colorStartPercent = 100 *
+    (colorRange[0] - legendRange[0]) / 
+    (legendRange[1] - legendRange[0])
+    // 100 * -1 / 6 = -16.6666%
+  const colorStepsString = colors.map((c, i) =>  c + ' ' + 
+    (colorStartPercent + (colorStepSize * i)) + '%'
+  ).join(',')
+  return vertical ?
+    'linear-gradient(to top, ' + colorStepsString + ')' :
+    'linear-gradient(to right, ' + colorStepsString + ')';
 }
 
 /**
