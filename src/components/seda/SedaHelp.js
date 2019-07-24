@@ -7,7 +7,6 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
-import LegendBar from '../molecules/LegendBar';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
 import MapVisualLegend from '../organisms/Map/MapVisualLegend';
 

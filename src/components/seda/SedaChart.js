@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getScatterplotVars, getChoroplethColors, isVersusFromVarNames } from '../../modules/config';
+import { getScatterplotVars, isVersusFromVarNames } from '../../modules/config';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, onHoverSection } from "../../actions";
 import Scatterplot from '../organisms/Scatterplot';

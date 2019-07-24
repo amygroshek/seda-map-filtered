@@ -319,8 +319,6 @@ const getPreviewOverlayForVarName = (varName, axis = 'y') => {
 
 
 const getOverlaysForContext = (variant, {xVar, yVar }) => {
-  const xMetric = getMetricIdFromVarName(xVar);
-  const yMetric = getMetricIdFromVarName(yVar);
   const overlays = [];
   if (variant === 'map') {
     overlays.push(getOverlayForVarName(xVar, 'x'))
@@ -346,11 +344,13 @@ const overlays = (variant, context) => {
 const getLabelCoordsForMetric = (metricId) => {
   switch (metricId) {
     case 'avg':
-      return [ [ -3.5, -3.5 ], [ -2.5, -2.5 ] ];
+      return [ [ -3, -3 ], [ -2, -2 ] ];
     case 'grd':
       return  [ [ 0.5, 0.5 ], [ 0.7, 0.7 ] ];
     case 'coh':
       return [ [ -0.3, -0.3 ], [ -0.4, -0.4 ] ];
+    default: 
+      return [ [ -0.1, -0.1 ], [ 0.1, 0.1 ] ]
   }
 }
 
