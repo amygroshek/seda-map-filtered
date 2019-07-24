@@ -20,6 +20,8 @@
   z-index:9;
 }
 
+
+
 /** CONDENSED VIEW */
 
 .legend-panel--condensed .legend-bar {
@@ -160,6 +162,18 @@
   /** Color Gradent */
   .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__gradient {
     box-shadow: 0 0 0 2px #fff, -2px 0 4px rgba(0,0,0,0.5);
+  }
+
+  /** No color gradient for versus charts */
+  .legend-panel--versus .legend-bar.legend-bar--vertical {
+    width: 0;
+    background: none;
+  }
+  .legend-panel--versus .legend-bar.legend-bar--vertical .legend-bar__gradient  {
+    background: none!important;
+    width:0;
+    box-shadow: none;
+    left:40px;
   }
 
 /** Hide axis values for preview chart */

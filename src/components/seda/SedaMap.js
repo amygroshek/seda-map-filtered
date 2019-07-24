@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation } from '../../actions';
+import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation, onHoverSection } from '../../actions';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { getMapViewport, getLayers, defaultMapStyle } from '../organisms/Map/selectors';
 import { getHoveredId } from '../../modules/sections';
-import { getSelectedColors } from '../../modules/config';
+import { getSelectedColors, getScatterplotVars, isVersusFromVarNames } from '../../modules/config';
 import MapBase from '../organisms/Map';
 import SedaMapLegend from './SedaMapLegend';
 
 const selectedColors = getSelectedColors();
 
 const SedaExplorerMap = ({
-  showLegend = true,
+  view,
   region, 
   viewport, 
   metric, 
@@ -30,6 +30,13 @@ const SedaExplorerMap = ({
 }) => {
   const zoomLevel = viewport.zoom > 11 ? 'school' :
     viewport.zoom > 8 ? 'district' : 'county'
+
+  const vars = getScatterplotVars(region, metric, demographic);
+
+  const showLegend = (
+    view === 'map' || 
+    isVersusFromVarNames(vars.xVar, vars.yVar)
+  )
   
   // reset highlighted state on zoom out
   useEffect(() => {
@@ -86,12 +93,12 @@ const mapStateToProps = ({
   selected,
   ui: { legendType },
   map: { idMap, viewport },
-  sections: { map: { hovered } },
+  sections: { hovered },
 },
 { match: { params: { view, secondary, region, metric, demographic, highlightedState, ...params } } }
 ) => {
   return ({
-    showLegend: view === 'map',
+    view,
     idMap,
     region,
     metric,
@@ -109,7 +116,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onHover: (feature, coords) => {
-    dispatch(onHoverFeature(feature, 'map'))
+    dispatch(onHoverFeature(feature))
+    dispatch(onHoverSection('map'))
     dispatch(onCoordsChange(coords))
     dispatch(addToFeatureIdMap([ feature ]))
   },

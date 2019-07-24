@@ -82,7 +82,6 @@ const SedaHelp = ({
             </Typography>
           }
           <div className="visual-help__legend">
-            <LegendBar vertical={true} />
             <ul className={classNames("visual-help__list", "visual-help__list--" + context.view)}>
               <li className="visual-help__list-item">
                 <span 

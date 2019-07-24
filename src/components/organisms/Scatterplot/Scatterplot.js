@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames';
 import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from './echartTheme';
 import { getBaseVars } from '../../../modules/config'
@@ -38,6 +39,7 @@ function Scatterplot({
   xVar,
   yVar,
   zVar,
+  className,
   region,
   highlightedState,
   variant,
@@ -84,7 +86,7 @@ function Scatterplot({
     }
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
   return (
-    <div className='scatterplot'>
+    <div className={classNames('scatterplot', className)}>
       { error &&
         <span className="notification notification--error">{ error }</span>
       }

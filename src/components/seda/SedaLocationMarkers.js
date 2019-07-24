@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ScatterplotOverlay } from '../organisms/Scatterplot';
 
 const mapStateToProps = (
-  { selected, features, sections: { map: { hovered } } }, 
+  { selected, features, sections: { hovered } }, 
   { match: { params: { region }}}
 ) => {
   return ({

@@ -275,6 +275,7 @@ const LANG = {
 
   // PREVIEW CHART AXIS LABELS
   'AXIS_PREV_ZERO': 'avg',
+  'AXIS_PREV_HIGH_SINGLE': 'avg',
 
 
   'LINE_EQUAL_OPPORTUNITY': 'no gap ($[demographic1] = $[demographic2])',
@@ -314,10 +315,10 @@ const LANG = {
 
   'LEGEND_LOW_AVG_GAP': 'smaller gap',
   'LEGEND_HIGH_AVG_GAP': 'larger gap',
-  'LEGEND_LOW_GRD_GAP': 'growth gap decreasing',
-  'LEGEND_HIGH_GRD_GAP': 'growth gap increasing',
-  'LEGEND_LOW_COH_GAP': 'trend gap decreasing',
-  'LEGEND_HIGH_COH_GAP': 'trend gap increasing',
+  'LEGEND_LOW_GRD_GAP': 'smaller gap',
+  'LEGEND_HIGH_GRD_GAP': 'larger gap',
+  'LEGEND_LOW_COH_GAP': 'smaller gap',
+  'LEGEND_HIGH_COH_GAP': 'larger gap',
 
   'HELP_PANEL_TITLE': 'Help',
   'HELP_PANEL_HOW_TAB': 'How to explore',

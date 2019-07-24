@@ -26,6 +26,21 @@
     right: 24px;
   }
 
+  /** Map legend in split view */
+  .section--explorer .map-legend.map-legend--split-view {
+    bottom: 40px;
+    right: 0;
+    left:auto;
+    min-width: 200px;
+  }
+
+  .section--explorer .map-legend.map-legend--split-view .legend-bar__title {
+    display: none;
+  }
+  .section--explorer .map-legend.map-legend--split-view .legend-bar {
+    height: 48px;
+  }
+
   /** No map legend in split view */
   .section--explorer .section__content--split .map .legend-bar {
     display: none;
@@ -54,7 +69,7 @@
    */
   .section--explorer .scatterplot__axis--y {
     position: absolute;
-    bottom: var(--sp-bottom);
+    bottom: calc(var(--sp-bottom) + 32px);
     top: var(--sp-top);
     left: auto;
     right: -16px;

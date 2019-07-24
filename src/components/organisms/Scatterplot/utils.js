@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName } from '../../../modules/config';
+import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName, isVersusFromVarNames } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import { getCSSVariable, formatNumber } from '../../../utils';
 
@@ -321,18 +321,16 @@ const getPreviewOverlayForVarName = (varName, axis = 'y') => {
 const getOverlaysForContext = (variant, {xVar, yVar }) => {
   const xMetric = getMetricIdFromVarName(xVar);
   const yMetric = getMetricIdFromVarName(yVar);
-  const isVs = xMetric === yMetric;
-  const isGap = isGapVarName(yVar);
   const overlays = [];
   if (variant === 'map') {
     overlays.push(getOverlayForVarName(xVar, 'x'))
     overlays.push(getOverlayForVarName(yVar, 'y'))
-    isVs && overlays.push(getVersusOverlay(xVar, yVar))
+    overlays.push(getVersusOverlay(xVar, yVar))
   }
   if (variant === 'preview') {
     overlays.push(getPreviewOverlayForVarName(xVar, 'x'))
     overlays.push(getPreviewOverlayForVarName(yVar, 'y'))
-    isVs && overlays.push(getVersusOverlay(xVar, yVar))
+    overlays.push(getVersusOverlay(xVar, yVar))
   }
   return overlays;
 }
@@ -359,6 +357,9 @@ const getLabelCoordsForMetric = (metricId) => {
 
 /** Return a series with a diagonal line */
 const getVersusOverlay = (xVar, yVar) => { 
+  const isVs = isVersusFromVarNames(xVar, yVar);
+  // return empty series if this is not a versus chart
+  if (!isVs) { return { id: 'versus', type: 'line', data: [], markLine: {} }}
   const xDem = getDemographicFromVarName(xVar);
   const yDem = getDemographicFromVarName(yVar);
   const metricId = getMetricIdFromVarName(xVar);
@@ -369,7 +370,7 @@ const getVersusOverlay = (xVar, yVar) => {
     animation: false,
     silent: true,
     visualMap: false,
-    data: [[-4, -4], [4, 4]],
+    data: [[-6, -6], [6, 6]],
     symbolSize: 0.1,
     label: {
       show:false
@@ -388,7 +389,7 @@ const getVersusOverlay = (xVar, yVar) => {
       },
       lineStyle: {
         width: 0,
-        color: '#999'
+        color: '#000'
       },
       data: [
         [
@@ -412,13 +413,24 @@ const getVersusOverlay = (xVar, yVar) => {
 
 /** VISUAL MAP CONFIGURATION */
 
+const COLORS = getChoroplethColors();
+
+/** Returns chart colors based on variable names */
+const getChartColorsFromVarNames = (xVar, yVar) => {
+  const isVersus = isVersusFromVarNames(xVar, yVar);
+  const isGap = isGapVarName(yVar);
+  return isVersus ? ['#eee'] :
+    isGap ? [...COLORS].reverse() : COLORS
+}
+
 const getMapVisualMap = ({
-  varName,
-  colors = getChoroplethColors(), 
+  xVar,
+  yVar,
   highlightedState,
   region
 }) => {
-  const range = getMetricRangeFromVarName(varName, region, 'map')
+  const range = getMetricRangeFromVarName(yVar, region, 'map');
+  const colors = getChartColorsFromVarNames(xVar, yVar);
   return {
     type: 'continuous',
     min: range[0],
@@ -569,7 +581,7 @@ export const getScatterplotOptions = (
   const sizer = getSizerFunctionForRegion(region)
   const options = {
     grid: grid(variant),
-    visualMap: visualMap(variant, { varName: yVar, highlightedState, region }),
+    visualMap: visualMap(variant, { xVar, yVar, highlightedState, region }),
     xAxis: xAxis(variant, { varName: xVar, region }),
     yAxis: yAxis(variant, { varName: yVar, region }),
     series: [

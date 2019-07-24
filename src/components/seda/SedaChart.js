@@ -3,22 +3,18 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getScatterplotVars, getChoroplethColors } from '../../modules/config';
+import { getScatterplotVars, getChoroplethColors, isVersusFromVarNames } from '../../modules/config';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
-import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange } from "../../actions";
+import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, onHoverSection } from "../../actions";
 import Scatterplot from '../organisms/Scatterplot';
 import SedaLocationMarkers from './SedaLocationMarkers';
 import ScatterplotHeading from '../organisms/Scatterplot/ScatterplotHeading';
 import ScatterplotAxis from '../organisms/Scatterplot/ScatterplotAxis';
 
-const COLORS = getChoroplethColors();
-
-
 const SedaExplorerChart = ({
   region,
   metric,
   demographic,
-  secondary,
   highlightedState,
   hovered,
   data,
@@ -29,14 +25,15 @@ const SedaExplorerChart = ({
   onError,
 }) => {
   const vars = getScatterplotVars(region, metric, demographic);
+  const isVersus = isVersusFromVarNames(vars.xVar, vars.yVar);
   return (
     <Scatterplot {...{
       ...vars,
       region,
       data,
       variant: 'map',
-      colors: COLORS,
       highlightedState: getStateFipsFromAbbr(highlightedState),
+      className: isVersus ? 'scatterplot--versus': '',
       onData,
       onReady,
       onHover,
@@ -79,7 +76,7 @@ SedaExplorerChart.propTypes = {
 
 const mapStateToProps = ({ 
   scatterplot: { data },
-  sections: { map: { hovered } },
+  sections: { hovered },
 },
 { match: { params: { region, metric, secondary, demographic, highlightedState } } }
 ) => {
@@ -101,6 +98,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onScatterplotLoaded('map')),
   onHover: (feature, e) => {
     dispatch(onHoverFeature(feature, 'map'))
+    dispatch(onHoverSection('chart'))
     dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
   },
     

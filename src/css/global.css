@@ -52,12 +52,9 @@ body {
 
 @media(min-width: 960px) {
   .map__zoom {
-    right: 24px;
-    left: auto;
-    top: 64px;
-    margin: 0;
+    left: 24px;
+    right: auto;
     height: 120px;
-    bottom: auto;
   }
 }
 

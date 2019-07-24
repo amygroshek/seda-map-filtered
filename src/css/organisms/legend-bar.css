@@ -59,6 +59,13 @@
   letter-spacing: 0.5px;
 }
 
+.legend-bar__label--low {
+  margin-right: 8px;
+}
+
+.legend-bar__label--high {
+  margin-left: 8px;
+}
 
 
 .legend-bar__gradient {

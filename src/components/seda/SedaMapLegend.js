@@ -9,11 +9,12 @@ import { MapLegend } from '../organisms/Map';
 const mapStateToProps = ({ 
   selected,
   ui: { legendType },
-  sections: { map: { hovered } },
+  sections: { hovered },
 },
-{ match: { params: { secondary, region, metric, demographic } } }
+{ match: { params: { view, secondary, region, metric, demographic } } }
 ) => {
   return ({
+    view,
     region,
     metric,
     demographic,
