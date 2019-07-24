@@ -208,7 +208,8 @@ export const getDescriptionForVarName = (varName, value) => {
  */
 export const getLabelForVarName = (varName) => {
   const [ demographic, metric ] = varName.split('_');
-  return getLang('LABEL_' + metric) + ' (' + getLang('LABEL_' + demographic) + ')';
+  return getLang('LABEL_' + metric) + 
+    (demographic !== 'all' ? ' (' + getLang('LABEL_' + demographic) + ')' : '');
 }
 
 /**

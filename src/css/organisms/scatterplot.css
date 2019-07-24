@@ -32,6 +32,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  text-transform: capitalize;
 }
 .scatterplot__heading .scatterplot__subtitle {
   color: var(--body2-text);
@@ -63,7 +64,7 @@
   position: absolute;
   top: var(--sp-top);
   right: calc(var(--axis-right) + var(--sp-right));
-  bottom: var(--sp-bottom);
+  bottom: calc(var(--axis-bottom) + var(--sp-bottom));
   left: var(--sp-left);
 }
 

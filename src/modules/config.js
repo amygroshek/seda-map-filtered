@@ -303,12 +303,17 @@ export const getScatterplotVars = (region, metric, demographic) => {
     }
   }
   if (isGapDemographic(demographic)) {
-    const dem1 = demographic[0];
-    // if poor / non-poor, get correct demographic
-    const dem2 = demographic[1] === 'n' ? 'np' : demographic[1];
+    let dem1 = demographic[0];
+    
+    let dem2 = demographic[1];
+    // if poor / non-poor, get correct demographic and order
+    if (dem2 === 'n') {
+      dem1 = 'np';
+      dem2 = 'p';
+    }
     return {
-      yVar: dem1 + '_' + metric,
-      xVar: dem2 + '_' + metric,
+      yVar: dem2 + '_' + metric,
+      xVar: dem1 + '_' + metric,
       zVar: 'all_sz'
     }
   }
@@ -343,6 +348,9 @@ export const isGapVarName = (varName) => {
   const id = getDemographicIdFromVarName(varName)
   return Boolean(getGapById(id))
 }
+
+export const isVersusFromVarNames = (xVar, yVar) =>
+  xVar.split('_')[1] === yVar.split('_')[1]
 
 /**
  * Returns an array containing the min and max for the

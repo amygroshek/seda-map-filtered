@@ -3,15 +3,12 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getScatterplotVars, getChoroplethColors, getMetricRange, getMetricIdFromVarName } from '../../modules/config';
+import { getScatterplotVars, getChoroplethColors } from '../../modules/config';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
-import { getFeatureProperty } from '../../modules/features';
-import { getLang, hasLangKey } from '../../modules/lang';
 import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange } from "../../actions";
-import LegendBar from '../molecules/LegendBar';
 import Scatterplot from '../organisms/Scatterplot';
 import SedaLocationMarkers from './SedaLocationMarkers';
-import SedaScatterplotHeading from '../organisms/Scatterplot/SedaScatterplotHeading';
+import ScatterplotHeading from '../organisms/Scatterplot/ScatterplotHeading';
 import ScatterplotAxis from '../organisms/Scatterplot/ScatterplotAxis';
 
 const COLORS = getChoroplethColors();
@@ -31,10 +28,10 @@ const SedaExplorerChart = ({
   onClick,
   onError,
 }) => {
-  const scatterplot = getScatterplotVars(region, metric, demographic);
+  const vars = getScatterplotVars(region, metric, demographic);
   return (
     <Scatterplot {...{
-      ...scatterplot,
+      ...vars,
       region,
       data,
       variant: 'map',
@@ -46,18 +43,18 @@ const SedaExplorerChart = ({
       onClick,
       onError
     }}>
-      <SedaScatterplotHeading />
-      <SedaLocationMarkers />
+      <ScatterplotHeading {...{...vars, region, highlightedState}} />
+      <SedaLocationMarkers {...{...vars}} />
       <ScatterplotAxis
         axis='y'
-        varName={scatterplot.yVar}
+        varName={vars.yVar}
         hovered={hovered}
         region={region}
         className='scatterplot__axis scatterplot__axis--y'
       />
       <ScatterplotAxis
         axis='x'
-        varName={scatterplot.xVar}
+        varName={vars.xVar}
         hovered={hovered}
         region={region}
         className='scatterplot__axis scatterplot__axis--x'
