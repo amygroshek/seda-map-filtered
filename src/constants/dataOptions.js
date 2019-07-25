@@ -143,7 +143,7 @@ export const METRICS = [
     label: LANG['LABEL_SEG'],
     description: LANG['EXPLAINER_SEG'],
     range: {
-      '*': [ -5, 5 ],
+      '*': [ -0.5, 1 ],
     },
     map: false,
     scatterplot: true

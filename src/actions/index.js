@@ -172,6 +172,11 @@ export const onScatterplotUnloaded = (scatterplotId) => ({
   scatterplotId
 });
 
+export const toggleGapChart = (visible) => ({
+  type: 'SET_GAP_CHART_VISIBILITY',
+  visible
+})
+
 
 /** THUNKS */
 

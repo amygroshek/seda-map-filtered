@@ -28,9 +28,19 @@ const active = (state = 'map', action) => {
   }
 }
 
+const gapChart = (state = false, action) => {
+  switch(action.type) {
+    case 'SET_GAP_CHART_VISIBILITY':
+      return action.visible
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   hovered,
-  active
+  active,
+  gapChart
 })
 
 

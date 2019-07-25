@@ -103,7 +103,7 @@ const MapLegend = ({
             hovered={hovered}
             region={region}
           />
-          { !isVersus &&
+          {/* { !isVersus &&
             <ScatterplotAxis
               axis='x'
               varName={mapVars.xVar}
@@ -111,7 +111,7 @@ const MapLegend = ({
               region={region}
               className='legend-bar--secondary'
             />
-          }
+          } */}
         </LegendPanel>
       }
       { view === 'map' &&
