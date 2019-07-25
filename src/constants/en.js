@@ -44,7 +44,7 @@ const LANG = {
   'LABEL_AVG': 'average test scores',
   'LABEL_GRD': 'average learning rates',
   'LABEL_COH': 'average test score trend',
-  'LABEL_SEG': 'Segregation Measure',
+  'LABEL_SEG': 'segregation',
   'LABEL_SES': 'socioeconomic status',
   'LABEL_PCT': 'Percent',
 
@@ -264,6 +264,7 @@ const LANG = {
   'AXIS_SES_ZERO_GAP': 'no gap in\nsocioeconomic status',
   'AXIS_SES_LOW_GAP': '$[demographic1] richer',
   'AXIS_SES_HIGH_GAP': '$[demographic2] richer',
+  'AXIS_SES_GAP_ZERO': 'no\ngap',
 
   'AXIS_SEG_ZERO': 'no\nsegregation',
   'AXIS_SEG_LOW': 'less',
@@ -277,8 +278,12 @@ const LANG = {
   'AXIS_PREV_ZERO': 'avg',
   'AXIS_PREV_HIGH_SINGLE': 'avg',
 
-
+  // LINE FOR VERSUS CHART
   'LINE_EQUAL_OPPORTUNITY': 'no gap ($[demographic1] = $[demographic2])',
+
+  // BUTTON TO TOGGLE SECONDARY CHART
+  'BUTTON_SHOW_CHART': 'Show secondary chart',
+  'BUTTON_HIDE_CHART': 'Hide secondary chart',
 
   // Intro Section
   'INTRO_TITLE': 'What type of educational opportunity would you like to explore?',
@@ -335,7 +340,6 @@ const LANG = {
   'HP_CHART': 'chart',
   'HP_SPLIT': 'map and chart',
   'HP_SES' : 'socioeconomic status',
-
 
   'WT_MAP': 'The map shapes show $[region] with colors representing $[metric] for $[demographic] students.',
   'WT_MAP_ZOOMED': 'The dots on the map show schools with colors representing $[metric] for the school.',

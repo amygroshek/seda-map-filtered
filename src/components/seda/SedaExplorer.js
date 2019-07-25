@@ -1,12 +1,13 @@
 
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { updateRoute } from '../../modules/router';
-import { updateMapSize, loadRouteLocations } from '../../actions';
+import { updateMapSize, loadRouteLocations, toggleGapChart } from '../../actions';
 
 import SplitSection from '../templates/SplitSection';
 import SedaLocations from './SedaLocations';
@@ -16,6 +17,51 @@ import SedaHelp from './SedaHelp';
 import SedaIntro from './SedaIntro';
 import SedaLocationPanel from './SedaLocationPanel';
 import SedaTooltip from './SedaTooltip';
+import SedaGapChart from './SedaGapChart';
+import { Button } from '@material-ui/core';
+import { getLang } from '../../modules/lang';
+
+const Charts = ({
+  hasGapChart, 
+  showGapChart, 
+  sectionId, 
+  onChartToggle
+}) => {
+  return (
+    <div className={classNames(
+      "charts__root",
+      { "charts__root--split": showGapChart && sectionId === 'chart' }
+    )}>
+      <SedaChart />
+      { showGapChart && <SedaGapChart /> }
+      { hasGapChart && 
+          <Button 
+            variant="contained"
+            color="primary"
+            className="charts__toggle" 
+            onClick={() => onChartToggle(!showGapChart) }
+          >
+            { showGapChart ? 
+                getLang('BUTTON_HIDE_CHART') :
+                getLang('BUTTON_SHOW_CHART')
+            }
+          </Button>
+      }
+    </div>
+  )
+}
+
+Charts.propTypes = {
+  hasGapChart: PropTypes.bool,
+  showGapChart: PropTypes.bool,
+  sectionId: PropTypes.string, 
+  onChartToggle: PropTypes.func,
+}
+
+/** Returns true if the demographic has a gap chart */
+const hasGapChart = (demographic) => {
+  return ['wh', 'wb', 'pn'].indexOf(demographic) > -1
+}
 
 const ExplorerView = ({ 
   loadRouteLocations, 
@@ -23,10 +69,13 @@ const ExplorerView = ({
   selected,
   locationActive,
   helpOpen,
-  view, 
+  view,
+  demographic,
+  gapChart,
   activeView,
   onMetricChange,
   onLayoutChange,
+  onToggleGapChart,
 }) => {
   // use state to track if the intro is on / off
   const [introOn, setIntroOn] = useState(false);
@@ -64,7 +113,14 @@ const ExplorerView = ({
         locationPanelOn={locationActive}
         activeView={activeView}
         rightComponent={<SedaMap />}
-        leftComponent={<SedaChart onError={(e)=> console.log('error with chart', e)} />}
+        leftComponent={
+          <Charts 
+            hasGapChart={hasGapChart(demographic)} 
+            showGapChart={hasGapChart(demographic) && gapChart} 
+            sectionId={view} 
+            onChartToggle={onToggleGapChart}
+          />
+        }
         footerContent={<SedaLocations />}
       >
         <SedaHelp />
@@ -89,10 +145,12 @@ ExplorerView.propTypes = {
 
 const mapStateToProps = 
   (
-    { selected, ui: { helpOpen }, active },
-    { match: { params: { locations, region, view } } }
+    { selected, ui: { helpOpen }, active, sections: { gapChart } },
+    { match: { params: { locations, region, view, demographic } } }
   ) => ({
+    gapChart,
     view,
+    demographic,
     helpOpen,
     locations,
     selected: selected[region],
@@ -109,6 +167,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onMetricChange: (metricId) => {
     updateRoute(ownProps, { metric: metricId })
   },
+  onToggleGapChart: (visible) => {
+    dispatch(toggleGapChart(visible))
+  }
 })
 
 export default compose(

@@ -8,15 +8,20 @@ import { getCSSVariable, formatNumber } from '../../../utils';
 /** Returns an amount for how much to increment each step for the axis overlay */
 const getIncrementForVarName = (varName) => {
   const metricId = getMetricIdFromVarName(varName);
-  // grd / coh gaps are 0.1
-  if (isGapVarName(varName) && metricId !== 'avg') { return 0.1 }
-  switch (metricId) {
+  const isGap = isGapVarName(varName)
+  const key = metricId + (isGap ? '_gap' : '')
+  switch (key) {
     case 'avg':
       return 1;
     case 'grd':
       return 0.2;
     case 'coh':
       return 0.2;
+    case 'coh_gap':
+    case 'grd_gap':
+      return 0.1;
+    case 'ses_gap':
+      return 1;
     default:
       return 1;
   }
@@ -359,7 +364,7 @@ const getLabelCoordsForMetric = (metricId) => {
 const getVersusOverlay = (xVar, yVar) => { 
   const isVs = isVersusFromVarNames(xVar, yVar);
   // return empty series if this is not a versus chart
-  if (!isVs) { return { id: 'versus', type: 'line', data: [], markLine: {} }}
+  if (!isVs) { return { id: 'versus', type: 'line', data: [], markLine: { data: [], lineStyle: { color: 'transparent' } } }}
   const xDem = getDemographicFromVarName(xVar);
   const yDem = getDemographicFromVarName(yVar);
   const metricId = getMetricIdFromVarName(xVar);

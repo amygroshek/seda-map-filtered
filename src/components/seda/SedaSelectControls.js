@@ -6,9 +6,29 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getStateSelectOptions } from '../../constants/statesFips';
-import { getSingularRegions, getDemographics, getGaps } from '../../modules/config';
+import { getSingularRegions, getDemographics, getGaps, getMetricById } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
 import { onRegionChange, onDemographicChange, onHighlightedStateChange } from '../../actions';
+
+export const GapTypeInlineMenu = ({metric, onChange}) => {
+  const options = [
+    getMetricById('ses'),
+    getMetricById('seg')
+  ];
+  return (
+    <InlineMenu
+      id='gapType'
+      label='Gap Type'
+      value={metric}
+      options={options}
+      onChange={onChange}
+    />
+  )
+}
+GapTypeInlineMenu.propTypes = {
+  metric: PropTypes.string,
+  onChange: PropTypes.func,
+}
 
 const RegionInlineMenu = ({region, onChange}) => {
   return (
