@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { getLang } from '../../../modules/lang';
-import AccordionItem from '../../molecules/AccordionItem';
 import { LocationStatList } from './LocationStats';
-import { LocationStatDiverging } from './LocationStats';
-import { getMetricRange, getRegionFromFeatureId, getRegionFromFeature } from '../../../modules/config';
+import { getMetricRange, getRegionFromFeatureId } from '../../../modules/config';
 import { getFeatureProperty } from '../../../modules/features';
 import { Typography, Button } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -34,10 +32,9 @@ const LocationMetric = ({
   const range = getMetricRange(metric, 'all', region, 'map')
   const statToLabel = (s) => getLang('LABEL_'+s.split('_')[0])
   return (
-    <AccordionItem 
+    <div 
       id={ "metric_" + metric }
-      heading={ getLang('LABEL_CONCEPT_' + metric) }
-      className="panel-section--metric panel-section"
+      className="panel-section__metric-details"
       {...rest}
     >
       { children }
@@ -72,7 +69,7 @@ const LocationMetric = ({
         varNameToLabel={statToLabel}
       />
       <PanelButton langKey='BUTTON_GAP_MF' onClick={() => onGapClick('mf', metric)} />
-    </AccordionItem>
+    </div>
   )
 }
 
@@ -116,8 +113,6 @@ export const LocationAvgSection = ({feature, ...rest}) => {
   const name = getFeatureProperty(feature, 'name');
   const avgValue = getFeatureProperty(feature, 'all_avg');
   const sesValue = getFeatureProperty(feature, 'all_ses');
-  const range = getMetricRange('avg', 'all', getRegionFromFeature(feature), 'map')
-  const rangeSES = getMetricRange('ses', 'all', getRegionFromFeature(feature), 'map')
 
   const diffHighLow = avgSesDiffToLowMidHigh(avgValue, sesValue);
   const sesLangKey = 'SUMMARY_AVGSES_' + diffHighLow; 
@@ -127,27 +122,7 @@ export const LocationAvgSection = ({feature, ...rest}) => {
       feature={feature}
       {...rest}
     >
-      <div className='panel-section__stat-summary'>
-        <LocationStatDiverging
-          feature={feature}
-          range={range}
-          varName={'all_avg'}
-          label='avg scores'
-          minLabel={formatNumber(range[0], 1)}
-          maxLabel={formatNumber(range[1], 1)}
-        />
-        <LocationStatDiverging
-          feature={feature}
-          range={rangeSES}
-          varName={'all_ses'}
-          label={ getLang('LABEL_SHORT_SES')}
-          minLabel={formatNumber(range[0], 1)}
-          maxLabel={formatNumber(range[1], 1)}
-        />
-      </div>
-
       <MetricSummary metric='avg' name={name} value={formatNumber(avgValue)} />
-
       <Callout
         type="help"
         size="small"
@@ -172,7 +147,6 @@ export const LocationGrdSection = ({feature, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_grd');
-  const range = getMetricRange('grd', 'all', getRegionFromFeature(feature), 'map')
   return (
     <LocationMetric
       metric="grd"
@@ -180,17 +154,6 @@ export const LocationGrdSection = ({feature, ...rest}) => {
       formatter={formatPercentDiff}
       {...rest}
     >
-      <div className='panel-section__stat-summary'>
-        <LocationStatDiverging
-          feature={feature}
-          range={range}
-          varName={'all_grd'}
-          label='Avg Rate'
-          formatter={formatPercentDiff}
-          minLabel={formatPercentDiff(range[0])}
-          maxLabel={formatPercentDiff(range[1])}
-        />
-      </div>
       <MetricSummary metric='grd' name={name} value={formatPercentDiff(value)} />
       <Callout
         type="help"
@@ -205,23 +168,12 @@ export const LocationCohSection = ({feature, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_coh');
-  const range = getMetricRange('coh', 'all', getRegionFromFeature(feature), 'map')
   return (
     <LocationMetric
       metric="coh"
       feature={feature}
       {...rest}
     >
-      <div className='panel-section__stat-summary'>
-        <LocationStatDiverging
-          feature={feature}
-          range={range}
-          varName={'all_coh'}
-          label='Avg Trend'
-          minLabel={formatNumber(range[0], 1)}
-          maxLabel={formatNumber(range[1], 1)}
-        />
-      </div>
       <MetricSummary metric='coh' name={name} value={formatNumber(value)} />
       <Callout
         type="help"
@@ -232,4 +184,17 @@ export const LocationCohSection = ({feature, ...rest}) => {
   )
 }
 
-export default LocationMetric
+const LocationMetricDetails = ({metric, ...props}) => {
+  switch (metric) {
+    case 'avg':
+      return <LocationAvgSection {...props} />
+    case 'grd':
+      return <LocationGrdSection {...props} />
+    case 'coh':
+      return <LocationCohSection {...props} />
+    default:
+      return null;
+  }
+}
+
+export default LocationMetricDetails

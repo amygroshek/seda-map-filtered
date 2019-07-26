@@ -1,32 +1,49 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import Panel from '../../molecules/Panel';
-import { getRegionFromFeature, getRegionFromFeatureId, getMetricIdFromVarName } from '../../../modules/config';
+import { getRegionFromFeatureId } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationComparison from './LocationComparison';
-import { LocationStatSummaryList } from './LocationStats';
+import { LocationStatDiverging } from './LocationStats';
 import LocationItem from './LocationItem';
-import { LocationAvgSection, LocationGrdSection, LocationCohSection } from './LocationMetricSumary';
+import LocationMetricDetails from './LocationMetricSumary';
+import { Button, ButtonBase, Typography } from '@material-ui/core';
 
-
-const LocationSummary = ({feature}) => {
-  const region = getRegionFromFeature(feature);
-  const varNames = [ 'all_avg', 'all_grd', 'all_coh' ]
-  region === 'schools' ? varNames.push('all_frl') : varNames.push('all_ses')
-  return (
-    <div className="panel-section panel-section--summary">
-      <div className="panel-section__content">
-        <LocationStatSummaryList 
-          feature={feature} 
-          varNames={varNames}
-          varNameToLabel={(varName) => {
-            return getLang('LABEL_SHORT_' + getMetricIdFromVarName(varName))
-          }} />
-      </div>
-    </div>
-  )
-}
+const LocationMetric = ({
+  metric, 
+  feature, 
+  toggleExpanded, 
+  onGapClick, 
+  expanded
+}) => (
+  <div>
+    <LocationStatDiverging
+      feature={feature}
+      varName={'all_'+metric}
+      label={getLang('LABEL_SHORT_'+metric)}
+      showDescription={true}
+    />
+    <ButtonBase
+      className='button button--link'
+      disableRipple={true}
+      onClick={() => toggleExpanded('metric_'+metric)}
+    >
+      {
+        expanded ?
+          getLang('LOCATION_HIDE_'+metric) :
+          getLang('LOCATION_SHOW_'+metric)
+      }
+    </ButtonBase>
+    { expanded &&
+      <LocationMetricDetails
+        metric={metric}
+        feature={feature}
+        onGapClick={onGapClick}
+      />
+    }
+  </div>
+)
 
 const LocationPanel = ({
   feature,
@@ -36,7 +53,7 @@ const LocationPanel = ({
   onGapClick,
 }) => {
   // track state for expanded / collapsed items
-  const [ expanded, setExpanded ] = useState(['metric_'+metric]);
+  const [ expanded, setExpanded ] = useState([]);
   // id of the location
   const id = feature && feature.properties ? feature.properties.id : null;
   // name of the location
@@ -51,7 +68,7 @@ const LocationPanel = ({
   const selectedIndex = feature && others.findIndex((f, i) =>
     f.properties.id === feature.properties.id
   )
-  return (
+  return feature && feature.properties ? (
     <Panel
       title={
         id && <LocationItem
@@ -63,28 +80,37 @@ const LocationPanel = ({
       onClose={onClose}
       open={Boolean(feature)}
     > 
-      <LocationSummary feature={feature} />
-      <LocationAvgSection
-        id="metric_avg"
-        feature={feature}
-        expanded={expanded.indexOf('metric_avg') > -1}
-        onChange={toggleExpanded}
-        onGapClick={onGapClick}
-      />
-      <LocationGrdSection
-        id="metric_grd"
-        feature={feature}
-        expanded={expanded.indexOf('metric_grd') > -1}
-        onChange={toggleExpanded}
-        onGapClick={onGapClick}
-      />
-      <LocationCohSection
-        id="metric_coh"
-        feature={feature}
-        expanded={expanded.indexOf('metric_coh') > -1}
-        onChange={toggleExpanded}
-        onGapClick={onGapClick}
-      />
+      <div className="panel-section panel-section--summary">
+        <div className="panel-section__content">
+          <LocationMetric 
+            feature={feature}
+            metric='avg'
+            expanded={expanded.indexOf('metric_avg') > -1}
+            onGapClick={onGapClick}
+            toggleExpanded={toggleExpanded}
+          />
+          <LocationMetric 
+            feature={feature}
+            metric='grd'
+            expanded={expanded.indexOf('metric_grd') > -1}
+            onGapClick={onGapClick}
+            toggleExpanded={toggleExpanded}
+          />
+          <LocationMetric 
+            feature={feature}
+            metric='coh'
+            expanded={expanded.indexOf('metric_coh') > -1}
+            onGapClick={onGapClick}
+            toggleExpanded={toggleExpanded}
+          />
+          <LocationStatDiverging
+            feature={feature}
+            varName='all_ses'
+            label={getLang('LABEL_SHORT_SES')}
+            showDescription={true}
+          />
+        </div>
+      </div>
       <LocationComparison
         id="compare"
         feature={feature}
@@ -100,11 +126,17 @@ const LocationPanel = ({
         heading={ getLang('LOCATION_EXPORT_REPORT_TITLE') }
         onChange={toggleExpanded}
       >
-        { getLang('LOCATION_EXPORT_REPORT', { name }) }
-        <div style={{color:'#999', padding: 16}}>Feature not yet available</div>
+        <Typography paragraph={true}>
+          { getLang('LOCATION_EXPORT_REPORT', { name }) }
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => { alert('report unavailable') }}
+        >{getLang('BUTTON_DOWNLOAD_REPORT')}</Button>
       </AccordionItem>
     </Panel>
-  )
+  ) : null
 }
 
 LocationPanel.propTypes = {

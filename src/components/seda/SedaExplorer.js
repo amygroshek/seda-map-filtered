@@ -140,7 +140,10 @@ ExplorerView.propTypes = {
   onMetricChange: PropTypes.func,
   onLayoutChange: PropTypes.func,
   loadRouteLocations: PropTypes.func,
+  demographic: PropTypes.string,
+  gapChart: PropTypes.bool,
   classes: PropTypes.object,
+  onToggleGapChart: PropTypes.func,
 }
 
 const mapStateToProps = 

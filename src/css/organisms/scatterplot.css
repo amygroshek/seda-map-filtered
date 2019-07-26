@@ -205,7 +205,7 @@
   align-items:center;
   justify-content:center;
   bottom: 32px;
-  z-index: 100;
+  z-index: 10;
   color: var(--text2);
   font-weight: 900;
   font-size: var(--small-font-size);
