@@ -124,14 +124,6 @@
   margin-top: 8px;
 }
 
-.panel-section--metric .stat-list {
-  padding-top: 16px;
-  border-top: 1px solid var(--darken1);
-  margin: 16px 0;
-}
-
-
-
 .panel-section__content .stat {
   position: relative;
 }
@@ -148,17 +140,13 @@
 
 .panel-section--summary .panel-section__content .stat.stat--diverging {
   position: relative;
-  padding-top: 12px;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  padding-top: 8px;
+
 }
 
 .panel-section--summary .stat.stat--diverging {
   flex-direction: column;
   align-items: start;
-  margin: 16px 0;
-  padding-top: 16px;
-  border-top: 1px solid var(--darken1);
 }
 
 .panel-section--summary .stat.stat--diverging:first-child {
@@ -168,10 +156,21 @@
 .panel-section--summary .stat.stat--diverging .stat__label {
   margin-bottom: 4px;
   position:absolute;
-  top:16px;
+  top:12px;
   line-height: 1;
 }
 
 .panel-section--summary .stat.stat--diverging .stat__description {
   margin-top: 4px;
+}
+
+.panel-section--summary .stat-list + .button--panel {
+  margin-top: 8px;
+}
+
+
+/** Metric details */
+
+.panel-section__metric-details {
+  padding: 8px 0;
 }

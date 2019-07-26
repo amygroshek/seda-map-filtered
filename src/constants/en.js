@@ -97,16 +97,16 @@ const LANG = {
   'TOOLTIP_TYPE_MAP': 'an area on the map',
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
 
-  'SUMMARY_AVG_LOW': '$[name] has <strong>lower community educational opportunity</strong> than average. Average test scores are <strong>$[value] grade levels below</strong> the national average.',
-  'SUMMARY_AVG_MID': '$[name] has <strong>average community educational opportunity</strong>. Average test scores are similar to the national average.',
-  'SUMMARY_AVG_HIGH': '$[name] has <strong>higher community educational opportunity</strong> than average. Average test scores are <strong>$[value] grade levels above</strong> the national average.',
+  // Location Panel
+  'SUMMARY_AVG_LOW': '$[name] has <strong>lower community educational opportunity</strong> than average.',
+  'SUMMARY_AVG_MID': '$[name] has <strong>average community educational opportunity</strong>.',
+  'SUMMARY_AVG_HIGH': '$[name] has <strong>higher community educational opportunity</strong> than average.',
   
   'SUMMARY_AVGSES_LOW': 'Educational opportunity in $[name] is lower than districts with similar socioeconomic status.',
   'SUMMARY_AVGSES_MID': 'Educational opportunity in $[name] is similar to districts with similar socioeconomic status.',
   'SUMMARY_AVGSES_HIGH': 'Educational opportunity in $[name] is lower than districts with similar socioeconomic status.',
   'SUMMARY_AVGSES_NONE': '',
   
-
   'SUMMARY_GRD_LOW': '$[name] has <strong>lower school effectiveness</strong> than average.  Students learn <strong>$[value] less each grade</strong> than the national average.',
   'SUMMARY_GRD_MID': '$[name] has <strong>average school effectiveness</strong>. Students learn as much each grade as the national average.',
   'SUMMARY_GRD_HIGH': '$[name] has <strong>higher school effectiveness</strong> than average. Students learn <strong>$[value] more each grade</strong> than the national average.',
@@ -133,15 +133,23 @@ const LANG = {
   'BUTTON_GAP_WH': 'Explore the white / Hispanic Gap',
   'BUTTON_GAP_PN': 'Explore the Poor / Non-poor Gap',
   'BUTTON_GAP_MF': 'Explore the male / female Gap',
+  'BUTTON_DOWNLOAD_REPORT': 'Download Report',
 
   'LOCATION_COMPARE_FEATURES_TITLE': '$[region] Comparison',
   'LOCATION_COMPARE_FEATURES': 'Select another place from the map, chart, or search to compare it with $[name].',
   'LOCATION_EXPORT_REPORT_TITLE': 'Export a Report',
-  'LOCATION_EXPORT_REPORT': `Select one of the options below to export a PDF report or Powerpoint presentation about the educational opportunity in $[name].`,
+  'LOCATION_EXPORT_REPORT': `Press the button below to generate a PDF report about educational opportunity in $[name].`,
   'LOCATION_DIFFERENCES_TITLE': 'Opportunity Differences',
   'LOCATION_DIFFERENCES': '',
   'LOCATION_SIMILAR_PLACES_TITLE': 'Similar $[region]',
   'LOCATION_SIMILAR_PLACES': `The following places are similar to $[name] based on size, socioeconomic status, and other factors:`,
+
+  'LOCATION_SHOW_AVG': 'more details on average test scores',
+  'LOCATION_SHOW_GRD': 'more details on learning rates',
+  'LOCATION_SHOW_COH': 'more details on test score trends',
+  'LOCATION_HIDE_AVG': 'hide details on average test scores',
+  'LOCATION_HIDE_GRD': 'hide details on learning rates',
+  'LOCATION_HIDE_COH': 'hide details on test score trends',
 
   // Explainers
   'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
