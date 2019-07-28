@@ -9,12 +9,43 @@ import { formatNumber } from '../../../utils';
 
 const statToLabel = (s) => getLang('LABEL_SHORT_'+s.split('_')[1])
 
+const LocationComparisonItem = ({
+  idx,
+  feature,
+  demographic,
+  region,
+  metrics
+}) => (
+  <LocationItem 
+    idx={idx} 
+    feature={feature}
+  >
+    {
+      metrics.map(m => {
+        const range = getMetricRange(m, demographic, region, 'map')  || [-1, 1]
+        return (
+          <LocationStatDiverging
+            key={m}
+            feature={feature}
+            range={range}
+            varName={demographic + '_' + m}
+            label={statToLabel(demographic + '_' + m)}
+            minLabel={formatNumber(range[0])}
+            maxLabel={formatNumber(range[1])}
+          />
+        )
+      })
+    }
+  </LocationItem>
+)
+
 const LocationList = ({
   metrics = ['avg', 'grd', 'coh'],
   demographic = 'all', 
   feature, 
   className, 
-  others = []
+  others = [],
+  showMarkers = true
 }) => {
   if (!feature || !feature.properties) { return null; }
   const region = getRegionFromFeatureId(feature.properties.id)
@@ -23,29 +54,15 @@ const LocationList = ({
       {
         others.map((f,i) => {
           return (
-            f.properties.id !== feature.properties.id && 
-            <LocationItem 
-              key={'f'+i} 
-              idx={i} 
-              feature={f}
-            >
-              {
-                metrics.map(m => {
-                  const range = getMetricRange(m, demographic, region, 'map')  || [-1, 1]
-                  return (
-                    <LocationStatDiverging
-                      key={m}
-                      feature={f}
-                      range={range}
-                      varName={demographic + '_' + m}
-                      label={statToLabel(demographic + '_' + m)}
-                      minLabel={formatNumber(range[0])}
-                      maxLabel={formatNumber(range[1])}
-                    />
-                  )
-                })
-              }
-            </LocationItem>
+            f.properties.id !== feature.properties.id &&
+              <LocationComparisonItem
+                key={'l'+i}
+                idx={showMarkers ? i : null} 
+                feature={f}
+                demographic={demographic}
+                region={region}
+                metrics={metrics}
+              />
           )
         })
       }

@@ -22,13 +22,15 @@ const LocationItem = ({
   )
   return (
     <div onMouseEnter={onHover} className="location-item" {...props}>
-      <Marker 
-          className="location-item__marker" 
-          color={SELECTED[idx]} 
-          type="circle"
-        >
-          {label ? label  : idx+1}
-      </Marker>
+      { (label || idx || idx === 0) &&
+        <Marker 
+            className="location-item__marker" 
+            color={SELECTED[idx]} 
+            type="circle"
+          >
+            {label ? label  : idx+1}
+        </Marker>
+      }
       <div className="location-item__content-wrapper">
         <div className="location-item__heading">
           <span className="location-item__name">{feature.properties.name}</span>
