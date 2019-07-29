@@ -188,7 +188,7 @@ export const toggleGapChart = (visible) => ({
 export const loadLocation = (location) =>
   (dispatch) => {
     dispatch(onLoadFeaturesRequest([location]))
-    loadFeatureFromCoords(location)
+    return loadFeatureFromCoords(location)
       .then(feature => {
         dispatch(onLoadFeaturesSuccess([feature]))
         dispatch(handleLocationActivation(feature))

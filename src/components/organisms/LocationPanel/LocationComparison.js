@@ -5,7 +5,7 @@ import algoliasearch from 'algoliasearch';
 import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationList from './LocationList';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import { getSingularRegion } from '../../../modules/config';
 import { getFeatureProperty } from '../../../modules/features';
 
@@ -18,6 +18,7 @@ const getDataForFeatureId = (index, id) =>
         .filter((hit) => hit.id === id)
         .map((hit) => ({
           id: hit.id,
+          stub: true, // flags that this is not a full feature
           properties: {
             id: hit.id,
             lat: hit.lat,
@@ -46,6 +47,9 @@ const getDataForFeatureIds = (ids, region) => {
 const SimilarLocations = ({
   feature,
   region,
+  name,
+  markerColor,
+  onSelectFeature
 }) => {
   const endpoint = process.env.REACT_APP_SIMILAR_ENDPOINT;
   const [ similar, setSimilar ] = useState(null);
@@ -69,28 +73,42 @@ const SimilarLocations = ({
     fetchData();
   }, [ featureId ]);
   return similar ? (
-    <LocationList 
-      feature={feature} 
-      others={similar}
-      showMarkers={false}
-    />
+    <>
+      <Typography>
+        { getLang('LOCATION_SIMILAR_PLACES', { name }) }
+      </Typography>
+      <LocationList
+        className="location-list--similar"
+        feature={feature} 
+        others={similar}
+        showMarkers={false}
+        markerColor={markerColor}
+        onSelectFeature={onSelectFeature}
+      />
+    </>
   ) : <p>Loading...</p>
 }
 
 SimilarLocations.propTypes = {
   feature: PropTypes.object,
   region: PropTypes.string,
+  name: PropTypes.string,
 }
 
 const LocationComparison = ({
   id,
   region,
+  markerColor,
   name,
   feature,
   others,
   expanded,
-  onChange
+  onChange,
+  onSelectFeature,
 }) => {
+  const [ showSimilar, setShowSimilar ] = useState(false);
+  // hide similar location when switching locations
+  useEffect(() => setShowSimilar(false), [ name ]);
   return (
     <AccordionItem 
       id={id}
@@ -100,23 +118,44 @@ const LocationComparison = ({
       className="panel-section"
     >
       {
-        others.length < 1 &&
+        others.length < 2 && 
+          <Typography paragraph={true}>
+            {getLang('LOCATION_COMPARE_FEATURES_NONE', { name })}
+          </Typography>
+      }
+      { others.length > 1 &&
           <Typography>
             {getLang('LOCATION_COMPARE_FEATURES', { name })}
           </Typography>
       }
-      <LocationList 
+      <LocationList
+        className="location-list--comparison"
+        markerColor={markerColor}
         feature={feature} 
         others={others}
+        onSelectFeature={onSelectFeature}
       />
-      <Typography>
-        { getLang('LOCATION_SIMILAR_PLACES', { name }) }
-      </Typography>
-      { expanded &&
+      {
+        !showSimilar &&
+        <Typography paragraph={true}>
+          { getLang('LOCATION_SIMILAR_PLACES_SUMMARY', {name}) }
+        </Typography>
+      }
+      { showSimilar ? (
           <SimilarLocations
             feature={feature}
             region={region}
+            name={name}
+            markerColor={markerColor}
+            onSelectFeature={onSelectFeature}
           />
+        ) : (
+          <Button 
+            onClick={() => setShowSimilar(true)}
+            variant="contained"
+            color="primary"
+          >{ getLang('LOCATION_SIMILAR_SHOW') }</Button>
+        )
       }
     </AccordionItem>
   )

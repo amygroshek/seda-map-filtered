@@ -12,7 +12,7 @@ const DivergingBar = ({
   position,
   midPosition = '50%',
   markerPosition,
-  markerColor = '#f00',
+  markerColor,
   color,
   className,
   size,
@@ -48,8 +48,9 @@ const DivergingBar = ({
         {
           (markerPosition || markerPosition === 0) && 
             <span className='diverging-bar__marker marker' style={{
-              background: markerColor,
-              transform: markerPosition ? 'scaleX(' + markerPosition + ')' : null,
+              marginLeft: 'calc(' + markerPosition*100 + '% - 4px)',
+              borderTopColor: markerColor,
+              borderBottomColor: markerColor,
               left: midPosition
             }} />
         }
