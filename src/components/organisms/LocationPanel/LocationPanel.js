@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import Panel from '../../molecules/Panel';
-import { getRegionFromFeatureId } from '../../../modules/config';
+import { getRegionFromFeatureId, getSelectedColors } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationComparison from './LocationComparison';
@@ -9,6 +9,8 @@ import { LocationStatDiverging } from './LocationStats';
 import LocationItem from './LocationItem';
 import LocationMetricDetails from './LocationMetricSumary';
 import { Button, ButtonBase, Typography } from '@material-ui/core';
+
+const SELECTED = getSelectedColors();
 
 const LocationMetric = ({
   metric, 
@@ -51,6 +53,7 @@ const LocationPanel = ({
   others = [],
   onClose,
   onGapClick,
+  onSelectFeature,
 }) => {
   // track state for expanded / collapsed items
   const [ expanded, setExpanded ] = useState([]);
@@ -68,6 +71,7 @@ const LocationPanel = ({
   const selectedIndex = feature && others.findIndex((f, i) =>
     f.properties.id === feature.properties.id
   )
+  const markerColor = SELECTED[selectedIndex];
   return feature && feature.properties ? (
     <Panel
       title={
@@ -114,11 +118,13 @@ const LocationPanel = ({
       <LocationComparison
         id="compare"
         feature={feature}
+        markerColor={markerColor}
         name={name}
         region={region}
         others={others}
         expanded={expanded.indexOf('compare') > -1}
         onChange={toggleExpanded}
+        onSelectFeature={onSelectFeature}
       />
       <AccordionItem 
         id="export" 
@@ -146,6 +152,7 @@ LocationPanel.propTypes = {
   icon: PropTypes.any,
   onClose: PropTypes.func,
   onGapClick: PropTypes.func,
+  onSelectFeature: PropTypes.func,
 }
 
 export default LocationPanel

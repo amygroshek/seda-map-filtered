@@ -1,6 +1,16 @@
 .button.button--link {
-  padding:8px 0;
+  padding:4px 4px;
+  margin: 4px -4px;
   color: var(--link);
+}
+
+.button.button--link:hover {
+  text-decoration: underline;
+}
+
+.button.button--link:focus {
+  text-decoration: underline;
+  box-shadow: 0 0 2px var(--link);
 }
 
 

@@ -136,13 +136,17 @@ const LANG = {
   'BUTTON_DOWNLOAD_REPORT': 'Download Report',
 
   'LOCATION_COMPARE_FEATURES_TITLE': '$[region] Comparison',
-  'LOCATION_COMPARE_FEATURES': 'Select another place from the map, chart, or search to compare it with $[name].',
+  'LOCATION_COMPARE_FEATURES_NONE': 'Select another place from the map, chart, or search to compare it with $[name].',
+  'LOCATION_COMPARE_FEATURES': 'Below are your previous location selections.  The arrows mark where $[name] falls on the scale.',
   'LOCATION_EXPORT_REPORT_TITLE': 'Export a Report',
   'LOCATION_EXPORT_REPORT': `Press the button below to generate a PDF report about educational opportunity in $[name].`,
   'LOCATION_DIFFERENCES_TITLE': 'Opportunity Differences',
   'LOCATION_DIFFERENCES': '',
   'LOCATION_SIMILAR_PLACES_TITLE': 'Similar $[region]',
   'LOCATION_SIMILAR_PLACES': `The following places are similar to $[name] based on size, socioeconomic status, and other factors:`,
+  'LOCATION_SIMILAR_PLACES_SUMMARY': 'Find places similar to $[name] based on size, socioeconomic status:',
+  'LOCATION_SIMILAR_SHOW': 'Show similar places',
+  'LOCATION_SHOW_PLACE': 'Show data for $[name]',
 
   'LOCATION_SHOW_AVG': 'more details on average test scores',
   'LOCATION_SHOW_GRD': 'more details on learning rates',

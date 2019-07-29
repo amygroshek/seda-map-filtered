@@ -81,37 +81,12 @@
 
 /** Panel Section */
 
-.panel .panel-section .location-item {
-  margin-bottom: 16px;
-  border-top: 1px solid var(--darken1);
-  padding-top: 16px;
-}
 
-.panel .panel-section .location-item__heading {
-  margin-bottom: 8px;
-  margin-left: 20px;
-  color: var(--text2);
-}
-
-.panel .panel-section .location-item__content {
-  font-size: var(--font-size);
-}
-
-.panel .panel-section .location-item__marker {
-  position:absolute;
-  top: 11px;
-  left: -8px;
-  transform: scale(0.75);
-
-}
 
 .panel .panel-section__content {
   padding: 0 16px 24px 16px;
 }
 
-.panel .panel-section .location-item__content-wrapper {
-  padding:0;
-}
 
 .panel .panel-section__stat-summary {
   margin: 0 0 16px 0;

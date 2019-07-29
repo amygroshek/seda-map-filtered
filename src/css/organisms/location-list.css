@@ -3,7 +3,42 @@
   min-height: 32px;
 }
 
+.location-list .location-item {
+  margin-bottom: 16px;
+  border-top: 1px solid var(--darken1);
+  padding-top: 16px;
+}
 
-.location-list .location-item .location-item__state {
-  display: none;
+.location-list .location-item:first-child {
+  border-top: 0;
+}
+
+.location-list .location-item__heading {
+  margin-bottom: 8px;
+  margin-left: 24px;
+  color: var(--text2);
+}
+
+.location-list .location-item__content {
+  font-size: var(--font-size);
+}
+
+.location-list .location-item__marker {
+  position:absolute;
+  top: 18px;
+  left: -8px;
+
+}
+
+.location-list .location-item__content-wrapper {
+  padding:0;
+}
+
+
+.location-list--comparison {
+
+}
+
+.location-list--similar .location-item__heading {
+  margin-left:0;
 }

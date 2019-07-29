@@ -83,7 +83,7 @@ export const LocationStatDiverging = ({
 
   // get position for other feature marker
   const otherValue = getFeatureProperty(otherFeature, varName);
-  const otherPosition = getPositionFromValue(otherValue, range);
+  const otherPosition = getPositionFromValue(otherValue, range, midPoint);
   return (
     <StatDiverging
       label={label}

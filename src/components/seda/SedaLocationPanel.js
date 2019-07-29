@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LocationPanel from '../organisms/LocationPanel';
-import { clearActiveLocation, setDemographicAndMetric } from '../../actions';
+import { clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation } from '../../actions';
 
 const SedaLocationPanel = ({
   active,
@@ -13,6 +13,7 @@ const SedaLocationPanel = ({
   selected,
   clearActiveLocation,
   onGapClick,
+  onSelectFeature,
 }) => {
   // use memo to store other features
   const others = useMemo(() => 
@@ -25,6 +26,7 @@ const SedaLocationPanel = ({
       onClose={clearActiveLocation}
       metric={metric}
       onGapClick={onGapClick}
+      onSelectFeature={onSelectFeature}
     />
   )
 }
@@ -37,6 +39,7 @@ SedaLocationPanel.propTypes = {
   selected: PropTypes.array,
   clearActiveLocation: PropTypes.func,
   onGapClick: PropTypes.func,
+  onSelectFeature: PropTypes.func,
 }
 
 const mapStateToProps = 
@@ -57,6 +60,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   clearActiveLocation: () => 
     dispatch(clearActiveLocation()),
+  onSelectFeature: (feature) => {
+    console.log('onSelectFeature', feature)
+    // feature is a stub, need to load full data
+    if (feature.stub) {
+      dispatch(loadLocation(feature.properties))
+    } else {
+      dispatch(handleLocationActivation(feature))
+    }
+  }
 })
 
 export default compose(
