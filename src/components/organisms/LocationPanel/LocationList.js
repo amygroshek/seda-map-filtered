@@ -8,7 +8,6 @@ import { LocationStatDiverging } from './LocationStats';
 import { formatNumber } from '../../../utils';
 import { ButtonBase } from '@material-ui/core';
 import { getFeatureProperty } from '../../../modules/features';
-import { loadFeatureFromCoords } from '../../../utils/tilequery';
 
 const statToLabel = (s) => getLang('LABEL_SHORT_'+s.split('_')[1])
 
@@ -57,6 +56,17 @@ const LocationComparisonItem = ({
   )
 }
 
+LocationComparisonItem.propTypes = {
+  idx: PropTypes.number,
+  feature: PropTypes.object,
+  otherFeature: PropTypes.object,
+  demographic: PropTypes.string,
+  region: PropTypes.string,
+  metrics: PropTypes.array,
+  markerColor: PropTypes.string,
+  onSelectFeature: PropTypes.func,
+}
+
 const LocationList = ({
   metrics = ['avg', 'grd', 'coh'],
   demographic = 'all', 
@@ -101,6 +111,8 @@ LocationList.propTypes = {
   metrics: PropTypes.array,
   className: PropTypes.string,
   onSelectFeature: PropTypes.func,
+  markerColor: PropTypes.string,
+  showMarkers: PropTypes.bool,
 }
 
 export default LocationList;

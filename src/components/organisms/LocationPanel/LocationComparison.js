@@ -93,6 +93,8 @@ SimilarLocations.propTypes = {
   feature: PropTypes.object,
   region: PropTypes.string,
   name: PropTypes.string,
+  markerColor: PropTypes.string,
+  onSelectFeature: PropTypes.func,
 }
 
 const LocationComparison = ({
@@ -168,7 +170,9 @@ LocationComparison.propTypes = {
   feature: PropTypes.object,
   others: PropTypes.array,
   expanded: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onSelectFeature: PropTypes.func,
+  markerColor: PropTypes.string,
 }
 
 export default LocationComparison
