@@ -36,7 +36,7 @@ export const REGION_DOMAINS = {
   'pn_districts':  [ 4, 71000 ],
   'mf_districts':  [ 4, 71000 ],
 
-  'schools': [ 2, 1000 ],
+  'schools': [ 10, 1000 ],
 }
 
 

@@ -5,6 +5,7 @@ import CircleMarker from '../../atoms/CircleMarker';
 import { getFeatureProperty } from '../../../modules/features';
 
 const colors = getSelectedColors();
+const MIN_OVERLAY_SIZE = 18;
 
 /**
  * Returns a percent based on where the value falls 
@@ -34,14 +35,16 @@ const getCircleForFeature = ({
   if (!feature || !feature.properties) { return null; }
   const xVal = getFeatureProperty(feature, xVar);
   const yVal = getFeatureProperty(feature, yVar);
+  const zVal = getFeatureProperty(feature, zVar);
   return {
     id: feature.properties.id,
     x: xValueToPercent && hasVal(xVal) ? 
       (xValueToPercent(xVal) + '%') : null,
     y: yValueToPercent && hasVal(yVal) ? 
       (yValueToPercent(yVal) + '%') : null,
-    z: zValueToRadius ? 
-      Math.max(8, zValueToRadius(feature.properties[zVar])) : 8,
+    z: zValueToRadius && hasVal(zVal) ? 
+      Math.max(MIN_OVERLAY_SIZE, zValueToRadius(feature.properties[zVar])) : 
+      MIN_OVERLAY_SIZE,
     data: feature
   }
 }
