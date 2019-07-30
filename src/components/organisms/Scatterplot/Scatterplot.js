@@ -52,6 +52,7 @@ function Scatterplot({
   onReady,
   onError
 }) {
+
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
@@ -65,11 +66,29 @@ function Scatterplot({
     },
     [xVar, yVar, zVar, highlightedState, data[region]]
   );
+
   // memoize highlighted state IDs for the scatterplot
   const highlighted = useMemo(
     () => getStateHighlights(highlightedState, data && data[region]),
     [highlightedState, region, data[region]]
-  );  
+  );
+
+  // fetch base vars for region if they haven't already been fetched
+  // this is required 
+  useEffect(() => {
+    if (!data || !data[region] || !data['name']) {
+      fetchScatterplotVars(
+        [ 'name' ], 
+        region, 
+        endpoint, 
+        getBaseVars()[region]
+      ).then((data) => {
+        onData && onData(data, region);
+        return data
+      })
+    }
+  }, [ region, zVar ]);
+
   // fetch any additional school level data for highlighted states
   useEffect(() => {
     if (!freeze && region === 'schools' && highlightedState && highlightedState !== 'us') {
@@ -85,6 +104,7 @@ function Scatterplot({
       })
     }
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
+
   return (
     <div className={classNames('scatterplot', className)}>
       { error &&

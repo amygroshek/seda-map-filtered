@@ -28,8 +28,7 @@ export default features;
 export const getFeatureProperty = (feature, propName) => {
   if (
     feature && 
-    feature.properties && 
-    feature.properties[propName]
+    feature.properties
   ) {
     return feature.properties[propName]
   }

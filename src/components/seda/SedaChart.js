@@ -41,7 +41,10 @@ const SedaExplorerChart = ({
       onError
     }}>
       <ScatterplotHeading {...{...vars, region, highlightedState}} />
-      <SedaLocationMarkers {...{...vars}} />
+      <SedaLocationMarkers 
+        {...{...vars}}
+        onHover={onHover}
+      />
       <ScatterplotAxis
         axis='y'
         varName={vars.yVar}
