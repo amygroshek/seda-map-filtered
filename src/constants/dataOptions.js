@@ -1,13 +1,42 @@
 import LANG from "./en";
 
 /** min / max dot sizes */
-export const DOT_SIZES = [ 8, 48 ]
+export const DOT_SIZES = [ 5, 50 ]
 
 /** data ranges to map to size ranges */
 export const REGION_DOMAINS = {
-  'counties': [ 1000, 100000 ],
-  'districts': [ 1000, 10000 ],
-  'schools': [ 10, 500 ],
+
+  'all_counties': [ 3, 110000 ],
+  'b_counties':   [ 3, 21000 ],
+  'w_counties':   [ 3, 22000 ],
+  'h_counties':   [ 3, 75000 ],
+  'a_counties':   [ 3, 10000 ],
+  'f_counties':   [ 3, 56000 ],
+  'm_counties':   [ 3, 59000 ],
+  'p_counties':   [ 3, 81000 ],
+  'np_counties':  [ 3, 34000 ],
+  'wb_counties':  [ 9, 32000 ],
+  'wh_counties':  [ 5, 92000 ],
+  'wa_counties':  [ 3, 34000 ],
+  'pn_counties':  [ 6, 116000 ],
+  'mf_counties':  [ 6, 115000 ],
+
+  'all_districts': [ 2, 71000 ],
+  'b_districts':   [ 2, 21000 ],
+  'w_districts':   [ 2, 10000 ],
+  'h_districts':   [ 2, 36000 ],
+  'a_districts':   [ 2, 10000 ],
+  'f_districts':   [ 2, 35000 ],
+  'm_districts':   [ 2, 35000 ],
+  'p_districts':   [ 2, 60000 ],
+  'np_districts':  [ 2, 11000 ],
+  'wb_districts':  [ 4, 31000 ],
+  'wh_districts':  [ 4, 41000 ],
+  'wa_districts':  [ 2, 11000 ],
+  'pn_districts':  [ 4, 71000 ],
+  'mf_districts':  [ 4, 71000 ],
+
+  'schools': [ 2, 1000 ],
 }
 
 
@@ -83,7 +112,7 @@ export const METRICS = [
       '*_counties': [ -4.5, 2.5 ],
       '*_districts_b': [ -4, 3 ],
       '*_districts': [ -4.5, 4.5 ],
-      '*_schools': [ -8, 8 ],
+      '*_schools': [ -8, 7 ],
     },
     map: true,
     scatterplot: true,
@@ -94,12 +123,11 @@ export const METRICS = [
     description: LANG['EXPLAINER_GRD'],
     range: {
       'map_*_gap': [ -0.4, 0.4 ],
-      'map_schools': [ 0, 2 ],
       'map_*_*': [ 0.5, 1.5 ],
+      '*_schools': [ -0.1, 2.6 ],
       '*_*_b': [0.4, 1.4],
       '*_*_wb': [ -0.3, 0.45 ],
       '*_*_gap': [ -0.4, 0.4 ],
-      '*_schools': [ -0.6, 2.6 ],
       '*': [ 0.4, 1.6 ],
     },
     map: true,
@@ -110,9 +138,9 @@ export const METRICS = [
     label: LANG['LABEL_COH'],
     description: LANG['EXPLAINER_COH'],
     range: {
-      '*_*_gap': [-0.25, 0.25],
-      '*_schools': [-1.5, 1.5],
       'map_*_*': [ -0.333, 0.3333 ],
+      '*_*_gap': [-0.25, 0.25],
+      '*_schools': [-1, 1],
       '*': [ -0.5, 0.5 ],
     },
     map: true,

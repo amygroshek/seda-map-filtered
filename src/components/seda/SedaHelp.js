@@ -1,5 +1,4 @@
 import React from 'react'
-import TabPanel from '../organisms/TabPanel';
 import classNames from 'classnames';
 import { connect } from 'react-redux'
 import { getLang, populateContext } from '../../modules/lang';
@@ -8,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import HelpAccordion from './SedaHelpAccordion';
 import { getChoroplethColors, isGapDemographic } from '../../modules/config';
-import MapVisualLegend from '../organisms/Map/MapVisualLegend';
+import Panel from '../molecules/Panel';
 
 const colors = getChoroplethColors();
 
@@ -34,24 +33,14 @@ const SedaHelp = ({
     secondary
   }
   return (
-    <TabPanel 
+    <Panel
+      title="Help"
       open={open} 
-      value={tab} 
       onClose={onClose} 
-      onTabChange={onTabChange}
       classes={{root: 'panel--help'}}
     >
       <div className="help-content">
         <div className="visual-help">
-
-          { (view === 'map' || view === 'split') &&
-              <MapVisualLegend colors={colors} className={
-                classNames(
-                  "visual-help__preview", 
-                  {"visual-help__preview--schools": context.region === 'schools'}
-                )}
-              />
-          }
           { (view === 'chart' || view === 'split') &&
               <Typography paragraph={true}>
                 {getLang('WT_CHART', populateContext(context))}
@@ -151,7 +140,7 @@ const SedaHelp = ({
         </div>
         <HelpAccordion elevation={0} />
       </div>
-    </TabPanel>
+    </Panel>
     
   )
 }

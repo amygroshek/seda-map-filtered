@@ -119,13 +119,13 @@
 
 .diverging-bar .diverging-bar__marker {
   position:absolute;
-  top: 7px;
+  top: 4px;
   z-index: 1000;
 }
 
 .marker.diverging-bar__marker {
   width: 0;
-  height:11px;
+  height:16px;
   transform: scaleX(0.666);
   border-radius:0;
   border: 4px solid transparent;

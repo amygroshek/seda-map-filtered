@@ -51,7 +51,10 @@ export const getSingularRegion = (rId) =>
   rId ? REGIONS.find(r => rId === r.id).singular : ''
 
 
-export const getRegionDomain = (id) => REGION_DOMAINS[id]
+export const getRegionDomain = (demographic, region) => 
+  region === 'schools' ? 
+    REGION_DOMAINS['schools'] :
+    REGION_DOMAINS[demographic + '_' + region]
 
 /**
  * Gets the configuration for demographics
@@ -228,13 +231,14 @@ export const getMetricRange = (id, demographic, region, type = '') => {
  * @param {object} options range and exponent options for scale
  */
 export const getSizerFunctionForRegion = (
-  region, 
+  region,
+  demographic,
   range = getDotSize(), 
   exponent = 1
 ) => {
   return scale.scalePow()
     .exponent(exponent)
-    .domain(getRegionDomain(region))
+    .domain(getRegionDomain(demographic, region))
     .range(range)
     .clamp(true);
 }
@@ -273,7 +277,7 @@ export const getMapVars = (region, metric, demographic) => {
   return {
     yVar: demographic + '_' + metric,
     xVar: useAll ? 'all_ses' : demographic + '_ses',
-    zVar: 'all_sz'
+    zVar: demographic + '_sz'
   }
 }
 
@@ -303,14 +307,14 @@ export const getScatterplotVars = (region, metric, demographic) => {
     return {
       yVar: dem2 + '_' + metric,
       xVar: dem1 + '_' + metric,
-      zVar: 'all_sz'
+      zVar: demographic + '_sz'
     }
   }
   const useAll = ['m', 'f', 'p', 'np'].indexOf(demographic) > -1;
   return {
     yVar: demographic + '_' + metric,
     xVar: useAll ? 'all_ses' : demographic + '_ses',
-    zVar: 'all_sz'
+    zVar: demographic + '_sz'
   }
 }
 
@@ -462,3 +466,20 @@ export const getFormatterForVarName = (varName) => {
 
 export const getInvertedFromVarName = (varName) =>
   (varName.includes('frl'))
+
+/** Returns a single demographic for the provided varNames */
+export const getDemographicForVarNames = (xVar, yVar) => {
+  const dem1 = getDemographicIdFromVarName(xVar);
+  const dem2 = getDemographicIdFromVarName(yVar);
+  // same dem for x and y
+  if (dem1 === dem2) { return dem1; }
+  // all on X, but different on Y
+  if (dem1 === 'all') { return dem2; }
+  
+  // two different dems on x and y, must be gap
+  
+  // special case for poor / non-poor gap
+  if (dem1 === 'p' && dem2 === 'np') { return 'pn'}
+  // return default gap
+  return dem1+dem2;
+}

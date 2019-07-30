@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { getSelectedColors, getMetricRangeFromVarName, getSizerFunctionForRegion } from '../../../modules/config'
+import { getSelectedColors, getMetricRangeFromVarName, getSizerFunctionForRegion, getDemographicForVarNames } from '../../../modules/config'
 import CircleMarker from '../../atoms/CircleMarker';
 import { getFeatureProperty } from '../../../modules/features';
 
@@ -41,7 +41,7 @@ const getCircleForFeature = ({
     y: yValueToPercent && hasVal(yVal) ? 
       (yValueToPercent(yVal) + '%') : null,
     z: zValueToRadius ? 
-      Math.max(20, zValueToRadius(feature.properties[zVar])) : 8,
+      Math.max(8, zValueToRadius(feature.properties[zVar])) : 8,
     data: feature
   }
 }
@@ -102,7 +102,8 @@ const ScatterplotOverlay = ({
   region, 
   features, 
   hovered,
-  invertX = false
+  invertX = false,
+  onHover
 }) => {
   // function that converts xValue to the % position on the scale
   const xValueToPercent = useMemo(() => 
@@ -123,9 +124,10 @@ const ScatterplotOverlay = ({
     [yVar, region]
   )
   // function that converts z value to circle radius in px
-  const zValueToRadius = useMemo(() =>
-    getSizerFunctionForRegion(region)
-  , [region])
+  const zValueToRadius = useMemo(() => {
+    const sizerDem = getDemographicForVarNames(xVar, yVar);
+    return getSizerFunctionForRegion(region, sizerDem)
+  }, [region, xVar, yVar])
   // circles for selected areas
   const circles = useMemo(() => getCircles({
       xVar, 
@@ -163,6 +165,8 @@ const ScatterplotOverlay = ({
           size={c.z}
           x={c.x}
           y={c.y}
+          onMouseEnter={(e) => onHover(c.data, e)}
+          onMouseLeave={(e) => onHover(null, e)}
         >{i+1}</CircleMarker>
       )}
       { hoveredCircle &&

@@ -55,7 +55,10 @@ const SedaGapChart = ({
             />
         }
       </div>
-      <SedaLocationMarkers {...{...vars}} />
+      <SedaLocationMarkers 
+        {...{...vars}} 
+        onHover={onHover}
+      />
       <ScatterplotAxis
         axis='y'
         varName={vars.yVar}

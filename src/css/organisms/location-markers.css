@@ -13,4 +13,14 @@
   color: #fff;
   text-shadow: 0 0 2px #000;
   box-shadow: 0 0 2px #000;
+  
+}
+
+.scatterplot .location-markers .marker {
+  pointer-events: all;
+  transform: translate(-50%, -50%);
+}
+
+.scatterplot .location-markers .marker__root--hover .marker {
+  pointer-events: none;
 }
