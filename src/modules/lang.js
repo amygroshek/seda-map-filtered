@@ -191,7 +191,7 @@ const getDescriptionLangKey = (metricId, value) => {
 export const getDescriptionForVarName = (varName, value) => {
   if ((!value || value === -9999) && value !== 0 ) { return ''; }
   const metricId = getMetricIdFromVarName(varName);
-  const formatter = getFormatterForVarName(metricId);
+  const formatter = getFormatterForVarName(varName);
   const demographicId = getDemographicIdFromVarName(varName);
   const isGap = isGapDemographic(demographicId);
   const langKey = getDescriptionLangKey(metricId, value) +
@@ -199,7 +199,7 @@ export const getDescriptionForVarName = (varName, value) => {
   const formattedValue = '' + formatter(value);
   return getLang(langKey, { 
     value: formattedValue[0] === '-' ? 
-      formattedValue.substring(1) : formattedValue
+      formattedValue.substring(1) : formattedValue 
   })
 }
 
