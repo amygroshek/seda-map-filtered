@@ -6,10 +6,10 @@ const LANG = {
   'LOGO_ALT_TEXT': 'Educational Opportunity Project',
   'TAB_CONCEPT_AVG': 'Average Test Scores',
   'TAB_METRIC_AVG': 'reflect educational opportunity',
-  'TAB_CONCEPT_GRD': 'Average Learning Rates',
+  'TAB_CONCEPT_GRD': 'Learning Rates',
   'TAB_METRIC_GRD': 'reflect school effectiveness',
-  'TAB_CONCEPT_COH': 'Average Test Score Trend',
-  'TAB_METRIC_COH': 'reflect changes in educational opportunity',
+  'TAB_CONCEPT_COH': 'Trends in Test Scores',
+  'TAB_METRIC_COH': 'reflect educational opportunity changes',
 
   // Menu
   'MENU_HOME': 'Home',
@@ -42,21 +42,22 @@ const LANG = {
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',
-  'LABEL_GRD': 'average learning rates',
-  'LABEL_COH': 'average test score trend',
+  'LABEL_GRD': 'learning rates',
+  'LABEL_COH': 'trend in test scores',
   'LABEL_SEG': 'segregation',
   'LABEL_SES': 'socioeconomic status',
   'LABEL_PCT': 'Percent',
+  'LABEL_FRL': 'free / reduced lunch program',
 
-  'LABEL_SHORT_AVG': 'Avg scores',
-  'LABEL_SHORT_GRD': 'Avg rate',
-  'LABEL_SHORT_COH': 'Avg trend',
+  'LABEL_SHORT_AVG': 'scores',
+  'LABEL_SHORT_GRD': 'rate',
+  'LABEL_SHORT_COH': 'trend',
   'LABEL_SHORT_SES': 'SES',
   'LABEL_SHORT_FRL': 'Free Lunch',
 
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
-  'LABEL_CONCEPT_COH': 'educational opportunity changes',
+  'LABEL_CONCEPT_COH': 'change in educational opportunity',
 
   // Demographic Labels
   'LABEL_ALL': 'all',
@@ -69,7 +70,6 @@ const LANG = {
   'LABEL_P': 'poor',
   'LABEL_NP': 'non-poor',
   'LABEL_N': 'non-poor',
-  'LABEL_FRL': 'free / reduced lunch program',
 
   // Gap Labels
   'LABEL_WB': 'white / Black gap',
@@ -98,27 +98,23 @@ const LANG = {
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
 
   // Location Panel
-  'SUMMARY_AVG_LOW': '$[name] has <strong>lower community educational opportunity</strong> than average.',
-  'SUMMARY_AVG_MID': '$[name] has <strong>average community educational opportunity</strong>.',
-  'SUMMARY_AVG_HIGH': '$[name] has <strong>higher community educational opportunity</strong> than average.',
+  'SUMMARY_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
+  'SUMMARY_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
+  'SUMMARY_AVG_HIGH': '$[name] provides <strong>higher than average</strong> educational opportunites.',
   
-  'SUMMARY_AVGSES_LOW': 'Educational opportunity in $[name] is lower than districts with similar socioeconomic status.',
-  'SUMMARY_AVGSES_MID': 'Educational opportunity in $[name] is similar to districts with similar socioeconomic status.',
-  'SUMMARY_AVGSES_HIGH': 'Educational opportunity in $[name] is lower than districts with similar socioeconomic status.',
+  'SUMMARY_AVGSES_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar socioeconomic status.',
+  'SUMMARY_AVGSES_MID': 'Average scores are equal to $[region] with similar socioeconomic status.',
+  'SUMMARY_AVGSES_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar socioeconomic status.',
   'SUMMARY_AVGSES_NONE': '',
   
-  'SUMMARY_GRD_LOW': '$[name] has <strong>lower school effectiveness</strong> than average.  Students learn <strong>$[value] less each grade</strong> than the national average.',
-  'SUMMARY_GRD_MID': '$[name] has <strong>average school effectiveness</strong>. Students learn as much each grade as the national average.',
-  'SUMMARY_GRD_HIGH': '$[name] has <strong>higher school effectiveness</strong> than average. Students learn <strong>$[value] more each grade</strong> than the national average.',
+  'SUMMARY_GRD_LOW': '$[name] provides lower than average educational opportunities while children are in school.',
+  'SUMMARY_GRD_MID': '$[name] provides roughly average educational opportunities while children are in school.',
+  'SUMMARY_GRD_HIGH': '$[name] provides higher than average educational opportunities while children are in school.',
   
-  'SUMMARY_COH_LOW': '$[name] has <strong>declining educational opportunity</strong>.  Test scores <strong>declined an average of $[value] grade levels each year</strong> from 2009- 2016.',
-  'SUMMARY_COH_MID': '$[name] has <strong>no change in educational opportunity</strong>.  Average test scores did not change from 2009 - 2016.',
-  'SUMMARY_COH_HIGH': '$[name] has <strong>improving educational opportunity</strong>. Test scores <strong>improved an average of $[value] grade levels each year</strong> from 2009-2016.',
-  
-  'SUMMARY_SES_LOW': '',
-  'SUMMARY_SES_MID': '$[name] has average community educational opportunity because students scores close to their grade level.',
-  'SUMMARY_SES_HIGH': '$[name] has high community educational opportunity because students scores are $[value] grade levels ahead of their grade level.',
-  
+  'SUMMARY_COH_LOW': '$[name] shows declining educational opportunity.',
+  'SUMMARY_COH_MID': '$[name] shows relatively stable educational opportunity.',
+  'SUMMARY_COH_HIGH': '$[name] shows improving educational opportunity.',
+
   'SUMMARY_AVG_NONE': 'No community educational opportunity data for $[name].', 
   'SUMMARY_GRD_NONE': 'No school-based opportunity data for $[name].', 
   'SUMMARY_COH_NONE': 'No change in community educational opportunity data for $[name].', 
@@ -163,29 +159,23 @@ const LANG = {
   'EXPLAINER_SEG': '',
 
   // Description of metric value for location
-  'VALUE_AVG': 'Students score $[amount] grade levels $[aboveBehind] average. ',
-  'VALUE_GRD': 'Test scores grow $[amount] grade levels each year. ',
-  'VALUE_COH': 'Test scores $[risingFalling] $[amount] grade levels over time. ',
-  'VALUE_SES': 'Socioeconomic status is $[aboveBelow] national average.',
-  'VALUE_SEG': '',
+  'VALUE_AVG_HIGH': 'Students score <strong>$[value] grade levels above</strong> U.S. average.',
+  'VALUE_AVG_MID': 'Students test scores are at the national average.',
+  'VALUE_AVG_LOW': 'Students score <strong>$[value] grade levels below</strong> U.S. average.',
+  'VALUE_GRD_HIGH': 'Students learn <strong>$[value] more each grade</strong> than the U.S. average.',
+  'VALUE_GRD_MID': 'Students learn the same each grade as the U.S. average.',
+  'VALUE_GRD_LOW': 'Students learn <strong>$[value] less each grade</strong> than the U.S. average.',
+  'VALUE_COH_HIGH': 'Test scores <strong>increased an average of $[value] grade levels</strong> each year from 2009-2016.',
+  'VALUE_COH_MID': 'No change in test scores.',
+  'VALUE_COH_LOW': 'Test scores <strong>decreased an average of $[value] grade levels</strong> each year from 2009-2016.',
 
-  'VALUE_AVG_HIGH': 'students score <strong>$[value] grade levels above</strong> U.S. average.',
-  'VALUE_AVG_MID': 'students test scores are at the national average.',
-  'VALUE_AVG_LOW': 'students score <strong>$[value] grade levels below</strong> U.S. average.',
-  'VALUE_GRD_HIGH': 'students learn <strong>$[value] more each grade</strong> than the U.S. average.',
-  'VALUE_GRD_MID': 'students learn the same each grade as the U.S. average.',
-  'VALUE_GRD_LOW': 'students learn <strong>$[value] less each grade</strong> than the U.S. average.',
-  'VALUE_COH_HIGH': 'test scores are <strong>improving $[value] each year</strong>.',
-  'VALUE_COH_MID': 'no change in test scores.',
-  'VALUE_COH_LOW': 'test scores are <strong>declining $[value] each year</strong>.',
-
-  'VALUE_SES_ULTRA_HIGH': 'socioeconomic status is <strong>very far above national average</strong>.',
-  'VALUE_SES_VERY_HIGH': 'socioeconomic status is <strong>far above national average</strong>.',
-  'VALUE_SES_HIGH': 'socioeconomic status is <strong>above national average</strong>.',
-  'VALUE_SES_MID': 'socioeconomic status is <strong>about average</strong>.',
-  'VALUE_SES_LOW': 'socioeconomic status is <strong>below national average</strong>.',
-  'VALUE_SES_VERY_LOW': 'socioeconomic status is <strong>far below national average</strong>.',
-  'VALUE_SES_ULTRA_LOW': 'socioeconomic status is <strong>very far below national average</strong>.',
+  'VALUE_SES_ULTRA_HIGH': 'Socioeconomic status is <strong>very far above national average</strong>.',
+  'VALUE_SES_VERY_HIGH': 'Socioeconomic status is <strong>far above national average</strong>.',
+  'VALUE_SES_HIGH': 'Socioeconomic status is <strong>above national average</strong>.',
+  'VALUE_SES_MID': 'Socioeconomic status is <strong>about average</strong>.',
+  'VALUE_SES_LOW': 'Socioeconomic status is <strong>below national average</strong>.',
+  'VALUE_SES_VERY_LOW': 'Socioeconomic status is <strong>far below national average</strong>.',
+  'VALUE_SES_ULTRA_LOW': 'Socioeconomic status is <strong>very far below national average</strong>.',
 
   'VALUE_FRL': '<strong>$[value] of students</strong> qualify for free or reduced lunch program.',
 
@@ -237,23 +227,23 @@ const LANG = {
 
 
   // Axis Labels
-  'AXIS_AVG_ZERO': 'average\nperformance',
-  'AXIS_AVG_LOW_SINGLE': '$[value] grade\nbehind',
-  'AXIS_AVG_LOW': '$[value] grades\nbehind',
-  'AXIS_AVG_HIGH_SINGLE': '$[value] grade\nahead',
-  'AXIS_AVG_HIGH': '$[value] grades\nahead',
+  'AXIS_AVG_MID': 'national\naverage',
+  'AXIS_AVG_LOW_SINGLE': '$[value] grade\nbelow',
+  'AXIS_AVG_LOW': '$[value] grades\nbelow',
+  'AXIS_AVG_HIGH_SINGLE': '$[value] grade\nabove',
+  'AXIS_AVG_HIGH': '$[value] grades\nabove',
 
-  'AXIS_GRD_ZERO': 'no\ngrowth',
-  'AXIS_GRD_LOW_SINGLE': 'learned $[value]\ngrade level',
-  'AXIS_GRD_LOW': 'learned $[value]\ngrade levels',
-  'AXIS_GRD_HIGH_SINGLE': 'learned $[value]\ngrade level',
-  'AXIS_GRD_HIGH': 'learned $[value]\ngrade levels',
+  'AXIS_GRD_MID_SINGLE': 'learned 1 grade\nlevel per year',
+  'AXIS_GRD_LOW_SINGLE': 'learned\n$[value] less',
+  'AXIS_GRD_LOW': 'learned\n$[value] less',
+  'AXIS_GRD_HIGH_SINGLE': 'learned\n$[value] more',
+  'AXIS_GRD_HIGH': 'learned\n$[value] more',
 
-  'AXIS_COH_ZERO': 'no change\nin test scores',
+  'AXIS_COH_MID': 'no\nchange',
   'AXIS_COH_LOW_SINGLE': 'dropped $[value]\ngrade level',
-  'AXIS_COH_LOW': 'dropped $[value]\ngrade levels',
-  'AXIS_COH_HIGH_SINGLE': 'improved $[value]\ngrade level',
-  'AXIS_COH_HIGH': 'improved $[value]\ngrade levels',
+  'AXIS_COH_LOW': 'declined $[value]\ngrade levels per year',
+  'AXIS_COH_HIGH_SINGLE': 'improved $[value]\ngrade level per year',
+  'AXIS_COH_HIGH': 'improved $[value]\ngrade levels per year',
 
   'AXIS_AVG_GAP_ZERO': 'no gap\nin opportunity',
   'AXIS_AVG_GAP_LOW_SINGLE': '$[value] grade level\ndifference',
@@ -269,7 +259,7 @@ const LANG = {
   'AXIS_COH_GAP_LOW': '$[value]\n trend gap',
   'AXIS_COH_GAP_HIGH': '$[value]\ntrend gap',
 
-  'AXIS_SES_ZERO': 'national\naverage',
+  'AXIS_SES_MID': 'national\naverage',
   'AXIS_SES_LOW': 'poorer',
   'AXIS_SES_HIGH': 'richer',
 

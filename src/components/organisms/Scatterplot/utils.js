@@ -1,5 +1,5 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName, isVersusFromVarNames, getDemographicForVarNames } from '../../../modules/config';
+import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName, isVersusFromVarNames, getDemographicForVarNames, getFormatterForVarName } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import { getCSSVariable, formatNumber } from '../../../utils';
 
@@ -50,10 +50,17 @@ const getPositionArray = (count, inc, center = 0, range) => {
 const isStateHighlighed = (highlightedState) =>
   highlightedState && highlightedState !== 'us'
 
+
+/**
+ * 
+ * @param {*} value 
+ * @param {*} metric metric to get key for (e.g. 'avg', 'avg_gap', 'grd', etc.)
+ */
 const getLangKeyForAxisLabel = (value, metric) => {
+  const midPoint = metric.toLowerCase() === 'grd' ? 1 : 0;
   const base = 'AXIS_' + metric.toUpperCase()
-  const position = value === 0 ? '_ZERO' :
-    value > 0 ? '_HIGH' : '_LOW'
+  const position = value === midPoint ? '_MID' :
+    value > midPoint ? '_HIGH' : '_LOW'
   const single = value === 1 ? '_SINGLE' : ''
   return base + position + single;
 }
@@ -247,7 +254,12 @@ const createLabels =
     positions.map((pos) => {
       const labelKey =
         getLangKeyForAxisLabel(pos, langPrefix)
-      const label = getLang(labelKey, { value: formatter(pos) })
+      const value = '' + formatter(pos);
+      const label = getLang(labelKey, { 
+        // remove minus sign for axis labels
+        value: value[0] === '-' ? 
+          value.substring(1) : value  
+      })
       return {
         value: axis === 'y' ? [0, pos] : [pos, 0],
         axis: axis,
@@ -308,9 +320,10 @@ const getOverlayForVarName = (varName, axis = 'y') => {
   const range = getMetricRangeFromVarName(varName);
   const positions = getPositionArray(numLines, inc, midPoint, range);
   const langPrefix = isGap ? metricId + '_gap' : metricId;
+  const formatter = getFormatterForVarName(varName);
   const labels = axis === 'y' ?
-    createLabels(positions, langPrefix, axis) :
-    createLabels([ getMidpointForVarName(varName) ], langPrefix, axis)
+    createLabels(positions, langPrefix, axis, formatter) :
+    createLabels([ getMidpointForVarName(varName) ], langPrefix, axis, formatter)
   const lines = createLines(positions, axis)
   return getOverlay(labels, lines);
 }
