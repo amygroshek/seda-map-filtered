@@ -1,11 +1,10 @@
 import LANG from "./en";
 
 /** min / max dot sizes */
-export const DOT_SIZES = [ 5, 50 ]
+export const DOT_SIZES = [ 5, 64 ]
 
 /** data ranges to map to size ranges */
 export const REGION_DOMAINS = {
-
   'all_counties': [ 3, 110000 ],
   'b_counties':   [ 3, 21000 ],
   'w_counties':   [ 3, 22000 ],
@@ -20,7 +19,6 @@ export const REGION_DOMAINS = {
   'wa_counties':  [ 3, 34000 ],
   'pn_counties':  [ 6, 116000 ],
   'mf_counties':  [ 6, 115000 ],
-
   'all_districts': [ 2, 71000 ],
   'b_districts':   [ 2, 21000 ],
   'w_districts':   [ 2, 10000 ],
@@ -35,7 +33,6 @@ export const REGION_DOMAINS = {
   'wa_districts':  [ 2, 11000 ],
   'pn_districts':  [ 4, 71000 ],
   'mf_districts':  [ 4, 71000 ],
-
   'schools': [ 10, 1000 ],
 }
 

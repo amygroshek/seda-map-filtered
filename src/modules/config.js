@@ -234,7 +234,7 @@ export const getSizerFunctionForRegion = (
   region,
   demographic,
   range = getDotSize(), 
-  exponent = 1
+  exponent = 0.5
 ) => {
   return scale.scalePow()
     .exponent(exponent)

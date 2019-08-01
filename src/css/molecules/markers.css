@@ -16,7 +16,7 @@
   line-height: 1;
   width: var(--size);
   height: var(--size);
-  border-radius: var(--size);
+  border-radius: 100%;
   background: var(--background);
 }
 
