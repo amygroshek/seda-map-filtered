@@ -215,7 +215,7 @@ const LANG = {
   'SP_TITLE': '$[metric] vs. $[secondary]',
   'SP_TITLE_GAP': 'Difference in $[metric] vs. $[secondary]',
   'SP_TITLE_VS': 'Differences in $[metric]',
-  'SP_SUBTITLE': '$[place] $[region], $[demographic], grades 3 - 8 from 2009 - 2016',
+  'SP_SUBTITLE': '$[place] $[region], $[demographic], grades 3 - 8 from 2009 - 2016, sized by number of students',
 
   'OP_TITLE_AVG': 'Achievement Differences Between $[dem1] and $[dem2]',
   'OP_TITLE_GRD': 'Growth Differences Between $[dem1] and $[dem2]',
