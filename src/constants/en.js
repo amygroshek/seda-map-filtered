@@ -278,6 +278,7 @@ const LANG = {
 
   // PREVIEW CHART AXIS LABELS
   'AXIS_PREV_ZERO': 'avg',
+  'AXIS_PREV_MID': 'avg',
   'AXIS_PREV_HIGH_SINGLE': 'avg',
 
   // LINE FOR VERSUS CHART

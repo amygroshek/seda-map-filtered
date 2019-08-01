@@ -1,7 +1,7 @@
 import LANG from "./en";
 
 /** min / max dot sizes */
-export const DOT_SIZES = [ 5, 64 ]
+export const DOT_SIZES = [ 4, 64 ]
 
 /** data ranges to map to size ranges */
 export const REGION_DOMAINS = {

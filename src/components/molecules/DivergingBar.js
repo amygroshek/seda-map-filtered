@@ -64,9 +64,9 @@ const DivergingBar = ({
         </span>
       </div>
       <div className='diverging-bar__labels-wrapper'>
-        <span className='diverging-bar__label diverging-bar__label--min'>{minLabel}</span>
+        <span className='diverging-bar__label diverging-bar__label--min'>{ position < -0.25 ? ' ' : minLabel }</span>
         <span className='diverging-bar__label diverging-bar__label--mid'>{midLabel}</span>
-        <span className='diverging-bar__label diverging-bar__label--max'>{maxLabel}</span>
+        <span className='diverging-bar__label diverging-bar__label--max'>{ position > 0.25 ? ' ' : maxLabel }</span>
       </div>
       <div className='diverging-bar__lines-wrapper'>
         <span className='diverging-bar__line-horizontal' />
@@ -98,6 +98,13 @@ DivergingBar.propTypes = {
   size: PropTypes.string,
   /** determines if it is a full bar or diverging */
   full: PropTypes.bool,
+  midPoint: PropTypes.number,
+  formatter: PropTypes.func,
+  midPosition: PropTypes.string,
+  markerPosition: PropTypes.oneOfType([
+    PropTypes.string, PropTypes.number
+  ]),
+  markerColor: PropTypes.string,
 }
 
 export default DivergingBar

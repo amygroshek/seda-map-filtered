@@ -25,6 +25,7 @@ const LocationMetric = ({
       varName={'all_'+metric}
       label={getLang('LABEL_SHORT_'+metric)}
       showDescription={true}
+      showLabels={true}
     />
     <ButtonBase
       className='button button--link'
@@ -112,6 +113,7 @@ const LocationPanel = ({
             varName='all_ses'
             label={getLang('LABEL_SHORT_SES')}
             showDescription={true}
+            showLabels={true}
           />
         </div>
       </div>
