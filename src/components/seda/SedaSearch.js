@@ -3,7 +3,7 @@ import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { onViewportChange, onRegionChange, loadLocation } from '../../actions';
+import { onViewportChange, loadLocation } from '../../actions';
 import { getRegionFromFeatureId } from '../../modules/config';
 import Search from '../molecules/Search';
 import { updateRoute } from '../../modules/router';
@@ -13,6 +13,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onSuggestionSelected: (hit) => {
     const region = getRegionFromFeatureId(hit.id)
     const state = getStateAbbrFromName(hit.state_name);
+    const routeUpdates = {}
     if (hit) {
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
@@ -22,12 +23,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: ease.easeCubic
       }))
-      
       if (region) {
-        dispatch(onRegionChange(region))
+        routeUpdates['region'] = region
       }
       if (state) {
-        updateRoute(ownProps, { highlightedState: state.toLowerCase() })
+        routeUpdates['highlightedState'] = state.toLowerCase()
       }
       if (hit.id) {
         dispatch(loadLocation({ 
@@ -36,8 +36,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
           lon: hit.lon
         }))
       }
-      ownProps.onSuggestionSelected &&
-        ownProps.onSuggestionSelected(hit)
+      updateRoute(ownProps, routeUpdates);
     }
   }
 })

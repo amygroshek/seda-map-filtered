@@ -480,8 +480,8 @@ export const getDemographicForVarNames = (xVar, yVar) => {
   
   // special case for poor / non-poor gap
   if (
-    dem1 === 'p' && dem2 === 'np' ||
-    dem1 === 'np' && dem2 === 'p'
+    (dem1 === 'p' && dem2 === 'np') ||
+    (dem1 === 'np' && dem2 === 'p')
   ) { return 'pn'}
   // return default gap
   return dem1+dem2;
