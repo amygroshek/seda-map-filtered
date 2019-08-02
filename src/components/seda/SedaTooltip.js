@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
 import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
 import { getLang, getDescriptionForVarName } from '../../modules/lang';
-import { getDemographicIdFromVarName, getMetricIdFromVarName, getScatterplotVars, getMapVars, isVersusFromVarNames, getDemographicForVarNames } from '../../modules/config';
+import { getDemographicIdFromVarName, getMetricIdFromVarName, isVersusFromVarNames, getDemographicForVarNames } from '../../modules/config';
 import { getStateName } from '../../constants/statesFips';
 import { Typography } from '@material-ui/core';
 
@@ -97,25 +97,27 @@ ConnectedTooltip.propTypes = {
   feature: PropTypes.object,
   x: PropTypes.number,
   y: PropTypes.number,
-  above: PropTypes.number,
-  left: PropTypes.number,
+  above: PropTypes.oneOfType([
+    PropTypes.bool, PropTypes.number
+  ]),
+  left: PropTypes.oneOfType([
+    PropTypes.bool, PropTypes.number
+  ]),
   yVar: PropTypes.string,
   xVar: PropTypes.string,
 }
 
 const mapStateToProps = ({ 
   map: { coords: { x, y } },
-  sections: { hovered, active }
-}, {
-  match: { params: { metric, demographic, region } }
+  sections: { hovered, active },
+  tooltip,
 }) => {
-  const vars = 
-    getScatterplotVars(region, metric, demographic);
+
   return {
     x,
     y,
-    xVar: vars.xVar,
-    yVar: vars.yVar,
+    xVar: tooltip.xVar,
+    yVar: tooltip.yVar,
     feature: hovered,
     above: window && window.innerHeight && 
       y && y > (window.innerHeight / 3),

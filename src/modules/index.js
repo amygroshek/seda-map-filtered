@@ -6,6 +6,7 @@ import selected from './selected';
 import features from './features';
 import sections from './sections';
 import ui from './ui';
+import tooltip from './tooltip';
 
 
 const active = (state = null, { type, feature }) => {
@@ -28,4 +29,5 @@ export default combineReducers({
   sections,
   ui,
   active,
+  tooltip
 })
