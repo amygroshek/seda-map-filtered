@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tooltip from '../atoms/Tooltip';
 import { withRouter } from 'react-router-dom';
@@ -6,13 +7,18 @@ import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
 import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
 import { getLang, getDescriptionForVarName } from '../../modules/lang';
-import { getMetricIdFromVarName, getScatterplotVars, getMapVars } from '../../modules/config';
+import { getDemographicIdFromVarName, getMetricIdFromVarName, getScatterplotVars, getMapVars, isVersusFromVarNames, getDemographicForVarNames } from '../../modules/config';
 import { getStateName } from '../../constants/statesFips';
 import { Typography } from '@material-ui/core';
 
 
 const getShortVarNameLabel = (varName) => {
   return getLang('LABEL_SHORT_' + getMetricIdFromVarName(varName))
+}
+
+const getDemographicLabel = (varName) => {
+  const dem = getDemographicIdFromVarName(varName);
+  return getLang('LABEL_' + dem)
 }
 
 const ConnectedTooltip = ({
@@ -28,12 +34,30 @@ const ConnectedTooltip = ({
   const featureId = getFeatureProperty(feature, 'id');
   const title = getFeatureProperty(feature, 'name');
   const stateName = getStateName(featureId);
-  const xVal = getFeatureProperty(feature, xVar);
-  const yVal = getFeatureProperty(feature, yVar);
-  const stats = useMemo(
+  const statVars = useMemo(
     () => [yVar, xVar], 
     [yVar, xVar]
   )
+  const isVersus = isVersusFromVarNames(xVar, yVar);
+  const descriptionVars = useMemo(() => {
+    return isVersus ?
+      [ getDemographicForVarNames(xVar, yVar) + '_' + xVar.split('_')[1] ] :
+      [ yVar, xVar ]
+  }, [ xVar, yVar ])
+  // add var to feature if missing
+  if (
+    isVersus && 
+    !getFeatureProperty(feature, descriptionVars[0])
+  ) {
+    feature.properties[descriptionVars[0]] = 
+      getFeatureProperty(feature, yVar) - getFeatureProperty(feature, xVar)
+  }
+  const description = descriptionVars.reduce((desc, varName) => {
+    const val = getFeatureProperty(feature, varName);
+    return val || val === 0 ?
+      (desc + getDescriptionForVarName(varName, val) + ' ') :
+      desc
+  }, '')
   return (
     <div className="tooltip__wrapper">
       { (featureId) &&
@@ -47,17 +71,19 @@ const ConnectedTooltip = ({
         >
           <LocationStatSummaryList 
             feature={feature} 
-            varNames={stats}
+            varNames={statVars}
             size="small"
             showDescription={false}
-            varNameToLabel={getShortVarNameLabel}
+            varNameToLabel={isVersus ? 
+              getDemographicLabel : 
+              getShortVarNameLabel
+            }
           />
           <Typography
             className="tooltip__description"
             variant="caption" 
             dangerouslySetInnerHTML={{
-              '__html': getDescriptionForVarName(yVar,yVal) + ' ' +
-                        getDescriptionForVarName(xVar,xVal) + ' ' +
+              '__html': description + 
                         '<em>' + getLang('TOOLTIP_SUMMARY') + '</em>'
             }}
           />
@@ -67,15 +93,24 @@ const ConnectedTooltip = ({
   )
 }
 
+ConnectedTooltip.propTypes = {
+  feature: PropTypes.object,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  above: PropTypes.number,
+  left: PropTypes.number,
+  yVar: PropTypes.string,
+  xVar: PropTypes.string,
+}
+
 const mapStateToProps = ({ 
   map: { coords: { x, y } },
   sections: { hovered, active }
 }, {
   match: { params: { metric, demographic, region } }
 }) => {
-  const vars = active === 'chart' ? 
-    getScatterplotVars(region, metric, demographic) :
-    getMapVars(region, metric, demographic)
+  const vars = 
+    getScatterplotVars(region, metric, demographic);
   return {
     x,
     y,

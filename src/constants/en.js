@@ -82,6 +82,9 @@ const LANG = {
   'LABEL_SHORT_HW': 'white / Hispanic',
   'LABEL_SHORT_PN': 'poor / non-poor',
   'LABEL_SHORT_FM': 'male / female',
+  'LABEL_SHORT_WB': 'white / Black',
+  'LABEL_SHORT_WH': 'white / Hispanic',
+  'LABEL_SHORT_MF': 'male / female',
 
   // Region Labels
   'LABEL_COUNTIES': 'counties',
@@ -182,9 +185,9 @@ const LANG = {
   // 'VALUE_SEG': '',
 
   // Description of gap value for location
-  'VALUE_AVG_GAP': 'Difference of $[amount] grade levels between $[gap] students.',
-  'VALUE_GRD_GAP': 'Difference in growth $[increasedDecreased] $[amount] grade levels between $[gap] students.',
-  'VALUE_COH_GAP': 'Difference in test scores $[increasedDecreased] $[amount] grade levels between $[gap] students.',
+  'VALUE_AVG_GAP': 'Difference of $[value] grade levels between $[demographic] students.',
+  'VALUE_GRD_GAP': 'Difference of $[value] in learning rates between $[demographic] students.',
+  'VALUE_COH_GAP': 'Difference of $[value] in trend of test scores between $[demographic] students.',
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
 

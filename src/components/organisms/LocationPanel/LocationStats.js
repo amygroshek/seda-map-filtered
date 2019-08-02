@@ -110,6 +110,9 @@ LocationStatDiverging.propTypes = {
   range: PropTypes.array,
   formatter: PropTypes.func,
   showDescription: PropTypes.bool,
+  otherFeature: PropTypes.object,
+  markerColor: PropTypes.string,
+  showLabels: PropTypes.bool,
 }
 
 const getVarNameLabel = (varName) => {

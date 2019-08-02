@@ -193,14 +193,22 @@ export const getDescriptionForVarName = (varName, value) => {
   const metricId = getMetricIdFromVarName(varName);
   const formatter = getFormatterForVarName(varName);
   const demographicId = getDemographicIdFromVarName(varName);
+  const langKey = getDescriptionLangKey(metricId, value);
   const isGap = isGapDemographic(demographicId);
-  const langKey = getDescriptionLangKey(metricId, value) +
-    (isGap ? '_GAP' : '');
   const formattedValue = '' + formatter(value);
-  return getLang(langKey, { 
-    value: formattedValue[0] === '-' ? 
-      formattedValue.substring(1) : formattedValue 
+  if (!isGap) {
+    return getLang(langKey, { 
+      value: formattedValue[0] === '-' ? 
+        formattedValue.substring(1) : formattedValue 
+    })
+  }
+  // gap demographic lang
+  return getLang('VALUE_' + metricId + '_GAP', { 
+    value: formattedValue,
+    demographic: getLang('LABEL_SHORT_' + demographicId)
   })
+  
+  
 }
 
 /**
