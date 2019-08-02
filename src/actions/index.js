@@ -94,6 +94,14 @@ export const onHoverSection = (sectionId) => {
   }
 }
 
+/** Sets the variables for the tooltip */
+export const setTooltipVars = (vars = {}) => {
+  return {
+    type: 'SET_TOOLTIP_VARS',
+    vars
+  }
+}
+
 /**
  * Returns an action to set the coordinates
  * for the map tooltip.

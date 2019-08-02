@@ -135,10 +135,14 @@ function Scatterplot({
               { 
                 id: loc.id, 
                 properties: { ...loc, state: getStateAbbr(loc.id) } 
-              }, 
+              },
+              {
+                xVar,
+                yVar,
+              },
               e.event.event
             ) :
-            onHover(null, e.event.event)
+            onHover(null, {}, e.event.event)
         }}
       />
       {children}

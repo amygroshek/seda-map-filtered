@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { getScatterplotVars, isVersusFromVarNames } from '../../modules/config';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
-import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, onHoverSection } from "../../actions";
+import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, setTooltipVars } from "../../actions";
 import Scatterplot from '../organisms/Scatterplot';
 import SedaLocationMarkers from './SedaLocationMarkers';
 import ScatterplotHeading from '../organisms/Scatterplot/ScatterplotHeading';
@@ -99,9 +99,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onScatterplotData(data, region)),
   onReady: () => 
     dispatch(onScatterplotLoaded('map')),
-  onHover: (feature, e) => {
+  onHover: (feature, vars, e) => {
     dispatch(onHoverFeature(feature, 'map'))
-    dispatch(onHoverSection('chart'))
+    dispatch(setTooltipVars(vars))
     dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
   },
     

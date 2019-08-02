@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation, onHoverSection } from '../../actions';
+import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation, setTooltipVars } from '../../actions';
 import { updateViewportRoute, updateRoute } from '../../modules/router';
 import { getMapViewport, getLayers, defaultMapStyle } from '../organisms/Map/selectors';
 import { getHoveredId } from '../../modules/sections';
@@ -54,6 +54,11 @@ const SedaExplorerMap = ({
       region, metric, demographic, highlightedState, zoomLevel
     })
   }, [ region, metric, demographic, highlightedState, zoomLevel ])
+  
+  // handle hover
+  const handleHover = (feature, coords) =>
+    onHover(feature, vars, coords)
+
   return (
     <div className="seda-map">
       <MapBase
@@ -65,7 +70,8 @@ const SedaExplorerMap = ({
         idMap={idMap}
         selectedIds={selectedIds}
         hoveredId={hoveredId}
-        {...{onViewportChange, onHover, onClick}}
+        onHover={handleHover}
+        {...{onViewportChange, onClick}}
       ></MapBase>
       { showLegend && <SedaMapLegend /> }
     </div>
@@ -115,9 +121,9 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onHover: (feature, coords) => {
+  onHover: (feature, vars, coords) => {
     dispatch(onHoverFeature(feature))
-    dispatch(onHoverSection('map'))
+    dispatch(setTooltipVars(vars))
     dispatch(onCoordsChange(coords))
     dispatch(addToFeatureIdMap([ feature ]))
   },
