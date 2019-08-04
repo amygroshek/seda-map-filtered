@@ -17,6 +17,7 @@ const LocationMetric = ({
   feature, 
   toggleExpanded, 
   onGapClick, 
+  onHelpClick,
   expanded
 }) => (
   <div>
@@ -43,6 +44,7 @@ const LocationMetric = ({
         metric={metric}
         feature={feature}
         onGapClick={onGapClick}
+        onHelpClick={onHelpClick}
       />
     }
   </div>
@@ -54,6 +56,7 @@ const LocationPanel = ({
   others = [],
   onClose,
   onGapClick,
+  onHelpClick,
   onSelectFeature,
 }) => {
   // track state for expanded / collapsed items
@@ -92,6 +95,7 @@ const LocationPanel = ({
             metric='avg'
             expanded={expanded.indexOf('metric_avg') > -1}
             onGapClick={onGapClick}
+            onHelpClick={onHelpClick}
             toggleExpanded={toggleExpanded}
           />
           <LocationMetric 
@@ -99,6 +103,7 @@ const LocationPanel = ({
             metric='grd'
             expanded={expanded.indexOf('metric_grd') > -1}
             onGapClick={onGapClick}
+            onHelpClick={onHelpClick}
             toggleExpanded={toggleExpanded}
           />
           <LocationMetric 
@@ -106,6 +111,7 @@ const LocationPanel = ({
             metric='coh'
             expanded={expanded.indexOf('metric_coh') > -1}
             onGapClick={onGapClick}
+            onHelpClick={onHelpClick}
             toggleExpanded={toggleExpanded}
           />
           <LocationStatDiverging
@@ -154,6 +160,7 @@ LocationPanel.propTypes = {
   icon: PropTypes.any,
   onClose: PropTypes.func,
   onGapClick: PropTypes.func,
+  onHelpClick: PropTypes.func,
   onSelectFeature: PropTypes.func,
 }
 

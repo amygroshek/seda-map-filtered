@@ -2,19 +2,20 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { toggleHelp } from '../../actions';
+import { toggleHelp, showSingleHelpTopic } from '../../actions';
 import { updateRoute } from '../../modules/router';
 import { MapLegend } from '../organisms/Map';
 
 const mapStateToProps = ({ 
   selected,
-  ui: { legendType },
+  ui: { legendType, helpOpen },
   sections: { hovered },
 },
 { match: { params: { view, secondary, region, metric, demographic } } }
 ) => {
   return ({
     view,
+    helpOpen,
     region,
     metric,
     demographic,
@@ -32,7 +33,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onFullClick: () => {
     updateRoute(ownProps, { view: 'chart' })
   },
-  onHelpClick: () => dispatch(toggleHelp()),
+  onHelpClick: (helpOpen) => {
+    !helpOpen && dispatch(toggleHelp());
+    dispatch(showSingleHelpTopic('HELP_MAP'))
+  },
 })
 
 

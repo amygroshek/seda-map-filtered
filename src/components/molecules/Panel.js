@@ -1,10 +1,11 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import CloseButton from '../molecules/CloseButton';
 import { Paper, Toolbar } from '@material-ui/core';
 
-const Panel = ({ 
+const Panel = React.forwardRef(({ 
   open, 
   onClose,
   title,
@@ -12,7 +13,7 @@ const Panel = ({
   classes = {},
   actions,
   ...rest
-}) => {
+}, ref) => {
   return (
     <Paper
       square={true}
@@ -31,12 +32,12 @@ const Panel = ({
         { actions }
         { (!actions && onClose) && <CloseButton onClick={onClose} /> }
       </Toolbar>
-      <div className="panel__content">
+      <div ref={ref} className="panel__content">
         { children }
       </div>
     </Paper>
   )
-}
+})
 
 Panel.propTypes = {
   open: PropTypes.bool,

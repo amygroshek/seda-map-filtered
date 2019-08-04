@@ -43,6 +43,7 @@ const MapLegend = ({
   metric,
   demographic,
   region,
+  helpOpen,
   secondary,
   view = 'map',
   hovered,
@@ -125,7 +126,11 @@ const MapLegend = ({
                 Show Full Chart
               </Button>
           }
-          <Button variant="contained" color="secondary" onClick={onHelpClick}>
+          <Button 
+            variant="contained" 
+            color="secondary" 
+            onClick={() => onHelpClick(helpOpen)}
+          >
             Help
           </Button>
         </div>

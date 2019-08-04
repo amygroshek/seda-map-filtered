@@ -78,6 +78,11 @@ const materialTheme = createMuiTheme({
       fontWeight: 'normal',
       color: '#fff',
       lineHeight: 1,
+    },
+    overline: {
+      fontFamily: "sharpgrotesk-medium15, lato, helvetica neue, Arial, sans-serif, -apple-system",
+      fontSize: 14,
+      letterSpacing: '.04em',
     }
   },
   overrides: {
