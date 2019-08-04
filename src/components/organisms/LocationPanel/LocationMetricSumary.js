@@ -138,14 +138,14 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
         type="help"
         size="small"
         icon={<HelpIcon />}
-        onClick={() => onHelpClick('HELP_AVG_CONCEPT')}
+        onClick={() => onHelpClick('HELP_SES_CONCEPT')}
       >{ getLang('CALLOUT_AVG_SES') }</Callout>
       
     </LocationMetric>
   )
 }
 
-export const LocationGrdSection = ({feature, ...rest}) => {
+export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_grd');
@@ -161,12 +161,13 @@ export const LocationGrdSection = ({feature, ...rest}) => {
         type="help"
         size="small"
         icon={<HelpIcon />}
+        onClick={() => onHelpClick('HELP_GRD_CONCEPT')}
       >{ getLang('CALLOUT_GRD') }</Callout>
     </LocationMetric>
   )
 }
 
-export const LocationCohSection = ({feature, ...rest}) => {
+export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_coh');
@@ -181,6 +182,7 @@ export const LocationCohSection = ({feature, ...rest}) => {
         type="help"
         size="small"
         icon={<HelpIcon />}
+        onClick={() => onHelpClick('HELP_COH_CONCEPT')}
       >{ getLang('CALLOUT_COH') }</Callout>
     </LocationMetric>
   )

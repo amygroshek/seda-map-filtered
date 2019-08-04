@@ -4,21 +4,24 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LocationPanel from '../organisms/LocationPanel';
-import { clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation } from '../../actions';
+import { clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation, toggleHelp, showSingleHelpTopic } from '../../actions';
 
 const SedaLocationPanel = ({
   active,
   metric,
+  helpOpen,
   features,
   selected,
   clearActiveLocation,
   onGapClick,
+  onHelpClick,
   onSelectFeature,
 }) => {
   // use memo to store other features
   const others = useMemo(() => 
     selected.map(fId => features[fId])
   , [ selected ])
+  const handleHelpClick = (topicId) => onHelpClick(topicId, helpOpen)
   return (
     <LocationPanel 
       feature={active} 
@@ -26,6 +29,7 @@ const SedaLocationPanel = ({
       onClose={clearActiveLocation}
       metric={metric}
       onGapClick={onGapClick}
+      onHelpClick={handleHelpClick}
       onSelectFeature={onSelectFeature}
     />
   )
@@ -39,18 +43,21 @@ SedaLocationPanel.propTypes = {
   selected: PropTypes.array,
   clearActiveLocation: PropTypes.func,
   onGapClick: PropTypes.func,
+  onHelpClick: PropTypes.func,
   onSelectFeature: PropTypes.func,
+  helpOpen: PropTypes.bool,
 }
 
 const mapStateToProps = 
   (
-    { features, active, selected },
+    { features, active, selected, ui: { helpOpen } },
     { match: { params: { metric, region } } }
   ) => ({
     active,
     features,
     region,
     metric,
+    helpOpen,
     selected: selected[region]
   })
 
@@ -68,6 +75,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     } else {
       dispatch(handleLocationActivation(feature))
     }
+  },
+  onHelpClick: (topicId, helpOpen) => {
+    !helpOpen && dispatch(toggleHelp());
+    dispatch(showSingleHelpTopic(topicId))
   }
 })
 
