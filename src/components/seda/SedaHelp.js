@@ -299,7 +299,7 @@ const mapStateToProps = (
   help
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onClose: () => {
     dispatch({
       type: 'TOGGLE_HELP',
