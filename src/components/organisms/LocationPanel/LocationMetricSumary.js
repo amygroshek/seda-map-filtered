@@ -108,7 +108,7 @@ const MetricSummary = ({metric, demographic = 'all', name, value}) => {
   )
 }
 
-export const LocationAvgSection = ({feature, ...rest}) => {
+export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const avgValue = getFeatureProperty(feature, 'all_avg');
@@ -127,6 +127,7 @@ export const LocationAvgSection = ({feature, ...rest}) => {
         type="help"
         size="small"
         icon={<HelpIcon />}
+        onClick={() => onHelpClick('HELP_AVG_CONCEPT')}
       >{ getLang('CALLOUT_AVG_OPP') }</Callout>
       <Typography 
         variant="body1" 
@@ -137,6 +138,7 @@ export const LocationAvgSection = ({feature, ...rest}) => {
         type="help"
         size="small"
         icon={<HelpIcon />}
+        onClick={() => onHelpClick('HELP_AVG_CONCEPT')}
       >{ getLang('CALLOUT_AVG_SES') }</Callout>
       
     </LocationMetric>

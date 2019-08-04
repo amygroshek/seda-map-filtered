@@ -17,3 +17,11 @@
   padding: 0px 16px 24px 16px;
   display: block;
 }
+
+.accordion-item__content p:first-child {
+  margin-top:0;
+}
+
+.accordion-item__content p:last-child {
+  margin-bottom:0;
+}

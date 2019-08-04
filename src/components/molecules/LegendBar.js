@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getValuePositionInRange } from '../../modules/config';
+import { getLang } from '../../modules/lang';
 
 /**
  * Get the transform for the marker
@@ -54,6 +55,7 @@ const LegendBar = ({
   startLabel, 
   endLabel,
   value,
+  valueLangPrefix,
   colors, 
   vertical = false,
   legendRange = [0, 1],
@@ -67,6 +69,11 @@ const LegendBar = ({
   const markerPosition = value ? 
     getValuePositionInRange(value, legendRange, invert) :
     null
+  const midPosition = getValuePositionInRange(
+    (colorRange[1] + colorRange[0])/2, 
+    legendRange
+  )
+  const midPercent = (midPosition * 100) + '%'
   return (
     <div 
       className={classNames(
@@ -97,18 +104,34 @@ const LegendBar = ({
 
       <div className="legend-bar__values">
         <div className="legend-bar__value legend-bar__value--low">
-          {legendRange[0]}
+          { valueLangPrefix ? 
+              getLang(
+                valueLangPrefix + 'LOW', 
+                { value: formatter(legendRange[0]) }
+              ) : formatter(legendRange[0])
+          }
         </div>
         <div className="legend-bar__value legend-bar__value--zero"
           style={{
             position: 'absolute',
-            left:  (getValuePositionInRange((colorRange[1] + colorRange[0])/2, legendRange)*100) +'%'
+            left: vertical ? null : midPercent,
+            bottom: vertical ? midPercent : null
           }}
         >
-          {Math.round((colorRange[1] + colorRange[0])/2)}
+          { valueLangPrefix ? 
+              getLang(
+                valueLangPrefix + 'MID', 
+                { value: formatter((colorRange[1] + colorRange[0])/2) }
+              ) : formatter((colorRange[1] + colorRange[0])/2)
+          }
         </div>
         <div className="legend-bar__value legend-bar__value--high">
-          +{legendRange[1]}
+          { valueLangPrefix ? 
+              getLang(
+                valueLangPrefix + 'HIGH', 
+                { value: formatter(legendRange[1]) }
+              ) : ('+' + formatter(legendRange[1]))
+          }
         </div>
       </div>
 

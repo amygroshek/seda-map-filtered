@@ -1,3 +1,72 @@
+.help-legend.legend-bar--vertical {
+  height: 120px;
+  position:relative;
+  width: 100%;
+  margin: 24px 0;
+}
+
+.help-legend .legend-bar__gradient {
+  width: 8px;
+}
+
+.help-legend .legend-bar__title {
+  display: none;
+}
+
+.help-legend .legend-bar__label.legend-bar__label--low {
+  position: absolute;
+  bottom:-24px;
+  left:0;
+  margin:0;
+}
+
+.help-legend .legend-bar__label.legend-bar__label--high {
+  position: absolute;
+  top:-24px;
+  left:0;
+  margin:0;
+}
+
+.help-legend .legend-bar__value {
+  position: absolute;
+  left: 16px;
+  font-family: var(--body-font);
+  font-weight: normal;
+  line-height: 18px;
+}
+
+.help-legend .legend-bar__value.legend-bar__value--low {
+  bottom: 0;
+}
+
+.help-legend .legend-bar__value.legend-bar__value--zero {
+  margin-bottom: -8px;
+}
+
+.help-content .help-legend__metric {
+  font-weight: bold;
+}
+
+.help-content .help-legend__concept {
+  padding-bottom: 24px;
+}
+
+.help-content__section {
+  width: 100%;
+}
+
+.help-content strong {
+  font-weight: bold;
+}
+
+.help-content__section-title {
+  padding: 16px 16px 0;
+  background: linear-gradient(to bottom, #fff, var(--alt-background));
+  width: 100%;
+  display: block;
+  color: var(--text2);
+}
+
 .visual-help {
   padding: 16px;
   font-size: 13px;

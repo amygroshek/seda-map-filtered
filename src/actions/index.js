@@ -185,6 +185,21 @@ export const toggleGapChart = (visible) => ({
   visible
 })
 
+export const showHelpTopic = (topicId) => ({
+  type: 'SHOW_HELP_TOPIC',
+  topicId
+})
+
+export const hideHelpTopic = (topicId) => ({
+  type: 'HIDE_HELP_TOPIC',
+  topicId
+})
+
+export const showSingleHelpTopic = (topicId) => ({
+  type: 'SHOW_SINGLE_TOPIC',
+  topicId
+})
+
 
 /** THUNKS */
 

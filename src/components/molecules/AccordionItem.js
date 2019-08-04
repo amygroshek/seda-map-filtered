@@ -19,6 +19,7 @@ export default function AccordionItem({
 }) {
   return (
     <ExpansionPanel 
+      id={id}
       square 
       expanded={expanded} 
       onChange={() => {onChange && onChange(id)}}

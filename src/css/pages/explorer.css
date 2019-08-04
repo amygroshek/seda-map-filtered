@@ -152,6 +152,10 @@
     z-index: 69;
   }
 
+  .section--explorer .panel.panel--help .panel__content {
+    padding-bottom: 50px;
+  }
+
   /** Location Panel only */
 
   .section--explorer .section__content.section__content--location .panel.panel--location {
