@@ -3,10 +3,9 @@ import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { onViewportChange, loadLocation } from '../../actions';
+import { onViewportChange, loadLocation, onRouteUpdates, onSearchSelection } from '../../actions';
 import { getRegionFromFeatureId } from '../../modules/config';
 import Search from '../molecules/Search';
-import { updateRoute } from '../../modules/router';
 import { getStateAbbrFromName } from '../../constants/statesFips';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -36,7 +35,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
           lon: hit.lon
         }))
       }
-      updateRoute(ownProps, routeUpdates);
+      dispatch(onSearchSelection(hit))
+      dispatch(onRouteUpdates(routeUpdates, ownProps))
     }
   }
 })

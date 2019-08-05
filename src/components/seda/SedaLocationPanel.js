@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LocationPanel from '../organisms/LocationPanel';
-import { clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation, toggleHelp, showSingleHelpTopic } from '../../actions';
+import { onReportDownload, clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation, toggleHelp, showSingleHelpTopic, onShowSimilar } from '../../actions';
 
 const SedaLocationPanel = ({
   active,
@@ -31,6 +31,7 @@ const SedaLocationPanel = ({
       onGapClick={onGapClick}
       onHelpClick={handleHelpClick}
       onSelectFeature={onSelectFeature}
+      onShowSimilar={onShowSimilar}
     />
   )
 }
@@ -45,6 +46,7 @@ SedaLocationPanel.propTypes = {
   onGapClick: PropTypes.func,
   onHelpClick: PropTypes.func,
   onSelectFeature: PropTypes.func,
+  onShowSimilar: PropTypes.func,
   helpOpen: PropTypes.bool,
 }
 
@@ -68,7 +70,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   clearActiveLocation: () => 
     dispatch(clearActiveLocation()),
   onSelectFeature: (feature) => {
-    console.log('onSelectFeature', feature)
     // feature is a stub, need to load full data
     if (feature.stub) {
       dispatch(loadLocation(feature.properties))
@@ -76,9 +77,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       dispatch(handleLocationActivation(feature))
     }
   },
+  onShowSimilar: (feature) => {
+    dispatch(onShowSimilar(feature))
+  },
   onHelpClick: (topicId, helpOpen) => {
     !helpOpen && dispatch(toggleHelp());
     dispatch(showSingleHelpTopic(topicId))
+  },
+  onDownloadReport: (feature) => {
+    dispatch(onReportDownload(feature))
   }
 })
 

@@ -2,8 +2,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { toggleHelp, showSingleHelpTopic } from '../../actions';
-import { updateRoute } from '../../modules/router';
+import { toggleHelp, showSingleHelpTopic, onViewChange, onMapLegendAction } from '../../actions';
 import { MapLegend } from '../organisms/Map';
 
 const mapStateToProps = ({ 
@@ -27,15 +26,18 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onToggleClick: () => dispatch({
-    type: 'TOGGLE_LEGEND_TYPE'
-  }),
+  onToggleClick: () => {
+    dispatch({type: 'TOGGLE_LEGEND_TYPE'})
+    dispatch(onMapLegendAction('toggle-legend'))
+  },
   onFullClick: () => {
-    updateRoute(ownProps, { view: 'chart' })
+    dispatch(onViewChange('chart', ownProps))
+    dispatch(onMapLegendAction('full-chart'))
   },
   onHelpClick: (helpOpen) => {
     !helpOpen && dispatch(toggleHelp());
     dispatch(showSingleHelpTopic('HELP_MAP'))
+    dispatch(onMapLegendAction('show-help'))
   },
 })
 

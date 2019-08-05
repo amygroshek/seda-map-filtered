@@ -6,8 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateRoute } from '../../modules/router';
-import { updateMapSize, loadRouteLocations, toggleGapChart } from '../../actions';
+import { updateMapSize, loadRouteLocations, toggleGapChart, onMetricChange } from '../../actions';
 
 import SplitSection from '../templates/SplitSection';
 import SedaLocations from './SedaLocations';
@@ -165,11 +164,12 @@ const mapStateToProps =
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
-  onLayoutChange: (view) => ['map', 'split'].indexOf(view) > -1 &&
+  onLayoutChange: (view) => 
+    ['map', 'split'].indexOf(view) > -1 &&
       dispatch(updateMapSize()),
-  onMetricChange: (metricId) => {
-    updateRoute(ownProps, { metric: metricId })
-  },
+  onMetricChange: (metricId) =>
+    dispatch(onMetricChange(metricId, ownProps))
+  ,
   onToggleGapChart: (visible) => {
     dispatch(toggleGapChart(visible))
   }

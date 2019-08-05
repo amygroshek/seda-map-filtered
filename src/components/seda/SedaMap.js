@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation, setTooltipVars } from '../../actions';
-import { updateViewportRoute, updateRoute } from '../../modules/router';
+import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation, setTooltipVars, onHighlightedStateChange } from '../../actions';
+import { updateViewportRoute } from '../../modules/router';
 import { getMapViewport, getLayers, defaultMapStyle } from '../organisms/Map/selectors';
 import { getHoveredId } from '../../modules/sections';
 import { getSelectedColors, getScatterplotVars, isVersusFromVarNames } from '../../modules/config';
@@ -132,7 +132,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateViewportRoute(ownProps, vp);
   },
   resetHighlightedState: () => {
-    updateRoute(ownProps, { highlightedState: 'us' })
+    dispatch(onHighlightedStateChange('us', ownProps))
   },
   onClick: (feature) => dispatch(
     handleLocationActivation(feature)

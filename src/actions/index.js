@@ -200,6 +200,61 @@ export const showSingleHelpTopic = (topicId) => ({
   topicId
 })
 
+export const setExplorerMetric = (metricId) => ({
+  type: 'SET_EXPLORER_METRIC',
+  metricId
+})
+
+export const setExplorerDemographic = (demographicId) => ({
+  type: 'SET_EXPLORER_DEMOGRAPHIC',
+  demographicId
+})
+
+export const setExplorerRegion = (regionId) => ({
+  type: 'SET_EXPLORER_REGION',
+  regionId
+})
+
+export const setExplorerState = (stateId) => ({
+  type: 'SET_EXPLORER_STATE',
+  stateId
+})
+
+export const setExplorerView = (view) => ({
+  type: 'SET_EXPLORER_VIEW',
+  view
+})
+
+export const setExplorerSecondary = (secondaryId) => ({
+  type: 'SET_EXPLORER_SECONDARY',
+  secondaryId
+})
+
+export const setExplorerLocations = (locations) => ({
+  type: 'SET_EXPLORER_LOCATIONS',
+  locations
+})
+
+export const onSearchSelection = (hit) => ({
+  type: 'SEARCH_HIT_SELECTED',
+  hit
+})
+
+export const onMapLegendAction = (itemId) => ({
+  type: 'MAP_LEGEND_ACTION',
+  itemId
+})
+
+export const onReportDownload = (feature) => ({
+  type: 'REPORT_DOWNLOAD',
+  feature
+})
+
+export const onShowSimilar = (feature) => ({
+  type: 'SHOW_SIMILAR',
+  feature
+})
+
 
 /** THUNKS */
 
@@ -260,22 +315,63 @@ export const navigateToStateByAbbr = (abbr) =>
     return dispatch(onViewportChange(vp, true))
   }
 
+/**
+ * Update the route and dispatch the event to update metric
+ */
+export const onMetricChange = (metric, ownProps) => (dispatch) => {
+  updateRoute(ownProps, { metric })
+  dispatch(setExplorerMetric(metric))
+}
+
+/**
+ * Update the route and dispatch the event to update metric
+ */
+export const onViewChange = (view, ownProps) => (dispatch) => {
+  updateRoute(ownProps, { view })
+  dispatch(setExplorerView(view))
+}
+
+
 export const onDemographicChange = (demographic, ownProps) =>
   (dispatch) => {
     updateRoute(ownProps, { demographic })
+    dispatch(setExplorerDemographic(demographic))
   }
 
 export const setDemographicAndMetric = (demographic, metric, ownProps) =>
   (dispatch) => {
     updateRoute(ownProps, { demographic, metric })
+    dispatch(setExplorerDemographic(demographic))
+    dispatch(setExplorerMetric(metric))
   }
 
 export const onHighlightedStateChange = (stateAbbr, ownProps) => (dispatch) => {
-  updateRoute(ownProps, { 
-    highlightedState: stateAbbr
-  })
+  updateRoute(ownProps, { highlightedState: stateAbbr })
+  dispatch(setExplorerState(stateAbbr))
   dispatch(navigateToStateByAbbr(stateAbbr))
 }
+
+export const onRouteUpdates = (updates = {}, ownProps) => (dispatch) => {
+  if (updates.hasOwnProperty('region')) {
+    dispatch(setExplorerRegion(updates.region))
+  }
+  if (updates.hasOwnProperty('highlightedState')) {
+    dispatch(setExplorerState(updates.highlightedState))
+  }
+  if (updates.hasOwnProperty('demographic')) {
+    dispatch(setExplorerDemographic(updates.demographic))
+  }
+  if (updates.hasOwnProperty('metric')) {
+    dispatch(setExplorerMetric(updates.metric))
+  }
+  if (updates.hasOwnProperty('secondary')) {
+    dispatch(setExplorerSecondary(updates.secondary))
+  }
+  if (updates.hasOwnProperty('locations')) {
+    dispatch(setExplorerLocations(updates.locations))
+  }
+  updateRoute(ownProps, updates);
+} 
 
 /**
  * Thunk that updates the region in the route
@@ -292,6 +388,7 @@ export const onRegionChange = (region, ownProps) =>
       routeUpdates['secondary'] = 'ses';
     }
     updateRoute(ownProps, routeUpdates)
+    dispatch(setExplorerRegion(region))
     dispatch(clearActiveLocation())
   }
     
