@@ -20,6 +20,7 @@
   "dependencies": {
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^3.0.2",
+    "@redux-beacon/google-tag-manager": "^1.0.1",
     "algoliasearch": "^3.32.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
@@ -46,6 +47,7 @@
     "react-seda-search": "^1.0.8",
     "react-transition-group": "^4.1.1",
     "redux": "4.0.1",
+    "redux-beacon": "^2.1.0",
     "redux-thunk": "2.3.0",
     "sanitize.css": "7.0.3",
     "serve": "10.1.2"

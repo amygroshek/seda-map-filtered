@@ -21,7 +21,6 @@ import { HEADER } from '../../constants/site';
 
 // modules
 import { HighlightedStateControl, RegionControl, DemographicAndGapControl } from './SedaSelectControls';
-import { updateRoute } from '../../modules/router';
 
 // components
 import Header from '../organisms/Header';
@@ -34,7 +33,7 @@ import { getLang } from '../../modules/lang';
 import SelectButton from '../atoms/SelectButton';
 import MenuButton from '../atoms/MenuButton';
 import HelpButton from '../molecules/HelpButton';
-import { toggleHelp } from '../../actions';
+import { toggleHelp, onMetricChange, onViewChange } from '../../actions';
 
 const HeaderPrimary = ({metric, width, onMetricChange}) => {
   return <div className='header-tabs'>
@@ -218,11 +217,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     open: true
   }),
   onMetricChange: _debounce((metricId) => {
-    updateRoute(ownProps, { metric: metricId })
+    dispatch(onMetricChange(metricId, ownProps));
   }, 400),
   onViewChange: (view) => {
     const updatedView = view && view.id ? view.id : view
-    updateRoute(ownProps, { view: updatedView })
+    dispatch(onViewChange(updatedView, ownProps));
   }
 })
 

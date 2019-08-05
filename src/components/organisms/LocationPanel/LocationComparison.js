@@ -107,6 +107,7 @@ const LocationComparison = ({
   expanded,
   onChange,
   onSelectFeature,
+  onShowSimilar
 }) => {
   const [ showSimilar, setShowSimilar ] = useState(false);
   // hide similar location when switching locations
@@ -153,7 +154,7 @@ const LocationComparison = ({
           />
         ) : (
           <Button 
-            onClick={() => setShowSimilar(true)}
+            onClick={() => setShowSimilar(true) && onShowSimilar(feature)}
             variant="contained"
             color="primary"
           >{ getLang('LOCATION_SIMILAR_SHOW') }</Button>
@@ -172,6 +173,7 @@ LocationComparison.propTypes = {
   expanded: PropTypes.bool,
   onChange: PropTypes.func,
   onSelectFeature: PropTypes.func,
+  onShowSimilar: PropTypes.func,
   markerColor: PropTypes.string,
 }
 

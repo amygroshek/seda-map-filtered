@@ -58,6 +58,8 @@ const LocationPanel = ({
   onGapClick,
   onHelpClick,
   onSelectFeature,
+  onShowSimilar,
+  onDownloadReport
 }) => {
   // track state for expanded / collapsed items
   const [ expanded, setExpanded ] = useState([]);
@@ -133,6 +135,7 @@ const LocationPanel = ({
         expanded={expanded.indexOf('compare') > -1}
         onChange={toggleExpanded}
         onSelectFeature={onSelectFeature}
+        onShowSimilar={onShowSimilar}
       />
       <AccordionItem 
         id="export" 
@@ -146,7 +149,7 @@ const LocationPanel = ({
         <Button
           variant="contained"
           color="primary"
-          onClick={() => { alert('report unavailable') }}
+          onClick={() => { onDownloadReport(feature) }}
         >{getLang('BUTTON_DOWNLOAD_REPORT')}</Button>
       </AccordionItem>
     </Panel>
@@ -162,6 +165,8 @@ LocationPanel.propTypes = {
   onGapClick: PropTypes.func,
   onHelpClick: PropTypes.func,
   onSelectFeature: PropTypes.func,
+  onShowSimilar: PropTypes.func,
+  onDownloadReport: PropTypes.func,
 }
 
 export default LocationPanel
