@@ -34,9 +34,9 @@
 .scatterplot__heading {
   position: absolute;
   z-index: 10;
-  top: var(--padding);
-  left: var(--padding);
-  right: 24px;
+  top: 8px;
+  left: 40px;
+  right: 0px;
   pointer-events: none;
 }
 .scatterplot__heading .scatterplot__title {

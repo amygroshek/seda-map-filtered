@@ -6,6 +6,8 @@ import SedaScatterplotPreview from '../../seda/SedaScatterplotPreview';
 import SedaLocationMarkers from '../../seda/SedaLocationMarkers';
 import { Button } from '@material-ui/core';
 import ScatterplotAxis from '../Scatterplot/ScatterplotAxis';
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme } from '@material-ui/core/styles';
 
 const LegendPanel = ({
   title,
@@ -14,6 +16,7 @@ const LegendPanel = ({
   className,
   ...rest
 }) => {
+
   return (
     <div className={classNames("legend-panel", className)} {...rest}>
       { title &&
@@ -55,8 +58,10 @@ const MapLegend = ({
 }) => {
   const vars = getScatterplotVars(region, metric, demographic);
   const mapVars = getMapVars(region, metric, demographic);
-  // force condensed for split view
-  variant = view === 'split' ? 'condensed' : variant;
+  const theme = useTheme();
+  const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
+  // force condensed for split view and small viewports
+  variant = (view === 'split' || !isAboveMedium) ? 'condensed' : variant;
   const isVersus = isVersusFromVarNames(vars.xVar, vars.yVar);
   return (
     <div className={classNames(
@@ -115,7 +120,7 @@ const MapLegend = ({
           } */}
         </LegendPanel>
       }
-      { view === 'map' &&
+      { view === 'map' && isAboveMedium &&
         <div className="legend-actions">
           <Button variant="contained" color="primary" onClick={onToggleClick}>
             { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }

@@ -4,7 +4,7 @@
 }
 
 /** Hide non-critical items on small resolutions */
-@media(max-width: 700px) {
+@media(max-width: 600px) {
   .page--explorer .site-footer__link-label,
   .page--explorer .site-footer__copyright,
   .page--explorer .site-footer__actions .site-footer__link-collection:first-child {
@@ -18,12 +18,34 @@
 
 /** Map */
 
-  /** Legend in bottom right of map */
+  /** Extra Small: legend at top */
   .section--explorer .map-legend {
     position: absolute;
-    bottom: 24px;
-    left: auto;
-    right: 24px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+  }
+
+  /** Small: Legend in top right */
+  @media(min-width: 600px) {
+    .section--explorer .map-legend {
+      right: auto;
+      top: 16px;
+      left: 16px;
+      width: 300px;
+    }
+  }
+
+  /** Medium+: Legend in bottom right of map */
+  @media(min-width: 960px) {
+    .section--explorer .map-legend {
+      position: absolute;
+      bottom: 24px;
+      left: auto;
+      right: 24px;
+      top:auto;
+      background: #fff;
+    }
   }
 
   /** Map legend in split view */
@@ -113,12 +135,28 @@
 /** Side Panel */
 
 .section--explorer .section__children {
-  position: absolute;
-  width: var(--panel-width);
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   top:0;
-  bottom: 0;
-  left: calc(-1 * var(--panel-width));
+  left:0;
+  z-index:9999;
+  transform: translateX(-100%);
 }
+
+@media(min-width: 600px) {
+  .section--explorer .section__children {
+    position: absolute;
+    width: var(--panel-width);
+    height: auto;
+    top:0;
+    bottom: 0px;
+    left: calc(-1 * var(--panel-width));
+    z-index:99;
+    transform: none;
+  }
+}
+
 
 .section--explorer .panel {
   transition: transform 0.2s ease-in-out;
@@ -130,20 +168,38 @@
     position: absolute;
     top:0;
     left: 0px;
-    bottom: -50px;
-    z-index: 60;
-    width: var(--panel-width);
+    bottom:0;
+    width: 100%;
   }
+
+  @media(min-width: 600px) {
+    .section--explorer .panel {
+      position: absolute;
+      top:0;
+      left: 0px;
+      bottom: 0px;
+      z-index: 60;
+      width: var(--panel-width);
+    }
+  }
+
 
 
   /** Modifiers for subpanel */
 
+  /** overlay active panel */
+  .section--explorer .section__content.section__content--help .panel.panel--help, 
+  .section--explorer .section__content.section__content--location .panel.panel--location {
+    transform: translateX(100%);
+  }
 
-  /** Help Panel or Location Panel are visible */
-  .section--explorer .section__content.section__content--help,
-  .section--explorer .section__content.section__content--location {
-    width: calc(100% - var(--panel-width));
-    margin-left: var(--panel-width);
+  /** Help Panel or Location Panel are visible, resize content */
+  @media(min-width: 960px) {
+    .section--explorer .section__content.section__content--help,
+    .section--explorer .section__content.section__content--location {
+      width: calc(100% - var(--panel-width));
+      margin-left: var(--panel-width);
+    }
   }
 
   /** Set z-index for active panel*/
@@ -168,7 +224,10 @@
     z-index: 70;
   }
 
-  .section--explorer .section__content.section__content--help.section__content--location .panel.panel--location {
-    transform: translateX(100%);
-    bottom:0;
+  @media(min-width: 960px) {
+    .section--explorer .section__content.section__content--help.section__content--location .panel.panel--location {
+      transform: translateX(200%);
+      bottom:0;
+    }
   }
+

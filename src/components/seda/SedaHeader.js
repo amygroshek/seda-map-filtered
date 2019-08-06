@@ -40,7 +40,7 @@ const HeaderPrimary = ({metric, width, onMetricChange}) => {
     <SelectButton
       text={getLang('TAB_CONCEPT_'+ metric)}
       subtext={getLang('TAB_METRIC_'+ metric)}
-      // onClick={() => alert('not implemented yet')}
+      onClick={() => alert('not implemented yet')}
     />
     <Tabs 
       value={metric}
@@ -190,6 +190,7 @@ SedaHeader.propTypes = {
   metric: PropTypes.string,
   view: PropTypes.string,
   text: PropTypes.string,
+  region: PropTypes.string,
   controls: PropTypes.array,
   width: PropTypes.string,
   helpOpen: PropTypes.bool,

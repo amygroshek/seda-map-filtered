@@ -3,7 +3,7 @@
 }
 
 .map-legend  .legend-panel {
-  background:#fff;
+  background:rgba(255,255,255,0.9);
   box-shadow: var(--shadow100);
   position: relative;
   z-index: 100;
@@ -20,35 +20,97 @@
   z-index:9;
 }
 
-
-
 /** CONDENSED VIEW */
 
-.legend-panel--condensed .legend-bar {
-  position:relative;
-}
+  /** add padding when the legend is docked to accomodate help */
+  .map-legend .legend-panel--condensed {
+    padding-left: 40px;
+    padding-right: 8px;
+  }
 
-.legend-panel--condensed .legend-bar:nth-child(1) {
-  z-index: 8;
-}
+  /** drop padding when undocked */
+  @media(min-width: 600px) {
+    .map-legend .legend-panel--condensed {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  }
 
-.legend-panel--condensed .legend-bar:nth-child(2) {
-  z-index:7;
-}
+  .map-legend .legend-panel--condensed .legend-bar {
+    background: none;
+  }
 
-.legend-panel--condensed .legend-bar .legend-bar__values {
-  order:3;
-  margin: 4px 0 0 0;
-}
+  /** condense height, add some padding to accomodate help button */
+  .map-legend .legend-panel--condensed .legend-bar {
+    height: 56px;
+    padding-top: 10px;
+    padding-bottom: 2px;
+  }
 
-.legend-panel--condensed .legend-bar .legend-bar__labels {
-  order:1;
-  margin: 0 0 4px 0;
-}
+  /** adjust padding when the legend is undocked */
+  @media(min-width: 600px) {
+    .map-legend .legend-panel--condensed .legend-bar {
+      padding-top: 8px;
+      padding-bottom: 4px;
+    }
+  }
 
-.legend-panel--condensed .legend-bar.legend-bar--secondary .legend-bar__gradient {
-  background: none!important;
-} 
+
+  /** hide title */
+  .map-legend .legend-panel--condensed .legend-bar .legend-bar__title {
+    display: none;
+  }
+
+  .legend-panel--condensed .legend-bar {
+    position:relative;
+  }
+
+  .legend-panel--condensed .legend-bar:nth-child(1) {
+    z-index: 8;
+  }
+
+  .legend-panel--condensed .legend-bar__title {
+    font-size: var(--mini-font-size);
+    font-weight: 900;
+    color: var(--text2);
+    height: 24px;
+    line-height: 16px;
+    background: #eee;
+    padding: 4px;
+    text-transform: capitalize;
+  }
+
+  .legend-panel--condensed .legend-bar__title {
+    margin: -4px -4px 8px -4px;
+  }
+
+
+  .legend-panel--condensed .legend-bar .legend-bar__values {
+    order:3;
+    margin: 4px 0 0 0;
+  }
+
+  .legend-panel--condensed .legend-bar .legend-bar__labels {
+    order:1;
+    margin: 0 0 4px 0;
+  }
+
+  .legend-panel--condensed .legend-bar.legend-bar--secondary .legend-bar__gradient {
+    background: none!important;
+  } 
+
+  /** Desktop View */
+
+    /** show title */
+    @media(min-width: 960px) {
+      .map-legend .legend-panel--condensed .legend-bar .legend-bar__title {
+        display: block;
+      }
+      /** condense height */
+      .map-legend .legend-panel--condensed .legend-bar.legend-bar--title {
+        height: 80px;
+      }
+    }
 
 /** PREVIEW CHART VIEW */
 

@@ -1,3 +1,7 @@
+.map-search {
+  position: relative; 
+}
+
 .map-search__icon {
   position: absolute;
   top: 8px;
@@ -12,15 +16,22 @@
   font-size: var(--small-font-size);
 }
 
+::placeholder{
+  text-overflow:ellipsis;
+}
+
 .react-autosuggest__input {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 12px 8px 36px;
-  font-family: sans-serif;
+  padding: 8px 0 8px 36px;
+  font-family: var(--font);
   font-weight: 300;
   font-size: var(--body-font-size);
   border: none;
   height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .react-autosuggest__input--open + .react-autosuggest__clear {
