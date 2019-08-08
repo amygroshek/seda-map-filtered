@@ -288,6 +288,8 @@ const LANG = {
   'AXIS_SEG_LOW_GAP': 'less',
   'AXIS_SEG_HIGH_GAP': 'more',
 
+  'AXIS_FRL_MID': ' ',
+
   // PREVIEW CHART AXIS LABELS
   'AXIS_PREV_ZERO': 'avg',
   'AXIS_PREV_MID': 'avg',

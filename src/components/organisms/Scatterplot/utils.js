@@ -6,17 +6,19 @@ import { getCSSVariable, formatNumber } from '../../../utils';
 /** UTILS */
 
 /** Returns an amount for how much to increment each step for the axis overlay */
-const getIncrementForVarName = (varName) => {
+const getIncrementForVarName = (varName, region) => {
   const metricId = getMetricIdFromVarName(varName);
   const isGap = isGapVarName(varName)
   const key = metricId + (isGap ? '_gap' : '')
   switch (key) {
     case 'avg':
-      return 1;
+      return region === 'schools' ? 2 : 1;
     case 'grd':
-      return 0.2;
+      return region === 'schools' ? 0.4 : 0.2;
     case 'coh':
-      return 0.2;
+      return region === 'schools' ? 0.25 : 0.2;
+    case 'frl':
+      return 0.25;
     case 'coh_gap':
     case 'grd_gap':
       return 0.1;
@@ -313,13 +315,13 @@ const getOverlay = (points, lines) => {
  * @param {*} varName 
  * @param {*} region 
  */
-const getOverlayForVarName = (varName, axis = 'y') => {
+const getOverlayForVarName = (varName, axis = 'y', region) => {
   const isGap = isGapVarName(varName);
   const metricId = getMetricIdFromVarName(varName);
   const numLines = 9;
-  const inc = getIncrementForVarName(varName);
+  const inc = getIncrementForVarName(varName, region);
   const midPoint = getMidpointForVarName(varName);
-  const range = getMetricRangeFromVarName(varName);
+  const range = getMetricRangeFromVarName(varName, region);
   const positions = getPositionArray(numLines, inc, midPoint, range);
   const langPrefix = isGap ? metricId + '_gap' : metricId;
   const formatter = getFormatterForVarName(varName);
@@ -338,11 +340,11 @@ const getPreviewOverlayForVarName = (varName, axis = 'y') => {
 }
 
 
-const getOverlaysForContext = (variant, {xVar, yVar }) => {
+const getOverlaysForContext = (variant, {xVar, yVar, region }) => {
   const overlays = [];
   if (variant === 'map') {
-    overlays.push(getOverlayForVarName(xVar, 'x'))
-    overlays.push(getOverlayForVarName(yVar, 'y'))
+    overlays.push(getOverlayForVarName(xVar, 'x', region))
+    overlays.push(getOverlayForVarName(yVar, 'y', region))
     overlays.push(getVersusOverlay(xVar, yVar))
   }
   if (variant === 'preview') {
@@ -516,7 +518,7 @@ const getMapXAxis = ({ metric, demographic, region }) => {
       }
     },
     axisLine: { show: false },
-    interval: getIncrementForVarName(`${demographic.id}_${metric.id}`),
+    interval: getIncrementForVarName(`${demographic.id}_${metric.id}`, region),
     nameGap: 0,
     nameTextStyle: {},
     splitLine: { show: false },

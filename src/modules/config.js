@@ -359,9 +359,17 @@ export const getMetricRangeFromVarName = (varName, region, type) => {
  * Returns the diverging midpoint for the provided varName
  * @param {string} varName 
  */
-export const getMidpointForVarName = (varName) =>
-  varName.split('_')[1] === 'grd' && !isGapVarName(varName) ?
-    1 : 0
+export const getMidpointForVarName = (varName) => {
+  if (varName.split('_')[1] === 'grd' && !isGapVarName(varName)) {
+    return 1;
+  }
+  // set midpoint out of view for FRL
+  if (varName.split('_')[1] === 'frl') { 
+    return -10
+  }
+  return 0;
+}
+
 
 /**
  * Gets the position of where the bar should extend to 

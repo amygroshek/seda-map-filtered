@@ -142,6 +142,7 @@ function Scatterplot({
               },
               e.event.event
             ) : (
+              e.event.event.toElement && 
               !e.event.event.toElement.classList.contains('marker') &&
                 onHover(null, {}, e.event.event)
             )
