@@ -96,6 +96,10 @@ const LANG = {
 
   'LABEL_BY_SUBGROUP': '$[metric] by subgroup',
 
+  'LABEL_DEMOGRAPHIC': 'Demographic or gap',
+  'LABEL_REGION': 'Region',
+  'LABEL_HIGHLIGHTED_STATE': 'Highlighted State',
+
   'TOOLTIP_SUMMARY': 'click on a location for more data.',
   'TOOLTIP_TYPE_MAP': 'an area on the map',
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
@@ -244,9 +248,9 @@ const LANG = {
 
   'AXIS_COH_MID': 'no\nchange',
   'AXIS_COH_LOW_SINGLE': 'dropped $[value]\ngrade level',
-  'AXIS_COH_LOW': 'declined $[value]\ngrade levels per year',
-  'AXIS_COH_HIGH_SINGLE': 'improved $[value]\ngrade level per year',
-  'AXIS_COH_HIGH': 'improved $[value]\ngrade levels per year',
+  'AXIS_COH_LOW': 'declined $[value]\ngrade levels / year',
+  'AXIS_COH_HIGH_SINGLE': 'improved $[value]\ngrade level / year',
+  'AXIS_COH_HIGH': 'improved $[value]\ngrade levels / year',
 
   'AXIS_AVG_GAP_ZERO': 'no gap\nin opportunity',
   'AXIS_AVG_GAP_LOW_SINGLE': '$[value] grade level\ndifference',

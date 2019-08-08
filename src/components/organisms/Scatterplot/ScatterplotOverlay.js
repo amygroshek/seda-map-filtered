@@ -168,8 +168,8 @@ const ScatterplotOverlay = ({
           size={c.z}
           x={c.x}
           y={c.y}
-          onMouseEnter={(e) => onHover(c.data, {}, e)}
-          onMouseLeave={(e) => onHover(null, {}, e)}
+          onMouseEnter={(e) => { onHover(c.data, {}, e) } }
+          onMouseLeave={(e) => { onHover(null, {}, e) } }
         >{i+1}</CircleMarker>
       )}
       { hoveredCircle &&

@@ -119,7 +119,6 @@ const materialTheme = createMuiTheme({
         padding: '8px 8px',
         '&:focus': {
           borderColor: '#1383C6',
-          boxShadow: '0 0 0 0.2rem #1383C633',
         },
       },
     },

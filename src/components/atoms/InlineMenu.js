@@ -1,59 +1,49 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { MenuItem, Menu } from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import { makeId } from '../../utils';
-import Hint from '../molecules/Hint';
 
 function InlineMenu({
   id,
   options = [],
+  label,
   value,
   formatter,
-  hint,
   onChange
 }) {
   id = id || useState(makeId())[0];
-  const [ anchorEl, setAnchorEl ] = useState(null);
   const selectedItem = options.find(i => i.id === value);
   if(!selectedItem) {
     console.error('no selected item', id, value)
   }
   return (
-    <div 
-      className='inline-menu'
-    >
-      <Hint
-        className='hint__text hint__text--select'
-        aria-owns={anchorEl ? id : undefined}
-        aria-haspopup="true"
-        onClick={(e) => setAnchorEl(e.currentTarget)}
-        cursor="pointer"
-        text={hint}
-      >
-        {
-          formatter && selectedItem ?
-            formatter(selectedItem) :
-            selectedItem.label
-        }
-      </Hint>
-      <Menu
-        id={id}
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
+    <FormControl className='inline-menu'>
+      { label && <InputLabel htmlFor={id}>{label}</InputLabel> }
+      <Select
+        value={value}
+        onChange={(e) => { onChange(e.target.value)}}
+        inputProps={{
+          name: label,
+          id: id,
+        }}
       >
         {
           options.map((item, i) => 
             <MenuItem
               key={item.id + i}
-              onClick={() => {onChange(id, item); setAnchorEl(null);}}
+              value={item.id}
+              // onClick={() => {onChange(id, item)}}
             >
-              {item.label}
+              {
+                formatter && item ?
+                  formatter(item) :
+                  item.label
+              }
             </MenuItem>
           )
         }
-      </Menu>
-    </div>
+      </Select>
+    </FormControl>
   )
 }
 

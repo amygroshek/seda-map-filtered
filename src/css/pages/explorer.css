@@ -45,6 +45,7 @@
       right: 24px;
       top:auto;
       background: #fff;
+      width: auto;
     }
   }
 
@@ -120,7 +121,7 @@
   /** toggle button */
   .section--explorer .charts__toggle {
     position: absolute;
-    top: 64px;
+    top: 72px;
     left: 16px;
   }
 

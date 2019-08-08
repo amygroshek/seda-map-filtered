@@ -141,8 +141,11 @@ function Scatterplot({
                 yVar,
               },
               e.event.event
-            ) :
-            onHover(null, {}, e.event.event)
+            ) : (
+              !e.event.event.toElement.classList.contains('marker') &&
+                onHover(null, {}, e.event.event)
+            )
+            
         }}
       />
       {children}
