@@ -186,7 +186,7 @@
   margin-left: -100%;
 }
 
-/** No gradient on versus chart */
+/** Flip arrow when no gradient */
 .scatterplot--versus .legend-bar--vertical .legend-bar__tick:after {
   border: 6px solid transparent;
   border-right-color: #000;
@@ -197,10 +197,35 @@
   top: 0;
   bottom: 0;
 }
+/** No gradient on versus chart */
 .scatterplot--versus .scatterplot__axis.scatterplot__axis--y .legend-bar__gradient {
   background: none!important;
   left:-24px;
 }
+
+@media(max-width: 960px) {
+  .scatterplot .legend-bar--vertical .legend-bar__tick:after {
+    border: 6px solid transparent;
+    border-right-color: #000;
+    position:absolute;
+    left:-12px;
+    right:auto;
+    margin:auto;
+    top: 0;
+    bottom: 0;
+  }
+  .scatterplot .scatterplot__axis.scatterplot__axis--y .legend-bar__gradient {
+    background: none!important;
+    left:-24px;
+  }
+  .scatterplot .scatterplot__axis.scatterplot__axis--y .legend-bar__title {
+    right: 24px;
+  }
+  .scatterplot .scatterplot__axis.scatterplot__axis--y .legend-bar__labels {
+    display: none;
+  }
+}
+
 
 /** No X axis title on secondary chart */
 .scatterplot--secondary .scatterplot__axis.scatterplot__axis--x .legend-bar__title {

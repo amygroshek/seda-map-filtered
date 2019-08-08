@@ -103,7 +103,7 @@ export const METRICS = [
       'map_districts': [ -3.5, 3.5 ],
       'map_schools': [ -5, 5 ],
       '*_counties_np': [ -4, 3 ],
-      '*_*_gap': [ -1.5, 4.75 ],
+      '*_*_gap': [ -0.5, 5 ],
       '*_counties_b': [ -4, 2 ],
       '*_counties_w': [ -4, 4 ],
       '*_counties': [ -4.5, 2.5 ],
@@ -168,7 +168,7 @@ export const METRICS = [
     label: LANG['LABEL_SEG'],
     description: LANG['EXPLAINER_SEG'],
     range: {
-      '*': [ -0.5, 1 ],
+      '*': [ -0.25, 0.75 ],
     },
     map: false,
     scatterplot: true

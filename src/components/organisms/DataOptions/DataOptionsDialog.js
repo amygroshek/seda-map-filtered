@@ -18,6 +18,8 @@ import { getLang } from '../../../modules/lang';
 import KeyMetricList from './KeyMetricList';
 import SecondaryMetricList from './SecondaryMetricList';
 import { onRouteUpdates } from '../../../actions';
+import { isGapDemographic } from '../../../modules/config';
+import { getStatePropByAbbr } from '../../../constants/statesFips';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -32,6 +34,19 @@ const useStyles = makeStyles(theme => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+/** Returns the subtitle for the provided vars */
+const getSubline = (demographic, region, highlightedState) => {
+  const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
+  const isGap = isGapDemographic(demographic);
+  return getLang('MOBILE_SUBLINE', {
+    place: state,
+    region: region,
+    demographic: isGap ? 
+      getLang('LABEL_SHORT_' + demographic) + ' students' :
+      getLang('LABEL_' + demographic)  + ' students'
+  })
+}
 
 const DataOptionsDialog = ({
   metric, 
@@ -75,11 +90,13 @@ const DataOptionsDialog = ({
     resetOptions();
   }
 
+  
+
   return (
     <div>
       <SelectButton
         text={getLang('TAB_CONCEPT_'+ metric)}
-        subtext={getLang('TAB_METRIC_'+ metric)}
+        subtext={getSubline(demographic, region, highlightedState)}
         onClick={handleClickOpen}
       />
       <Dialog fullScreen open={open} onClose={handleCancel} TransitionComponent={Transition}>
