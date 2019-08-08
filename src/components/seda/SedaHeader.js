@@ -47,6 +47,7 @@ const HeaderPrimary = ({metric, region, demographic, highlightedState, onMetricC
           onChange={(e, metricId) => { onMetricChange(metricId) }}
           classes={{ root: 'tabs__root', indicator: 'tab__indicator' }}
           scrollButtons='off'
+          variant="scrollable"
         >
         { 
           HEADER.tabs.map((t,i) =>

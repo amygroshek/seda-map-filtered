@@ -142,7 +142,7 @@ const materialTheme = createMuiTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 600,
+      sm: 650,
       md: 960,
       lg: 1200,
       xl: 1920

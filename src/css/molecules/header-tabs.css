@@ -18,7 +18,7 @@
   position:relative;
   top: 2px;
   white-space:nowrap;
-
+  width:100%;
 }
 
 
@@ -46,6 +46,7 @@
   justify-content: flex-start;
   letter-spacing: 0;
   max-width: 100%;
+  flex:1;
 }
 
 .tab-label .tab-label__title {
@@ -64,7 +65,12 @@
   color: var(--tab-text);
   overflow:hidden;
   text-overflow: ellipsis;
-  max-width:100%;
+  max-width:99%;
+  display: block;
+}
+
+@media(min-width: 1060px) {
+
 }
 
 .header-tabs .tab__indicator {

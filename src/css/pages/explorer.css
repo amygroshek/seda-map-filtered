@@ -4,7 +4,7 @@
 }
 
 /** Hide non-critical items on small resolutions */
-@media(max-width: 600px) {
+@media(max-width: 650px) {
   .page--explorer .site-footer__link-label,
   .page--explorer .site-footer__copyright,
   .page--explorer .site-footer__actions .site-footer__link-collection:first-child {
@@ -27,7 +27,7 @@
   }
 
   /** Small: Legend in top right */
-  @media(min-width: 600px) {
+  @media(min-width: 650px) {
     .section--explorer .map-legend {
       right: auto;
       top: 16px;
@@ -145,7 +145,7 @@
   transform: translateX(-100%);
 }
 
-@media(min-width: 600px) {
+@media(min-width: 650px) {
   .section--explorer .section__children {
     position: absolute;
     width: var(--panel-width);
@@ -173,7 +173,7 @@
     width: 100%;
   }
 
-  @media(min-width: 600px) {
+  @media(min-width: 650px) {
     .section--explorer .panel {
       position: absolute;
       top:0;

@@ -29,7 +29,7 @@
   }
 
   /** drop padding when undocked */
-  @media(min-width: 600px) {
+  @media(min-width: 650px) {
     .map-legend .legend-panel--condensed {
       padding-left: 4px;
       padding-right: 4px;
@@ -48,7 +48,7 @@
   }
 
   /** adjust padding when the legend is undocked */
-  @media(min-width: 600px) {
+  @media(min-width: 650px) {
     .map-legend .legend-panel--condensed .legend-bar {
       padding-top: 8px;
       padding-bottom: 4px;
