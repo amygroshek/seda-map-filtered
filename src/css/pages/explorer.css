@@ -75,11 +75,30 @@
     position: absolute;
     top: var(--scatterplot-heading);
     left:0;
-    right:24px;
+    right:16px;
     bottom:0;
     width:auto;
     height:auto;
   }
+
+  /** Increase chart width on small resolutions because axis is condensed */
+  @media(max-width: 650px) {
+    .section--explorer .scatterplot .echarts-for-react {
+      width: calc(100% - var(--axis-right) + 16px)!important;
+    }
+    .section--explorer .scatterplot .location-markers {
+      right: calc(var(--axis-right) + var(--sp-right) - 16px);
+    }
+  }
+
+
+  @media(min-width: 650px) {
+    .section--explorer .scatterplot {
+      right: 24px;
+    }
+  }
+
+
 
   /** Move the heading outside of the scatterplot area */
   .section--explorer .scatterplot__heading {
@@ -109,14 +128,18 @@
     height:100%;
     display: flex;
   }
-  .section--explorer .charts__root--split .scatterplot {
-    left: 0;
-    right: calc(50% + 16px);
+
+  @media(min-width: 960px) {
+    .section--explorer .charts__root--split .scatterplot {
+      left: 0;
+      right: calc(50% + 16px);
+    }
+    .section--explorer .charts__root--split .scatterplot--secondary {
+      left: 50%;
+      right: 24px;
+    }
   }
-  .section--explorer .charts__root--split .scatterplot--secondary {
-    left: 50%;
-    right: 24px;
-  }
+
 
   /** toggle button */
   .section--explorer .charts__toggle {

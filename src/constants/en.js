@@ -11,6 +11,10 @@ const LANG = {
   'TAB_CONCEPT_COH': 'Trends in Test Scores',
   'TAB_METRIC_COH': 'reflect educational opportunity changes',
 
+  // Mobile header
+  'MOBILE_SUBLINE': 'for $[demographic] in $[place] $[region]',
+  
+
   // Menu
   'MENU_HOME': 'Home',
   'MENU_OPPORTUNITY': 'Opportunity Explorer',
@@ -54,6 +58,7 @@ const LANG = {
   'LABEL_SHORT_COH': 'trend',
   'LABEL_SHORT_SES': 'SES',
   'LABEL_SHORT_FRL': 'Free Lunch',
+  'LABEL_SHORT_SEG': 'Segregation',
 
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
@@ -252,7 +257,7 @@ const LANG = {
   'AXIS_COH_HIGH_SINGLE': 'improved $[value]\ngrade level / year',
   'AXIS_COH_HIGH': 'improved $[value]\ngrade levels / year',
 
-  'AXIS_AVG_GAP_ZERO': 'no gap\nin opportunity',
+  'AXIS_AVG_GAP_MID': 'no\ngap',
   'AXIS_AVG_GAP_LOW_SINGLE': '$[value] grade level\ndifference',
   'AXIS_AVG_GAP_LOW': '$[value] grade level\ndifference',
   'AXIS_AVG_GAP_HIGH_SINGLE': '$[value] grade level\ndifference',
@@ -273,9 +278,9 @@ const LANG = {
   'AXIS_SES_ZERO_GAP': 'no gap in\nsocioeconomic status',
   'AXIS_SES_LOW_GAP': '$[demographic1] richer',
   'AXIS_SES_HIGH_GAP': '$[demographic2] richer',
-  'AXIS_SES_GAP_ZERO': 'no\ngap',
+  'AXIS_SES_GAP_MID': 'no\ngap',
 
-  'AXIS_SEG_ZERO': 'no\nsegregation',
+  'AXIS_SEG_GAP_MID': 'no\ngap',
   'AXIS_SEG_LOW': 'less',
   'AXIS_SEG_HIGH': 'more',
 

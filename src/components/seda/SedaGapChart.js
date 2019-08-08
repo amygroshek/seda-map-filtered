@@ -51,7 +51,7 @@ const SedaGapChart = ({
         { !isPoorVsNonpoor && 
             <GapTypeInlineMenu
               metric={secondary}
-              onChange={(id, item) => { setSecondary(item.id) }}
+              onChange={(id) => { setSecondary(id) }}
             />
         }
       </div>
