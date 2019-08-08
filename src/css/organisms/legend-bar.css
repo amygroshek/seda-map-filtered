@@ -11,26 +11,6 @@
   flex-direction: column;
 }
 
-.legend-panel--condensed .legend-bar.legend-bar--title {
-  height: 80px;
-}
-
-.legend-panel--condensed .legend-bar__title,
-.legend-panel__title {
-  font-size: var(--mini-font-size);
-  font-weight: 900;
-  color: var(--text2);
-  height: 24px;
-  line-height: 16px;
-  background: #eee;
-  padding: 4px;
-  text-transform: capitalize;
-}
-
-.legend-panel--condensed .legend-bar__title {
-  margin: -4px -4px 8px -4px;
-}
-
 .legend-bar__labels {
   order:3;
   display: flex;
@@ -38,6 +18,7 @@
   justify-content: space-between;
   text-transform: uppercase;
   margin: 8px 0 0 0;
+  white-space: nowrap;
 }
 
 .legend-bar__values {

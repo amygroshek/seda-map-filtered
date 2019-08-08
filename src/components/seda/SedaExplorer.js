@@ -19,6 +19,8 @@ import SedaTooltip from './SedaTooltip';
 import SedaGapChart from './SedaGapChart';
 import { Button } from '@material-ui/core';
 import { getLang } from '../../modules/lang';
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme } from '@material-ui/core/styles';
 
 const Charts = ({
   hasGapChart, 
@@ -26,6 +28,7 @@ const Charts = ({
   sectionId, 
   onChartToggle
 }) => {
+
   return (
     <div className={classNames(
       "charts__root",
@@ -79,6 +82,10 @@ const ExplorerView = ({
   // use state to track if the intro is on / off
   const [introOn, setIntroOn] = useState(false);
 
+  // check if viewport is above medium
+  const theme = useTheme();
+  const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
+
   // flag potential layout change after loading locations
   useEffect(() => {
     loadRouteLocations(locations)
@@ -104,7 +111,7 @@ const ExplorerView = ({
     <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> 
   ) : (
     <>
-      <SedaTooltip />
+      { isAboveMedium && <SedaTooltip /> }
       <SplitSection
         id="map"
         classes={{ root: 'section--explorer' }}

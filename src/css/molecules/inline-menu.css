@@ -2,3 +2,30 @@
   margin: 0 4px;
   display: inline;
 }
+
+.inline-menu .MuiFormLabel-root {
+  display: none;
+}
+
+.inline-menu .MuiInputBase-root {
+  margin-top:-1px!important;
+}
+
+.inline-menu .MuiSelect-select {
+  border: none;
+  background: none;
+  padding: 4px 22px 4px 6px;
+  font-family: var(--heading-font);
+  font-size: 14px;
+  color: var(--link);
+}
+
+.inline-menu .MuiSelect-select:focus {
+  background: none;
+  box-shadow: none;
+}
+
+.inline-menu .MuiSelect-icon {
+  right: 0px;
+  fill: var(--link);
+}

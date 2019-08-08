@@ -14,7 +14,8 @@ import PlaceIcon from '@material-ui/icons/Place';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
 import * as _debounce from 'lodash.debounce';
-import withWidth from '@material-ui/core/withWidth';
+import { useTheme } from '@material-ui/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 // constants
 import { HEADER } from '../../constants/site';
@@ -30,42 +31,47 @@ import HeaderTab from '../molecules/HeaderTab';
 import SedaMenu from './SedaMenu';
 import SedaSearch from './SedaSearch';
 import { getLang } from '../../modules/lang';
-import SelectButton from '../atoms/SelectButton';
+import DataOptionsDialog from '../organisms/DataOptions';
 import MenuButton from '../atoms/MenuButton';
 import HelpButton from '../molecules/HelpButton';
 import { toggleHelp, onMetricChange, onViewChange } from '../../actions';
 
-const HeaderPrimary = ({metric, width, onMetricChange}) => {
+const HeaderPrimary = ({metric, region, demographic, highlightedState, onMetricChange}) => {
+  const theme = useTheme();
+  const isAboveSmall = useMediaQuery(theme.breakpoints.up('sm'));
   return <div className='header-tabs'>
-    <SelectButton
-      text={getLang('TAB_CONCEPT_'+ metric)}
-      subtext={getLang('TAB_METRIC_'+ metric)}
-      // onClick={() => alert('not implemented yet')}
-    />
-    <Tabs 
-      value={metric}
-      variant={width === 'sm' ? 'scrollable' : undefined}
-      onChange={(e, metricId) => { onMetricChange(metricId) }}
-      classes={{ root: 'tabs__root', indicator: 'tab__indicator' }}
-      scrollButtons='off'
-    >
-    { 
-      HEADER.tabs.map((t,i) =>
-        <Tab 
-          key={'tab'+i}
-          value={t.id}
-          label={
-            <HeaderTab { ...HEADER.tabs[i] } />
-          }
-          classes={{
-            root: 'tab',
-            selected: 'tab--selected',
-            wrapper: 'tab__wrapper'
-          }} 
-        />
+    {
+      isAboveSmall ? (
+        <Tabs 
+          value={metric}
+          onChange={(e, metricId) => { onMetricChange(metricId) }}
+          classes={{ root: 'tabs__root', indicator: 'tab__indicator' }}
+          scrollButtons='off'
+          variant="scrollable"
+        >
+        { 
+          HEADER.tabs.map((t,i) =>
+            <Tab 
+              key={'tab'+i}
+              value={t.id}
+              label={
+                <HeaderTab { ...HEADER.tabs[i] } />
+              }
+              classes={{
+                root: 'tab',
+                selected: 'tab--selected',
+                wrapper: 'tab__wrapper'
+              }} 
+            />
+          )
+        }
+        </Tabs>
+      ) : (
+        <DataOptionsDialog />
       )
     }
-    </Tabs>
+    
+    
   </div>
 }
 
@@ -157,7 +163,6 @@ const SedaHeader = ({
   metric,
   view,
   region,
-  width,
   helpOpen,
   onMetricChange,
   onOptionChange,
@@ -171,7 +176,7 @@ const SedaHeader = ({
       <Logo />
     }
     primaryContent={
-      <HeaderPrimary {...{width, metric, onMetricChange }} />
+      <HeaderPrimary {...{metric, onMetricChange }} />
     }
     secondaryContent={
       <HeaderSecondary {...{metric, region, view, helpOpen, onViewChange, onHelpClick}} />
@@ -190,6 +195,7 @@ SedaHeader.propTypes = {
   metric: PropTypes.string,
   view: PropTypes.string,
   text: PropTypes.string,
+  region: PropTypes.string,
   controls: PropTypes.array,
   width: PropTypes.string,
   helpOpen: PropTypes.bool,
@@ -226,7 +232,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 })
 
 export default compose(
-  withWidth(),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
 )(SedaHeader)

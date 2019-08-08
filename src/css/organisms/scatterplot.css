@@ -34,11 +34,23 @@
 .scatterplot__heading {
   position: absolute;
   z-index: 10;
-  top: var(--padding);
-  left: var(--padding);
-  right: 24px;
+  top: 8px;
+  left: 40px;
+  right: 0px;
   pointer-events: none;
 }
+@media(min-width: 650px) {
+  .scatterplot__heading {
+    left:24px;
+    top: 16px;
+    right: 280px;
+  }
+  .section__content.section__content--split .scatterplot__heading,
+  .charts__root.charts__root--split .scatterplot__heading {
+    right: 24px;
+  }
+}
+
 .scatterplot__heading .scatterplot__title {
   display: block;
   line-height: 24px;

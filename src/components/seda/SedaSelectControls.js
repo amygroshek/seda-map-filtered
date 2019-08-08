@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { getStateSelectOptions } from '../../constants/statesFips';
-import { getSingularRegions, getDemographics, getGaps, getMetricById } from '../../modules/config';
+import { getSingularRegions, getDemographics, getGaps, getMetricById, isGapDemographic } from '../../modules/config';
 import InlineMenu from '../atoms/InlineMenu';
 import { onRegionChange, onDemographicChange, onHighlightedStateChange } from '../../actions';
 
@@ -30,14 +30,14 @@ GapTypeInlineMenu.propTypes = {
   onChange: PropTypes.func,
 }
 
-const RegionInlineMenu = ({region, onChange}) => {
+export const RegionInlineMenu = ({region, onChange, ...rest}) => {
   return (
     <InlineMenu 
       id='region'
-      label='Region'
       value={region}
       options={getSingularRegions()}
       onChange={onChange}
+      {...rest}
     />
   )
 }
@@ -53,27 +53,34 @@ export const RegionControl = compose(
       region
     }),
     (dispatch, ownProps) => ({
-      onChange: (id, option) => {
-        dispatch(onRegionChange(option.id, ownProps))
+      onChange: (id) => {
+        dispatch(onRegionChange(id, ownProps))
       }
     })
   )
 )(RegionInlineMenu)
 
-const DemographicAndGapMenu = ({demographic, onChange}) => {
+const formatDemographic = (option) => {
+  const isGap = isGapDemographic(option.id)
+  if (isGap) { return option.label }
+  return option.label + (
+    option.id.length === 1 || option.id === 'all' || option.id === 'np' ? 
+      ' students' : ''
+  )
+}
+
+export const DemographicAndGapMenu = ({demographic, onChange, ...rest}) => {
   return (
     <InlineMenu 
       id='demographic'
-      label='Demographics'
       value={demographic}
       options={[
         ...getDemographics(), 
         ...getGaps()      
       ]}
-      formatter={(option) => option.label + (
-        demographic.length === 1 || demographic === 'all' ? ' students' : ''
-      )}
+      formatter={formatDemographic}
       onChange={onChange}
+      {...rest}
     />
   )
 }
@@ -89,18 +96,17 @@ export const DemographicAndGapControl = compose(
       demographic
     }),
     (dispatch, ownProps) => ({
-      onChange: (id, option) => 
-        dispatch(onDemographicChange(option.id, ownProps))
+      onChange: (id) => 
+        dispatch(onDemographicChange(id, ownProps))
     })
   )
 )(DemographicAndGapMenu)
 
 
-const HighlightedStateMenu = ({highlightedState, onChange}) => {
+export const HighlightedStateMenu = ({highlightedState, onChange, ...rest}) => {
   return (
     <InlineMenu 
       id='highlight'
-      label='Highlight'
       value={highlightedState}
       options={[
         {
@@ -110,6 +116,7 @@ const HighlightedStateMenu = ({highlightedState, onChange}) => {
         ...getStateSelectOptions()
       ]}
       onChange={onChange}
+      {...rest}
     />
   )
 }
@@ -126,8 +133,8 @@ export const HighlightedStateControl = compose(
       highlightedState
     }),
     (dispatch, ownProps) => ({
-      onChange: (id, option) =>
-        dispatch(onHighlightedStateChange(option.id, ownProps))
+      onChange: (id) =>
+        dispatch(onHighlightedStateChange(id, ownProps))
     })
   )
 )(HighlightedStateMenu)

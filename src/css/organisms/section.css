@@ -11,9 +11,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  z-index:10;
-  /** z-index fix for sticky cards */
-  -webkit-transform: translate3d(0,0,0);
 }
 
 @media(min-width: 960px) {
@@ -38,8 +35,7 @@
     height:100%;
     width:100%;
     text-align: left; 
-    /** z-index fix for sticky cards */
-    -webkit-transform: translate3d(0,0,0);
+
     transition: transform 0.2s ease-in-out;
   }
 
