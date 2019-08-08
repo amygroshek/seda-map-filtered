@@ -56,22 +56,24 @@ function Scatterplot({
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
-      return getScatterplotOptions(
+      const options = getScatterplotOptions(
         variant, 
         data[region], 
         { xVar, yVar, zVar }, 
         highlightedState,
         region
       )
+      return options
     },
     [xVar, yVar, zVar, highlightedState, data[region]]
   );
 
   // memoize highlighted state IDs for the scatterplot
-  const highlighted = useMemo(
-    () => getStateHighlights(highlightedState, data && data[region]),
-    [highlightedState, region, data[region]]
-  );
+  const highlighted = useMemo(() => {
+    const hl = getStateHighlights(highlightedState, data && data[region])
+    // limit to 3000
+    return hl.slice(0, 3000)
+  }, [highlightedState, region, data[region]]);
 
   // fetch base vars for region if they haven't already been fetched
   // this is required 
