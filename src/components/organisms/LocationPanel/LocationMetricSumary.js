@@ -38,37 +38,42 @@ const LocationMetric = ({
       {...rest}
     >
       { children }
-      <Typography className={"panel-section__subheading"} variant="h6">
-        {getLang(
-          'LABEL_BY_SUBGROUP', 
-          { metric: getLang('LABEL_' + metric) }
-        )}
-      </Typography>
-      <LocationStatList
-        feature={feature}
-        varNames={['np', 'p'].map(d => d+'_'+metric)}
-        range={range}
-        formatter={formatter}
-        varNameToLabel={statToLabel}
-      />
-      <PanelButton langKey='BUTTON_GAP_PN' onClick={() => onGapClick('pn', metric)} />
-      <LocationStatList
-        feature={feature}
-        varNames={['w', 'b', 'h', 'a'].map(d => d+'_'+metric)}
-        range={range}
-        formatter={formatter}
-        varNameToLabel={statToLabel}
-      />
-      <PanelButton langKey='BUTTON_GAP_WB' onClick={() => onGapClick('wb', metric)} />
-      <PanelButton langKey='BUTTON_GAP_WH' onClick={() => onGapClick('wh', metric)} />
-      <LocationStatList
-        feature={feature}
-        varNames={['m', 'f'].map(d => d+'_'+metric)}
-        range={range}
-        formatter={formatter}
-        varNameToLabel={statToLabel}
-      />
-      <PanelButton langKey='BUTTON_GAP_MF' onClick={() => onGapClick('mf', metric)} />
+      { region !== 'schools' &&
+        <>
+          <Typography className={"panel-section__subheading"} variant="h6">
+            {getLang(
+              'LABEL_BY_SUBGROUP', 
+              { metric: getLang('LABEL_' + metric) }
+            )}
+          </Typography>
+          <LocationStatList
+            feature={feature}
+            varNames={['np', 'p'].map(d => d+'_'+metric)}
+            range={range}
+            formatter={formatter}
+            varNameToLabel={statToLabel}
+          />
+          <PanelButton langKey='BUTTON_GAP_PN' onClick={() => onGapClick('pn', metric)} />
+          <LocationStatList
+            feature={feature}
+            varNames={['w', 'b', 'h', 'a'].map(d => d+'_'+metric)}
+            range={range}
+            formatter={formatter}
+            varNameToLabel={statToLabel}
+          />
+          <PanelButton langKey='BUTTON_GAP_WB' onClick={() => onGapClick('wb', metric)} />
+          <PanelButton langKey='BUTTON_GAP_WH' onClick={() => onGapClick('wh', metric)} />
+          <LocationStatList
+            feature={feature}
+            varNames={['m', 'f'].map(d => d+'_'+metric)}
+            range={range}
+            formatter={formatter}
+            varNameToLabel={statToLabel}
+          />
+          <PanelButton langKey='BUTTON_GAP_MF' onClick={() => onGapClick('mf', metric)} />
+        </>
+      }
+      
     </div>
   )
 }
@@ -98,9 +103,12 @@ const MetricSummary = ({metric, demographic = 'all', name, value}) => {
 export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
-  const avgValue = getFeatureProperty(feature, 'all_avg');
-  const sesValue = getFeatureProperty(feature, 'all_ses');
   const region = getRegionFromFeatureId(getFeatureProperty(feature, 'id'));
+
+  const avgValue = getFeatureProperty(feature, 'all_avg');
+  const sesValue = region === 'schools' ?
+    getFeatureProperty(feature, 'all_frl') :
+    getFeatureProperty(feature, 'all_ses');
   const diffVal = sesValue || sesValue === 0 ? 
     formatNumber(avgValue - getPredictedValue(sesValue, 'avg', region)) :
     null;
@@ -138,8 +146,10 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_grd');
-  const sesValue = getFeatureProperty(feature, 'all_ses');
   const region = getRegionFromFeatureId(getFeatureProperty(feature, 'id'));
+  const sesValue = region === 'schools' ?
+    getFeatureProperty(feature, 'all_frl') :
+    getFeatureProperty(feature, 'all_ses');
   const diffVal = sesValue || sesValue === 0 ? 
     (value - getPredictedValue(sesValue, 'grd', region)) :
     null;
@@ -178,8 +188,11 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_coh');
-  const sesValue = getFeatureProperty(feature, 'all_ses');
   const region = getRegionFromFeatureId(getFeatureProperty(feature, 'id'));
+
+  const sesValue = region === 'schools' ?
+    getFeatureProperty(feature, 'all_frl') :
+    getFeatureProperty(feature, 'all_ses');
   const diffVal = sesValue || sesValue === 0 ? 
     formatNumber(value - getPredictedValue(sesValue, 'coh', region)) :
     null;  

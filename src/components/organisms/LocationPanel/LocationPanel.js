@@ -133,8 +133,8 @@ const LocationPanel = ({
           />
           <LocationStatDiverging
             feature={feature}
-            varName='all_ses'
-            label={getLang('LABEL_SHORT_SES')}
+            varName={region === 'schools' ? 'all_frl' : 'all_ses'}
+            label={getLang('LABEL_SHORT_' + (region === 'schools' ? 'FRL' : 'SES'))}
             showDescription={true}
             showLabels={true}
           />

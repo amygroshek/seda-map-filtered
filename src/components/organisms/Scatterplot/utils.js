@@ -334,6 +334,7 @@ const getOverlayForVarName = (varName, axis = 'y', region) => {
 }
 
 const getPreviewOverlayForVarName = (varName, axis = 'y') => {
+  if (varName.includes('frl')) { return getOverlay([],[]) }
   const positions = varName.includes('grd') ? [ 1 ] : [ 0 ];
   const labels = createLabels(positions, 'PREV', axis);
   const lines = createLines(positions, axis)
