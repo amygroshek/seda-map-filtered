@@ -10,7 +10,8 @@ import {
   MAX_LOCATIONS,
   NO_DATA_COLOR,
   REGION_DOMAINS,
-  DOT_SIZES
+  DOT_SIZES,
+  FUNC_VARS
 } from '../constants/dataOptions';
 import * as scale from 'd3-scale';
 import { interpolateRgbBasis } from 'd3-interpolate';
@@ -489,8 +490,17 @@ export const getDemographicForVarNames = (xVar, yVar) => {
   // special case for poor / non-poor gap
   if (
     (dem1 === 'p' && dem2 === 'np') ||
-    (dem1 === 'np' && dem2 === 'p')
+    (dem1 === 'np' && dem2 === 'p') ||
+    (dem1 === 'np' && dem2 === 'pn')
   ) { return 'pn'}
   // return default gap
   return dem1+dem2;
+}
+
+export const getPredictedValue = (value, metric, region) => {
+  const b = FUNC_VARS[region][metric];
+  return b[0] + 
+    b[1]*value + 
+    b[2]*Math.pow(value,2) + 
+    b[3]*Math.pow(value,3);
 }

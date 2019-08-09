@@ -98,3 +98,4 @@ export const getPositionFromValue = (value, range = [-0.5, 0.5], midPoint = 0) =
     .clamp(true);
   return scale(value);
 }
+

@@ -44,8 +44,10 @@
       left: auto;
       right: 24px;
       top:auto;
-      background: #fff;
       width: auto;
+    }
+    .section--explorer .legend-panel--chart {
+      background: #fff;
     }
   }
 

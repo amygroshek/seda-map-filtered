@@ -9,6 +9,7 @@ import { LocationStatDiverging } from './LocationStats';
 import LocationItem from './LocationItem';
 import LocationMetricDetails from './LocationMetricSumary';
 import { Button, ButtonBase, Typography } from '@material-ui/core';
+import { getFeatureProperty } from '../../../modules/features';
 
 const SELECTED = getSelectedColors();
 
@@ -19,36 +20,50 @@ const LocationMetric = ({
   onGapClick, 
   onHelpClick,
   expanded
-}) => (
-  <div>
-    <LocationStatDiverging
-      feature={feature}
-      varName={'all_'+metric}
-      label={getLang('LABEL_SHORT_'+metric)}
-      showDescription={true}
-      showLabels={true}
-    />
-    <ButtonBase
-      className='button button--link'
-      disableRipple={true}
-      onClick={() => toggleExpanded('metric_'+metric)}
-    >
-      {
-        expanded ?
-          getLang('LOCATION_HIDE_'+metric) :
-          getLang('LOCATION_SHOW_'+metric)
-      }
-    </ButtonBase>
-    { expanded &&
-      <LocationMetricDetails
-        metric={metric}
+}) => {
+  const val = getFeatureProperty(feature, 'all_'+metric);
+  const hasVal = Boolean(val) || val === 0;
+  return (
+    <div>
+      <LocationStatDiverging
         feature={feature}
-        onGapClick={onGapClick}
-        onHelpClick={onHelpClick}
+        varName={'all_'+metric}
+        label={getLang('LABEL_SHORT_'+metric)}
+        showDescription={true}
+        showLabels={true}
       />
-    }
-  </div>
-)
+      { hasVal && 
+        <ButtonBase
+          className='button button--link'
+          disableRipple={true}
+          onClick={() => toggleExpanded('metric_'+metric)}
+        >
+          {
+            expanded ?
+              getLang('LOCATION_HIDE_'+metric) :
+              getLang('LOCATION_SHOW_'+metric)
+          }
+        </ButtonBase>
+      }
+      { expanded && hasVal &&
+        <LocationMetricDetails
+          metric={metric}
+          feature={feature}
+          onGapClick={onGapClick}
+          onHelpClick={onHelpClick}
+        />
+      }
+    </div>
+  )
+}
+LocationMetric.propTypes = {
+  metric: PropTypes.string,
+  feature: PropTypes.object,
+  toggleExpanded: PropTypes.bool,
+  onGapClick: PropTypes.func,
+  onHelpClick: PropTypes.func,
+  expanded: PropTypes.bool,
+}
 
 const LocationPanel = ({
   feature,
@@ -118,8 +133,8 @@ const LocationPanel = ({
           />
           <LocationStatDiverging
             feature={feature}
-            varName='all_ses'
-            label={getLang('LABEL_SHORT_SES')}
+            varName={region === 'schools' ? 'all_frl' : 'all_ses'}
+            label={getLang('LABEL_SHORT_' + (region === 'schools' ? 'FRL' : 'SES'))}
             showDescription={true}
             showLabels={true}
           />
