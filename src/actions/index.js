@@ -4,6 +4,7 @@ import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRoute } from '../modules/router';
 import { getStateViewport } from '../constants/statesFips';
+import { getFeatureProperty } from "../modules/features";
 
 /** ACTIONS */
 
@@ -412,6 +413,10 @@ export const onPinFeature = (feature, region) =>
  */
 export const onRemoveSelectedFeature = (feature) => 
   (dispatch, getState) => {
+    const { active } = getState();
+    if (getFeatureProperty(feature, 'id') === getFeatureProperty(active, 'id')) {
+      dispatch(clearActiveLocation())
+    }
     dispatch({
       type: 'REMOVE_SELECTED_FEATURE',
       feature

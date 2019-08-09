@@ -24,6 +24,7 @@ const getIncrementForVarName = (varName, region) => {
       return 0.1;
     case 'ses_gap':
       return 1;
+    case 'seg':
     case 'seg_gap':
       return 0.25;
     default:

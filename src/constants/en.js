@@ -117,7 +117,17 @@ const LANG = {
   'SUMMARY_AVGSES_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar socioeconomic status.',
   'SUMMARY_AVGSES_MID': 'Average scores are equal to $[region] with similar socioeconomic status.',
   'SUMMARY_AVGSES_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar socioeconomic status.',
-  'SUMMARY_AVGSES_NONE': '',
+  'SUMMARY_AVGSES_NONE': ' ',
+
+  'SUMMARY_GRDSES_LOW': 'Learning rates are $[value] lower than $[region] with similar socioeconomic status.',
+  'SUMMARY_GRDSES_MID': 'Learning rates are equal to $[region] with similar socioeconomic status.',
+  'SUMMARY_GRDSES_HIGH': 'Learning rates are $[value] higher than $[region] with similar socioeconomic status.',
+  'SUMMARY_GRDSES_NONE': ' ',
+
+  'SUMMARY_COHSES_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar socioeconomic status.',
+  'SUMMARY_COHSES_MID': 'Average scores are equal to $[region] with similar socioeconomic status.',
+  'SUMMARY_COHSES_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar socioeconomic status.',
+  'SUMMARY_COHSES_NONE': ' ',
   
   'SUMMARY_GRD_LOW': '$[name] provides lower than average educational opportunities while children are in school.',
   'SUMMARY_GRD_MID': '$[name] provides roughly average educational opportunities while children are in school.',

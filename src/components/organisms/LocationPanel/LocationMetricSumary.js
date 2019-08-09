@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getLang } from '../../../modules/lang';
 import { LocationStatList } from './LocationStats';
-import { getMetricRange, getRegionFromFeatureId } from '../../../modules/config';
+import { getMetricRange, getRegionFromFeatureId, getPredictedValue } from '../../../modules/config';
 import { getFeatureProperty } from '../../../modules/features';
 import { Typography, Button } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -86,19 +86,6 @@ const valueToLowMidHigh = (metricId, value) => {
     (value > 0 ? 'HIGH' : (value < 0 ? 'LOW' : 'MID')) 
 }
 
-const avgSesDiffToLowMidHigh = (avg, ses) => {
-  if (!avg && avg !== 0) { return 'NONE'; }
-  if (!ses && ses !== 0) { return 'NONE'; }
-  const v1 = valueToLowMidHigh('avg', avg);
-  const v2 = valueToLowMidHigh('ses', ses);
-  if (v1 === v2) { return 'MID' }
-  if (v1 === 'HIGH') { return 'HIGH' }
-  if (v1 === 'LOW') { return 'LOW' }
-  if (v2 === 'HIGH') { return 'LOW' }
-  if (v2 === 'LOW') { return 'HIGH' }
-  return 'NONE';
-}
-
 const MetricSummary = ({metric, demographic = 'all', name, value}) => {
   const langKey = 'SUMMARY_' + metric + '_' + valueToLowMidHigh(metric, value);
   return (
@@ -113,8 +100,11 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
   const name = getFeatureProperty(feature, 'name');
   const avgValue = getFeatureProperty(feature, 'all_avg');
   const sesValue = getFeatureProperty(feature, 'all_ses');
-
-  const diffHighLow = avgSesDiffToLowMidHigh(avgValue, sesValue);
+  const region = getRegionFromFeatureId(getFeatureProperty(feature, 'id'));
+  const diffVal = sesValue || sesValue === 0 ? 
+    formatNumber(avgValue - getPredictedValue(sesValue, 'avg', region)) :
+    null;
+  const diffHighLow = valueToLowMidHigh(null, diffVal)
   const sesLangKey = 'SUMMARY_AVGSES_' + diffHighLow; 
   return (
     <LocationMetric
@@ -132,7 +122,7 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
       <Typography 
         variant="body1" 
         paragraph={true} 
-        dangerouslySetInnerHTML={{'__html': getLang(sesLangKey, { name })}}
+        dangerouslySetInnerHTML={{'__html': getLang(sesLangKey, { value: diffVal, name, region })}}
       />
       <Callout
         type="help"
@@ -140,7 +130,6 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
         icon={<HelpIcon />}
         onClick={() => onHelpClick('HELP_SES_CONCEPT')}
       >{ getLang('CALLOUT_AVG_SES') }</Callout>
-      
     </LocationMetric>
   )
 }
@@ -149,6 +138,13 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_grd');
+  const sesValue = getFeatureProperty(feature, 'all_ses');
+  const region = getRegionFromFeatureId(getFeatureProperty(feature, 'id'));
+  const diffVal = sesValue || sesValue === 0 ? 
+    (value - getPredictedValue(sesValue, 'grd', region)) :
+    null;
+  const diffHighLow = valueToLowMidHigh(null, diffVal)
+  const sesLangKey = 'SUMMARY_GRDSES_' + diffHighLow; 
   return (
     <LocationMetric
       metric="grd"
@@ -163,6 +159,17 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
         icon={<HelpIcon />}
         onClick={() => onHelpClick('HELP_GRD_CONCEPT')}
       >{ getLang('CALLOUT_GRD') }</Callout>
+      <Typography 
+        variant="body1" 
+        paragraph={true} 
+        dangerouslySetInnerHTML={{
+          '__html': getLang(sesLangKey, { 
+            value: formatPercentDiff(diffVal, 0), 
+            name, 
+            region 
+          })
+        }}
+      />
     </LocationMetric>
   )
 }
@@ -171,6 +178,13 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
   if (!feature) { return null }
   const name = getFeatureProperty(feature, 'name');
   const value = getFeatureProperty(feature, 'all_coh');
+  const sesValue = getFeatureProperty(feature, 'all_ses');
+  const region = getRegionFromFeatureId(getFeatureProperty(feature, 'id'));
+  const diffVal = sesValue || sesValue === 0 ? 
+    formatNumber(value - getPredictedValue(sesValue, 'coh', region)) :
+    null;  
+  const diffHighLow = valueToLowMidHigh(null, diffVal)
+  const sesLangKey = 'SUMMARY_COHSES_' + diffHighLow; 
   return (
     <LocationMetric
       metric="coh"
@@ -184,6 +198,17 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
         icon={<HelpIcon />}
         onClick={() => onHelpClick('HELP_COH_CONCEPT')}
       >{ getLang('CALLOUT_COH') }</Callout>
+      <Typography 
+        variant="body1" 
+        paragraph={true} 
+        dangerouslySetInnerHTML={{
+          '__html': getLang(sesLangKey, { 
+            value: diffVal, 
+            name, 
+            region 
+          })
+        }}
+      />
     </LocationMetric>
   )
 }

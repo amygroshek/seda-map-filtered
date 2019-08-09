@@ -3,6 +3,25 @@ import LANG from "./en";
 /** min / max dot sizes */
 export const DOT_SIZES = [ 4, 64 ]
 
+export const FUNC_VARS = {
+  'counties': {
+    'avg': [ -0.051,	0.787, 0.033, 0.025 ],
+    'grd': [ 0.991,	0.045, 0.003, 0.002 ],
+    'coh': [ 0.019, -0.003, 0.007, 0.006 ],
+  },
+  'districts': {
+    'avg': [ -0.187,	0.811, 0.126, 0.03 ],
+    'grd': [ 0.989,	0.045, 0.01, 0.002 ],
+    'coh': [ 0.015,	0.01, 0.004, 0.001 ],
+  },
+  'schools': {
+    'avg': [ 2.564, -8.318, 9.288, -5.793 ],
+    'grd': [ 1.188, -0.49, 0.455, -0.165 ],
+    'coh': [ 0.071, -0.15, 0.129, -0.054 ],
+  }
+};
+
+
 /** data ranges to map to size ranges */
 export const REGION_DOMAINS = {
   'all_counties': [ 3, 110000 ],
