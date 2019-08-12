@@ -78,7 +78,7 @@
 
 .section--intro .card__title {
   text-transform: capitalize;
-  font-size: 16px;
+  font-size: 1.142857142857143rem;
   white-space: normal;
 }
 
@@ -91,7 +91,7 @@
 
 .section--intro .card__text {
   line-height: 24px;
-  font-size: 14px;
+  font-size: var(--font-size);
   white-space: normal;
 }
 

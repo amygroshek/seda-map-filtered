@@ -3,7 +3,7 @@
   background: var(--footer-background);
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--font-size);
   box-shadow: var(--shadow-inset);
   color: var(--text2);
   padding: 0 8px;

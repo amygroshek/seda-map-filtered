@@ -64,6 +64,6 @@
   letter-spacing: 0;
   text-align:left;
   line-height: 16px;
-  font-size: 13px;
+  font-size: var(--small-font-size);
   width:100%;
 }

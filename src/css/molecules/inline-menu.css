@@ -16,7 +16,7 @@
   background: none;
   padding: 4px 22px 4px 6px;
   font-family: var(--heading-font);
-  font-size: 14px;
+  font-size: var(--font-size);
   color: var(--link);
 }
 
