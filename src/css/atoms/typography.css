@@ -1,42 +1,42 @@
 @font-face {
   font-family: maisonneue-bold;
-  src: url(/assets/fonts/MaisonNeue-Bold.ttf)
+  src: url("/assets/fonts/MaisonNeue-Bold.woff2") format("woff2"),
+       url("/assets/fonts/MaisonNeue-Bold.woff") format("woff");
 }
 
 @font-face {
   font-family: maisonneue-book;
-  src: url(/assets/fonts/MaisonNeue-Book.ttf)
+  src: url("/assets/fonts/MaisonNeue-Book.woff2") format("woff2"),
+       url("/assets/fonts/MaisonNeue-Book.woff") format("woff");
 }
 
 @font-face {
-  font-family: maisonneue-medium;
-  src: url(/assets/fonts/MaisonNeue-Medium.ttf)
-}
-
-@font-face {
-  font-family: sharpgrotesk-book20;
-  src: url(/assets/fonts/SharpGrotesk-Book20.otf)
+  font-family: maisonneue-italic;
+  src: url("/assets/fonts/MaisonNeue-BookItalic.woff2") format("woff2"),
+       url("/assets/fonts/MaisonNeue-BookItalic.woff") format("woff");
 }
 
 @font-face {
   font-family: sharpgrotesk-medium15;
-  src: url(/assets/fonts/SharpGrotesk-Medium15.otf)
+  src: url("/assets/fonts/SharpGroteskMedium15.woff2") format("woff2"),
+       url("/assets/fonts/SharpGroteskMedium15.woff") format("woff");
 }
 
 @font-face {
   font-family: sharpgrotesk-medium20;
-  src: url(/assets/fonts/SharpGrotesk-Medium20.otf)
-}
-
-@font-face {
-  font-family: sharpgrotesk-mediumitalic20;
-  src: url(/assets/fonts/SharpGrotesk-MediumItalic20.otf)
+  src: url("/assets/fonts/SharpGroteskMedium20.woff2") format("woff2"),
+       url("/assets/fonts/SharpGroteskMedium20.woff") format("woff");
 }
 
 body {
   font-family: var(--body-font);
   font-weight: normal;
   color: var(--body-text);
+}
+
+em {
+  font-family: var(--body-italic);
+  font-weight: normal;
 }
 
 
@@ -60,6 +60,7 @@ h1, h2, h3, h5, h5, h6,
 }
 
 .MuiTypography-root strong {
-  font-weight: bold;
+  font-weight: normal;
+  font-family: var(--body-bold);
   color: var(--body-text);
 }
