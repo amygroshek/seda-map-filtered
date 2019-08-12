@@ -24,6 +24,7 @@ const LANG = {
   'MENU_METHODS': 'Methods',
   'MENU_RESEARCH': 'Research',
   'MENU_NEWS': 'In The News',
+  'MENU_DATA': 'Get The data',
   'MENU_FACEBOOK': 'Educational Opportunity Project on Facebook',
   'MENU_TWITTER': 'Educational Opportunity Project on Twitter',
   'MENU_LINKEDIN': 'Educational Opportunity Project on LinkedIn',
