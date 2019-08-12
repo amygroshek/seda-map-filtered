@@ -26,7 +26,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: var(--small-font-size);
   font-family: var(--alt-font);
   margin-bottom: 4px;
   }
@@ -35,7 +35,7 @@
 
 .legend-bar__label {
   font-family: var(--alt-font);
-  font-size: 13px;
+  font-size: var(--small-font-size);
   font-weight: normal;
   letter-spacing: 0.5px;
 }
@@ -116,7 +116,7 @@
   font-family: var(--alt-font);
   font-weight: normal;
   border-radius: 2px;
-  font-size: 13px;
+  font-size: var(--small-font-size);
   min-width: 24px;
   text-transform: uppercase;
   margin-top: 12px;

@@ -22,7 +22,7 @@
 
 .stats__item-label {
   font-family: var(--alt-font);
-  font-size: 13px;
+  font-size: var(--small-font-size);
   font-weight: normal;
   letter-spacing: 0.5px;
   text-transform: uppercase;

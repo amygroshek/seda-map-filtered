@@ -10,7 +10,7 @@
 }
 .accordion-item__heading .MuiTypography-root {
   font-family: var(--heading-font);
-  font-size: 12.5px;
+  font-size: var(--mini-font-size);
   text-transform: capitalize;
 }
 .accordion-item__content.MuiExpansionPanelDetails-root {
