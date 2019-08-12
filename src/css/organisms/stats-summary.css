@@ -19,6 +19,7 @@
 }
 
 .stats-summary strong {
-  font-weight: bold;
+  font-weight: normal;
+  font-family: var(--body-bold);
   color: var(--text);
 }

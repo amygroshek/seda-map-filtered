@@ -104,7 +104,8 @@
 
 .ais-Highlight-highlighted {
   background-color: transparent;
-  font-weight: bold;
+  font-weight: normal;
+  font-family: var(--body-bold);
 }
 
 .ais-Highlight-nonHighlighted {

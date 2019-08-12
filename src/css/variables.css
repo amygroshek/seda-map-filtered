@@ -54,6 +54,8 @@
   /** Typography */
   --font: maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system;
   --body-font: maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system;
+  --body-bold: maisonneue-bold, lato, helvetica neue, Arial, sans-serif, -apple-system;
+  --body-italic: maisonneue-italic, helvetica neue, Arial, sans-serif, -apple-system;
   --heading-font: sharpgrotesk-medium20, lato, helvetica neue, Arial, sans-serif, -apple-system;
   --alt-font: sharpgrotesk-medium15,lato,helvetica neue,Arial,sans-serif,-apple-system;
   --font-size: 14px;
