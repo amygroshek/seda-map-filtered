@@ -2,7 +2,7 @@ import React from 'react'
 import { IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-const CloseButton = (props) => {
+const CloseButton = ({children, ...props}) => {
   return (
     <IconButton 
       className="button--close"
@@ -11,6 +11,7 @@ const CloseButton = (props) => {
       {...props}
     >
       <CloseIcon />
+      {children}
     </IconButton>
   )
 }

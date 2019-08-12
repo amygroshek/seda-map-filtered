@@ -12,7 +12,9 @@ const SiteMenu = ({
 }) => {
   return (
     <div className={classNames("site-menu", { 'site-menu--open': open })}>
-      <CloseButton className="site-menu__close" onClick={onClose} />
+      <CloseButton className="site-menu__close" onClick={onClose}>
+        <span className="button-label">Close</span>
+      </CloseButton>
       <nav>
         <ul className={classNames("site-menu__links")}>
           { Boolean(navItems.length) && navItems.map((item, i) =>

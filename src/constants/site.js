@@ -91,7 +91,7 @@ export const MENU = {
     },
     {
       id: 'faq',
-      url: '/faq',
+      url: '/help-faq',
       label: LANG['MENU_FAQ']
     },
     {
@@ -108,6 +108,11 @@ export const MENU = {
       id: 'news',
       url: '/news',
       label: LANG['MENU_NEWS']
+    },
+    {
+      id: 'data',
+      url: '/get-the-data',
+      label: LANG['MENU_DATA']
     }
   ],
   socialItems: [
