@@ -1,8 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
-const Logo = props => {
+const Logo = ({
+  url = '/',
+  ...rest
+}) => {
   return (
-    <a href="/" className='logo__link'>
+    <a href={url} {...rest} className='logo__link'>
       <img
         className="logo__image"
         alt="The Educational Opportunity Project" 
@@ -13,7 +17,7 @@ const Logo = props => {
 }
 
 Logo.propTypes = {
-
+  url: PropTypes.string,
 }
 
 export default Logo
