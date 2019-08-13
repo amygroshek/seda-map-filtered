@@ -10,10 +10,7 @@
 
 .scatterplot .location-markers .marker,
 .scatterplot-preview .location-markers .marker {
-  color: #fff;
-  text-shadow: 0 0 2px #000;
-  box-shadow: 0 0 2px #000;
-  
+  color: #fff;  
 }
 
 .scatterplot .location-markers .marker {

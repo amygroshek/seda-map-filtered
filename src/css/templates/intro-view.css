@@ -16,7 +16,7 @@
   justify-content: center;
 }
 
-@media(min-width: 960px) {
+@media(min-width: 1023px) {
   .section.section--intro {
     min-height: 100vh;
     position: absolute;
@@ -56,7 +56,7 @@
   flex-direction: column;
 }
 
-@media(min-width: 960px) {
+@media(min-width: 1023px) {
   .section--intro .section__cards {
     flex-direction: row;
   }
@@ -83,7 +83,7 @@
 }
 
 
-@media(min-width: 960px) {
+@media(min-width: 1023px) {
   .section--intro .card {
     margin: 16px;
   }

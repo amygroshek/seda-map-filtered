@@ -102,7 +102,7 @@
   /** Desktop View */
 
     /** show title */
-    @media(min-width: 960px) {
+    @media(min-width: 1023px) {
       .map-legend .legend-panel--condensed .legend-bar .legend-bar__title {
         display: block;
       }

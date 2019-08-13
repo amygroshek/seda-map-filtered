@@ -98,7 +98,7 @@ export const HeaderSecondaryControls = ({ region, metric }) => {
         <HighlightedStateControl />
       </div> :
       <div className="menu-sentence">
-        Showing data for 
+        Showing 
         <DemographicAndGapControl />
         by
         <RegionControl /> 

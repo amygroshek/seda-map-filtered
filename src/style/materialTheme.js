@@ -137,7 +137,7 @@ const materialTheme = createMuiTheme({
     values: {
       xs: 0,
       sm: 650,
-      md: 960,
+      md: 1023,
       lg: 1200,
       xl: 1920
     }

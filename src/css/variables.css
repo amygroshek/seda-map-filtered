@@ -110,8 +110,8 @@
   --shadow2: 0 1px 4px var(--darken4);
 }
 
-/** Variable overrides for 960px and above */
-@media (min-width: 960px) {
+/** Variable overrides for 1023px and above */
+@media (min-width: 1023px) {
   :root {
     /** Margins and spacing */
     --page-margin: 24px;

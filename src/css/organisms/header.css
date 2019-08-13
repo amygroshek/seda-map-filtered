@@ -225,10 +225,10 @@
 }
 
 /** boost margins more on secondary header row */
-@media(min-width: 960px) {
+@media(min-width: 1023px) {
   .header__row--secondary .header__content {
     margin-left: 72px;
-    margin-right: 72px;
+    margin-right: 0;
   }
 }
 
@@ -257,7 +257,7 @@
 }
 
 /** Show map + chart toggle at tablet landscape */
-@media(min-width: 960px) {
+@media(min-width: 1023px) {
   .header__row--secondary .toggle-buttons__button:last-child {
     display: inline-flex;
   }
