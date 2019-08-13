@@ -1,3 +1,7 @@
+.toggle-buttons {
+  white-space: nowrap;
+}
+
 .toggle-buttons .toggle-buttons__button {
   color: var(--text2);
   padding: 8px 16px 6px 12px;

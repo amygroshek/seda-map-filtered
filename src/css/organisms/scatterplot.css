@@ -203,7 +203,7 @@
   left:-24px;
 }
 
-@media(max-width: 960px) {
+@media(max-width: 1023px) {
   .scatterplot .legend-bar--vertical .legend-bar__tick:after {
     border: 6px solid transparent;
     border-right-color: #000;

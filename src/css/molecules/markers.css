@@ -1,13 +1,9 @@
 
-
-
 .circle,
 .marker.marker--circle {
   --size: 24px;
   --color: var(--text);
   --background: var(--alt-background);
-
-  border: 2px solid #fff;
   cursor: pointer;
   display: flex;
   align-items: center;

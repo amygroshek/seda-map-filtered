@@ -50,7 +50,7 @@ body {
   justify-content: center;
 }
 
-@media(min-width: 960px) {
+@media(min-width: 1023px) {
   .map__zoom {
     left: 24px;
     right: auto;

@@ -48,9 +48,6 @@ export const theme = {
     },
     'emphasis': { 
       itemStyle: {
-        borderWidth: 2,
-        borderColor: '#fff',
-        color: '#f00',
         opacity:1,
       }
     },
