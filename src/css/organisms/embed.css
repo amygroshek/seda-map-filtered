@@ -1,0 +1,29 @@
+.chart-embed {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+}
+
+.chart-embed .tooltip .stat-list {
+  display: none;
+}
+
+.chart-embed .tooltip em {
+  display: none;
+}
+
+.chart-embed .logo__link {
+  position: absolute;
+  right: 24px;
+  top:24px;
+  width: 240px;
+  height: 40px;
+}
+
+.chart-embed .logo__image {
+  clip: auto;
+  width: 100%;
+  position: static;
+  left: auto;
+}

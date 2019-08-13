@@ -107,22 +107,7 @@
     margin-top: calc(-1 * var(--scatterplot-heading));
   }
 
-  /** 
-   * Position y-axis legend bar on scatterplot 
-   * (match top / bottom for scatterplot grid in scatterplot-style.js)
-   */
-  .section--explorer .scatterplot__axis--y {
-    position: absolute;
-    bottom: calc(var(--sp-bottom) + 56px);
-    top: var(--sp-top);
-    left: auto;
-    right: -16px;
-  }
-  
-  /** No values on legend bar for scatterplot axis */
-  .section--explorer .scatterplot__axis .legend-bar__values {
-    display: none;
-  }
+
 
   /** Split view for charts */
   .section--explorer .charts__root {

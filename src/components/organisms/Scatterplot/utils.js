@@ -180,6 +180,7 @@ const getAxisLabel = ({axis, x, y, label, labelStyle, options }) => {
       label: {
         formatter: '{val|' + label + '}',
         align: axis === 'y' ? 'right' : 'center',
+        offset: axis === 'x' ? [0, 0] : [ 0, 0 ],
         rich: {
           val: {
             fontSize: 11.7,
@@ -187,7 +188,7 @@ const getAxisLabel = ({axis, x, y, label, labelStyle, options }) => {
             color: '#5d5d5d',
             borderWidth: 0,
             borderColor: 'rgba(0,0,0,0)',
-            backgroundColor: 'rgba(255,255,255,0.8)',
+            backgroundColor: 'rgba(255,255,255,1)',
             textBorderColor: 'transparent',
             textBorderWidth: 0,
             lineHeight: axis === 'y' ? 18 : 12,
