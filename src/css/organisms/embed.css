@@ -1,29 +1,126 @@
 .chart-embed {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: #fff;
 }
 
-.chart-embed .tooltip .stat-list {
-  display: none;
-}
-
-.chart-embed .tooltip em {
-  display: none;
-}
+/** Logo */
 
 .chart-embed .logo__link {
   position: absolute;
   right: 24px;
-  top:24px;
+  top:20px;
   width: 240px;
   height: 40px;
 }
 
+.map-embed .logo__image,
 .chart-embed .logo__image {
   clip: auto;
   width: 100%;
   position: static;
   left: auto;
 }
+
+
+/** Map Embed */
+
+.map-embed {
+  background: #fff;
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+}
+
+  /** Map placement */
+  .map-embed .map {
+    top: 64px;
+  }
+
+  .map-embed--locations .map {
+    bottom: 48px;
+  }
+
+  /** Legend */
+  .map-embed .map-legend {
+    position: absolute;
+    bottom: 24px;
+    right: 16px;
+    width: 320px;
+  }
+
+  .map-embed .legend-actions {
+    display: none;
+  }
+
+  /** Map Title */
+  .map-embed__header {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index: 100;
+    padding: 16px;
+    background: #fff;
+    box-shadow: var(--shadow100);
+  }
+
+  .map-embed__heading p {
+    line-height: 1.3;
+    margin-bottom: -4px;
+    font-size: var(--small-font-size);
+  }
+  @media(min-width: 650px) {
+    .map-embed__heading {
+      margin-right: 256px;
+    }
+  }
+
+  /** Logo */
+
+  .map-embed .logo__link {
+    width: 240px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  @media(min-width: 650px) {
+    .map-embed .logo__link {
+      position: absolute;
+      right: 24px;
+      top:20px;
+      height: 40px;
+      margin-bottom: 0;
+    }
+  }
+  
+
+/** Tooltips */
+.map-embed .tooltip .stat-list,
+.chart-embed .tooltip .stat-list {
+  display: none;
+}
+
+.map-embed .tooltip em,
+.chart-embed .tooltip em {
+  display: none;
+}
+
+/** Locations */
+
+.map-embed .summary-group {
+  margin-left:0;
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+/** Hide dismiss button */
+.map-embed .summary-group .location-item__action {
+  display:none;
+}
+

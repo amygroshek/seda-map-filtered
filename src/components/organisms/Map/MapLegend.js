@@ -46,7 +46,7 @@ const MapLegend = ({
   metric,
   demographic,
   region,
-  helpOpen,
+  helpOpen = false,
   secondary,
   view = 'map',
   hovered,

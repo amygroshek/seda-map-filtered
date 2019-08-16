@@ -99,3 +99,8 @@ export const getPositionFromValue = (value, range = [-0.5, 0.5], midPoint = 0) =
   return scale(value);
 }
 
+export const titleCase = (str) => {
+  return str.toLowerCase().split(' ').map(function(word) {
+    return word.replace(word[0], word[0].toUpperCase());
+  }).join(' ');
+}
