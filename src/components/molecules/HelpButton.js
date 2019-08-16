@@ -1,19 +1,20 @@
 import React from 'react'
 import classNames from 'classnames';
 import { getLang } from '../../modules/lang';
-import { IconButton } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 
 const HelpButton = ({className, ...props}) => {
   return (
-    <IconButton 
+    <Button 
       className={classNames("button--help", className)}
       color='secondary'
-      aria-label={getLang('HELP_SCREEN_READER')} 
+      variant="contained"
+      size="small"
       {...props}
     >
-      <HelpIcon />
-    </IconButton>
+      { getLang('HELP_BUTTON') }
+    </Button>
   )
 }
 

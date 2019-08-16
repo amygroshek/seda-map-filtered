@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   font-size: var(--font-size);
-  box-shadow: var(--shadow-inset);
+  border-top: var(--divider-border);
   color: var(--text2);
   padding: 0 8px;
   position: relative;

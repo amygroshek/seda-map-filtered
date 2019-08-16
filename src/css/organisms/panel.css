@@ -4,11 +4,11 @@
   width: var(--panel-width);  
   flex-shrink:0;
   background: #fff;
-  box-shadow: var(--shadow10);
   display: flex;
   flex-direction:column;
   align-items: stretch;
   justify-content: stretch;
+  border-right: var(--divider-border);
 }
 
 .panel.panel--on {

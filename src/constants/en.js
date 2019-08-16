@@ -43,7 +43,7 @@ const LANG = {
   'DATA_UNAVAILABLE': 'No data available',
 
   // Help
-  'HELP_SCREEN_READER': 'Help',
+  'HELP_BUTTON': 'Help',
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',

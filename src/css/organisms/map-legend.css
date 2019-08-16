@@ -4,7 +4,7 @@
 
 .map-legend  .legend-panel {
   background:rgba(255,255,255,0.9);
-  box-shadow: var(--shadow100);
+  box-shadow: var(--shadow10);
   position: relative;
   z-index: 100;
   transition: transform 0.2s ease-in-out;
