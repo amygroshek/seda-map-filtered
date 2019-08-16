@@ -579,10 +579,10 @@ const LANG = {
   Please see our <a href="/get-the-data/">Get the Data</a> page to gain access to the full dataset.
   `,
 
+  'EMBED_MAP_TITLE': '$[concept] in U.S. $[region]',
+  'EMBED_MAP_SUBTITLE': 'shown by $[metric] for $[demographic] in grades 3 - 8 from 2009 - 2016',
 
-  // How to use conditionals 
-  'HOW_*_*_*_*_*': 'How to use content',
-
+  
 }
 
 export default LANG

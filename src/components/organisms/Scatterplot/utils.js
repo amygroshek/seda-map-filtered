@@ -114,9 +114,9 @@ const getBaseSeries = ({ highlightedState, sizer, variant }) => {
     large: hl,
     largeThreshold: 0,
     itemStyle: {
-      color: hl ? '#ddd' : '#76ced2cc',
-      borderColor: hl ? 'transparent' : 'rgba(6, 29, 86, 0.4)',
-      borderWidth: hl ? 0 : 0.75
+      color: hl ? '#e6e6e6' : '#76ced2cc',
+      borderColor: hl ? 'transparent' : '#08379499',
+      borderWidth: hl ? 0 : 1
     },
     symbolSize: hl ? 6 : (value) => sizer(value[2])
   })
@@ -130,7 +130,7 @@ const getHighlightedSeries = ({ highlightedState, sizer }) =>
   getSeries('highlighted', 'scatter', {
     show: isStateHighlighed(highlightedState),
     itemStyle: {
-      borderColor: 'rgba(6, 29, 86, 0.4)'
+      borderColor: '#083794cc'
     },
     symbolSize: (value) => sizer(value[2])
   })

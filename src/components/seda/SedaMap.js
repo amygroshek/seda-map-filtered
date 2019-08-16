@@ -101,7 +101,7 @@ const mapStateToProps = ({
   map: { idMap, viewport },
   sections: { hovered },
 },
-{ match: { params: { view, secondary, region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { view, region, metric, demographic, highlightedState, ...params } } }
 ) => {
   return ({
     view,
@@ -109,7 +109,6 @@ const mapStateToProps = ({
     region,
     metric,
     demographic,
-    secondary,
     highlightedState,
     selected,
     hovered,

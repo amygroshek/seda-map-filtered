@@ -129,8 +129,7 @@ export const getCircleLayer = ({
   region, 
   metric,
   demographic, 
-  colors, 
-  highlightedState
+  colors
 }) => {
 
   return fromJS({
@@ -140,7 +139,6 @@ export const getCircleLayer = ({
     type: 'circle',
     minzoom: getCircleMinZoom(region),
     interactive: region === 'schools',
-    ...getHighlightedStateFilter(highlightedState),
     layout: {
       'visibility': demographic === 'all' ? 'visible' : 'none'
     },
@@ -165,14 +163,13 @@ export const getCircleLayer = ({
   })
 };
 
-export const getCircleCasingLayer = ({layerId, demographic, region, highlightedState}) => fromJS({
+export const getCircleCasingLayer = ({layerId, demographic, region}) => fromJS({
   id: layerId || (region + '-circle-casing'),
   source: 'composite',
   'source-layer': 'schools',
   type: 'circle',
   minzoom: getCircleMinZoom(region),
   interactive: false,
-  ...getHighlightedStateFilter(highlightedState),
   layout: {
     'visibility': demographic === 'all' ? 'visible' : 'none'
   },
@@ -265,22 +262,6 @@ export const getChoroplethOutlineCasing = ({layerId, region}) => fromJS({
   }
 })
 
-
-// NOTE: currently disabled, uncomment other return statement
-//    to enable
-/**
- * Returns a mapboxgl filter that hides anything not in the selected state
- * @param {*} state 
- */
-const getHighlightedStateFilter = (state) => {
-  return {}
-  // return state && state !== 'us' ? 
-  //   { filter: [ "==", ["get", "state"], state.toUpperCase()] } : 
-  //   {}
-}
-
-
-
 const isIdInRegion = (id, region) => {
   if (!region || !id) { return false }
   return getRegionFromFeatureId(id) === region
@@ -292,14 +273,12 @@ export const getChoroplethLayer = ({
   metric,
   demographic, 
   colors, 
-  highlightedState
 }) => fromJS({
   id: layerId || (region + '-choropleth'),
   source: 'composite',
   'source-layer': region === 'schools' ? 'districts' : region,
   type: 'fill',
   interactive: region !== 'schools',
-  ...getHighlightedStateFilter(highlightedState),
   paint: {
     'fill-color': getFillStyle([demographic, metric].join('_'), region, colors),
     'fill-opacity': region === 'schools' ? [
