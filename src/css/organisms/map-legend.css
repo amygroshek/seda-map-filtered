@@ -10,7 +10,7 @@
   transition: transform 0.2s ease-in-out;
 }
 
-.map-legend .legend-panel__content {
+.map-legend .legend-panel__content .scatterplot-preview {
   pointer-events:none;
 }
 
@@ -22,26 +22,12 @@
 
 /** CONDENSED VIEW */
 
-  /** add padding when the legend is docked to accomodate help */
-  .map-legend .legend-panel--condensed {
-    padding-left: 40px;
-    padding-right: 8px;
-  }
-
-  /** drop padding when undocked */
-  @media(min-width: 650px) {
-    .map-legend .legend-panel--condensed {
-      padding-left: 4px;
-      padding-right: 4px;
-    }
-  }
-
-  .map-legend .legend-panel--condensed .legend-bar {
+  .map-legend .legend-panel__content > .legend-bar {
     background: none;
   }
 
   /** condense height, add some padding to accomodate help button */
-  .map-legend .legend-panel--condensed .legend-bar {
+  .map-legend .legend-panel__content > .legend-bar {
     height: 56px;
     padding-top: 10px;
     padding-bottom: 2px;
@@ -49,7 +35,7 @@
 
   /** adjust padding when the legend is undocked */
   @media(min-width: 650px) {
-    .map-legend .legend-panel--condensed .legend-bar {
+    .map-legend .legend-panel__content > .legend-bar {
       padding-top: 8px;
       padding-bottom: 4px;
     }
@@ -57,77 +43,85 @@
 
 
   /** hide title */
-  .map-legend .legend-panel--condensed .legend-bar .legend-bar__title {
+  .map-legend .legend-panel__content > .legend-bar .legend-bar__title {
     display: none;
   }
 
-  .legend-panel--condensed .legend-bar {
+  .legend-panel__content > .legend-bar {
     position:relative;
+    padding: 8px;
   }
 
-  .legend-panel--condensed .legend-bar:nth-child(1) {
+  .legend-panel__content > .legend-bar:nth-child(1) {
     z-index: 8;
   }
 
-  .legend-panel--condensed .legend-bar__title {
+  .legend-panel__content > .legend-bar .legend-bar__title {
     font-size: var(--mini-font-size);
     font-weight: 900;
     color: var(--text2);
     height: 24px;
     line-height: 16px;
-    background: #eee;
-    padding: 4px;
+    background: var(--grey0);
+    padding: 4px 8px;
     text-transform: capitalize;
   }
 
-  .legend-panel--condensed .legend-bar__title {
-    margin: -4px -4px 8px -4px;
+  .legend-panel__content > .legend-bar .legend-bar__title {
+    margin: -8px -8px 8px -8px;
   }
 
 
-  .legend-panel--condensed .legend-bar .legend-bar__values {
+  .legend-panel__content > .legend-bar .legend-bar__values {
     order:3;
     margin: 4px 0 0 0;
   }
 
-  .legend-panel--condensed .legend-bar .legend-bar__labels {
+  .legend-panel__content > .legend-bar .legend-bar__labels {
     order:1;
     margin: 0 0 4px 0;
   }
-
-  .legend-panel--condensed .legend-bar.legend-bar--secondary .legend-bar__gradient {
-    background: none!important;
-  } 
-
+  
   /** Desktop View */
 
     /** show title */
     @media(min-width: 1023px) {
-      .map-legend .legend-panel--condensed .legend-bar .legend-bar__title {
+      .map-legend .legend-panel__content > .legend-bar .legend-bar__title {
         display: block;
       }
       /** condense height */
-      .map-legend .legend-panel--condensed .legend-bar.legend-bar--title {
+      .map-legend .legend-panel__content > .legend-bar.legend-bar--title {
         height: 80px;
       }
     }
 
 /** PREVIEW CHART VIEW */
 
-.legend-panel--chart .legend-panel__content {
+.legend-panel .legend-panel__content {
   width: 320px;
-  height: 240px;
-  max-width: 320px;
+}
+
+/** 
+Add some padding to the bottom of the panel
+when it is just the preview chart
+*/
+.legend-panel--chart:not(.legend-panel--versus) .legend-panel__content {
+  padding-bottom: 1px;
 }
 
 .scatterplot-preview {
-  position: absolute;
+  position: relative;
   top: 0px;
   right: 0px;
-  left:32px;
+  left:38px;
   right: 32px;
-  width: 288px;
+  width: 280px;
   height: 208px;
+  margin-bottom: 3px;
+}
+
+.scatterplot-preview > .echarts-for-react {
+  height: calc(100% - 32px)!important;
 }
 
 /** Axis Titles */
@@ -155,7 +149,7 @@
 .scatterplot-preview .legend-bar.legend-bar--x-preview {
   height: auto;
   position:absolute;
-  bottom:0px;
+  bottom:32px;
   background: transparent;
   left:8px;
   right:8px;
@@ -192,7 +186,7 @@
     position:absolute;
     left:-40px;
     top:8px;
-    bottom:8px;
+    bottom:40px;
     right:auto;
   }
 
@@ -214,7 +208,7 @@
     transform: rotate(-90deg);
     height: 24px;
     display: flex;
-    width: 188px;
+    width: 156px;
     transform-origin: top left;
     top: auto;
     bottom: -24px;
@@ -224,6 +218,7 @@
   /** Color Gradent */
   .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__gradient {
     box-shadow: 0 0 0 2px #fff, 0px 0 4px rgba(0,0,0,0.2);
+    left: -6px;
   }
 
   /** No color gradient for versus charts */
@@ -247,7 +242,17 @@
 
 .map-legend .legend-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
+  justify-content: stretch;
   width: 100%;
+  background: #fff;
+  border-bottom: var(--divider-border);
+}
+
+.map-legend .legend-panel--chart .legend-actions {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.map-legend .legend-panel:not(.legend-panel--chart) .legend-actions > button {
+  flex:1;
 }

@@ -77,10 +77,6 @@
     display: none;
   }
 
-  .map-embed .map-legend .legend-panel--condensed {
-    padding-left: 8px;
-  }
-
   /** Map Title */
   .map-embed__header {
     position: absolute;
