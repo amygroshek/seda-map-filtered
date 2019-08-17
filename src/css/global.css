@@ -24,6 +24,11 @@ body {
   width: 1px;
 }
 
+hr {
+  border: none;
+  border-top: var(--divider-border);
+}
+
 /** COMPONENTS */
 
 /** Map Component */
@@ -59,16 +64,3 @@ body {
 }
 
 /** END COMPONENTS */
-
-.controls {
-  display: flex;
-  margin-top: 16px;
-}
-
-.controls__control {
-  margin: 0 8px;
-}
-
-.controls__control:first-child {
-  margin-left: 0;
-}

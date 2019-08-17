@@ -113,6 +113,7 @@ const getBaseSeries = ({ highlightedState, sizer, variant }) => {
     silent: hl || (variant === 'preview'),
     large: hl,
     largeThreshold: 0,
+    z:5,
     itemStyle: {
       color: hl ? '#e6e6e6' : '#76ced2cc',
       borderColor: hl ? 'transparent' : 'rgba(7,55,148,0.4)',
@@ -129,6 +130,7 @@ const getBaseSeries = ({ highlightedState, sizer, variant }) => {
 const getHighlightedSeries = ({ highlightedState, sizer }) =>
   getSeries('highlighted', 'scatter', {
     show: isStateHighlighed(highlightedState),
+    z:10,
     itemStyle: {
       borderColor: 'rgba(7,55,148,0.666)',
       borderWidth: 1
@@ -184,9 +186,10 @@ const getAxisLabel = ({axis, x, y, label, labelStyle, options }) => {
         offset: axis === 'x' ? [0, 0] : [ 0, 0 ],
         rich: {
           val: {
+            fontFamily: 'maisonneue-book, lato, helvetica neue, Arial, sans-serif, -apple-system',
             fontSize: 11.7,
             fontWeight: 'normal',
-            color: '#5d5d5d',
+            color: '#757575',
             borderWidth: 0,
             borderColor: 'rgba(0,0,0,0)',
             backgroundColor: 'rgba(255,255,255,1)',
@@ -225,7 +228,8 @@ const getAxisLine = ({
   position = 0, 
   lineStyle, 
   start, 
-  end
+  end,
+  midPoint = false,
 }) => {
   const startPosition = axis === 'y' ?
     { x: (start || 16), yAxis: position } :
@@ -238,7 +242,8 @@ const getAxisLine = ({
       ...startPosition,
       symbol: 'none',
       lineStyle: {
-        color: 'rgba(0,0,0,0.2)',
+        color: midPoint ? '#888' : 'rgba(0,0,0,0.1)',
+        type: 'solid',
         ...lineStyle
       }
     },
@@ -256,9 +261,14 @@ const getAxisLine = ({
  * @param {string} axis 
  * @param {function} formatter 
  */
-const createLabels = 
-  (positions, langPrefix, axis = 'y', formatter = formatNumber) =>
-    positions.map((pos) => {
+const createLabels = (
+  positions, 
+  langPrefix, 
+  axis = 'y', 
+  formatter = formatNumber,
+  midPoint = 0
+) =>
+    positions.map((pos, i) => {
       const labelKey =
         getLangKeyForAxisLabel(pos, langPrefix)
       const value = '' + formatter(pos);
@@ -272,7 +282,10 @@ const createLabels =
         axis: axis,
         y: '97%',
         name: label,
-        visualMap: false
+        visualMap: false,
+        first: i === 0,
+        last: i === (positions.length - 1),
+        midPoint: pos === midPoint
       }
     })
 
@@ -281,8 +294,12 @@ const createLabels =
  * @param {*} positions 
  * @param {*} axis 
  */
-const createLines = (positions, axis = 'y') =>
-  positions.map((position) => ({ axis, position }))
+const createLines = (positions, axis = 'y', midPoint) =>
+  positions.map((position) => ({ 
+    axis, 
+    position, 
+    midPoint: position === midPoint
+  }))
 
 /**
  * Gets a echarts `series` containing any marked lines or
@@ -301,6 +318,7 @@ const getOverlay = (points, lines) => {
     label: {
       show:false
     },
+    z:0,
     markPoint: getAxisLabels(points.map(
       ({axis = 'y', value, x, y, name, ...rest}) => ({
         axis, 
@@ -331,15 +349,16 @@ const getOverlayForVarName = (varName, axis = 'y', region) => {
   const labels = axis === 'y' ?
     createLabels(positions, langPrefix, axis, formatter) :
     createLabels([ getMidpointForVarName(varName) ], langPrefix, axis, formatter)
-  const lines = createLines(positions, axis)
+  const lines = createLines(positions, axis, midPoint)
   return getOverlay(labels, lines);
 }
 
 const getPreviewOverlayForVarName = (varName, axis = 'y') => {
   if (varName.includes('frl')) { return getOverlay([],[]) }
+  const midPoint = getMidpointForVarName(varName);
   const positions = varName.includes('grd') ? [ 1 ] : [ 0 ];
-  const labels = createLabels(positions, 'PREV', axis);
-  const lines = createLines(positions, axis)
+  const labels = createLabels(positions, 'PREV', axis, undefined, midPoint);
+  const lines = createLines(positions, axis, midPoint).map((l) => ({...l, start: 8}))
   return getOverlay(labels, lines);
 }
 
@@ -501,7 +520,7 @@ const getXAxis = ({ metric, demographic, region, ...rest }) => {
     inverse: (region === 'schools'),
     axisLabel: { show: false },
     axisLine: { show: false },
-    splitLine: { show: true },
+    splitLine: { show: true, lineStyle: { type: 'solid', color: '#e4e4e4'} },
     ...rest
   }
 }
@@ -553,7 +572,7 @@ const getYAxis = ({metric, demographic, region, ...rest}) => {
     position: 'right',
     axisLabel: { show: false },
     axisLine: { show: false },
-    splitLine: { show: true },
+    splitLine: { show: true, lineStyle: { type: 'solid', color: '#e4e4e4' } },
     nameLocation: 'middle',
     ...rest
   }
@@ -575,8 +594,7 @@ const getMapYAxis = ({metric, demographic, region, ...rest}) => {
     axisLine: { 
       show: region === 'schools' ? false : true,
       lineStyle: {
-        type: 'dashed',
-        color: '#ccc'
+        color: '#888'
       }
     },
     splitLine: { show: false },

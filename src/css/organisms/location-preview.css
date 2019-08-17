@@ -46,6 +46,7 @@
 
 .location-item .location-item__name {
   display: block;
+  color: var(--text);
 }
 
 .location-item .location-item__state {

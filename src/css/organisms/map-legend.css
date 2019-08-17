@@ -223,7 +223,7 @@
 
   /** Color Gradent */
   .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__gradient {
-    box-shadow: 0 0 0 2px #fff, -2px 0 4px rgba(0,0,0,0.5);
+    box-shadow: 0 0 0 2px #fff, 0px 0 4px rgba(0,0,0,0.2);
   }
 
   /** No color gradient for versus charts */

@@ -62,5 +62,4 @@ h1, h2, h3, h5, h5, h6,
 .MuiTypography-root strong {
   font-weight: normal;
   font-family: var(--body-bold);
-  color: var(--body-text);
 }
