@@ -4,11 +4,34 @@
   width: var(--panel-width);  
   flex-shrink:0;
   background: #fff;
-  box-shadow: var(--shadow10);
   display: flex;
   flex-direction:column;
   align-items: stretch;
   justify-content: stretch;
+  border-right: var(--divider-border);
+}
+
+.panel .button--link {
+  font-family: var(--alt-font);
+  text-transform: uppercase;
+  font-size: var(--font-size);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.panel .button--link.button--collapse .MuiSvgIcon-root {
+  margin-left:-4px;
+  margin-right: 8px;
+}
+
+.panel hr {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.panel .panel__content,
+.panel .panel-section__content {
+  color: var(--text2);
 }
 
 .panel.panel--on {
@@ -49,11 +72,13 @@
   box-shadow: none; 
 }
 
+.panel .accordion-item:before {
+  background: var(--divider);
+}
+
 .panel .tab-label {
   max-width: calc(100% - 40px);
 }
-
-
 
 .panel.panel--location .location-summary {
   padding: 16px;
@@ -78,6 +103,8 @@
 .panel .MuiTypography-body1 {
   font-size: var(--small-font-size);
 }
+
+
 
 /** Panel Section */
 

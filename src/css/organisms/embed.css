@@ -77,10 +77,6 @@
     display: none;
   }
 
-  .map-embed .map-legend .legend-panel--condensed {
-    padding-left: 8px;
-  }
-
   /** Map Title */
   .map-embed__header {
     position: absolute;
@@ -90,7 +86,7 @@
     z-index: 100;
     padding: 16px;
     background: #fff;
-    box-shadow: var(--shadow100);
+    box-shadow: var(--shadow10);
   }
 
   .map-embed__heading p {

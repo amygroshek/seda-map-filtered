@@ -57,89 +57,71 @@ const MapLegend = ({
   classes = {}
 }) => {
   const vars = getScatterplotVars(region, metric, demographic);
+  const isVersus = isVersusFromVarNames(vars.xVar, vars.yVar);
+  if (view === 'chart' || (view === 'split' && !isVersus)) { return null }
   const mapVars = getMapVars(region, metric, demographic);
   const theme = useTheme();
   const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
   // force condensed for split view and small viewports
   variant = (view === 'split' || !isAboveMedium) ? 'condensed' : variant;
-  const isVersus = isVersusFromVarNames(vars.xVar, vars.yVar);
   return (
     <div className={classNames(
       "map-legend", 
       classes.root, 
       { "map-legend--split-view": view === 'split' }
     )}>
-      { variant === 'chart' &&
         <LegendPanel
           expanded={true}
           className={classNames(
-            "legend-panel--chart",
-            { "legend-panel--versus": isVersus }
+            { 
+              "legend-panel--versus": isVersus,
+              "legend-panel--chart": variant === 'chart'
+            }
           )}
         >
-          <SedaScatterplotPreview>
-            <SedaLocationMarkers {...{...vars}} />
-            <ScatterplotAxis
-              axis='y'
-              varName={vars.yVar}
-              hovered={hovered}
-              region={region}
-              className='legend-bar--y-preview'
-              labelPrefix='LEGEND_SHORT_'
-            />
-            <ScatterplotAxis
-              axis='x'
-              varName={vars.xVar}
-              hovered={hovered}
-              region={region}
-              labelPrefix='LEGEND_SHORT_'
-              className='legend-bar--x-preview'
-            />
-          </SedaScatterplotPreview>
-        </LegendPanel>
-      }
-      { (variant === 'condensed' || isVersus) &&
-        <LegendPanel
-          expanded={true}
-          className="legend-panel--condensed"
-        >
-          <ScatterplotAxis
-            axis='x'
-            varName={mapVars.yVar}
-            hovered={hovered}
-            region={region}
-          />
-          {/* { !isVersus &&
-            <ScatterplotAxis
-              axis='x'
-              varName={mapVars.xVar}
-              hovered={hovered}
-              region={region}
-              className='legend-bar--secondary'
-            />
-          } */}
-        </LegendPanel>
-      }
-      { view === 'map' && isAboveMedium &&
-        <div className="legend-actions">
-          <Button variant="contained" color="primary" onClick={onToggleClick}>
-            { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }
-          </Button>
-          {
-            variant === 'chart' &&
-              <Button variant="contained" color="primary" onClick={onFullClick}>
-                Show Full Chart
+          { view === 'map' && isAboveMedium &&
+            <div className="legend-actions">
+              <Button onClick={onToggleClick}>
+                { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }
               </Button>
+              {
+                variant === 'chart' &&
+                  <Button onClick={onFullClick}>
+                    Show Full Chart
+                  </Button>
+              }
+            </div>
           }
-          <Button 
-            variant="contained" 
-            color="secondary" 
-            onClick={() => onHelpClick(helpOpen)}
-          >
-            Help
-          </Button>
-        </div>
-      }
+          { variant === 'chart' &&
+            <SedaScatterplotPreview>
+              <SedaLocationMarkers {...{...vars}} />
+              <ScatterplotAxis
+                axis='y'
+                varName={vars.yVar}
+                hovered={hovered}
+                region={region}
+                className='legend-bar--y-preview'
+                labelPrefix='LEGEND_SHORT_'
+              />
+              <ScatterplotAxis
+                axis='x'
+                varName={vars.xVar}
+                hovered={hovered}
+                region={region}
+                labelPrefix='LEGEND_SHORT_'
+                className='legend-bar--x-preview'
+              />
+            </SedaScatterplotPreview>
+          }
+          { (variant === 'condensed' || isVersus) &&
+            <ScatterplotAxis
+              axis='x'
+              varName={mapVars.yVar}
+              hovered={hovered}
+              region={region}
+            />
+          }
+        </LegendPanel>
     </div>
   )
 }

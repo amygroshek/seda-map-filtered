@@ -18,20 +18,19 @@
   --lighten6: rgba(255,255,255,0.66);
   --lighten7: rgba(255,255,255,0.87);
 
-
-
   /** Colors */
   --primary: #083794;
   --link: #0090FF;
   --accent: #FF003E;
   --text: #031232;
   --text2: #5D5D5D;
+  --text3: #757575;
   --alt-text: #fff;
   --background: #fff;
   --dark-background: rgba(3, 18, 50, 0.9);
   --alt-background: #F5F8FA;
   --highlight-background: #EBFBFF;
-  --footer-background: var(--alt-background);
+  --footer-background: #f8f8f8;
 
   --body-text: var(--text);
   --body2-text: var(--text2);
@@ -39,8 +38,9 @@
   --tab-text: var(--primary);
   --accent2: #1B64AC;
   --accent3: #34BFEF;
-  --accent4: #1AE9B5;
-  --divider: var(--darken2);
+  --accent4: rgb(177, 216, 206);
+  --divider: #ECEFF1;
+  --grey0: #f8f8f8;
   --grey1: #efefef;
   --grey2: #DCDCDC;
   --grey3: #999;
@@ -85,12 +85,9 @@
   --scatterplot-heading: 56px;
 
   /** Shadows */
-  --shadow-inset: inset 0 1px 3px var(--darken3);
-  --shadow1: 0 1px 2px var(--darken3);
-  --shadow10: 0 1px 2px var(--darken4);
-  --shadow100: 0 1px 4px var(--darken4);
-  --shadow1000: 0 1px 4px var(--darken4);
-  --shadow10000: 0 2px 8px var(--darken5);
+  --shadow1: 0 0 1px rgba(0, 0, 0, 0.08), 1px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow10: 0 0 1.5px rgba(0, 0, 0, 0.1), 4px 4px 4px rgba(0, 0, 0, 0.05);
+  --shadow100: 0 0 4px rgba(0, 0, 0, 0.15), 4px 4px 8px rgba(0, 0, 0, 0.1);
 
   --divider-border: 1px solid var(--divider);
 
@@ -106,8 +103,6 @@
   --sp-prev-left: 8px;
   --sp-prev-bottom: 8px;
 
-  /** DEPRECATED*/
-  --shadow2: 0 1px 4px var(--darken4);
 }
 
 /** Variable overrides for 1023px and above */

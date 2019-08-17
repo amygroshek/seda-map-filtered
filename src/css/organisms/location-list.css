@@ -1,11 +1,6 @@
 .location-list .location-item {
   position:relative;
   min-height: 32px;
-}
-
-.location-list .location-item {
-  margin-bottom: 16px;
-  border-top: 1px solid var(--darken1);
   padding-top: 16px;
 }
 
@@ -34,11 +29,18 @@
   padding:0;
 }
 
-
 .location-list--comparison {
-
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .location-list--similar .location-item__heading {
   margin-left:0;
+}
+.location-list .location-item hr {
+  margin-top: 16px;
+}
+.location-list .location-item:last-child hr {
+  border:none;
+  margin-top: 0px;
 }

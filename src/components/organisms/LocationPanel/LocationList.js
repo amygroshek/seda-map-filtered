@@ -52,6 +52,7 @@ const LocationComparisonItem = ({
       >
         { getLang('LOCATION_SHOW_PLACE', { name }) }
       </ButtonBase>
+      <hr />
     </LocationItem>
   )
 }

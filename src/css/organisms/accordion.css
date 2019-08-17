@@ -2,8 +2,8 @@
 .accordion-item.Mui-expanded.MuiExpansionPanel-root {
   margin: 0;
   box-shadow: 
-    0 -1px 0 var(--grey2), 
-    inset 0 -1px 0 var(--grey2);
+    0 -1px 0 var(--divider), 
+    inset 0 -1px 0 var(--divider);
 }
 .accordion-item__heading.MuiExpansionPanelSummary-root {
   padding: 0 12px 0 16px;
@@ -16,6 +16,9 @@
 .accordion-item__content.MuiExpansionPanelDetails-root {
   padding: 0px 16px 24px 16px;
   display: block;
+  font-size: var(--small-font-size);
+  color: var(--text2);
+  line-height: 1.5;
 }
 
 .accordion-item__content p:first-child {

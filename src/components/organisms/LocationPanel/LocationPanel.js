@@ -10,7 +10,8 @@ import LocationItem from './LocationItem';
 import LocationMetricDetails from './LocationMetricSumary';
 import { Button, ButtonBase, Typography } from '@material-ui/core';
 import { getFeatureProperty } from '../../../modules/features';
-
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const SELECTED = getSelectedColors();
 
 const LocationMetric = ({
@@ -34,10 +35,15 @@ const LocationMetric = ({
       />
       { hasVal && 
         <ButtonBase
-          className='button button--link'
+          className='button button--link button--collapse'
           disableRipple={true}
           onClick={() => toggleExpanded('metric_'+metric)}
         >
+          {
+            expanded ?
+              <ExpandLessIcon /> :
+              <ExpandMoreIcon />
+          }
           {
             expanded ?
               getLang('LOCATION_HIDE_'+metric) :
@@ -115,6 +121,7 @@ const LocationPanel = ({
             onHelpClick={onHelpClick}
             toggleExpanded={toggleExpanded}
           />
+          <hr />
           <LocationMetric 
             feature={feature}
             metric='grd'
@@ -123,6 +130,7 @@ const LocationPanel = ({
             onHelpClick={onHelpClick}
             toggleExpanded={toggleExpanded}
           />
+          <hr />
           <LocationMetric 
             feature={feature}
             metric='coh'
@@ -131,6 +139,7 @@ const LocationPanel = ({
             onHelpClick={onHelpClick}
             toggleExpanded={toggleExpanded}
           />
+          <hr />
           <LocationStatDiverging
             feature={feature}
             varName={region === 'schools' ? 'all_frl' : 'all_ses'}

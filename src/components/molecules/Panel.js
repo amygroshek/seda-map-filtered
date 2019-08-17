@@ -17,7 +17,7 @@ const Panel = React.forwardRef(({
   return (
     <Paper
       square={true}
-      elevation={2}
+      elevation={0}
       classes={{
         root: classNames(
           'panel',

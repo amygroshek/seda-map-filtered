@@ -26,8 +26,8 @@ export const theme = {
   valueAxis: {
     splitLine: {
       lineStyle: {
-        type: 'dashed',
-        color: '#eee'
+        type: 'solid',
+        color: '#e4e4e4'
       }
     },
     nameTextStyle: {
@@ -54,7 +54,6 @@ export const theme = {
     markLine: {
       itemStyle: {
         lineStyle: {
-          color: "#f00",
           type: 'solid',
         }
       }
@@ -76,7 +75,7 @@ export const theme = {
       type: 'line', // The default is a straight lineï¼š 'line' | 'shadow'
       lineStyle: { // Straight line indicator style settings
         color: '#00a8c6',
-        type: 'dashed'
+        type: 'solid'
       },
       crossStyle: {
         color: '#00a8c6'
