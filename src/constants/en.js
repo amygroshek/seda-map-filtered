@@ -581,8 +581,14 @@ const LANG = {
 
   'EMBED_MAP_TITLE': '$[concept] in U.S. $[region]',
   'EMBED_MAP_SUBTITLE': 'shown by $[metric] for $[demographic] in grades 3 - 8 from 2009 - 2016',
-
-  
+  'EMBED_DIALOG_TITLE': 'Embed a Map or Chart',
+  'EMBED_MAP_INSTRUCTIONS': 'Use the code below to embed the map on your website.  The map will match your current map view and selections in the explorer. ',
+  'EMBED_MAP_PREVIEW': 'View Map Preview',
+  'EMBED_MAP_INPUT_LABEL': 'Map Embed Code',
+  'EMBED_CHART_INSTRUCTIONS': 'Use the code below to embed the chart on your website.  The chart will match your current data selections. ',
+  'EMBED_CHART_PREVIEW': 'View Chart Preview',
+  'EMBED_CHART_INPUT_LABEL': 'Chart Embed Code',
+  'EMBED_COPY_LABEL': 'Copy embed code',
 }
 
 export default LANG

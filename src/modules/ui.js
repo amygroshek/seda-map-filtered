@@ -1,6 +1,7 @@
 const initialState = {
   menuOpen: false,
   helpOpen: false,
+  embedOpen: false,
   statsViewActive: false,
   helpTab: 0,
   legendType: 'chart',
@@ -21,6 +22,8 @@ export default (state = initialState, action) => {
         ...state, 
         legendType: state.legendType === 'chart' ? 'condensed' : 'chart'
       }
+    case 'SET_EMBED_DIALOG':
+      return { ...state, embedOpen: action.open }
     default:
       return state
   }

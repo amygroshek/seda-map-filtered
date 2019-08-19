@@ -12,10 +12,7 @@ const SedaPage = ({children, classes = {}}) => {
       <main className={classNames("page__body", classes.main)}>
         {children}
       </main>
-      <SedaFooter 
-        onShare={(e) => { alert(e.label + ' not implemented') }}
-        onExport={(e) => { alert('export not implemented') }}
-      />
+      <SedaFooter />
     </div>
   )
 }

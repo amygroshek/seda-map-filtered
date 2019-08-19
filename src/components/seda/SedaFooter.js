@@ -8,6 +8,10 @@ import TwitterIcon from '../atoms/TwitterIcon';
 import LinkIcon from '@material-ui/icons/Link';
 import CodeIcon from '@material-ui/icons/Code';
 import StanfordLogo from '../atoms/StanfordLogo';
+import EmbedDialog from '../organisms/Embed/EmbedDialog';
+
+import { connect } from 'react-redux'
+import { toggleEmbedDialog } from '../../actions';
 
 const branding = {
   url: '#',
@@ -90,8 +94,22 @@ FooterLinks.propTypes = {
 
 const SedaFooter = ({
   onShare,
-  onExport,
+  onEmbed,
+  onFacebook,
+  onTwitter,
 }) => {
+  const handleClick = (id, item) => {
+    console.log(id, item);
+    switch (item.id) {
+      case 'link':
+      case 'embed':
+        return onEmbed()
+      case 'twitter':
+      case 'facebook':
+      default:
+        return null;
+    }
+  }
   return (
     <Footer
       branding={
@@ -102,13 +120,14 @@ const SedaFooter = ({
       copyright={copyright}
       links={
         <div className="site-footer__actions">
+          <EmbedDialog />
           { links && links.map((collection, i) =>
             <FooterLinks
               id={collection.id}
               key={"links-" + i}
               label={collection.label} 
               links={collection.items} 
-              onClick={(id, item) => id === 'export' ? onExport(item) : onShare(item)}
+              onClick={handleClick}
             />  
           )}
         </div>
@@ -136,4 +155,14 @@ SedaFooter.propTypes = {
   onExport: PropTypes.func,
 }
 
-export default SedaFooter
+
+const mapDispatchToProps = (dispatch) => ({
+  onEmbed: () => {
+    dispatch(toggleEmbedDialog(true))
+  }
+})
+
+
+export default connect(
+  null, mapDispatchToProps
+)(SedaFooter);
