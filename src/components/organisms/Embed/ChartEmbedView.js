@@ -5,15 +5,15 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, setTooltipVars } from "../../actions";
+import { onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, setTooltipVars } from "../../../actions";
 
 
-import Scatterplot from '../../components/organisms/Scatterplot';
-import ScatterplotHeading from '../../components/organisms/Scatterplot/ScatterplotHeading';
-import ScatterplotAxis from '../../components/organisms/Scatterplot/ScatterplotAxis';
-import { getStateFipsFromAbbr } from '../../constants/statesFips';
-import SedaTooltip from '../../components/seda/SedaTooltip';
-import Logo from '../../components/atoms/Logo';
+import Scatterplot from '../Scatterplot';
+import ScatterplotHeading from '../Scatterplot/ScatterplotHeading';
+import ScatterplotAxis from '../Scatterplot/ScatterplotAxis';
+import { getStateFipsFromAbbr } from '../../../constants/statesFips';
+import SedaTooltip from '../../seda/SedaTooltip';
+import Logo from '../../atoms/Logo';
 
 
 const EmbedScatterplot = ({

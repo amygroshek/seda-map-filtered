@@ -6,17 +6,17 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateMapSize, loadRouteLocations, onHoverFeature, setTooltipVars, onCoordsChange, addToFeatureIdMap, onViewportChange } from '../../actions';
+import { updateMapSize, loadRouteLocations, onHoverFeature, setTooltipVars, onCoordsChange, addToFeatureIdMap, onViewportChange } from '../../../actions';
 
-import SedaTooltip from '../../components/seda/SedaTooltip';
-import { getMapViewport, getLayers, defaultMapStyle } from '../../components/organisms/Map/selectors';
-import Logo from '../../components/atoms/Logo';
-import { getSelectedColors, getScatterplotVars } from '../../modules/config';
-import { getHoveredId } from '../../modules/sections';
-import MapBase, { MapLegend } from '../../components/organisms/Map';
-import SedaLocations from '../../components/seda/SedaLocations';
-import { getLang } from '../../modules/lang';
-import { titleCase } from '../../utils';
+import SedaTooltip from '../../seda/SedaTooltip';
+import { getMapViewport, getLayers, defaultMapStyle } from '../Map/selectors';
+import Logo from '../../atoms/Logo';
+import { getSelectedColors, getScatterplotVars } from '../../../modules/config';
+import { getHoveredId } from '../../../modules/sections';
+import MapBase, { MapLegend } from '../Map';
+import SedaLocations from '../../seda/SedaLocations';
+import { getLang } from '../../../modules/lang';
+import { titleCase } from '../../../utils';
 import { Typography } from '@material-ui/core';
 
 const selectedColors = getSelectedColors();

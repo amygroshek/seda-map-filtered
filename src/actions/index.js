@@ -256,6 +256,11 @@ export const onShowSimilar = (feature) => ({
   feature
 })
 
+export const toggleEmbedDialog = (open) => ({
+  type: 'SET_EMBED_DIALOG',
+  open
+})
+
 
 /** THUNKS */
 
