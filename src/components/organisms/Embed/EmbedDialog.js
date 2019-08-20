@@ -58,8 +58,8 @@ function EmbedDialog({open, onClose, mapLink, chartLink}) {
 
   return (
     <Dialog 
-      className="embed-dialog" 
-      classes={{paper: 'embed-dialog__container'}} 
+      className="dialog dialog--embed" 
+      classes={{paper: 'dialog__container'}} 
       open={open} 
       onClose={onClose} 
       aria-labelledby="form-dialog-title"

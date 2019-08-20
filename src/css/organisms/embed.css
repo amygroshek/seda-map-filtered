@@ -38,7 +38,7 @@
   /** Map placement */
   .map-embed .map {
     top: 64px;
-    bottom: 56px;
+    bottom: 0;
 
   }
 
@@ -67,6 +67,7 @@
   @media(min-width: 650px) {
     .map-embed .map-legend {
       bottom: 24px;
+      left:auto;
       right: 16px;
       width: 320px;
     }
@@ -155,19 +156,3 @@
   display:none;
 }
 
-.embed-dialog__container {
-  width: 100%;
-}
-
-.embed-dialog input[type="text"] {
-  font-family: monospace;
-  font-size: 13px;
-}
-
-.embed-dialog__copied {
-  font-size: var(--mini-font-size);
-  color: green;
-  text-align: center;
-  display: block;
-  margin-top: 4px;
-}

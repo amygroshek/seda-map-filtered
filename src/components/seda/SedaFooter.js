@@ -12,6 +12,7 @@ import EmbedDialog from '../organisms/Embed/EmbedDialog';
 
 import { connect } from 'react-redux'
 import { toggleEmbedDialog } from '../../actions';
+import { onTwitterShare, onFacebookShare, toggleLinkShareDialog, ShareLinkDialog } from '../organisms/Share';
 
 const branding = {
   url: '#',
@@ -93,19 +94,22 @@ FooterLinks.propTypes = {
 
 
 const SedaFooter = ({
-  onShare,
-  onEmbed,
-  onFacebook,
-  onTwitter,
+  onLinkShare,
+  onEmbed
 }) => {
+  console.log(onLinkShare)
+  const shareUrl = window.location.href;
+
   const handleClick = (id, item) => {
-    console.log(id, item);
     switch (item.id) {
       case 'link':
+        return onLinkShare()
       case 'embed':
         return onEmbed()
       case 'twitter':
+        return onTwitterShare(shareUrl, getLang('SHARE_TWITTER'))
       case 'facebook':
+        return onFacebookShare(shareUrl)
       default:
         return null;
     }
@@ -121,6 +125,7 @@ const SedaFooter = ({
       links={
         <div className="site-footer__actions">
           <EmbedDialog />
+          <ShareLinkDialog />
           { links && links.map((collection, i) =>
             <FooterLinks
               id={collection.id}
@@ -159,6 +164,9 @@ SedaFooter.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   onEmbed: () => {
     dispatch(toggleEmbedDialog(true))
+  },
+  onLinkShare: () => {
+    dispatch(toggleLinkShareDialog(true))
   }
 })
 

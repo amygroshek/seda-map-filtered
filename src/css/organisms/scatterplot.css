@@ -1,6 +1,6 @@
 .scatterplot {
   --axis-right: 56px;
-  --axis-bottom:56px;
+  --axis-bottom:64px;
   position:relative;
   width:100%;
   height:100%;
@@ -88,6 +88,7 @@
 
   .scatterplot__axis .legend-bar__title {
     font-size: var(--small-font-size);
+    text-transform: capitalize;
   }
 
   /** No values on legend bar for scatterplot axis */
