@@ -2,18 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getLang } from '../../../modules/lang';
 import { getStatePropByAbbr } from '../../../constants/statesFips';
-import { isGapVarName, isVersusFromVarNames, getMetricIdFromVarName, getDemographicIdFromVarName } from '../../../modules/config';
+import { isGapVarName, isVersusFromVarNames, getMetricIdFromVarName, getDemographicIdFromVarName, getSingularRegion } from '../../../modules/config';
 import { Typography } from '@material-ui/core';
 
 /** Returns the title string for the provded vars */
-const getTitle = (xVar, yVar) => {
+const getTitle = (xVar, yVar, region) => {
   const isGap = isGapVarName(yVar);
   const isVersus = isVersusFromVarNames(xVar, yVar);
   const titleKey = isGap ? 'SP_TITLE_GAP' :
     isVersus ? 'SP_TITLE_VS' : 'SP_TITLE'
   return getLang(titleKey, {
     metric: getLang('LABEL_CONCEPT_' + getMetricIdFromVarName(yVar)),
-    secondary: getLang('LABEL_' + getMetricIdFromVarName(xVar)),
+    secondary: getLang('LABEL_' + getMetricIdFromVarName(xVar), { region: getSingularRegion(region)}),
   })
 }
 
@@ -40,7 +40,7 @@ const getSubtitle = (xVar, yVar, region, highlightedState) => {
 const ScatterplotHeading = ({
   xVar, yVar, region, highlightedState
 }) => {
-  const title = getTitle(xVar, yVar);
+  const title = getTitle(xVar, yVar, region);
   const subtitle = getSubtitle(xVar, yVar, region, highlightedState);
   return (
     <div className='scatterplot__heading'>

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getLabelForVarName, getLegendEndLabelsForVarName } from '../../../modules/lang';
 import { getFeatureProperty } from '../../../modules/features';
-import { getChoroplethColors, getFormatterForVarName, getMetricRangeFromVarName, getInvertedFromVarName, isGapVarName } from '../../../modules/config';
+import { getChoroplethColors, getFormatterForVarName, getMetricRangeFromVarName, getInvertedFromVarName, isGapVarName, getSingularRegion } from '../../../modules/config';
 import LegendBar from '../../molecules/LegendBar';
 
 const COLORS = getChoroplethColors();
@@ -19,7 +19,7 @@ const ScatterplotAxis = ({
     [...COLORS].reverse() : COLORS;
   const vertical = axis === 'y';
   const invert = getInvertedFromVarName(varName);
-  const title = getLabelForVarName(varName);
+  const title = getLabelForVarName(varName, { region: getSingularRegion(region) });
   const [ startLabel, endLabel ] = getLegendEndLabelsForVarName(varName, labelPrefix);
   const legendRange = getMetricRangeFromVarName(varName, region);
   const colorRange = getMetricRangeFromVarName(varName, region, 'map');

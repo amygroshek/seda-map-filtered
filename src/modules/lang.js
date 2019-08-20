@@ -175,6 +175,8 @@ const getDescriptionLangKey = (metricId, value) => {
         value > -0.5 ? `VALUE_SES_MID` :
         value > -1.5 ? `VALUE_SES_LOW` :
         value > -2.5 ? `VALUE_SES_VERY_LOW` : `VALUE_SES_ULTRA_LOW`
+    case 'seg':
+      return `VALUE_SEG`
     case 'frl':
       return 'VALUE_FRL'
     default:
@@ -215,10 +217,11 @@ export const getDescriptionForVarName = (varName, value) => {
 /**
  * Returns string label for provided `varName`
  */
-export const getLabelForVarName = (varName) => {
+export const getLabelForVarName = (varName, context = {}) => {
   const [ demographic, metric ] = varName.split('_');
-  return getLang('LABEL_' + metric) + 
-    (demographic !== 'all' ? ' (' + getLang('LABEL_' + demographic) + ')' : '');
+  return demographic === 'all' ?
+    getLang('LABEL_' + metric, context) :
+    getLang('LABEL_' + metric + '_' + demographic, context);
 }
 
 /**
@@ -228,8 +231,14 @@ export const getLegendEndLabelsForVarName = (varName, langPrefix = 'LEGEND_') =>
   const [ demographic, metric ] = varName.split('_');
   const isGap = isGapDemographic(demographic);
   return isGap ? 
-    [ getLang(`${langPrefix}LOW_${metric}_GAP`), getLang(`${langPrefix}HIGH_${metric}_GAP`) ] :
-    [ getLang(`${langPrefix}LOW_${metric}`), getLang(`${langPrefix}HIGH_${metric}`) ]
+    [ 
+      getLang(`${langPrefix}LOW_${metric}_${demographic}`), 
+      getLang(`${langPrefix}HIGH_${metric}_${demographic}`) 
+    ] :
+    [ 
+      getLang(`${langPrefix}LOW_${metric}`), 
+      getLang(`${langPrefix}HIGH_${metric}`) 
+    ]
 }
 
 /**

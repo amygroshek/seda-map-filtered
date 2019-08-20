@@ -47,7 +47,7 @@ const SedaGapChart = ({
       onError
     }}>
       <div className="scatterplot__gap-selector">
-        <span>gap in { isPoorVsNonpoor && getLabel('SEG') }</span>
+        <span>Gap in { isPoorVsNonpoor && getLabel('SEG') }</span>
         { !isPoorVsNonpoor && 
             <GapTypeInlineMenu
               metric={secondary}
@@ -114,6 +114,7 @@ const mapDispatchToProps = (dispatch) => ({
   onReady: () => 
     dispatch(onScatterplotLoaded('map')),
   onHover: (feature, vars, e) => {
+    console.log('hover', feature, vars)
     dispatch(onHoverFeature(feature, 'map'))
     dispatch(setTooltipVars(vars))
     dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
