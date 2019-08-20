@@ -1,7 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { getSizerFunctionForRegion, isGapVarName, getDemographicFromVarName, getMetricIdFromVarName, getMetricFromVarName, getChoroplethColors, getMetricRangeFromVarName, getMidpointForVarName, isVersusFromVarNames, getDemographicForVarNames, getFormatterForVarName } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
-import { getCSSVariable, formatNumber } from '../../../utils';
+import { getCSSVariable, formatNumber, formatPercentDiff } from '../../../utils';
 
 /** UTILS */
 
@@ -269,22 +269,23 @@ const createLabels = (
   midPoint = 0
 ) =>
     positions.map((pos, i) => {
+      const isFirst = i === 0;
+      const isLast = i === (positions.length - 1);
+      const isMidpoint = pos === midPoint
       const labelKey =
         getLangKeyForAxisLabel(pos, langPrefix)
       const value = '' + formatter(pos);
-      const label = getLang(labelKey, { 
-        // remove minus sign for axis labels
-        value: value[0] === '-' ? 
-          value.substring(1) : value  
-      })
+      const label = (isFirst || isLast || isMidpoint) ?
+        getLang(labelKey, { 
+          value: value[0] === '-' ? value.substring(1) : value  
+        }) : value;
       return {
         value: axis === 'y' ? [0, pos] : [pos, 0],
         axis: axis,
         y: '97%',
         name: label,
         visualMap: false,
-        first: i === 0,
-        last: i === (positions.length - 1),
+        
         midPoint: pos === midPoint
       }
     })
@@ -536,8 +537,14 @@ const getMapXAxis = ({ metric, demographic, region }) => {
       inside: false,
       formatter: (value) => {
         // percent for schools
-        return region === 'schools' ?
-          (value*100)+'%' : value
+        if (region === 'schools') {
+          return (value*100)+'%'
+        }
+        // percent diff for learning rates
+        if (metric.id === 'grd') {
+          return formatPercentDiff(value, 1)
+        }
+        return value
       }
     },
     axisLine: { show: false },

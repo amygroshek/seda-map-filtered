@@ -63,7 +63,7 @@
     display: none;
   }
   .section--explorer .map-legend.map-legend--split-view .legend-bar {
-    height: 48px;
+    height: 56px;
   }
 
   /** No map legend in split view */
@@ -130,18 +130,44 @@
 
   /** toggle button */
   .section--explorer .charts__toggle {
+    background: #fff;
     position: absolute;
     top: 72px;
     left: 16px;
+    color: var(--link);
   }
 
-  /** make space for toggle button */
-  /* .section--explorer .charts__root--split .scatterplot {
-    top: calc(var(--scatterplot-heading) + 24px);
+  @media(min-width: 900px) {
+    .section--explorer .charts__toggle {
+      top: 56px;
+    }
+
+    .section--explorer .section__content--split .charts__toggle,
+    .section--explorer .section__content--split.section__content--location .charts__toggle,
+    .section--explorer .section__content--split.section__content--help .charts__toggle  {
+      top: 72px;
+    }
   }
-  .section--explorer .charts__root--split .scatterplot__heading {
-    margin-top: calc(-1 * var(--scatterplot-heading) - 24px);
-  } */
+
+  @media(min-width: 1250px) {
+    .section--explorer .section__content--split .charts__toggle {
+      top: 56px;
+    }
+  }
+
+  @media(min-width: 1545px) {
+    .section--explorer .section__content--split.section__content--location .charts__toggle,
+    .section--explorer .section__content--split.section__content--help .charts__toggle {
+      top: 56px;
+    }
+  }
+
+  .section--explorer .charts__toggle .MuiSvgIcon-root {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+  }
+
 
 /** Side Panel */
 

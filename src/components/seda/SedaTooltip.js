@@ -34,10 +34,7 @@ const ConnectedTooltip = ({
   const featureId = getFeatureProperty(feature, 'id');
   const title = getFeatureProperty(feature, 'name');
   const stateName = getStateName(featureId);
-  const statVars = useMemo(
-    () => [yVar, xVar], 
-    [yVar, xVar]
-  )
+  const statVars = [yVar, xVar];
   const isVersus = isVersusFromVarNames(xVar, yVar);
   const descriptionVars = useMemo(() => {
     return isVersus ?

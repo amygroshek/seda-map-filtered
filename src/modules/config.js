@@ -311,7 +311,7 @@ export const getScatterplotVars = (region, metric, demographic) => {
       zVar: demographic + '_sz'
     }
   }
-  const useAll = ['m', 'f', 'p', 'np'].indexOf(demographic) > -1;
+  const useAll = ['m', 'f', 'p', 'np', 'a'].indexOf(demographic) > -1;
   return {
     yVar: demographic + '_' + metric,
     xVar: useAll ? 'all_ses' : demographic + '_ses',

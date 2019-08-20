@@ -21,6 +21,8 @@ import { Button } from '@material-ui/core';
 import { getLang } from '../../modules/lang';
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles';
+import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+
 
 const Charts = ({
   hasGapChart, 
@@ -38,11 +40,11 @@ const Charts = ({
       { showGapChart && <SedaGapChart /> }
       { hasGapChart && 
           <Button 
-            variant="contained"
-            color="primary"
-            className="charts__toggle" 
+            
+            className="charts__toggle button--link" 
             onClick={() => onChartToggle(!showGapChart) }
           >
+            <BubbleChartIcon />
             { showGapChart ? 
                 getLang('BUTTON_HIDE_CHART') :
                 getLang('BUTTON_SHOW_CHART')
