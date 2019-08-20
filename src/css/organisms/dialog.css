@@ -1,0 +1,17 @@
+.dialog__container {
+  width: 100%;
+}
+
+.dialog input[type="text"] {
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.dialog__copied,
+.copied {
+  font-size: var(--mini-font-size);
+  color: green;
+  text-align: center;
+  display: block;
+  margin-top: 4px;
+}

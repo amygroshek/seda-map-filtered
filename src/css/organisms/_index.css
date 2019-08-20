@@ -1,21 +1,30 @@
+@import 'header.css';
+@import 'footer.css';
 @import 'site-menu.css';
 @import 'section.css';
-@import 'footer.css';
+
+@import 'scatterplot.css';
+
+@import 'legend-bar.css';
+@import 'map-legend.css';
+
+@import 'panel.css';
+@import 'accordion.css';
+@import 'visual-help.css';
+
 @import 'card.css';
-@import "./header.css";
-@import "./scatterplot.css";
-@import "./legend-bar.css";
-@import "./summary-group.css";
-@import "panel.css";
-@import "accordion.css";
-@import "visual-help.css";
+
+@import 'summary-group.css';
 @import 'location-summary.css';
 @import 'location-preview.css';
-@import 'stats.css';
 @import 'location-markers.css';
-@import 'map-legend.css';
-@import 'stats-summary.css';
 @import 'location-list.css';
+
+@import 'stats.css';
+@import 'stats-summary.css';
 @import 'stat.css';
 @import 'stat-list.css';
+
 @import 'embed.css';
+
+@import 'dialog.css';

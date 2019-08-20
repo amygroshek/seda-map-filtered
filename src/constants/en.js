@@ -102,6 +102,10 @@ const LANG = {
   'LABEL_STUDENTS_P': 'Poor students',
   'LABEL_STUDENTS_NP': 'Non-poor students',
   'LABEL_STUDENTS_N': 'Non-poor students',
+  'LABEL_STUDENTS_WB': 'difference between white and Black students',
+  'LABEL_STUDENTS_WH': 'difference between white and Hispanic students',
+  'LABEL_STUDENTS_MF': 'difference between male and female students',
+  'LABEL_STUDENTS_PN': 'difference between non-poor and poor students',
 
   // Region Labels
   'LABEL_COUNTIES': 'counties',
@@ -589,6 +593,11 @@ const LANG = {
   'EMBED_CHART_PREVIEW': 'View Chart Preview',
   'EMBED_CHART_INPUT_LABEL': 'Chart Embed Code',
   'EMBED_COPY_LABEL': 'Copy embed code',
+
+  'LINK_DIALOG_TITLE': 'Share a Link',
+  'LINK_INSTRUCTIONS': 'Copy the link below to share the current view of the explorer.',
+  'LINK_INPUT_LABEL': 'Current View URL',
+  'LINK_COPY_LABEL': 'copy link',
 }
 
 export default LANG
