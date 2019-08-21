@@ -429,9 +429,9 @@ const LANG = {
   'WT_NO_DATA': 'No data',
 
   'WT_Q1': 'How are $[metric] calculated?',
-  'WT_Q1_AVG': 'The average test scores are calculated from elementary school students in grades 3 through 8 from 2009 - 2016. See the <a href="#">FAQ</a> for more details.',
-  'WT_Q1_GRD': 'The growth of test scores are calculated from the increase in test scores each year as the students progress through elementary school. See the <a href="#">FAQ</a> for more details.',
-  'WT_Q1_COH': 'The changes in test scores are calculated from the increase or decrease of test scores for a place from 2009 - 2016. See the <a href="#">FAQ</a> for more details.',
+  'WT_Q1_AVG': 'The average test scores are calculated from elementary school students in grades 3 through 8 from 2009 - 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more details.',
+  'WT_Q1_GRD': 'The growth of test scores are calculated from the increase in test scores each year as the students progress through elementary school. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more details.',
+  'WT_Q1_COH': 'The changes in test scores are calculated from the increase or decrease of test scores for a place from 2009 - 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more details.',
 
   'WT_Q2': 'How does $[metric] show $[concept]',
   'WT_Q2_AVG': 'The elementary students\' test scores are influenced by opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. They encompass the total set of educational opportunities available in a community.',
@@ -513,14 +513,14 @@ const LANG = {
     <br /><br />
     Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s trend in test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing the national average. The vertical axis shows average annual test score changes, measured in grade levels per year. 
   `,
-  'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using learning rates, which measure how much student scores improve while they are in school.`,
+  'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using Learning Rates, which measure how much student scores improve while they are in school.`,
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much student scores improve each year while they are in school. This is better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much its patients’ health improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their test scores improve while in school.`,
   'HELP_COH_CONCEPT_A': `Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community. Where the trend is positive, students’ opportunities to learn are improving. Opportunities may improve over time because of changes in school quality or because of changes in children’s family resources, home environments, early childhood experiences, and community resources.`,
   'HELP_SES_CONCEPT_A': ``,
   'HELP_AVG_A': `The average test score is based on the average of standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href="#">FAQ</a> for more detail.`,
   'HELP_GRD_A': `The learning rate is based on changes in average test scores from each year and grade to the next year and grade (e.g., changes from 2015 3rd grade scores to 2016 4th grade scores). The learning rates are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='#'>FAQ</a> for more detail.`,
   'HELP_COH_A': `The trend in test scores is based on changes in average test scores from each year to the next in the same grade (e.g., changes from 2015 3rd grade scores to 2016 3rd grade scores). The test score trends are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='#'>FAQ</a> for more detail.`,
-  'HELP_SES_A': `Socioeconomic status (SES) is a broad measure of the economic and social resources available in a community. It is based on information about the income, educational attainment, employment, and structure of all the families living in the community served by a school district or county. This information is combined into a single composite rating for each community. A rating of 0 represents the national average of socioeconomic status; higher ratings represent more affluent communities. See the <a href="#">FAQ</a> for more detail. `,
+  'HELP_SES_A': `Socioeconomic status (SES) is a broad measure of the economic and social resources available in a community. It is based on information about the income, educational attainment, employment, and structure of all the families living in the community served by a school district or county. This information is combined into a single composite rating for each community. A rating of 0 represents the national average of socioeconomic status; higher ratings represent more affluent communities. See the <a href="/help-faq/#ses-measured" target="_blank">FAQ</a> for more detail. `,
   'HELP_SEG_A': `Segregation measures the extent to which students in the region attend schools with different poverty rates. To compute it, we first compute the average free lunch rate in black, Hispanic, poor students’ schools and the average free lunch rate in white, nonpoor students’ schools. The segregation measure is the difference between these two average rates. A value of 0 means that black, Hispanic, or poor and white, or nonpoor students attend schools with equal free lunch rates, on average. Positive numbers indicate that black, Hispanic, or poor students in the region attend higher-poverty schools than white or nonpoor students. See the <a href="#">FAQ</a> for more detail.`,
   'HELP_FRL_A': `The free lunch rate measures the proportion of students in the school who are eligible for free or reduced-price lunches through the National School Lunch Program. Students are eligible for free or reduced-price lunches if their family income is below 185% of the poverty threshold. A school with a free lunch rate of 0% has no poor or near-poor students; the higher the free lunch rate, the greater the number of poor students. See the <a href="#">FAQ</a> for more detail.`,
 
@@ -533,7 +533,7 @@ const LANG = {
   'HELP_HOW_Q6': 'How many locations can I select at once?',
   'HELP_HOW_Q7': 'How do I see all the data for a location at once?',
   'HELP_HOW_Q8': 'How do I view data on comparable locations?',
-  'HELP_HOW_Q9': 'Can I see data on gaps between demographic groups?',
+  'HELP_HOW_Q9': 'How can I see data on gaps between demographic groups?',
   'HELP_HOW_Q10': 'How do I export a report about my selected location?',
   'HELP_HOW_Q11': 'Where Can I Get More Help & Info About Educational Opportunity?',
   'HELP_HOW_Q12': 'How can I download the data?',
@@ -545,39 +545,39 @@ const LANG = {
       <li>Learning rates, which reflect school effectiveness</li>
       <li>Trends In Test Scores, which reflect changes in educational opportunity</li>
     </ul>
-    <p>Just below these buttons, you can use the <strong>“Showing data for…”</strong> drop-down menus to filter by demographic (e.g. “all students” or “female students”) or the gap between demographics (e.g. “male-female gap”), and the type of places (counties, school districts, or schools) you’d like to display. In the Chart view, you can also choose to view data for the entire country, or individual U.S. states.</p>
+    <p>Just below these buttons, you can use the <strong>“Showing …”</strong> drop-down menus to filter by demographic (e.g. “all students” or “female students”) or the gap between demographics (e.g. “male-female gap”), and the type of places (counties, school districts, or schools) you’d like to display. In the Chart view, you can also choose to view data for the entire country, or individual U.S. states.</p>
   `,
   'HELP_HOW_Q3_A':  `
     <p>Light gray represents the national average, or “no change” (for Trend in Test Scores).</p>
     <p>The deeper the green, the farther above the national average—or, for Trend in Test Scores, the greater the improvement in scores over time.</p>
     <p>The deeper the blue, the farther below the national average—or for Trend in Test Scores, the greater the decline in scores over time.</p>
-    <p>Colorblind users: we have made efforts to ensure accessibility for the most common forms of colorblindness. For less common forms (such as Tritanopia), colors may be less distinguishable; however, the data is still accessible in the map legend, charts, and other displays.</p>
+    <p><i>Colorblind users: we have made efforts to ensure accessibility for the most common forms of colorblindness. For less common forms (such as Tritanopia), colors may be less distinguishable; however, the data is still accessible in the map legend, charts, and other displays.</i></p>
   `,
-  'HELP_HOW_Q4_A':  `You can view data for counties, school districts, and public schools. To change between location types, use the “Showing data for …” menu in the header.`,
+  'HELP_HOW_Q4_A':  `You can view data for counties, school districts, and public schools. To change between location types, use the <strong>“Showing …”</strong> menu in the top left of the header.`,
   'HELP_HOW_Q5_A':  `
-    <p>You can navigate to your desired location (within any of the 50 U.S. states) via the navigation controls in the map, or type a location name into the Search Bar in the upper right corner of the map and chart.</p>
-    <p>Hovering (or on a touch device, tapping) on a location in the map or chart will show an overview of that location’s data. Clicking (or tapping) on the location will open a Location Panel that shows a full view of all available data, as well as options for viewing other selected locations. You can also export a PDF report from this panel.</p>
-    <p>Clicking or tapping on locations will also add your selections as tabs in the bottom of the screen. (You can add up to 5 locations.) Click or tap on any location’s tab to highlight it in the map or chart, and the Location Panel.</p>
+    <p>You can navigate to your desired location (within any of the 50 U.S. states) via the navigation controls in the map. Or type a location name into the Search Bar in the upper right corner of the map and chart.</p>
+    <p>Hovering (or on a touch device, tapping) on a location in the map or chart will show an overview of that location’s data. Clicking or tapping on the location will open a <strong>Location Panel</strong> that shows a full view of all available data, as well as options for viewing other selected locations. You can also export a <strong>PDF report</strong> from this panel.</p>
+    <p>Clicking or tapping on locations will also add them as tabs in the bottom of the screen. (You can add up to 5 locations.) Click or tap on any location’s tab to highlight it in the map or chart, and the Location Panel.</p>
   `,
-  'HELP_HOW_Q6_A':  `You can select up to 5 locations at once. `,
-  'HELP_HOW_Q7_A':  `Clicking or tapping on any location will open a Location Panel that offers a full view of the available data.`,
+  'HELP_HOW_Q6_A':  `You can display a set of up to 6 location tabs at once. Each additional selection will remove a selection from the beginning of the set. `,
+  'HELP_HOW_Q7_A':  `Clicking or tapping on any location will open a <strong>Location Panel</strong> that offers a full view of the available data.`,
   'HELP_HOW_Q8_A':  `
-    <p>In two ways. First, you can select up to 5 locations and view all their data together in the “Comparison” tab of the Location Panel (which opens when you click on a place in the map or on the chart).</p>
-    <p>Below your selected locations in the Comparison tab, you can choose “Show Similar Places” to find suggestions for additional locations that are similar to the most recently-selected place (based on its size, socioeconomic data, and other characteristics.)</p>
+    <p>In two ways. First, you can select up to 5 locations and view all their data together in the “Comparison” tab of the <strong>Location Panel</strong> (which opens when you click on a place in the map or on the chart).</p>
+    <p>Below your selected locations in the Comparison tab, you can choose <strong>Show Similar Places</strong> to display additional locations that are similar to the most recently-selected place.</p>
   `,
   'HELP_HOW_Q9_A':  `
-    <p>Yes. For every Key Metric (such as Average Test Scores), we offer data on the gaps between certain demographic groups, such as White / Black, Male / Female, and Poor / Non-Poor.</p>
-    <p>You can view these gaps in the map and chart by selecting groups for comparison in the <strong>“Showing data for …”</strong> menu in the header, or in the Location Panel that opens when clicking / tapping on a location.</p>
+    <p>For every Key Metric (such as Average Test Scores), we offer data on the gaps between certain demographic groups, such as White / Black, Male / Female, and Poor / Non-Poor.</p>
+    <p>You can view these gaps in the map and chart by selecting groups for comparison in the <strong>“Showing …”</strong> menu in the header, or in the <strong>Location Panel</strong> that opens when clicking / tapping on a location.</p>
     <p>In Map View, the size of the gap is shown as colors on the map.</p>
     <p>In Chart View, the demographic groups are charted on the horizontal and vertical axes, and the distance from the diagonal line in the chart shows the size of the gap.</p>
-    <p>While in Chart View, you can also select “View Opportunity Differences” to view a second chart. In this second chart, the size of the gap is plotted on the vertical axis. The gap between groups on another measure (such as socioeconomic status) is shown on the horizontal axis.</p>
+    <p>While in Chart View, you can also select <strong>Explore More Gaps Data</strong> to view a second chart. Here, the size of the gap is plotted on the vertical axis. The gap between groups on another measure (such as socioeconomic status) is shown on the horizontal axis.</p>
   `,
   'HELP_HOW_Q10_A': `
-    <p>Click on any location in the map or charts, and a Location Panel will appear containing data about that place. Scroll to the bottom of this panel and click <strong>Export a Report</strong>, then <strong>Download Report</strong>.</p>
+    <p>Click on any location in the map or charts, and a <strong>Location Panel</strong> will appear containing data about that place. Scroll to the bottom of this panel and click <strong>Export a Report</strong>, then <strong>Download Report</strong>.</p>
     <p>You can generate a PDF report for any location, which contains charts, figures, and other information about the currently-selected county, district, or school.</p>
   `,
   'HELP_HOW_Q11_A': `
-    To learn more about the concepts presented here and how to use this Explorer tool, please see our <a href="/help-faq/">FAQ</a>. To learn more about educational opportunity in America, please see our <a href="/discoveries/">Discoveries</a> articles, which explore and visualize different facets of educational opportunity. You can also see a list of <a href="/news/">news</a> articles about this data, view our <a href="/research/">research papers</a>, and learn about our <a href="/methods/">methods</a> for compiling and validating the data.
+    To learn more about the concepts presented here and how to use this Explorer tool, please see our <a href="/help-faq/" target="_blank">FAQ</a>. To learn more about educational opportunity in America, please see our <a href="/discoveries/" target="_blank">Discoveries</a> articles, which explore and visualize different facets of educational opportunity. You can also see a list of <a href="/news/" target="_blank">news</a> articles about this data, view our <a href="/research/" target="_blank">research papers</a>, and learn about our <a href="/methods/" target="_blank">methods</a> for compiling and validating the data.
   `,
   'HELP_HOW_Q12_A': `
   Please see our <a href="/get-the-data/">Get the Data</a> page to gain access to the full dataset.
