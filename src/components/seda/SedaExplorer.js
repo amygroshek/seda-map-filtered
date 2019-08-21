@@ -34,7 +34,10 @@ const Charts = ({
   return (
     <div className={classNames(
       "charts__root",
-      { "charts__root--split": showGapChart && sectionId === 'chart' }
+      { 
+        "charts__root--split": showGapChart && sectionId === 'chart',
+        "charts__root--secondary": showGapChart
+      }
     )}>
       <SedaChart />
       { showGapChart && <SedaGapChart /> }

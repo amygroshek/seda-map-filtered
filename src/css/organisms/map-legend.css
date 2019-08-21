@@ -116,7 +116,7 @@ when it is just the preview chart
   left:38px;
   right: 32px;
   width: 280px;
-  height: 248px;
+  height: 272px;
   margin-bottom: 3px;
 }
 
@@ -130,6 +130,8 @@ when it is just the preview chart
   position:absolute;
   white-space: nowrap;
   text-transform: capitalize;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
 }
 
 /** Overlay */
