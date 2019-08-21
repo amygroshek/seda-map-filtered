@@ -57,8 +57,11 @@ function ScatterplotPreview({
     [xVar, yVar, zVar, highlightedState, data[region]]
   );
   // memoize highlighted state IDs for the scatterplot
-  const highlighted = useMemo(
-    () => getStateHighlights(highlightedState, data && data[region]),
+  const highlighted = useMemo(() => {
+      const hl = getStateHighlights(highlightedState, data && data[region])
+      // limit to 3000
+      return hl.slice(0, 3000)
+    },
     [highlightedState, region, data[region]]
   );
   return (

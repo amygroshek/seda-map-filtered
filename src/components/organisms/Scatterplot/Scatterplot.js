@@ -72,8 +72,9 @@ function Scatterplot({
   const highlighted = useMemo(() => {
     const hl = getStateHighlights(highlightedState, data && data[region])
     // limit to 3000
-    return hl.slice(0, 3000)
+    return hl.slice(0, 10)
   }, [highlightedState, region, data[region]]);
+
 
   // fetch base vars for region if they haven't already been fetched
   // this is required 
