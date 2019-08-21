@@ -116,7 +116,7 @@ when it is just the preview chart
   left:38px;
   right: 32px;
   width: 280px;
-  height: 248px;
+  height: 272px;
   margin-bottom: 3px;
 }
 
@@ -130,6 +130,8 @@ when it is just the preview chart
   position:absolute;
   white-space: nowrap;
   text-transform: capitalize;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
 }
 
 /** Overlay */
@@ -190,8 +192,6 @@ when it is just the preview chart
     right:auto;
   }
 
-
-
   /** Axis Name */
   .scatterplot-preview .legend-bar.legend-bar--y-preview .legend-bar__title {
     top:0; bottom:0;
@@ -208,7 +208,7 @@ when it is just the preview chart
     transform: rotate(-90deg);
     height: 24px;
     display: flex;
-    width: 196px;
+    width: 220px;
     transform-origin: top left;
     top: auto;
     bottom: -24px;

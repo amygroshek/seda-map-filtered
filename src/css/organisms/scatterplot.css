@@ -28,74 +28,81 @@
 
 /** Heading */
 
-.scatterplot__heading {
-  position: absolute;
-  z-index: 10;
-  top: 8px;
-  left: 40px;
-  right: 0px;
-  pointer-events: none;
-}
-@media(min-width: 650px) {
   .scatterplot__heading {
-    left:24px;
-    top: 16px;
-    right: 280px;
+    position: absolute;
+    z-index: 10;
+    top: 8px;
+    left: 40px;
+    right: 0px;
+    pointer-events: none;
   }
-  .section__content.section__content--split .scatterplot__heading,
-  .charts__root.charts__root--split .scatterplot__heading {
-    right: 24px;
-  }
-}
 
-@media(min-width: 1024px) {
-  .charts__root.charts__root--split .scatterplot__heading {
-    right: -220px;
+  .scatterplot__heading .scatterplot__title {
+    display: block;
+    line-height: 24px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-transform: capitalize;
   }
-}
+  .scatterplot__heading .scatterplot__subtitle {
+    color: var(--body2-text);
+    display: block;
+    line-height: 16px;
+  }
+  
+  @media(min-width: 650px) {
+    .scatterplot__heading {
+      left:24px;
+      top: 16px;
+      right: 280px;
+    }
+    .section__content.section__content--split .scatterplot__heading,
+    .charts__root.charts__root--split .scatterplot__heading {
+      right: 24px;
+    }
+  }
 
-.scatterplot__heading .scatterplot__title {
-  display: block;
-  line-height: 24px;
-  width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  text-transform: capitalize;
-}
-.scatterplot__heading .scatterplot__subtitle {
-  color: var(--body2-text);
-  display: block;
-  line-height: 16px;
-}
+  /** Mobile view, make room for search bar */
+  .charts__root.charts__root--split .scatterplot__heading {
+    right: 300px;
+  }
+
+  /** Larger resolutions have side by side charts, extend heading */
+  @media(min-width: 1024px) {
+    .charts__root.charts__root--split .scatterplot__heading {
+      right: -220px;
+    }
+  }
 
 
 /** Overlay */
 
-.scatterplot .marker__root {
-  pointer-events:none;
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
+  .scatterplot .marker__root {
+    pointer-events:none;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+  }
 
-.scatterplot .location-markers {
-  position: absolute;
-  top: var(--sp-top);
-  right: calc(var(--axis-right) + var(--sp-right));
-  bottom: calc(var(--axis-bottom) + var(--sp-bottom));
-  left: var(--sp-left);
-}
+  .scatterplot .location-markers {
+    position: absolute;
+    top: var(--sp-top);
+    right: calc(var(--axis-right) + var(--sp-right));
+    bottom: calc(var(--axis-bottom) + var(--sp-bottom));
+    left: var(--sp-left);
+  }
 
 
 /** Axis */
 
   .scatterplot__axis .legend-bar__title {
-    font-size: var(--small-font-size);
-    font-family: var(--body-bold);
-    font-weight: normal;
+    font-size: var(--font-size);
+    font-weight: 600;
+    letter-spacing: 0.01em;
     text-transform: capitalize;
   }
 
@@ -286,6 +293,20 @@
   margin-top: 3px;
 }
 
+/** Gap View Chart Visibility */
+
+  /** Hide legend bar on versus bar when secondary chart is stacked on top */
+  .section__content--split .charts__root--secondary .scatterplot.scatterplot--versus .legend-bar,
+  .charts__root--split .scatterplot.scatterplot--versus .legend-bar {
+    display: none;
+  }
+
+  /** Show legend bar once resolution is large enough for side by side */
+  @media(min-width: 1024px) {
+    .charts__root--split .scatterplot.scatterplot--versus .legend-bar {
+      display: block;
+    }
+  }
 
 /** Embed Scatterplot */
 
