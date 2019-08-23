@@ -570,7 +570,7 @@ const LANG = {
     <p>You can view these gaps in the map and chart by selecting groups for comparison in the <strong>“Showing …”</strong> menu in the header, or in the <strong>Location Panel</strong> that opens when clicking / tapping on a location.</p>
     <p>In Map View, the size of the gap is shown as colors on the map.</p>
     <p>In Chart View, the demographic groups are charted on the horizontal and vertical axes, and the distance from the diagonal line in the chart shows the size of the gap.</p>
-    <p>While in Chart View, you can also select <strong>Explore More Gaps Data</strong> to view a second chart. Here, the size of the gap is plotted on the vertical axis. The gap between groups on another measure (such as socioeconomic status) is shown on the horizontal axis.</p>
+    <p>While in Chart View, you can also select <strong>Show Gap vs. Other Metrics</strong> to view a second chart. Here, the size of the gap is plotted on the vertical axis. The gap between groups on another measure (such as socioeconomic status) is shown on the horizontal axis.</p>
   `,
   'HELP_HOW_Q10_A': `
     <p>Click on any location in the map or charts, and a <strong>Location Panel</strong> will appear containing data about that place. Scroll to the bottom of this panel and click <strong>Export a Report</strong>, then <strong>Download Report</strong>.</p>
