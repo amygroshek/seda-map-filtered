@@ -28,7 +28,8 @@ export default features;
 export const getFeatureProperty = (feature, propName) => {
   if (
     feature && 
-    feature.properties
+    feature.properties &&
+    feature.properties[propName] !== -999
   ) {
     return feature.properties[propName]
   }

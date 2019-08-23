@@ -31,7 +31,7 @@ const getFillStyle = (varName, region, colors) => {
   );
   return [ 
     "case",
-    [ '==', [ 'get', varName], 0], noDataFill,
+    [ '==', [ 'get', varName], -999], noDataFill,
     [ "has", varName ],
     [
       "interpolate", ["linear"],
