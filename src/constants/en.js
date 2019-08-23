@@ -557,12 +557,12 @@ const LANG = {
   'HELP_HOW_Q5_A':  `
     <p>You can navigate to your desired location (within any of the 50 U.S. states) via the navigation controls in the map. Or type a location name into the Search Bar in the upper right corner of the map and chart.</p>
     <p>Hovering (or on a touch device, tapping) on a location in the map or chart will show an overview of that location’s data. Clicking or tapping on the location will open a <strong>Location Panel</strong> that shows a full view of all available data, as well as options for viewing other selected locations. You can also export a <strong>PDF report</strong> from this panel.</p>
-    <p>Clicking or tapping on locations will also add them as tabs in the bottom of the screen. (You can add up to 5 locations.) Click or tap on any location’s tab to highlight it in the map or chart, and the Location Panel.</p>
+    <p>Clicking or tapping on locations will also add them as tabs in the bottom of the screen. (You can add up to 6 locations.) Click or tap on any location’s tab to highlight it in the map or chart, and the Location Panel.</p>
   `,
   'HELP_HOW_Q6_A':  `You can display a set of up to 6 location tabs at once. Each additional selection will remove a selection from the beginning of the set. `,
   'HELP_HOW_Q7_A':  `Clicking or tapping on any location will open a <strong>Location Panel</strong> that offers a full view of the available data.`,
   'HELP_HOW_Q8_A':  `
-    <p>In two ways. First, you can select up to 5 locations and view all their data together in the “Comparison” tab of the <strong>Location Panel</strong> (which opens when you click on a place in the map or on the chart).</p>
+    <p>In two ways. First, you can select up to 6 locations and view all their data together in the “Comparison” tab of the <strong>Location Panel</strong> (which opens when you click on a place in the map or on the chart).</p>
     <p>Below your selected locations in the Comparison tab, you can choose <strong>Show Similar Places</strong> to display additional locations that are similar to the most recently-selected place.</p>
   `,
   'HELP_HOW_Q9_A':  `
