@@ -580,7 +580,7 @@ const LANG = {
     To learn more about the concepts presented here and how to use this Explorer tool, please see our <a href="/help-faq/" target="_blank">FAQ</a>. To learn more about educational opportunity in America, please see our <a href="/discoveries/" target="_blank">Discoveries</a> articles, which explore and visualize different facets of educational opportunity. You can also see a list of <a href="/news/" target="_blank">news</a> articles about this data, view our <a href="/research/" target="_blank">research papers</a>, and learn about our <a href="/methods/" target="_blank">methods</a> for compiling and validating the data.
   `,
   'HELP_HOW_Q12_A': `
-  Please see our <a href="/get-the-data/">Get the Data</a> page to gain access to the full dataset.
+  Please see our <a href="/get-the-data/" target="_blank">Get the Data</a> page to gain access to the full dataset.
   `,
 
   'EMBED_MAP_TITLE': '$[concept] in U.S. $[region]',
