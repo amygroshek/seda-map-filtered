@@ -97,7 +97,6 @@ const SedaFooter = ({
   onLinkShare,
   onEmbed
 }) => {
-  console.log(onLinkShare)
   const shareUrl = window.location.href;
 
   const handleClick = (id, item) => {

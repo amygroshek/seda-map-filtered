@@ -53,13 +53,18 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.map__zoom > div:first-child {
+  margin-bottom: 8px;
 }
 
 @media(min-width: 1023px) {
   .map__zoom {
     left: 24px;
     right: auto;
-    height: 120px;
+    height: 100px;
   }
 }
 
