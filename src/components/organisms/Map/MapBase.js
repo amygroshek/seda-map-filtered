@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, GeolocateControl } from 'react-map-gl';
 import PropTypes from 'prop-types';
 import usePrevious from '../../../hooks/usePrevious';
 
@@ -50,6 +50,7 @@ const MapBase = ({
   onViewportChange,
   onHover,
   onClick,
+  onLoad,
   ...rest
 }) => {
 
@@ -95,9 +96,18 @@ const MapBase = ({
     [ layers ]
   );
 
+  // handler for map load
+  const handleLoad = (e) => {
+    setLoaded(true)
+    typeof onLoad === 'function' && onLoad(e)
+  }
+
   // handler for viewport change
-  const handleViewportChange = (vp) => 
-    onViewportChange({ ...vp, ...getContainerSize(mapEl.current) })
+  const handleViewportChange = (vp) => {
+    if (!loaded) return;
+    if (vp.zoom && vp.zoom < 2) return;
+    return onViewportChange({ ...vp, ...getContainerSize(mapEl.current) })
+  }
 
   // handler for feature hover
   const handleHover = ({ features, point, srcEvent }) => {
@@ -117,7 +127,7 @@ const MapBase = ({
 
   // handler for resize event
   const handleResize = () => {
-    onViewportChange({...viewport, ...getContainerSize(mapEl.current)}, false);
+    onViewportChange({...getContainerSize(mapEl.current)}, false);
   }
 
   // resize map on window resize
@@ -155,17 +165,22 @@ const MapBase = ({
       <ReactMapGL
         ref={mapRef}
         mapStyle={mapStyle}
-        onLoad={() => setLoaded(true)}
+        dragRotate={false}
+        touchRotate={false}
+        dragPan={true}
+        touchZoom={true}
         interactiveLayerIds={interactiveLayerIds}
         onViewportChange={handleViewportChange}
         onHover={handleHover}
         onClick={handleClick}
+        onLoad={handleLoad}
         { ...viewport }
         { ...rest }
       >
         { children }
         <div className="map__zoom">
-          <NavigationControl onViewportChange={handleViewportChange} />
+          <NavigationControl showCompass={false} onViewportChange={handleViewportChange} />
+          <GeolocateControl positionOptions={{enableHighAccuracy: true}} />
         </div>
       </ReactMapGL>
     </div>
@@ -184,6 +199,7 @@ MapBase.propTypes = {
   onViewportChange: PropTypes.func,
   onHover: PropTypes.func,
   onClick: PropTypes.func,
+  onLoad: PropTypes.func,
 }
 
 export default MapBase;

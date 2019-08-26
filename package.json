@@ -40,7 +40,7 @@
     "react": "16.8.5",
     "react-dom": "16.8.5",
     "react-instantsearch-dom": "^5.4.0",
-    "react-map-gl": "^4.0.10",
+    "react-map-gl": "^4.1.13",
     "react-redux": "5.1.1",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1",
