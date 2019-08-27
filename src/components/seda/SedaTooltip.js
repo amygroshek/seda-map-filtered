@@ -21,6 +21,13 @@ const getDemographicLabel = (varName) => {
   return getLang('LABEL_' + dem)
 }
 
+const getContextLangKey = (isVersus, yVar) => {
+  const metric = getMetricIdFromVarName(yVar);
+  const demographic = getDemographicIdFromVarName(yVar);
+  return isVersus ? 'TOOLTIP_CONTEXT_' + metric :
+    'TOOLTIP_CONTEXT_' + demographic
+}
+
 const ConnectedTooltip = ({
   feature, 
   x,
@@ -55,6 +62,7 @@ const ConnectedTooltip = ({
       (desc + getDescriptionForVarName(varName, val) + ' ') :
       desc
   }, '')
+  const langContextKey = getContextLangKey(isVersus, yVar);
   return (
     <div className="tooltip__wrapper">
       { (featureId) &&
@@ -66,6 +74,9 @@ const ConnectedTooltip = ({
           above={above}
           left={left}
         >
+          <Typography variant="caption">
+            { getLang(langContextKey) }
+          </Typography>
           <LocationStatSummaryList 
             feature={feature} 
             varNames={statVars}
