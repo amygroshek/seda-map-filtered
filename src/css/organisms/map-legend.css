@@ -10,114 +10,139 @@
   transition: transform 0.2s ease-in-out;
 }
 
-.map-legend .legend-panel__content .scatterplot-preview {
-  pointer-events:none;
+.map-legend .legend-panel__title {
+  display: none;
 }
 
-.map-legend .legend-panel__title {
-  margin-bottom: 4px;
-  position:relative;
-  z-index:9;
+@media (min-width: 1023px) and (min-height: 700px) {
+  .map-legend .legend-panel__title {
+    display:block;
+    margin-bottom: 4px;
+    position:relative;
+    z-index:9;
+    background: var(--grey0);
+    padding: 8px 16px 6px;
+    border-bottom: var(--divider-border);
+    font-family: var(--heading-font);
+    font-size: var(--mini-font-size);
+    text-align: center;
+  }
+}
+
+
+.map-legend .legend-panel__description {
+  color: var(--text2);
+  display: block;
+  line-height: 16px;
+  padding: 0 16px 12px;
+  border-bottom: var(--divider-border);
+}
+
+.map-legend .legend-panel__description .button--link {
+  color: var(--link);
+  text-decoration: underline;
+  font-family: var(--body-font);
+  font-size: 12px;
+  display: inline;
+  vertical-align: top;
+  padding:0;
 }
 
 /** CONDENSED VIEW */
 
-  .map-legend .legend-panel__content > .legend-bar {
+  .map-legend .map-legend__legend-bar {
     background: none;
+    z-index: 8;
   }
 
   /** condense height, add some padding to accomodate help button */
-  .map-legend .legend-panel__content > .legend-bar {
-    height: 56px;
-    padding-top: 10px;
-    padding-bottom: 2px;
+  .map-legend .map-legend__legend-bar {
+    height: 62px;
+    position:relative;
+    padding: 16px 16px 4px;
+    
   }
 
   /** adjust padding when the legend is undocked */
   @media(min-width: 650px) {
-    .map-legend .legend-panel__content > .legend-bar {
+    .map-legend .map-legend__legend-bar {
       padding-top: 8px;
       padding-bottom: 4px;
+      
     }
   }
 
+  @media(min-width: 1023px) {
+    /** condense height */
+    .map-legend .map-legend__legend-bar {
+      height: 60px;
+    }
+  }
 
-  /** hide title */
-  .map-legend .legend-panel__content > .legend-bar .legend-bar__title {
+  /** hide legend bar title */
+  .map-legend .map-legend__legend-bar .legend-bar__title {
     display: none;
   }
 
-  .legend-panel__content > .legend-bar {
-    position:relative;
-    padding: 8px;
-  }
 
-  .legend-panel__content > .legend-bar:nth-child(1) {
-    z-index: 8;
-  }
-
-  .legend-panel__content > .legend-bar .legend-bar__title {
-    font-size: var(--mini-font-size);
-    font-weight: 900;
-    color: var(--text2);
-    height: 24px;
-    line-height: 16px;
-    background: var(--grey0);
-    padding: 4px 8px;
-    text-transform: capitalize;
-  }
-
-  .legend-panel__content > .legend-bar .legend-bar__title {
-    margin: -8px -8px 8px -8px;
-  }
-
-
-  .legend-panel__content > .legend-bar .legend-bar__values {
-    order:3;
-    margin: 4px 0 0 0;
-  }
-
-  .legend-panel__content > .legend-bar .legend-bar__labels {
+  .map-legend__legend-bar .legend-bar__values {
     order:1;
     margin: 0 0 4px 0;
+    font-family: var(--alt-font);
+    font-weight: normal;
+    text-transform: uppercase;
+    position: relative;
   }
-  
-  /** Desktop View */
 
-    /** show title */
-    @media(min-width: 1023px) {
-      .map-legend .legend-panel__content > .legend-bar .legend-bar__title {
-        display: block;
-      }
-      /** condense height */
-      .map-legend .legend-panel__content > .legend-bar.legend-bar--title {
-        height: 80px;
-      }
-    }
+  .map-legend__legend-bar .legend-bar__values .legend-bar__value--zero {
+    top: 32px;
+    transform: translateX(-50%);
+  }
+
+  .map-legend__legend-bar .legend-bar__labels {
+    order:1;
+    margin: 0 0 4px 0;
+    display: none;
+  }
+
+  .map-legend__legend-bar .legend-bar__arrow {
+    display:block;
+  }
+
 
 /** PREVIEW CHART VIEW */
 
-.legend-panel .legend-panel__content {
-  width: 320px;
+@media(min-width: 1023px) {
+  .legend-panel .legend-panel__content {
+    width: 336px;
+  }
 }
 
-/** 
-Add some padding to the bottom of the panel
-when it is just the preview chart
-*/
-.legend-panel--chart:not(.legend-panel--versus) .legend-panel__content {
-  padding-bottom: 1px;
+/** No scatterplot preview when there is no vertical space */
+@media(max-height: 620px) {
+  .scatterplot-preview, 
+  .legend-panel .legend-panel__content .legend-actions {
+    display: none;
+  }
 }
 
 .scatterplot-preview {
+  pointer-events:none;
+  margin-top: 8px;
+  margin-bottom: 4px;
   position: relative;
   top: 0px;
   right: 0px;
   left:38px;
   right: 32px;
-  width: 280px;
-  height: 272px;
-  margin-bottom: 3px;
+  width: 288px;
+  height: 200px;
+}
+
+@media(min-height: 700px) {
+  .scatterplot-preview {
+    height: 240px;
+  }
 }
 
 .scatterplot-preview > .echarts-for-react {
@@ -138,7 +163,7 @@ when it is just the preview chart
 
   .scatterplot-preview .location-markers {
     position: absolute;
-    top: 8px; bottom: 8px; right: 8px; left: 8px;
+    top: 8px; bottom: 40px; right: 8px; left: 8px;
   }
 
   .scatterplot-preview .location-markers .marker__root {
@@ -160,14 +185,14 @@ when it is just the preview chart
 
   /** Axis Name */
   .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__title {
-    top: 24px;
+    top:28px;
     left:0;
     right:0;
     text-align:center;
   }
 
   /** Hide gradient */
-  .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__gradient {
+  .scatterplot-preview .legend-bar .legend-bar__gradient {
     position:static;
     height: 0px;
   }
@@ -186,7 +211,7 @@ when it is just the preview chart
   /** Axis container */
   .legend-panel--chart .legend-bar.legend-bar--vertical {
     position:absolute;
-    left:-40px;
+    left:0px;
     top:8px;
     bottom:40px;
     right:auto;
@@ -197,28 +222,29 @@ when it is just the preview chart
     top:0; bottom:0;
     height:16px;
     margin:auto;
-    margin-left: 16px;
+    margin-left: -20px;
     text-align: center;
     transform: translateX(-50%) rotate(-90deg); 
   }
 
   /** Labels Wrapper */
   .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__labels {
-    position: absolute;
-    transform: rotate(-90deg);
-    height: 24px;
-    display: flex;
-    width: 220px;
-    transform-origin: top left;
-    top: auto;
-    bottom: -24px;
-    left: 32px;
+    display: none;
   }
 
-  /** Color Gradent */
-  .scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__gradient {
-    box-shadow: 0 0 0 2px #fff, 0px 0 4px rgba(0,0,0,0.2);
-    left: -6px;
+  /** Axis Values */
+  .scatterplot-preview .legend-bar--vertical .legend-bar__value {
+    position: absolute;
+    right:2px;
+  }
+  .scatterplot-preview .legend-bar--vertical .legend-bar__value.legend-bar__value--low {
+    bottom:-4px;
+  }
+  .scatterplot-preview .legend-bar--vertical .legend-bar__value.legend-bar__value--high {
+    top:-4px;
+  }
+  .scatterplot-preview .legend-bar--vertical .legend-bar__value.legend-bar__value--zero {
+    display: none;
   }
 
   /** No color gradient for versus charts */
@@ -233,19 +259,53 @@ when it is just the preview chart
     left:40px;
   }
 
-/** Hide axis values for preview chart */
-.scatterplot-preview .legend-bar.legend-bar--vertical .legend-bar__values,
-.scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__values {
-  display:none;
-}
+  /** Hide axis values for preview chart */
+  .scatterplot-preview .legend-bar.legend-bar--x-preview .legend-bar__values {
+    display:none;
+  }
 
+  /** Hover overlay */
+    .map-legend__preview {
+      position: relative;
+      overflow: hidden;
+    }
 
+    .map-legend__preview .map-legend__chart-callout {
+      position: absolute;
+      top:0;left:0;right:0;bottom:0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 25%, rgba(255,255,255,0.9) 66.66%);
+      overflow:hidden;
+      padding-top: 50%;
+      transition: transform 0.4s ease-in-out;
+      transform: translateY(100%);
+    }
+
+    .map-legend__chart-callout p {
+      margin-bottom: 8px;
+      font-size: var(--mini-font-size);
+    }
+
+    .map-legend__preview:hover .map-legend__chart-callout {
+      transform: translateY(0%);
+    }
+
+/** Legend Actions */
 .map-legend .legend-actions {
   display: flex;
   justify-content: stretch;
   width: 100%;
   background: #fff;
-  border-bottom: var(--divider-border);
+  border-top: var(--divider-border);
+  margin-top: 8px;
+}
+.map-legend .legend-panel--no-chart .legend-actions {
+  margin-top: -1px;
 }
 
 .map-legend .legend-panel--chart .legend-actions {
@@ -253,6 +313,6 @@ when it is just the preview chart
   justify-content: space-between;
 }
 
-.map-legend .legend-panel:not(.legend-panel--chart) .legend-actions > button {
+.map-legend .legend-panel .legend-actions > button {
   flex:1;
 }

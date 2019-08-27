@@ -405,6 +405,14 @@ const LANG = {
   'LEGEND_SHORT_LOW_FRL': '◀ high poverty',
   'LEGEND_SHORT_HIGH_FRL': 'low poverty ▶',
 
+  // Text descriptions
+  'LEGEND_DESC_AVG': 'Colors show how $[demographic] students score, in grade levels, relative to the national average.',
+  'LEGEND_DESC_GRD': 'Colors show how much $[demographic] students learn each year relative to the national average.',
+  'LEGEND_DESC_COH': 'Colors show how many grade levels $[demographic] students\' test scores changed per year from 2009 - 2016.',
+  'LEGEND_DESC_AVG_GAP': 'Colors show how many grade levels difference between $[gap] students.',
+  'LEGEND_DESC_GRD_GAP': 'Colors show difference between how much $[gap] students learn each year.',
+  'LEGEND_DESC_COH_GAP': 'Colors show difference between how much $[gap] students\' test scores changed each year.',
+
   // Average test score gaps
   'LEGEND_LOW_AVG_WB': ' ',
   'LEGEND_HIGH_AVG_WB': 'Larger gap (white students score higher) ▶',
@@ -448,6 +456,31 @@ const LANG = {
   'LEGEND_HIGH_SEG_WH': 'Larger school poverty gap, favoring white families ▶',
   'LEGEND_LOW_SEG': ' ',
   'LEGEND_HIGH_SEG': 'Larger school poverty gap, favoring non-poor families ▶',
+
+  // Map Legend
+  'LEGEND_MAP_AVG_LOW': '$[value] grade levels',
+  'LEGEND_MAP_AVG_MID': 'national average',
+  'LEGEND_MAP_AVG_HIGH': '+$[value] grade levels',
+  'LEGEND_MAP_AVG_GAP_LOW': '$[value] grade levels',
+  'LEGEND_MAP_AVG_GAP_MID': 'no gap',
+  'LEGEND_MAP_AVG_GAP_HIGH': '+$[value] grade levels',
+
+  'LEGEND_MAP_GRD_LOW': 'learns $[value] less',
+  'LEGEND_MAP_GRD_MID': 'national average',
+  'LEGEND_MAP_GRD_HIGH': 'learns $[value] more',
+  'LEGEND_MAP_GRD_GAP_LOW': '$[value] grade levels',
+  'LEGEND_MAP_GRD_GAP_MID': 'no gap',
+  'LEGEND_MAP_GRD_GAP_HIGH': '+$[value] grade levels',
+
+  'LEGEND_MAP_COH_LOW': '$[value] grade levels',
+  'LEGEND_MAP_COH_MID': 'national average',
+  'LEGEND_MAP_COH_HIGH': '+$[value] grade levels',
+  'LEGEND_MAP_COH_GAP_LOW': '$[value] grade levels',
+  'LEGEND_MAP_COH_GAP_MID': 'no gap',
+  'LEGEND_MAP_COH_GAP_HIGH': '+$[value] grade levels',
+
+  'LEGEND_CHART_INTERACTIVE': 'Go to the expanded chart to explore interactively',
+  'LEGEND_CHART_BUTTON': 'Show Interactive Chart',
 
   'HELP_PANEL_TITLE': 'Help',
   'HELP_PANEL_HOW_TAB': 'How to explore',

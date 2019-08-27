@@ -84,6 +84,8 @@
 
 }
 
+
+.legend-bar__midpoint,
 .legend-bar__marker {
   top:0;
   left:0;
@@ -98,11 +100,27 @@
   transform: translateX(50%);
 }
 
+.legend-bar__midpoint,
 .legend-bar__marker--show { 
   opacity:1;
 }
 
+.legend-bar__arrow {
+  display: none;
+  position: absolute;
+  height:0px;
+  width: 0px;
+  margin-left: -6px;
+  border: 6px solid transparent;
+  border-bottom-color: #5d5d5d;
+}
 
+.legend-bar--vertical .legend-bar__arrow {
+  margin-left:0;
+  border-bottom-color: transparent;
+  border-left-color: #5d5d5d;
+  margin-top: -6px;
+}
 
 .legend-bar__tick {
   position: absolute;

@@ -152,6 +152,14 @@ const LegendBar = ({
             {formatter ? formatter(value) : value}
           </span>
         </div>
+        <div 
+          className={classNames('legend-bar__midpoint')}
+          style={{
+            transform: getTransform(midPosition, vertical)
+          }}
+        >
+          <span className='legend-bar__arrow'></span>
+        </div>
       </div>
 
 
