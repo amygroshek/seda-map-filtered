@@ -29,10 +29,11 @@
   /** Small: Legend in top right */
   @media(min-width: 650px) {
     .section--explorer .map-legend {
-      right: auto;
-      top: 16px;
-      left: 16px;
-      width: 300px;
+      left: auto;
+      top:auto;
+      bottom: 24px;
+      right: 16px;
+      width: 320px;
     }
   }
 
@@ -42,7 +43,7 @@
       position: absolute;
       bottom: 24px;
       left: auto;
-      right: 24px;
+      right: 16px;
       top:auto;
       width: auto;
     }

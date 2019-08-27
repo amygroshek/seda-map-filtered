@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { getScatterplotVars, getMapVars, isVersusFromVarNames } from '../../../modules/config';
+import { getScatterplotVars, getMapVars, isVersusFromVarNames, isGapDemographic } from '../../../modules/config';
 import SedaScatterplotPreview from '../../seda/SedaScatterplotPreview';
 import SedaLocationMarkers from '../../seda/SedaLocationMarkers';
-import { Button } from '@material-ui/core';
+import { Button, Typography, ButtonBase } from '@material-ui/core';
 import ScatterplotAxis from '../Scatterplot/ScatterplotAxis';
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles';
+import { getLang } from '../../../modules/lang';
 
 const LegendPanel = ({
   title,
@@ -16,7 +17,6 @@ const LegendPanel = ({
   className,
   ...rest
 }) => {
-
   return (
     <div className={classNames("legend-panel", className)} {...rest}>
       { title &&
@@ -64,6 +64,12 @@ const MapLegend = ({
   const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
   // force condensed for split view and small viewports
   variant = (view === 'split' || !isAboveMedium) ? 'condensed' : variant;
+  const legendDescKey = 'LEGEND_DESC_' + metric +
+    (isGapDemographic(demographic) ? '_GAP' : '')
+  const legendMapKey = 'LEGEND_MAP_' + metric + 
+    (isGapDemographic(demographic) ? '_GAP_' : '_')
+  // const legendChartKey = 'LEGEND_CHART_' + metric +
+  //   (isGapDemographic(demographic) ? '_GAP' : '')
   return (
     <div className={classNames(
       "map-legend", 
@@ -71,55 +77,84 @@ const MapLegend = ({
       { "map-legend--split-view": view === 'split' }
     )}>
         <LegendPanel
+          title="Map Legend"
           expanded={true}
           className={classNames(
             { 
               "legend-panel--versus": isVersus,
-              "legend-panel--chart": variant === 'chart'
+              "legend-panel--chart": variant === 'chart',
+              "legend-panel--no-chart": variant !== 'chart'
             }
           )}
         >
+          <ScatterplotAxis
+            axis='x'
+            className="map-legend__legend-bar"
+            varName={mapVars.yVar}
+            hovered={hovered}
+            region={region}
+            valueLangPrefix={legendMapKey}
+          />
+          <Typography variant="caption" className="legend-panel__description">
+            {
+              getLang(
+                legendDescKey, {
+                  gap: getLang('LABEL_SHORT_' + demographic),
+                  demographic: demographic === 'all' ? ' ' : getLang('LABEL_' + demographic)
+                }
+              )
+            }
+            { ' ' }
+            <ButtonBase onClick={() => onHelpClick(helpOpen)} className="button--link">more info</ButtonBase>
+          </Typography>
+
+          { variant === 'chart' &&
+            <div className="map-legend__preview">
+              <SedaScatterplotPreview>
+                <SedaLocationMarkers {...{...vars}} />
+                <ScatterplotAxis
+                  axis='y'
+                  varName={vars.yVar}
+                  hovered={hovered}
+                  region={region}
+                  className='legend-bar--y-preview'
+                  labelPrefix='LEGEND_SHORT_'
+                />
+                <ScatterplotAxis
+                  axis='x'
+                  varName={vars.xVar}
+                  hovered={hovered}
+                  region={region}
+                  labelPrefix='LEGEND_SHORT_'
+                  className='legend-bar--x-preview'
+                />
+              </SedaScatterplotPreview>
+              <div className="map-legend__chart-callout">
+                {/* <Typography component="p">
+                  {
+                    getLang(
+                      legendChartKey, {
+                        gap: getLang('LABEL_SHORT_' + demographic),
+                        demographic: demographic === 'all' ? ' ' : getLang('LABEL_' + demographic)
+                      }
+                    )
+                  }
+                </Typography> */}
+                <Typography component="p">
+                  { getLang('LEGEND_CHART_INTERACTIVE') }
+                </Typography>
+                <Button variant="contained" color="primary" onClick={onFullClick}>
+                  { getLang('LEGEND_CHART_BUTTON') }
+                </Button>
+              </div>
+            </div>
+          }
           { view === 'map' && isAboveMedium &&
             <div className="legend-actions">
               <Button onClick={onToggleClick}>
                 { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }
               </Button>
-              {
-                variant === 'chart' &&
-                  <Button onClick={onFullClick}>
-                    Show Full Chart
-                  </Button>
-              }
             </div>
-          }
-          { variant === 'chart' &&
-            <SedaScatterplotPreview>
-              <SedaLocationMarkers {...{...vars}} />
-              <ScatterplotAxis
-                axis='y'
-                varName={vars.yVar}
-                hovered={hovered}
-                region={region}
-                className='legend-bar--y-preview'
-                labelPrefix='LEGEND_SHORT_'
-              />
-              <ScatterplotAxis
-                axis='x'
-                varName={vars.xVar}
-                hovered={hovered}
-                region={region}
-                labelPrefix='LEGEND_SHORT_'
-                className='legend-bar--x-preview'
-              />
-            </SedaScatterplotPreview>
-          }
-          { (variant === 'condensed' || isVersus) &&
-            <ScatterplotAxis
-              axis='x'
-              varName={mapVars.yVar}
-              hovered={hovered}
-              region={region}
-            />
           }
         </LegendPanel>
     </div>
