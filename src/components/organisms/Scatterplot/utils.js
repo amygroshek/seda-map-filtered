@@ -278,7 +278,7 @@ const createLabels = (
       const label = (isFirst || isLast || isMidpoint) ?
         getLang(labelKey, { 
           value: value[0] === '-' ? value.substring(1) : value  
-        }) : value;
+        }) : (value > midPoint ? '+' + value : value);
       return {
         value: axis === 'y' ? [0, pos] : [pos, 0],
         axis: axis,
@@ -347,9 +347,9 @@ const getOverlayForVarName = (varName, axis = 'y', region) => {
   const positions = getPositionArray(numLines, inc, midPoint, range);
   const langPrefix = isGap ? metricId + '_gap' : metricId;
   const formatter = getFormatterForVarName(varName);
-  const labels = axis === 'y' ?
-    createLabels(positions, langPrefix, axis, formatter) :
-    createLabels([ getMidpointForVarName(varName) ], langPrefix, axis, formatter)
+  const labels = ['avg', 'grd', 'coh'].indexOf(metricId) > -1 ?
+    createLabels(positions, langPrefix, axis, formatter, midPoint) :
+    createLabels([ getMidpointForVarName(varName) ], langPrefix, axis, formatter, midPoint)
   const lines = createLines(positions, axis, midPoint)
   return getOverlay(labels, lines);
 }
@@ -534,6 +534,7 @@ const getMapXAxis = ({ metric, demographic, region }) => {
     max,
     inverse: (region === 'schools'),
     axisLabel: {
+      show: ['avg', 'grd', 'coh'].indexOf(metric.id) === -1,
       inside: false,
       formatter: (value) => {
         // percent for schools
@@ -542,9 +543,10 @@ const getMapXAxis = ({ metric, demographic, region }) => {
         }
         // percent diff for learning rates
         if (metric.id === 'grd') {
-          return formatPercentDiff(value, 1)
+          return (value > 1 ? '+' : '') +
+            formatPercentDiff(value, 1)
         }
-        return value
+        return value > 0 ? ('+' + value) : value
       }
     },
     axisLine: { show: false },
