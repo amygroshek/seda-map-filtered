@@ -1,7 +1,7 @@
 
 .callout,
 .MuiButtonBase-root.callout {
-  --padding: 16px;
+  --padding: 12px;
   --background: var(--darken1);
   --color: var(--text);
   --icon-color: var(--text2);
@@ -12,7 +12,6 @@
   justify-content: stretch;
   font-size: var(--font-size);
   padding: var(--padding);
-  background: var(--highlight-background);
   color: var(--color);
   margin: 8px 0;
   text-align: left;
@@ -37,7 +36,7 @@
 }
 
 .callout.callout--small {
-  --padding: 12px;
+  --padding: 8px;
   --font-size: var(--small-font-size);
   --icon-size: 20px;
 

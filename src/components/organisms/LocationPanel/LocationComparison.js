@@ -118,7 +118,6 @@ const LocationComparison = ({
       expanded={expanded}
       heading={ getLang('LOCATION_COMPARE_FEATURES_TITLE', {region: getSingularRegion(region)}) }
       onChange={onChange}
-      className="panel-section"
     >
       {
         others.length < 2 && 
