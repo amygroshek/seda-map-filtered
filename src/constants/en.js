@@ -221,9 +221,9 @@ const LANG = {
   'SUMMARY_COHSES_NONE': ' ',
 
   // Location Panel Summaries (Schools)
-  'SUMMARY_SCHOOL_AVG_LOW': 'The community surrounding $[name] provides children with <strong>lower than average</strong> educational opportunites.',
-  'SUMMARY_SCHOOL_AVG_MID': 'The community surrounding $[name] provides children with <strong>roughly average</strong> educational opportunites.',
-  'SUMMARY_SCHOOL_AVG_HIGH': 'The community surrounding $[name] provides children with <strong>higher than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_LOW': 'The children attending $[name] have <strong>lower than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_MID': 'The children attending $[name] have <strong>roughly average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_HIGH': 'The children attending $[name] have <strong>higher than average</strong> educational opportunites.',
   
   'SUMMARY_AVGFRL_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_AVGFRL_MID': 'Average scores are equal to $[region] with similar % free or reduced-price lunch program.',
@@ -239,9 +239,9 @@ const LANG = {
   'SUMMARY_GRDFRL_HIGH': 'Learning rates are $[value] higher than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_GRDFRL_NONE': ' ',
 
-  'SUMMARY_SCHOOL_COH_LOW': 'Educational opportunities in the community surrounding $[name] have declined in the years 2009-2016.',
-  'SUMMARY_SCHOOL_COH_MID': 'Educational opportunities in the community surrounding $[name] have been roughly stable in the years 2009-2016',
-  'SUMMARY_SCHOOL_COH_HIGH': 'Educational opportunities in the community surrounding $[name] have improved in the years 2009-2016.',
+  'SUMMARY_SCHOOL_COH_LOW': 'Educational opportunities for the children attending $[name] declined in the years 2009-2016.',
+  'SUMMARY_SCHOOL_COH_MID': 'Educational opportunities for the children attending $[name] were roughly stable in the years 2009-2016',
+  'SUMMARY_SCHOOL_COH_HIGH': 'Educational opportunities for the children attending $[name] improved in the years 2009-2016.',
 
   'SUMMARY_COHFRL_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_COHFRL_MID': 'Trends in test scores are similar to $[region] with similar % free or reduced-price lunch program.',
