@@ -169,7 +169,7 @@ const LANG = {
   'LABEL_HIGHLIGHTED_STATE': 'Highlighted State',
 
   // Tooltips
-  'TOOLTIP_SUMMARY': 'click on a location for more data.',
+  'TOOLTIP_SUMMARY': 'Click on a location for more data.',
   'TOOLTIP_TYPE_MAP': 'an area on the map',
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
   'TOOLTIP_CONTEXT_ALL': 'Average for all students:',
