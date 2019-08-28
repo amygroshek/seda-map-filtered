@@ -326,10 +326,16 @@ export const getScatterplotVars = (region, metric, demographic) => {
  * **********************
  */
 
+/** Checks if the varName has an inverted color scale */
+export const isColorInvertedForVarName = (varName) => {
+  return varName.indexOf('frl') > -1 ||
+          isGapVarName(varName);
+}
+
 export const getColorForVarNameValue = (value, varName, region, type = 'map') => {
   if (!value) { return NO_DATA_COLOR; }
   const percent  = getValuePositionForVarName(value, varName, region, type)
-  return varName.indexOf('frl') > -1 ? 
+  return isColorInvertedForVarName(varName) ? 
     getChoroplethColorAtValue(1-percent) :
     getChoroplethColorAtValue(percent)
 }
