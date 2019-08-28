@@ -285,13 +285,6 @@ const LANG = {
   'LOCATION_HIDE_GRD': 'hide details on learning rates',
   'LOCATION_HIDE_COH': 'hide details on test score trends',
 
-  // Explainers
-  'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
-  'EXPLAINER_GRD': 'Shows how much students learn on average while they are in school',
-  'EXPLAINER_COH': 'Indicates the extent to which a community is getting better at providing educational opportunities over time',
-  'EXPLAINER_SES': '',
-  'EXPLAINER_SEG': '',
-
   // Description of metric value for location
   'VALUE_AVG_HIGH': '$[students] score <strong>$[value] grade levels above</strong> U.S. average.',
   'VALUE_AVG_MID': '$[students] test scores are at the national average.',
@@ -322,19 +315,6 @@ const LANG = {
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
 
-  // Section Titles
-  'TITLE_SES_AVG': 'Socioeconomic Status and Educational Opportunity',
-  'TITLE_SES_GRD': 'Socioeconomic Status and School Performance',
-  'TITLE_SES_COH': 'Socioeconomic Status and Changes in Opportunity',
-  'TITLE_OPP_AVG': 'Differences in Opportunity',
-  'TITLE_OPP_GRD': 'Differences in School Performance',
-  'TITLE_OPP_COH': 'Differences in Changes of Opportunity',
-  'TITLE_ACH_AVG': 'Gaps in Achievement',
-  'TITLE_ACH_GRD': 'Gaps in Learning Rates',
-  'TITLE_ACH_COH': 'Gaps in Opportunity Changes',
-
-  // Section Descriptions
-
   // Scatterplot Titles
   'SP_TITLE_AVG_SES': 'Educational Opportunity vs. Socioeconomic Status',
   'SP_TITLE_AVG_FRL': 'Educational Opportunity vs. % Free or Reduced Lunch Program ',
@@ -358,7 +338,6 @@ const LANG = {
   // Axis Names
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
   'AXIS_NAME_SES': '',
-
 
   // Axis Labels
   'AXIS_AVG_MID': 'national\naverage',
@@ -538,12 +517,6 @@ const LANG = {
   'HELP_PANEL_HOW_TAB': 'How to explore',
   'HELP_PANEL_WHAT_TAB': 'What am I seeing',
 
-  // What am I seeing conditionals
-  'HP_*_*_*_*_*': 'You are viewing a $[view] showing the relationship between $[metric] and $[secondary] for $[demographic] students in U.S. $[region].',
-  'HP_*_*_AVG_*_*': 'Community Educational Opportunity is reflected in average test scores. These scores are influenced by children\'s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. They encompass the total set of educational opportunities available in a community.',
-  'HP_*_*_GRD_*_*': 'Schools’ contributions to educational opportunity are reflected in the growth of children’s test scores while they are in school. The growth of test scores indicates how much students learn while in school. Because average test scores are influenced by many out-of-school opportunities, they reflect more than what children learn while they are in school. So growth of test scores is a better measure of school quality.',
-  'HP_*_*_COH_*_*': 'The change in test scores indicates whether educational opportunities are rising or falling in a community. For example, rates of change tell us whether this year’s third graders are doing better than last year’s third graders. They reflect both changes in school quality and changes in other family and community features that provide opportunities for children.',
-
   // What am I seeing labels
   'HP_MAP': 'map',
   'HP_CHART': 'chart',
@@ -572,7 +545,6 @@ const LANG = {
   'HELP_LEGEND_VAL_COH_LOW': '$[students] average test scores declining $[value] grade levels per year',
   'HELP_LEGEND_VAL_COH_MID': 'national average',
   'HELP_LEGEND_VAL_COH_HIGH': '$[students] average test scores improving $[value] grade levels per year',
-
 
   'HELP_MAP': 'What does the map show?',
   'HELP_CHART': 'What does the chart show?',

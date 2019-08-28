@@ -505,9 +505,21 @@ export const getPredictedValue = (value, metric, region) => {
     b[3]*Math.pow(value,3);
 }
 
+const getMidLowHigh = (value, midRange = [ -0.25, 0.25 ]) => {
+  return value < midRange[0] ? 'LOW' :
+    (value > midRange[1] ? 'HIGH' : 'MID')
+}
+
 export const valueToLowMidHigh = (metricId, value) => {
   if (!value && value !== 0) { return 'NONE'; }
-  return metricId === 'grd' ?
-    (value > 1 ? 'HIGH' : (value < 1 ? 'LOW' : 'MID')) :
-    (value > 0 ? 'HIGH' : (value < 0 ? 'LOW' : 'MID')) 
+  switch(metricId) {
+    case 'avg':
+      return getMidLowHigh(value, [ -0.25, 0.25 ])
+    case 'grd':
+      return getMidLowHigh(value, [ 0.965, 1.035])
+    case 'coh':
+      return getMidLowHigh(value, [ -0.025, 0.025])
+    default:
+      return getMidLowHigh(value, [ 0, 0 ])
+  }
 }

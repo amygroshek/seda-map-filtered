@@ -115,7 +115,6 @@ export const METRICS = [
   {
     id: 'avg',
     label: LANG['LABEL_AVG'],
-    description: LANG['EXPLAINER_AVG'],
     range: {
       'map_*_gap': [ -6, 6 ],
       'map_counties': [ -3, 3 ],
@@ -138,7 +137,6 @@ export const METRICS = [
   {
     id: 'grd',
     label: LANG['LABEL_GRD'],
-    description: LANG['EXPLAINER_GRD'],
     range: {
       'map_*_gap': [ -0.4, 0.4 ],
       'map_*_*': [ 0.5, 1.5 ],
@@ -154,7 +152,6 @@ export const METRICS = [
   {
     id: 'coh',
     label: LANG['LABEL_COH'],
-    description: LANG['EXPLAINER_COH'],
     range: {
       'map_*_*': [ -0.333, 0.3333 ],
       '*_*_gap': [-0.25, 0.25],
@@ -167,7 +164,6 @@ export const METRICS = [
   {
     id: 'ses',
     label: LANG['LABEL_SES_NO_REGION'],
-    description: LANG['EXPLAINER_SES'],
     map: false,
     scatterplot: true,
     range: {
@@ -187,7 +183,6 @@ export const METRICS = [
   {
     id: 'seg',
     label: LANG['LABEL_SEG'],
-    description: LANG['EXPLAINER_SEG'],
     range: {
       '*': [ -0.25, 0.75 ],
     },
@@ -197,7 +192,6 @@ export const METRICS = [
   {
     id: 'frl',
     label: LANG['LABEL_FRL'],
-    description: LANG['EXPLAINER_FRL'],
     range: {
       '*': [ 0, 1 ],
     },
