@@ -352,7 +352,7 @@ const LANG = {
   'SP_SUBTITLE': '$[place] $[region], $[demographic], grades 3 - 8 from 2009 - 2016, sized by number of students',
 
   'OP_TITLE_AVG': 'Achievement Differences Between $[dem1] and $[dem2]',
-  'OP_TITLE_GRD': 'Growth Differences Between $[dem1] and $[dem2]',Cou
+  'OP_TITLE_GRD': 'Growth Differences Between $[dem1] and $[dem2]',
   'OP_TITLE_COH': 'Change in Achievement Differences Between $[dem1] and $[dem2]',
 
   // Axis Names
