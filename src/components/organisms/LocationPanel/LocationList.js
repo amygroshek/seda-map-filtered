@@ -84,7 +84,7 @@ const LocationList = ({
     <div className={classNames('location-list', className)}>
       {
         others.map((f,i) => {
-          return (
+          return f && f.properties ? (
             f.properties.id !== feature.properties.id &&
               <LocationComparisonItem
                 key={'l'+i}
@@ -97,7 +97,7 @@ const LocationList = ({
                 metrics={metrics}
                 onSelectFeature={onSelectFeature}
               />
-          )
+          ) : null
         })
       }
     </div>

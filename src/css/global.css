@@ -29,6 +29,10 @@ hr {
   border-top: var(--divider-border);
 }
 
+.error {
+  color: #c00;
+}
+
 /** COMPONENTS */
 
 /** Map Component */
