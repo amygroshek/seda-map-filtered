@@ -48,28 +48,14 @@ const LocationMetric = ({
           </Typography>
           <LocationStatList
             feature={feature}
-            varNames={['np', 'p'].map(d => d+'_'+metric)}
-            range={range}
-            formatter={formatter}
-            varNameToLabel={statToLabel}
-          />
-          <PanelButton langKey='BUTTON_GAP_PN' onClick={() => onGapClick('pn', metric)} />
-          <LocationStatList
-            feature={feature}
-            varNames={['w', 'b', 'h', 'a'].map(d => d+'_'+metric)}
+            varNames={['w', 'b', 'h', 'a', 'np', 'p', 'm', 'f'].map(d => d+'_'+metric)}
             range={range}
             formatter={formatter}
             varNameToLabel={statToLabel}
           />
           <PanelButton langKey='BUTTON_GAP_WB' onClick={() => onGapClick('wb', metric)} />
           <PanelButton langKey='BUTTON_GAP_WH' onClick={() => onGapClick('wh', metric)} />
-          <LocationStatList
-            feature={feature}
-            varNames={['m', 'f'].map(d => d+'_'+metric)}
-            range={range}
-            formatter={formatter}
-            varNameToLabel={statToLabel}
-          />
+          <PanelButton langKey='BUTTON_GAP_PN' onClick={() => onGapClick('pn', metric)} />
           <PanelButton langKey='BUTTON_GAP_MF' onClick={() => onGapClick('mf', metric)} />
         </>
       }

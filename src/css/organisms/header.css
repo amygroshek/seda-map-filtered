@@ -241,10 +241,10 @@
 }
 
 .header .button--help {
-  transform: translateX(0) rotate(0deg);
+  transform: translateX(0);
   transition: transform 0.5s ease-in-out 0.1s;
 }
 
 .header .button--help-on {
-  transform: translateX(-56px) rotate(-180deg);
+  transform: translateX(-56px);
 }

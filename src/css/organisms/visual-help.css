@@ -61,10 +61,17 @@
   font-family: var(--body-bold);
 }
 
-.help-content__section-title {
-  padding: 16px 16px 0;
-  background: linear-gradient(to bottom, #fff, var(--alt-background));
+.help-content__section .help-content__section-title {
+  padding: 12px 16px 9px;
+  line-height:1;
+  background: var(--grey0);
+  border-top: var(--divider-border);
+  border-bottom: var(--divider-border);
   width: 100%;
   display: block;
   color: var(--text2);
+  letter-spacing: 0.02rem;
+  position: sticky;
+  top:0;
+  z-index:99;
 }

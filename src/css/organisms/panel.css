@@ -19,6 +19,18 @@
   margin-bottom: 0;
 }
 
+.panel .MuiButton-contained {
+  font-size: var(--small-font-size);
+}
+
+.location-item__content .button--link {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  max-width: 100%;
+}
+
 .panel .button--link.button--collapse .MuiSvgIcon-root {
   margin-left:-4px;
   margin-right: 8px;
@@ -101,14 +113,27 @@
 }
 
 .panel .MuiTypography-body1 {
-  font-size: var(--small-font-size);
+  font-size: var(--font-size);
+  line-height: 1.5;
 }
 
 
 
 /** Panel Section */
 
-
+.panel .panel-section__heading {
+  background: var(--grey0);
+  font-family: var(--alt-font);
+  text-transform: uppercase;
+  margin: -9px -16px 0;
+  padding: 8px 16px 6px;
+  border-top: var(--divider-border);
+  border-bottom: var(--divider-border);
+  position: sticky;
+  top:0;
+  letter-spacing: 0.02rem;
+  z-index: 99;
+}
 
 .panel .panel-section__content {
   padding: 0 16px 24px 16px;
@@ -163,7 +188,7 @@
 }
 
 .panel-section--summary .stat.stat--diverging .stat__description {
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .panel-section--summary .stat-list + .button--panel {

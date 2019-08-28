@@ -98,6 +98,7 @@ const LANG = {
   'LABEL_SES_NP': '$[region] socioeconomic status',
   'LABEL_FRL': 'free or reduced-price lunch program',
 
+  // Short Metric Labels
   'LABEL_SHORT_AVG': 'scores',
   'LABEL_SHORT_GRD': 'rate',
   'LABEL_SHORT_COH': 'trend',
@@ -105,6 +106,7 @@ const LANG = {
   'LABEL_SHORT_FRL': 'Free Lunch',
   'LABEL_SHORT_SEG': 'Poverty',
 
+  // Concepts that correspond to metric
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
   'LABEL_CONCEPT_COH': 'change in educational opportunity',
@@ -128,6 +130,7 @@ const LANG = {
   'LABEL_MF': 'male / female gap',
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
 
+  // Abbreviated Gap Labels
   'LABEL_SHORT_BW': 'white / Black',
   'LABEL_SHORT_HW': 'white / Hispanic',
   'LABEL_SHORT_PN': 'poor / non-poor',
@@ -136,6 +139,7 @@ const LANG = {
   'LABEL_SHORT_WH': 'white / Hispanic',
   'LABEL_SHORT_MF': 'male / female',
 
+  // Demographic label for students
   'LABEL_STUDENTS_ALL': 'Students',
   'LABEL_STUDENTS_B': 'Black students',
   'LABEL_STUDENTS_W': 'White students',
@@ -160,7 +164,6 @@ const LANG = {
   'LABEL_SCHOOLS_SINGULAR': 'school',
 
   'LABEL_BY_SUBGROUP': '$[metric] by subgroup',
-
   'LABEL_DEMOGRAPHIC': 'Demographic or gap',
   'LABEL_REGION': 'Region',
   'LABEL_HIGHLIGHTED_STATE': 'Highlighted State',
@@ -186,7 +189,10 @@ const LANG = {
   'TOOLTIP_CONTEXT_GRD': 'Learning rates for:',
   'TOOLTIP_CONTEXT_COH': 'Trend in test scores for:',
 
-  // Location Panel
+  // Location Panel Headings
+  'PANEL_HEADING': '$[metric] for $[region]',
+
+  // Location Panel Summaries
   'SUMMARY_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
   'SUMMARY_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
   'SUMMARY_AVG_HIGH': '$[name] provides <strong>higher than average</strong> educational opportunites.',

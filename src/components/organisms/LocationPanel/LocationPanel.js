@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import Panel from '../../molecules/Panel';
-import { getRegionFromFeatureId, getSelectedColors } from '../../../modules/config';
+import { getRegionFromFeatureId, getSelectedColors, getSingularRegion, getRegionFromFeature } from '../../../modules/config';
 import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationComparison from './LocationComparison';
@@ -23,9 +23,18 @@ const LocationMetric = ({
   expanded
 }) => {
   const val = getFeatureProperty(feature, 'all_'+metric);
+  const region = getRegionFromFeature(feature);
   const hasVal = Boolean(val) || val === 0;
   return (
-    <div>
+    <div className="metric-summary">
+      <Typography className="panel-section__heading">
+        { 
+          getLang('PANEL_HEADING', { 
+            region: getSingularRegion(region),
+            metric: getLang('LABEL_' + metric)
+          }) 
+        }
+      </Typography>
       <LocationStatDiverging
         feature={feature}
         varName={'all_'+metric}
@@ -140,6 +149,14 @@ const LocationPanel = ({
             toggleExpanded={toggleExpanded}
           />
           <hr />
+          <Typography className="panel-section__heading">
+            { 
+              getLang('PANEL_HEADING', { 
+                region: getSingularRegion(region),
+                metric: getLang((region === 'schools' ? 'LABEL_FRL' : 'LABEL_SES_NO_REGION'))
+              }) 
+            }
+          </Typography>
           <LocationStatDiverging
             feature={feature}
             varName={region === 'schools' ? 'all_frl' : 'all_ses'}
