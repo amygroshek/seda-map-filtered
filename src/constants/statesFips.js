@@ -13,7 +13,7 @@ const statesFips = {
     "full": "Alaska",
     "abbr": "AK",
     "xmin": -179.148909,
-    "xmax": 179.77847,
+    "xmax": -119.9795,
     "ymin": 51.214183,
     "ymax": 71.365162
   },
