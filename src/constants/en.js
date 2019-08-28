@@ -192,7 +192,7 @@ const LANG = {
   // Location Panel Headings
   'PANEL_HEADING': '$[metric] for $[region]',
 
-  // Location Panel Summaries
+  // Location Panel Summaries (Counties / Districts)
   'SUMMARY_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
   'SUMMARY_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
   'SUMMARY_AVG_HIGH': '$[name] provides <strong>higher than average</strong> educational opportunites.',
@@ -201,29 +201,58 @@ const LANG = {
   'SUMMARY_AVGSES_MID': 'Average scores are equal to $[region] with similar socioeconomic status.',
   'SUMMARY_AVGSES_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar socioeconomic status.',
   'SUMMARY_AVGSES_NONE': ' ',
-
-  'SUMMARY_GRDSES_LOW': 'Learning rates are $[value] lower than $[region] with similar socioeconomic status.',
-  'SUMMARY_GRDSES_MID': 'Learning rates are equal to $[region] with similar socioeconomic status.',
-  'SUMMARY_GRDSES_HIGH': 'Learning rates are $[value] higher than $[region] with similar socioeconomic status.',
-  'SUMMARY_GRDSES_NONE': ' ',
-
-  'SUMMARY_COHSES_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar socioeconomic status.',
-  'SUMMARY_COHSES_MID': 'Trends in test scores are similar to $[region] with similar socioeconomic status.',
-  'SUMMARY_COHSES_HIGH': 'Average scores have improved by $[value] grade levels more than $[region] with similar socioeconomic status.',
-  'SUMMARY_COHSES_NONE': ' ',
   
   'SUMMARY_GRD_LOW': '$[name] provides lower than average educational opportunities while children are in school.',
   'SUMMARY_GRD_MID': '$[name] provides roughly average educational opportunities while children are in school.',
   'SUMMARY_GRD_HIGH': '$[name] provides higher than average educational opportunities while children are in school.',
   
+  'SUMMARY_GRDSES_LOW': 'Learning rates are $[value] lower than $[region] with similar socioeconomic status.',
+  'SUMMARY_GRDSES_MID': 'Learning rates are equal to $[region] with similar socioeconomic status.',
+  'SUMMARY_GRDSES_HIGH': 'Learning rates are $[value] higher than $[region] with similar socioeconomic status.',
+  'SUMMARY_GRDSES_NONE': ' ',
+
   'SUMMARY_COH_LOW': '$[name] shows declining educational opportunity.',
   'SUMMARY_COH_MID': '$[name] shows relatively stable educational opportunity.',
   'SUMMARY_COH_HIGH': '$[name] shows improving educational opportunity.',
+
+  'SUMMARY_COHSES_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar socioeconomic status.',
+  'SUMMARY_COHSES_MID': 'Trends in test scores are similar to $[region] with similar socioeconomic status.',
+  'SUMMARY_COHSES_HIGH': 'Average scores have improved by $[value] grade levels more than $[region] with similar socioeconomic status.',
+  'SUMMARY_COHSES_NONE': ' ',
+
+  // Location Panel Summaries (Schools)
+  'SUMMARY_SCHOOL_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_HIGH': '$[name] provides <strong>higher than average</strong> educational opportunites.',
+  
+  'SUMMARY_AVGFRL_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_AVGFRL_MID': 'Average scores are equal to $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_AVGFRL_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_AVGFRL_NONE': ' ',
+
+  'SUMMARY_SCHOOL_GRD_LOW': '$[name] provides lower than average educational opportunities while children are in school.',
+  'SUMMARY_SCHOOL_GRD_MID': '$[name] provides roughly average educational opportunities while children are in school.',
+  'SUMMARY_SCHOOL_GRD_HIGH': '$[name] provides higher than average educational opportunities while children are in school.',
+  
+  'SUMMARY_GRDFRL_LOW': 'Learning rates are $[value] lower than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_GRDFRL_MID': 'Learning rates are equal to $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_GRDFRL_HIGH': 'Learning rates are $[value] higher than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_GRDFRL_NONE': ' ',
+
+  'SUMMARY_SCHOOL_COH_LOW': '$[name] shows declining educational opportunity.',
+  'SUMMARY_SCHOOL_COH_MID': '$[name] shows relatively stable educational opportunity.',
+  'SUMMARY_SCHOOL_COH_HIGH': '$[name] shows improving educational opportunity.',
+
+  'SUMMARY_COHFRL_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_COHFRL_MID': 'Trends in test scores are similar to $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_COHFRL_HIGH': 'Average scores have improved by $[value] grade levels more than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_COHFRL_NONE': ' ',
 
   'SUMMARY_AVG_NONE': 'No community educational opportunity data for $[name].', 
   'SUMMARY_GRD_NONE': 'No school-based opportunity data for $[name].', 
   'SUMMARY_COH_NONE': 'No change in community educational opportunity data for $[name].', 
   'SUMMARY_SES_NONE': '',
+  'SUMMARY_FRL_NONE': '',
 
   'CALLOUT_AVG_OPP': 'How do average test scores show educational opportunity?',
   'CALLOUT_AVG_SES': 'How does socioeconomic status impact educational opportunity?',
