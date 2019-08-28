@@ -72,8 +72,10 @@ LocationMetric.propTypes = {
 
 
 
-const MetricSummary = ({metric, demographic = 'all', name, value}) => {
-  const langKey = 'SUMMARY_' + metric + '_' + valueToLowMidHigh(metric, value);
+const MetricSummary = ({metric, demographic = 'all', name, value, region}) => {
+  const langKey = region === 'schools' ?
+    'SUMMARY_SCHOOL_' + metric + '_' + valueToLowMidHigh(metric, value) :
+    'SUMMARY_' + metric + '_' + valueToLowMidHigh(metric, value);
   return (
     <Typography variant="body1" paragraph={true} 
       dangerouslySetInnerHTML={{'__html': getLang(langKey, { name, value })}}>
@@ -94,14 +96,21 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
     formatNumber(avgValue - getPredictedValue(sesValue, 'avg', region)) :
     null;
   const diffHighLow = valueToLowMidHigh(null, diffVal)
-  const sesLangKey = 'SUMMARY_AVGSES_' + diffHighLow; 
+  const sesLangKey = region === 'schools' ?
+    'SUMMARY_AVGFRL_' + diffHighLow :
+    'SUMMARY_AVGSES_' + diffHighLow; 
   return (
     <LocationMetric
       metric="avg"
       feature={feature}
       {...rest}
     >
-      <MetricSummary metric='avg' name={name} value={formatNumber(avgValue)} />
+      <MetricSummary 
+        metric='avg' 
+        name={name} 
+        value={formatNumber(avgValue)} 
+        region={region}
+      />
       <Callout
         type="help"
         size="small"
@@ -135,7 +144,9 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
     (value - getPredictedValue(sesValue, 'grd', region)) :
     null;
   const diffHighLow = valueToLowMidHigh(null, diffVal)
-  const sesLangKey = 'SUMMARY_GRDSES_' + diffHighLow; 
+  const sesLangKey =  region === 'schools' ?
+    'SUMMARY_GRDFRL_' + diffHighLow :
+    'SUMMARY_GRDSES_' + diffHighLow;
   return (
     <LocationMetric
       metric="grd"
@@ -143,7 +154,12 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
       formatter={formatPercentDiff}
       {...rest}
     >
-      <MetricSummary metric='grd' name={name} value={formatPercentDiff(value)} />
+      <MetricSummary 
+        metric='grd' 
+        name={name} 
+        value={formatPercentDiff(value)} 
+        region={region}
+      />
       <Callout
         type="help"
         size="small"
@@ -178,14 +194,21 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
     formatNumber(value - getPredictedValue(sesValue, 'coh', region)) :
     null;  
   const diffHighLow = valueToLowMidHigh(null, diffVal)
-  const sesLangKey = 'SUMMARY_COHSES_' + diffHighLow; 
+  const sesLangKey = region === 'schools' ?
+    'SUMMARY_COHFRL_' + diffHighLow :
+    'SUMMARY_COHSES_' + diffHighLow; 
   return (
     <LocationMetric
       metric="coh"
       feature={feature}
       {...rest}
     >
-      <MetricSummary metric='coh' name={name} value={formatNumber(value)} />
+      <MetricSummary 
+        metric='coh'
+        region={region}
+        name={name}
+        value={formatNumber(value)} 
+      />
       <Callout
         type="help"
         size="small"
