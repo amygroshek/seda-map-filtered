@@ -169,7 +169,7 @@ const LANG = {
   'LABEL_HIGHLIGHTED_STATE': 'Highlighted State',
 
   // Tooltips
-  'TOOLTIP_SUMMARY': 'click on a location for more data.',
+  'TOOLTIP_SUMMARY': 'Click on a location for more data.',
   'TOOLTIP_TYPE_MAP': 'an area on the map',
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
   'TOOLTIP_CONTEXT_ALL': 'Average for all students:',
@@ -221,9 +221,9 @@ const LANG = {
   'SUMMARY_COHSES_NONE': ' ',
 
   // Location Panel Summaries (Schools)
-  'SUMMARY_SCHOOL_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
-  'SUMMARY_SCHOOL_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
-  'SUMMARY_SCHOOL_AVG_HIGH': '$[name] provides <strong>higher than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_LOW': 'The community surrounding $[name] provides children with <strong>lower than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_MID': 'The community surrounding $[name] provides children with <strong>roughly average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_HIGH': 'The community surrounding $[name] provides children with <strong>higher than average</strong> educational opportunites.',
   
   'SUMMARY_AVGFRL_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_AVGFRL_MID': 'Average scores are equal to $[region] with similar % free or reduced-price lunch program.',
@@ -239,9 +239,9 @@ const LANG = {
   'SUMMARY_GRDFRL_HIGH': 'Learning rates are $[value] higher than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_GRDFRL_NONE': ' ',
 
-  'SUMMARY_SCHOOL_COH_LOW': '$[name] shows declining educational opportunity.',
-  'SUMMARY_SCHOOL_COH_MID': '$[name] shows relatively stable educational opportunity.',
-  'SUMMARY_SCHOOL_COH_HIGH': '$[name] shows improving educational opportunity.',
+  'SUMMARY_SCHOOL_COH_LOW': 'Educational opportunities in the community surrounding $[name] have declined in the years 2009-2016.',
+  'SUMMARY_SCHOOL_COH_MID': 'Educational opportunities in the community surrounding $[name] have been roughly stable in the years 2009-2016',
+  'SUMMARY_SCHOOL_COH_HIGH': 'Educational opportunities in the community surrounding $[name] have improved in the years 2009-2016.',
 
   'SUMMARY_COHFRL_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_COHFRL_MID': 'Trends in test scores are similar to $[region] with similar % free or reduced-price lunch program.',
@@ -439,7 +439,8 @@ const LANG = {
   // Text descriptions
   'LEGEND_DESC_AVG': 'Colors show how $[demographic] students score, in grade levels, relative to the national average.',
   'LEGEND_DESC_GRD': 'Colors show how much $[demographic] students learn each year relative to the national average.',
-  'LEGEND_DESC_COH': 'Colors show how many grade levels $[demographic] students\' test scores changed per year from 2009 - 2016.',
+  //'LEGEND_DESC_COH': 'Colors show how many grade levels $[demographic] students\' test scores changed per year from 2009 - 2016.',
+  'LEGEND_DESC_COH': 'Colors show how $[demographic] students\' average test scores changed (in grade levels per year) from 2009 - 2016.',
   'LEGEND_DESC_AVG_GAP': 'Colors show how many grade levels difference between $[gap] students.',
   'LEGEND_DESC_GRD_GAP': 'Colors show difference between how much $[gap] students learn each year.',
   'LEGEND_DESC_COH_GAP': 'Colors show difference between how much $[gap] students\' test scores changed each year.',
@@ -504,13 +505,13 @@ const LANG = {
   'LEGEND_MAP_GRD_GAP_HIGH': '+$[value] grade levels',
 
   'LEGEND_MAP_COH_LOW': '$[value] grade levels',
-  'LEGEND_MAP_COH_MID': 'national average',
+  'LEGEND_MAP_COH_MID': 'no change',
   'LEGEND_MAP_COH_HIGH': '+$[value] grade levels',
   'LEGEND_MAP_COH_GAP_LOW': '$[value] grade levels',
   'LEGEND_MAP_COH_GAP_MID': 'no gap',
   'LEGEND_MAP_COH_GAP_HIGH': '+$[value] grade levels',
 
-  'LEGEND_CHART_INTERACTIVE': 'Go to the expanded chart to explore interactively',
+  'LEGEND_CHART_INTERACTIVE': 'Go to the expanded chart to explore interactively:',
   'LEGEND_CHART_BUTTON': 'Show Interactive Chart',
 
   'HELP_PANEL_TITLE': 'Help',
@@ -543,7 +544,7 @@ const LANG = {
   'HELP_LEGEND_VAL_GRD_HIGH': '$[students] learn $[value] less per grade than average',
 
   'HELP_LEGEND_VAL_COH_LOW': '$[students] average test scores declining $[value] grade levels per year',
-  'HELP_LEGEND_VAL_COH_MID': 'national average',
+  'HELP_LEGEND_VAL_COH_MID': 'no change',
   'HELP_LEGEND_VAL_COH_HIGH': '$[students] average test scores improving $[value] grade levels per year',
 
   'HELP_MAP': 'What does the map show?',
@@ -575,7 +576,7 @@ const LANG = {
     <strong>Trends in Test Scores</strong><br /> 
     reflect changes in educational opportunities
     <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s trend in test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing the national average. The vertical axis shows average annual test score changes, measured in grade levels per year. 
+    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s trend in test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing "no change" in test scores. The vertical axis shows average annual test score changes, measured in grade levels per year. 
   `,
   'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using Learning Rates, which measure how much student scores improve while they are in school.`,
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much student scores improve each year while they are in school. This is better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much its patients’ health improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their test scores improve while in school.`,
