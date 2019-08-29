@@ -159,6 +159,10 @@
   letter-spacing: 0.01em;
 }
 
+.scatterplot-preview .legend-bar .legend-bar__marker {
+  display: none;
+}
+
 /** Overlay */
 
   .scatterplot-preview .location-markers {

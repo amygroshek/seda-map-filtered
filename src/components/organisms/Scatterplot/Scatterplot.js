@@ -132,23 +132,22 @@ function Scatterplot({
         options={scatterplotOptions}
         metaVars={baseVars}
         onHover={(loc, e) => {
-          return loc && loc.id ?
-            onHover(
+          if (loc && loc.id) {
+            return onHover(
               { 
                 id: loc.id, 
                 properties: { ...loc, state: getStateAbbr(loc.id) } 
               },
-              {
-                xVar,
-                yVar,
-              },
+              { xVar, yVar },
               e.event.event
-            ) : (
-              e.event.event.toElement && 
-              !e.event.event.toElement.classList.contains('marker') &&
-                onHover(null, {}, e.event.event)
             )
-            
+          }
+          if (e.event.event.relatedTarget) {
+            return !e.event.event.relatedTarget.classList.contains('marker') && 
+               onHover(null, {}, e.event.event)
+          } else {
+            return onHover(null, {}, e.event.event)
+          }
         }}
       />
       {children}
