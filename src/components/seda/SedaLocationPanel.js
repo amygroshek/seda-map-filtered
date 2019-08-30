@@ -5,6 +5,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import LocationPanel from '../organisms/LocationPanel';
 import { onReportDownload, clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation, toggleHelp, showSingleHelpTopic, onShowSimilar } from '../../actions';
+import { getRegionFromFeature } from '../../modules/config';
+import { getFeatureProperty } from '../../modules/features';
+
+const getFeatureFlags = (feature, flagged) => {
+  const featureId = getFeatureProperty(feature, 'id');
+  const region = getRegionFromFeature(feature);
+  if (region !== 'schools') { return [] }
+  return ['sped', 'gifted', 'lep'].filter((f) => {
+    return flagged[f].indexOf(featureId) > -1
+  })
+}
 
 const SedaLocationPanel = ({
   active,
@@ -12,6 +23,7 @@ const SedaLocationPanel = ({
   helpOpen,
   features,
   selected,
+  flagged,
   clearActiveLocation,
   onGapClick,
   onHelpClick,
@@ -21,11 +33,15 @@ const SedaLocationPanel = ({
   const others = useMemo(() => 
     selected.map(fId => features[fId])
   , [ selected ])
+  const flags = useMemo(() => 
+    getFeatureFlags(active, flagged)
+  , [ active, flagged ])
   const handleHelpClick = (topicId) => onHelpClick(topicId, helpOpen)
   return (
     <LocationPanel 
       feature={active} 
       others={others}
+      flags={flags}
       onClose={clearActiveLocation}
       metric={metric}
       onGapClick={onGapClick}
@@ -52,11 +68,12 @@ SedaLocationPanel.propTypes = {
 
 const mapStateToProps = 
   (
-    { features, active, selected, ui: { helpOpen } },
+    { features, active, selected, ui: { helpOpen }, flagged },
     { match: { params: { metric, region } } }
   ) => ({
     active,
     features,
+    flagged,
     region,
     metric,
     helpOpen,

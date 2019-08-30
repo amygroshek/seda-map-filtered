@@ -1,4 +1,4 @@
-import { loadFeaturesFromRoute, loadFeatureFromCoords } from "../utils/tilequery";
+import { loadFeaturesFromRoute, loadFeatureFromCoords, loadFlaggedData } from "../utils/tilequery";
 import { getRegionFromFeatureId } from "../modules/config";
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
@@ -35,6 +35,29 @@ const onLoadFeaturesSuccess = (features) => ({
 const onLoadFeaturesError = (error) => ({
   type: 'LOAD_FEATURES_ERROR',
   error
+})
+
+const onLoadFlaggedRequest = () => ({
+  type: 'LOAD_FLAGGED_REQUEST',
+})
+
+const onLoadFlaggedSuccess = (flag, ids) => ({
+  type: 'LOAD_FLAGGED_SUCCESS',
+  flag,
+  ids
+})
+
+const onLoadFlaggedError = (error) => ({
+  type: 'LOAD_FLAGGED_ERROR',
+  error
+})
+
+export const onLoadMapSuccess = () => ({
+  type: 'LOAD_MAP_SUCCESS'
+})
+
+export const onLoadScatterplotSuccess = () => ({
+  type: 'LOAD_SCATTERPLOT_SUCCESS'
 })
 
 /** Returns an action that pins the provided feature */
@@ -308,6 +331,23 @@ export const loadRouteLocations = (locations, region) =>
       .catch((error) => {
         dispatch(onLoadFeaturesError(error))
       })
+  }
+
+/**
+ * Thunk that loads flagged schools
+ */
+export const loadFlaggedSchools = () => 
+  (dispatch) => {
+    dispatch(onLoadFlaggedRequest())
+    return Promise.all(
+      ['sped', 'lep', 'gifted'].map((type) => {
+        return loadFlaggedData(type).then(res => {
+          dispatch(onLoadFlaggedSuccess(type, res.data))
+        }).catch((error) => {
+          dispatch(onLoadFlaggedError(error))
+        })
+      })
+    )
   }
 
 /**

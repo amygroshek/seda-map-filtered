@@ -192,6 +192,11 @@ const LANG = {
   // Location Panel Headings
   'PANEL_HEADING': '$[metric] for $[region]',
 
+  // Location panel flags
+  'FLAG_SPED': 'This school serves primarily special education students; keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+  'FLAG_LEP': 'This school serves primarily students with limited English proficiency (LEP); keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+  'FLAG_GIFTED': 'This school has a high percentage of gifted students; keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+
   // Location Panel Summaries (Counties / Districts)
   'SUMMARY_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
   'SUMMARY_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
