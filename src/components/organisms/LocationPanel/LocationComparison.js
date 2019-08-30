@@ -47,7 +47,7 @@ const SimilarLocations = ({
   markerColor,
   onSelectFeature
 }) => {
-  const endpoint = process.env.REACT_APP_SIMILAR_ENDPOINT;
+  const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'similar/';
   const [ similar, setSimilar ] = useState(null);
   const [ fetchError, setFetchError ] = useState(null);
   const featureId = getFeatureProperty(feature, 'id');

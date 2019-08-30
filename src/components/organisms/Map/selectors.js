@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import MAP_STYLE from './style.json';
+import MAP_STYLE from './style';
 import { getRegionFromFeatureId, getChoroplethColors, getDemographicIdFromVarName, getMetricIdFromVarName, getMetricRange, isGapVarName } from '../../../modules/config.js';
 import { DEFAULT_VIEWPORT } from './constants';
 
