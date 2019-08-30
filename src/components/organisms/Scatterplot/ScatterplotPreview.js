@@ -7,7 +7,7 @@ import { getScatterplotOptions } from './utils';
 import { getStateFipsFromAbbr } from '../../../constants/statesFips';
 
 const baseVars = getBaseVars()
-const endpoint = process.env.REACT_APP_VARS_ENDPOINT;
+const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'scatterplot/';
 
 /**
  * Gets the state IDs that belong to a certain state
