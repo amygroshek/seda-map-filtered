@@ -83,6 +83,7 @@ LocationMetric.propTypes = {
 const LocationPanel = ({
   feature,
   metric,
+  flags = [],
   others = [],
   onClose,
   onGapClick,
@@ -108,6 +109,7 @@ const LocationPanel = ({
     f.properties.id === feature.properties.id
   )
   const markerColor = SELECTED[selectedIndex];
+
   return feature && feature.properties ? (
     <Panel
       title={
@@ -122,6 +124,20 @@ const LocationPanel = ({
     > 
       <div className="panel-section panel-section--summary">
         <div className="panel-section__content">
+          { flags && flags.length > 0 &&
+            <div className="flags">
+              {
+                flags.map((f) =>
+                  <Typography 
+                    className="flags__flag" 
+                    key={f}
+                    dangerouslySetInnerHTML={{ "__html": getLang('FLAG_'+f) }}
+                  />
+                )
+              }
+            </div>
+          }
+
           <LocationMetric 
             feature={feature}
             metric='avg'

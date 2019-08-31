@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateMapSize, loadRouteLocations, toggleGapChart, onMetricChange } from '../../actions';
+import { updateMapSize, loadRouteLocations, toggleGapChart, onMetricChange, loadFlaggedSchools } from '../../actions';
 
 import SplitSection from '../templates/SplitSection';
 import SedaLocations from './SedaLocations';
@@ -83,6 +83,7 @@ const ExplorerView = ({
   onMetricChange,
   onLayoutChange,
   onToggleGapChart,
+  loadFlaggedSchools
 }) => {
   // use state to track if the intro is on / off
   const [introOn, setIntroOn] = useState(false);
@@ -91,13 +92,18 @@ const ExplorerView = ({
   const theme = useTheme();
   const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
 
-  // flag potential layout change after loading locations
+  // load locations and flag potential layout change afterwards
   useEffect(() => {
     loadRouteLocations(locations)
       .then(()=> {
         // set map size when locations load
         onLayoutChange('map')
       })
+  }, [])
+
+  // load flagged schools
+  useEffect(() => {
+    loadFlaggedSchools()
   }, [])
 
   // flag potential layout change when there are 0 or 1 locations
@@ -155,6 +161,7 @@ ExplorerView.propTypes = {
   gapChart: PropTypes.bool,
   classes: PropTypes.object,
   onToggleGapChart: PropTypes.func,
+  loadFlaggedSchools: PropTypes.func,
 }
 
 const mapStateToProps = 
@@ -176,6 +183,8 @@ const mapStateToProps =
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
+  loadFlaggedSchools: () =>
+    dispatch(loadFlaggedSchools()),
   onLayoutChange: (view) => 
     ['map', 'split'].indexOf(view) > -1 &&
       dispatch(updateMapSize()),

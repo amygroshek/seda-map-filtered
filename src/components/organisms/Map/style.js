@@ -11,7 +11,6 @@ export default {
             "data": "https://data.edopportunity.org/" + process.env.REACT_APP_BUILD_ID + "/states.geojson"
         }
     },
-    "sprite": "mapbox://sprites/hyperobjekt/cjsh1snt00igp1fqg7lj0sd6d",
     "glyphs": "mapbox://fonts/hyperobjekt/{fontstack}/{range}.pbf",
     "layers": [
         {

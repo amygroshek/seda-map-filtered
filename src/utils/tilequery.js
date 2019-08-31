@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { parseLocationsString } from '../modules/router';
 
+const FLAGGED_ENDPOINT = process.env.REACT_APP_DATA_ENDPOINT + 'flagged/'
+
 /**
  * Returns the feature with an id property that matches the
  * provided ID
@@ -76,3 +78,8 @@ export const loadFeaturesFromRouteParams = (params) =>
   params.locations ? 
     loadFeaturesFromRoute(params.locations) :
     Promise.resolve([])
+
+
+export const loadFlaggedData = (type) => {
+  return axios.get(FLAGGED_ENDPOINT + type + '.json')
+}
