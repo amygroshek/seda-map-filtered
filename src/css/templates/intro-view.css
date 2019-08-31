@@ -1,8 +1,6 @@
 .section.section--intro {
-  background: #061d56; 
-  background-image: linear-gradient(to bottom,rgba(0,0,0,0) 5%,#04143c 75%);
+  background: #f8f8f8; 
   min-height: 440px;
-  color: #fff;
   margin-top:0;
   padding:0 48px;
   position: fixed;
@@ -36,11 +34,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
 }
-.section--intro .section__header .section__description {
-  color: #fff;
-}
+
 
 .section--intro .section__description {
   max-width: 660px;

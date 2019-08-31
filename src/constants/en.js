@@ -408,13 +408,7 @@ const LANG = {
   'BUTTON_SHOW_CHART': 'Show gap vs. other metrics',
   'BUTTON_HIDE_CHART': 'Hide gap chart',
 
-  // Intro Section
-  'INTRO_TITLE': 'What type of educational opportunity would you like to explore?',
-  'INTRO_DESCRIPTION': 'Using over 330 million test scores across the U.S., we have calculated $[avg], $[grd], and $[coh] to measure educational opportunity.',
   'SEARCH_PLACEHOLDER': 'Find a city, county, district, or school',
-  'INTRO_CARD_DESCRIPTION_AVG': 'Average test scores are influenced by children`s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. ',
-  'INTRO_CARD_DESCRIPTION_GRD': 'Growth of test scores show how much students learn each year they are in school. It is a better measure of school quality and shows school-based opportunity.',
-  'INTRO_CARD_DESCRIPTION_COH': 'Change in test scores show how test scores are improving or declining in an an area from 2009 - 2016.  This shows how community educational opportunity is changing.',
 
   // Map Legend (Mobile)
   'LEGEND_LOW': '◀ lower',

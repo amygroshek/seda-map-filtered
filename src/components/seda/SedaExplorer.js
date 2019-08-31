@@ -13,7 +13,6 @@ import SedaLocations from './SedaLocations';
 import SedaMap from './SedaMap';
 import SedaChart from './SedaChart';
 import SedaHelp from './SedaHelp';
-import SedaIntro from './SedaIntro';
 import SedaLocationPanel from './SedaLocationPanel';
 import SedaTooltip from './SedaTooltip';
 import SedaGapChart from './SedaGapChart';
@@ -118,9 +117,7 @@ const ExplorerView = ({
 
   // flag layout change when view, helpOpen changes
   useEffect(() => { onLayoutChange(view) }, [ view, helpOpen, locationActive ])
-  return introOn ? (
-    <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> 
-  ) : (
+  return (
     <>
       { isAboveMedium && <SedaTooltip /> }
       <SplitSection
