@@ -36,7 +36,7 @@ import MenuButton from '../atoms/MenuButton';
 import HelpButton from '../molecules/HelpButton';
 import { toggleHelp, onMetricChange, onViewChange } from '../../actions';
 
-const HeaderPrimary = ({metric, region, demographic, highlightedState, onMetricChange}) => {
+const HeaderPrimary = ({metric = 'avg', region, demographic, highlightedState, onMetricChange}) => {
   const theme = useTheme();
   const isAboveSmall = useMediaQuery(theme.breakpoints.up('sm'));
   return <div className='header-tabs'>

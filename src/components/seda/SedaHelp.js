@@ -191,6 +191,7 @@ const HelpSection = ({heading, topics = [], expanded, onChange}) => {
  * @param {string} secondary 
  */
 const getCurrentViewTopics = (view, metric, secondary) => {
+  if (!metric || !secondary || !view) { return [] }
   const topics = [];
   if (view === 'split') { topics.push('HELP_MAP', 'HELP_CHART') }
   if (view === 'map') { topics.push('HELP_MAP') }

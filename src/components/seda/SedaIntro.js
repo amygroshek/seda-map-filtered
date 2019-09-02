@@ -14,6 +14,12 @@ function MapIntro({onMeasureClick}) {
       />
       <div className="section__header">
         <Typography 
+          component="p" 
+          className="section__description"
+        >
+          { getLang('INTRO_DESCRIPTION')}
+        </Typography>
+        <Typography 
           variant="h5" 
           component="div" 
           className="section__heading"

@@ -50,6 +50,7 @@ const SedaExplorerMap = ({
 
   // map layers for choropleths / dots
   const layers = useMemo(() => {
+    if (!metric || !demographic || !region) { return [] }
     return getLayers({
       region, metric, demographic, highlightedState, zoomLevel
     })
@@ -71,6 +72,7 @@ const SedaExplorerMap = ({
         selectedIds={selectedIds}
         hoveredId={hoveredId}
         onHover={handleHover}
+        onLoad={() => window.SEDA.trigger('map')}
         {...{onViewportChange, onClick}}
       ></MapBase>
       { showLegend && <SedaMapLegend /> }
@@ -101,7 +103,7 @@ const mapStateToProps = ({
   map: { idMap, viewport },
   sections: { hovered },
 },
-{ match: { params: { view, region, metric, demographic, highlightedState, ...params } } }
+{ match: { params: { view, region, metric, demographic, highlightedState = 'us', ...params } } }
 ) => {
   return ({
     view,
