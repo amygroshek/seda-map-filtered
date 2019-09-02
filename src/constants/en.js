@@ -560,27 +560,33 @@ const LANG = {
   'HELP_LEGEND_VAL_COH_GAP_MID': 'No difference',
   'HELP_LEGEND_VAL_COH_GAP_HIGH': 'Difference of $[value] in trend of test scores in favor of $[students].',
 
-
-
   'HELP_MAP': 'What does the map show?',
   'HELP_MAP_DESC': 'This map of $[region] in $[state] shows $[metric] for $[demographic], on a scale $[metricDescription].',
   'HELP_MAP_DESC_GAP': 'This map of $[region] in $[state] shows the $[gap] in $[metric].', 
-  'HELP_MAP_DESC_AVG': 'the range of Average Test Scores',
-  'HELP_MAP_DESC_AVG_DETAILS': 'of grade levels above and below the national average',
-  'HELP_MAP_DESC_GRD': 'the range of Learning Rates',
-  'HELP_MAP_DESC_GRD_DETAILS': 'representing how much students learned in school relative to the national average',
-  'HELP_MAP_DESC_COH': 'Trend in Test Scores',
-  'HELP_MAP_DESC_COH_DETAILS': 'representing how much average test scores have improved or declined over time',
-  'HELP_MAP_DATA_OVERVIEW': 'The test scores represented here were collected across grades 3-8 and the years 2009-2016 from the nation’s public elementary and middle schools.',
   'HELP_MAP_AVG_OVERVIEW': 'Average scores reflect more than just how well schools educate children; they reveal the full range of children’s educational opportunities, both in and out of school. (To better understand schools\' contributions, see Learning Rates.)',
   'HELP_MAP_GRD_OVERVIEW': 'Learning rates measure how much student scores improve each year while they are in school. This is a better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school.',
   'HELP_MAP_COH_OVERVIEW': 'Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community.',
 
   'HELP_CHART': 'What does the chart show?',
+  'HELP_CHART_DOTS': 'Each circle represents a $[region]. The circle’s size shows the number of students.',
+  'HELP_CHART_Y': 'This chart of $[region] in $[state] shows, on the vertical (Y) axis, $[metric] for $[demographic] on a scale $[metricDescription].',
+  'HELP_CHART_X_SES': 'The horizontal (X) axis shows the $[region]’s Socioeconomic Status (SES), which is a broad measure of the economic and social resources available in a community.',
+  'HELP_CHART_X_FRL': 'The horizontal (X) axis shows the percentage of students at the school who are eligible for the Federal Free & Reduced Price Lunch Program.',
+
+  'HELP_DATA_OVERVIEW': 'The test scores represented here were collected across grades 3-8 and the years 2009-2016 from the nation’s public elementary and middle schools.',
+
+  'HELP_DESC_AVG': 'the range of Average Test Scores',
+  'HELP_DESC_AVG_DETAILS': 'of grade levels above and below the national average',
+  'HELP_DESC_GRD': 'the range of Learning Rates',
+  'HELP_DESC_GRD_DETAILS': 'representing how much students learned in school relative to the national average',
+  'HELP_DESC_COH': 'Trend in Test Scores',
+  'HELP_DESC_COH_DETAILS': 'representing how much average test scores have improved or declined over time',
+
   'HELP_AVG_CONCEPT': 'Why do average test scores show educational opportunities in and out of school?',
   'HELP_GRD_CONCEPT': 'Why do average learning rates largely reflect schools effectiveness?',
   'HELP_COH_CONCEPT': 'How do trends in test scores show changes in a community’s educational opportunities?',
   'HELP_SES_CONCEPT': 'How does socioeconomic status impact educational opportunity?',
+  
   'HELP_AVG': 'How are average test scores calculated?',
   'HELP_GRD': 'How are learning rates calculated?',
   'HELP_COH': 'How are trends in test scores trends calculated?',
@@ -588,24 +594,6 @@ const LANG = {
   'HELP_SEG': 'What is Segregation and how is it calculated?',
   'HELP_FRL': 'How is Free Lunch Rate calculated and what does it mean?',
 
-  'HELP_CHART_AVG': `
-    <strong>Average Test Scores</strong><br />
-    reflect educational opportunities in and out of school
-    <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s average test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing the national average. The vertical axis shows grade levels above or below the national average. 
-  `,
-  'HELP_CHART_GRD': `
-    <strong>Learning Rates</strong><br />
-    largely reflect school effectiveness
-    <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s learning rate. The horizontal axis shows the community’s socioeconomic status, with zero representing the national average. The vertical axis shows learning rates above or below the national average.
-  `,
-  'HELP_CHART_COH': `
-    <strong>Trends in Test Scores</strong><br /> 
-    reflect changes in educational opportunities
-    <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s trend in test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing "no change" in test scores. The vertical axis shows average annual test score changes, measured in grade levels per year. 
-  `,
   'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using Learning Rates, which measure how much student scores improve while they are in school.`,
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much student scores improve each year while they are in school. This is better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much its patients’ health improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their test scores improve while in school.`,
   'HELP_COH_CONCEPT_A': `Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community. Where the trend is positive, students’ opportunities to learn are improving. Opportunities may improve over time because of changes in school quality or because of changes in children’s family resources, home environments, early childhood experiences, and community resources.`,
