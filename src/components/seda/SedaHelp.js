@@ -10,6 +10,7 @@ import AccordionItem from '../molecules/AccordionItem';
 import { hideHelpTopic, showHelpTopic } from '../../actions';
 import LegendBar from '../molecules/LegendBar';
 import usePrevious from '../../hooks/usePrevious';
+import { getStateNameFromAbbr } from '../../constants/statesFips';
 
 /**
  * Helper function to transition scroll
@@ -91,14 +92,15 @@ const HelpChart = withRouter(({id, match, expanded, onChange}) => {
 })
 
 const HelpMap = withRouter(({id, match, expanded, onChange}) => {
-  const { region, demographic, metric } = match.params;
+  const { region, demographic, metric, highlightedState } = match.params;
   const varName = demographic + '_' + metric;
   const colors = isGapVarName(varName) ? 
     [...COLORS].reverse() : COLORS;
   const invert = getInvertedFromVarName(varName);
   const [ startLabel, endLabel ] = getLegendEndLabelsForVarName(varName, 'HELP_LEGEND_');
   const colorRange = getMetricRangeFromVarName(varName, region, 'map');
-  
+  const legendRange = getMetricRangeFromVarName(varName, region);
+
   // formatter function for legend
   const formatter = (value) => {
     const numFormat = getFormatterForVarName(varName);
@@ -117,19 +119,34 @@ const HelpMap = withRouter(({id, match, expanded, onChange}) => {
       onChange={onChange}
     >
       <div>
-        <Typography className="help-legend__metric">{getLang('TAB_CONCEPT_' + metric)}</Typography>
-        <Typography className="help-legend__concept">{getLang('TAB_METRIC_' + metric)}</Typography>
+        <Typography paragraph={true}>
+          {
+            getLang('HELP_MAP_DESC', {
+              region,
+              metric: getLang('HELP_MAP_DESC_' + metric),
+              demographic: demographic === 'all' ? 'students' : getLang('LABEL_STUDENTS_' + demographic),
+              state: highlightedState === 'us' ? 'the U.S.' : getStateNameFromAbbr(highlightedState),
+              metricDescription: getLang('HELP_MAP_DESC_' + metric + '_DETAILS')
+            })
+          }
+        </Typography>
         <LegendBar
           vertical={true}
           formatter={formatter}
           invert={invert}
           colors={colors}
           colorRange={colorRange}
-          legendRange={colorRange}
+          legendRange={legendRange}
           startLabel={startLabel}
           endLabel={endLabel}
           className='help-legend'
         />
+        <Typography paragraph={true}>
+          { getLang('HELP_MAP_DATA_OVERVIEW') }
+        </Typography>
+        <Typography paragraph={true}>
+          { getLang('HELP_MAP_' + metric + '_OVERVIEW') }
+        </Typography>
       </div>
     </AccordionItem>
   )

@@ -549,6 +549,18 @@ const LANG = {
   'HELP_LEGEND_VAL_COH_HIGH': '$[students] average test scores improving $[value] grade levels per year',
 
   'HELP_MAP': 'What does the map show?',
+  'HELP_MAP_DESC': 'This map of $[region] in $[state] shows $[metric] for $[demographic], on a scale $[metricDescription].',
+  'HELP_MAP_DESC_AVG': 'the range of Average Test Scores',
+  'HELP_MAP_DESC_AVG_DETAILS': 'of grade levels above and below the national average',
+  'HELP_MAP_DESC_GRD': 'the range of Learning Rates',
+  'HELP_MAP_DESC_GRD_DETAILS': 'representing how much students learned in school relative to the national average',
+  'HELP_MAP_DESC_COH': 'Trend in Test Scores',
+  'HELP_MAP_DESC_COH_DETAILS': 'representing how much average test scores have improved or declined over time',
+  'HELP_MAP_DATA_OVERVIEW': 'The test scores represented here were collected across grades 3-8 and the years 2009-2016 from the nation’s public elementary and middle schools.',
+  'HELP_MAP_AVG_OVERVIEW': 'Average scores reflect more than just how well schools educate children; they reveal the full range of children’s educational opportunities, both in and out of school. (To better understand schools\' contributions, see Learning Rates.)',
+  'HELP_MAP_GRD_OVERVIEW': 'Learning rates measure how much student scores improve each year while they are in school. This is a better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school.',
+  'HELP_MAP_COH_OVERVIEW': 'Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community.',
+
   'HELP_CHART': 'What does the chart show?',
   'HELP_AVG_CONCEPT': 'Why do average test scores show educational opportunities in and out of school?',
   'HELP_GRD_CONCEPT': 'Why do average learning rates largely reflect schools effectiveness?',

@@ -456,6 +456,11 @@ export const getStateAbbrFromName = (name) => {
 export const getStateName = (id) =>
   getStateProp(id, 'full')
 
+export const getStateNameFromAbbr = (abbr) => {
+  const fips = getStateFipsFromAbbr(abbr)
+  return statesFips[fips].full;
+}
+
 /**
  * Gets a list of state options for `<Select />`
  */
