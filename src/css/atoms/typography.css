@@ -1,38 +1,3 @@
-@font-face {
-  font-family: maisonneue-bold;
-  src: url("/assets/fonts/MaisonNeue-Bold.woff2") format("woff2"),
-       url("/assets/fonts/MaisonNeue-Bold.woff") format("woff");
-}
-
-@font-face {
-  font-family: maisonneue-book;
-  src: url("/assets/fonts/MaisonNeue-Book.woff2") format("woff2"),
-       url("/assets/fonts/MaisonNeue-Book.woff") format("woff");
-}
-
-@font-face {
-  font-family: maisonneue-italic;
-  src: url("/assets/fonts/MaisonNeue-BookItalic.woff2") format("woff2"),
-       url("/assets/fonts/MaisonNeue-BookItalic.woff") format("woff");
-}
-
-@font-face {
-  font-family: sharpgrotesk-medium15;
-  src: url("/assets/fonts/SharpGroteskMedium15.woff2") format("woff2"),
-       url("/assets/fonts/SharpGroteskMedium15.woff") format("woff");
-}
-
-@font-face {
-  font-family: sharpgrotesk-medium20;
-  src: url("/assets/fonts/SharpGroteskMedium20.woff2") format("woff2"),
-       url("/assets/fonts/SharpGroteskMedium20.woff") format("woff");
-}
-
-body {
-  font-family: var(--body-font);
-  font-weight: normal;
-  color: var(--body-text);
-}
 
 em {
   font-family: var(--body-italic);

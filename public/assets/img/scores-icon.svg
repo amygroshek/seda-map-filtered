@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>scores-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-154.142308%" y1="-141.633128%" x2="-154.142308%" y2="232.804362%" id="linearGradient-1">
+            <stop stop-color="#075ED2" offset="0%"></stop>
+            <stop stop-color="#04164F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="scores-icon">
+            <circle id="Oval" fill="#EEFCFF" cx="13" cy="13" r="13"></circle>
+            <polygon id="bar" fill="#4EB5FF" points="7.802034 13.9558823 7.802034 20.02 6.24000058 20.02 6.24000058 13.9558823"></polygon>
+            <polygon id="bar" fill="#4EB5FF" points="15.7740103 5.96530176 15.7740103 20.02 14.2119769 20.02 14.2119769 5.96530176"></polygon>
+            <polygon id="bar" fill="#4EB5FF" points="19.7599994 13.9558823 19.7599994 20.02 18.197966 20.02 18.197966 13.9558823"></polygon>
+            <polygon id="bar" fill="#4EB5FF" points="10.2259889 5.96530176 11.7880223 5.96530176 11.7880223 20.02 10.2259889 20.02"></polygon>
+            <polygon id="bar" fill="#4EB5FF" points="9.79502757 9.53955691 9.79502757 20.02 8.23299415 20.02 8.23299415 9.53955691"></polygon>
+            <polygon id="bar" fill="#4EB5FF" points="17.7670059 9.53955691 17.7670059 20.02 16.2049724 20.02 16.2049724 9.53955691"></polygon>
+            <polygon id="bar" fill="url(#linearGradient-1)" points="12.2189833 4.16 13.7810167 4.16 13.7810167 20.02 12.2189833 20.02"></polygon>
+        </g>
+    </g>
+</svg>

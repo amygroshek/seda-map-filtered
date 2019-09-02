@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
@@ -78,6 +78,7 @@ const ExplorerView = ({
   view,
   demographic,
   gapChart,
+  canRender,
   activeView,
   onMetricChange,
   onLayoutChange,
@@ -85,7 +86,7 @@ const ExplorerView = ({
   loadFlaggedSchools
 }) => {
   // use state to track if the intro is on / off
-  const [introOn, setIntroOn] = useState(false);
+  // const [introOn, setIntroOn] = useState(false);
 
   // check if viewport is above medium
   const theme = useTheme();
@@ -126,19 +127,19 @@ const ExplorerView = ({
         helpPanelOn={helpOpen}
         locationPanelOn={locationActive}
         activeView={activeView}
-        rightComponent={<SedaMap />}
+        rightComponent={canRender && <SedaMap />}
         leftComponent={
-          <Charts 
+          canRender && <Charts 
             hasGapChart={hasGapChart(demographic)} 
             showGapChart={hasGapChart(demographic) && gapChart} 
             sectionId={view} 
             onChartToggle={onToggleGapChart}
           />
         }
-        footerContent={<SedaLocations />}
+        footerContent={canRender && <SedaLocations />}
       >
-        <SedaHelp />
-        <SedaLocationPanel />
+        { canRender && <SedaHelp /> }
+        { canRender && <SedaLocationPanel /> }
       </SplitSection>
     </>
   )
@@ -164,15 +165,16 @@ ExplorerView.propTypes = {
 const mapStateToProps = 
   (
     { selected, ui: { helpOpen }, active, sections: { gapChart } },
-    { match: { params: { locations, region, view, demographic } } }
+    { match: { params: { metric, locations, region, view, demographic } } }
   ) => ({
     gapChart,
     view,
     demographic,
     helpOpen,
     locations,
-    selected: selected[region],
+    selected: region ? selected[region] : [],
     locationActive: Boolean(active),
+    canRender: Boolean(metric) && Boolean(demographic) && Boolean(view) && Boolean(region),
     activeView: view === 'map' ? 'right' :
       view === 'chart' ? 'left' : 'split'
   })
