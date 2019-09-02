@@ -30,6 +30,8 @@ const LANG = {
   'MENU_LINKEDIN': 'Educational Opportunity Project on LinkedIn',
   'MENU_YOUTUBE': 'Educational Opportunity Project on YouTube',
 
+  'SHARE_TWITTER': 'Explore educational opportunity in your community and around the country',
+
   // Footer
   'FOOTER_COPYRIGHT': 'Copyright 2019',
   'FOOTER_SHARE_LABEL': 'Share:',
