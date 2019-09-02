@@ -445,6 +445,16 @@ export const getDemographicFromVarName = (varName) => {
   return dem ? dem : getGapById(id)
 }
 
+export const getGapDemographics = (demId) => {
+  if (demId === 'pn') {
+    return [ 'np', 'p' ];
+  }
+  if (demId.length === 2) {
+    return [ demId[0], demId[1] ];
+  }
+  throw new Error('invalid gap demographic: ' + demId);
+}
+
 /**
  * Gets the percent value of where the value sites on
  * the scale for the metric.
@@ -468,7 +478,7 @@ export const getFormatterForVarName = (varName) => {
   const metric = getMetricIdFromVarName(varName);
   const isGap = isGapVarName(varName);
 
-  if (isGap) { return formatNumber }
+  if (isGap && metric === 'grd') { return formatPercent }
   switch(metric) {
     case 'grd':
       return formatPercentDiff

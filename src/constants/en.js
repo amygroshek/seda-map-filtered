@@ -501,9 +501,9 @@ const LANG = {
   'LEGEND_MAP_GRD_LOW': 'learns $[value] less',
   'LEGEND_MAP_GRD_MID': 'national average',
   'LEGEND_MAP_GRD_HIGH': 'learns $[value] more',
-  'LEGEND_MAP_GRD_GAP_LOW': '$[value] grade levels',
+  'LEGEND_MAP_GRD_GAP_LOW': '$[value] difference',
   'LEGEND_MAP_GRD_GAP_MID': 'no gap',
-  'LEGEND_MAP_GRD_GAP_HIGH': '+$[value] grade levels',
+  'LEGEND_MAP_GRD_GAP_HIGH': '+$[value] difference',
 
   'LEGEND_MAP_COH_LOW': '$[value] grade levels',
   'LEGEND_MAP_COH_MID': 'no change',
@@ -540,16 +540,31 @@ const LANG = {
   'HELP_LEGEND_VAL_AVG_MID': 'national average',
   'HELP_LEGEND_VAL_AVG_HIGH': '$[students] score $[value] grade levels above average',
 
-  'HELP_LEGEND_VAL_GRD_LOW': '$[students] learn $[value] more per grade than average',
+  'HELP_LEGEND_VAL_GRD_LOW': '$[students] learn $[value] less per grade than average',
   'HELP_LEGEND_VAL_GRD_MID': 'national average',
-  'HELP_LEGEND_VAL_GRD_HIGH': '$[students] learn $[value] less per grade than average',
+  'HELP_LEGEND_VAL_GRD_HIGH': '$[students] learn $[value] more per grade than average',
 
   'HELP_LEGEND_VAL_COH_LOW': '$[students] average test scores declining $[value] grade levels per year',
   'HELP_LEGEND_VAL_COH_MID': 'no change',
   'HELP_LEGEND_VAL_COH_HIGH': '$[students] average test scores improving $[value] grade levels per year',
 
+  'HELP_LEGEND_VAL_AVG_GAP_LOW': 'Difference of $[value] grade levels in favor of $[students].',
+  'HELP_LEGEND_VAL_AVG_GAP_MID': 'No difference',
+  'HELP_LEGEND_VAL_AVG_GAP_HIGH': 'Difference of $[value] grade levels in favor of $[students].',
+
+  'HELP_LEGEND_VAL_GRD_GAP_LOW': 'Difference of $[value] in learning rates in favor of $[students].',
+  'HELP_LEGEND_VAL_GRD_GAP_MID': 'No difference',
+  'HELP_LEGEND_VAL_GRD_GAP_HIGH': 'Difference of $[value] in learning rates in favor of $[students].',
+
+  'HELP_LEGEND_VAL_COH_GAP_LOW': 'Difference of $[value] in trend of test scores in favor of $[students].',
+  'HELP_LEGEND_VAL_COH_GAP_MID': 'No difference',
+  'HELP_LEGEND_VAL_COH_GAP_HIGH': 'Difference of $[value] in trend of test scores in favor of $[students].',
+
+
+
   'HELP_MAP': 'What does the map show?',
   'HELP_MAP_DESC': 'This map of $[region] in $[state] shows $[metric] for $[demographic], on a scale $[metricDescription].',
+  'HELP_MAP_DESC_GAP': 'This map of $[region] in $[state] shows the $[gap] in $[metric].', 
   'HELP_MAP_DESC_AVG': 'the range of Average Test Scores',
   'HELP_MAP_DESC_AVG_DETAILS': 'of grade levels above and below the national average',
   'HELP_MAP_DESC_GRD': 'the range of Learning Rates',

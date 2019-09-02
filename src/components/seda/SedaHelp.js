@@ -4,7 +4,7 @@ import { getLang, getLegendEndLabelsForVarName } from '../../modules/lang';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
-import { getChoroplethColors, isGapVarName, getInvertedFromVarName, getMetricRangeFromVarName, getFormatterForVarName, getSingularRegion, valueToLowMidHigh } from '../../modules/config';
+import { getChoroplethColors, isGapVarName, getInvertedFromVarName, getMetricRangeFromVarName, getFormatterForVarName, getSingularRegion, valueToLowMidHigh, getGapDemographics, getMidpointForVarName } from '../../modules/config';
 import Panel from '../molecules/Panel';
 import AccordionItem from '../molecules/AccordionItem';
 import { hideHelpTopic, showHelpTopic } from '../../actions';
@@ -100,15 +100,37 @@ const HelpMap = withRouter(({id, match, expanded, onChange}) => {
   const [ startLabel, endLabel ] = getLegendEndLabelsForVarName(varName, 'HELP_LEGEND_');
   const colorRange = getMetricRangeFromVarName(varName, region, 'map');
   const legendRange = getMetricRangeFromVarName(varName, region);
-
+  const isGap = isGapVarName(varName);
+  const descriptionLang = isGap ?
+    getLang('HELP_MAP_DESC_GAP', {
+      region,
+      gap: getLang('LABEL_' + demographic),
+      metric: getLang('LABEL_' + metric),
+      state: highlightedState === 'us' ? 'the U.S.' : getStateNameFromAbbr(highlightedState),
+    }) :
+    getLang('HELP_MAP_DESC', {
+      region,
+      metric: getLang('HELP_MAP_DESC_' + metric),
+      demographic: demographic === 'all' ? 'students' : getLang('LABEL_STUDENTS_' + demographic),
+      state: highlightedState === 'us' ? 'the U.S.' : getStateNameFromAbbr(highlightedState),
+      metricDescription: getLang('HELP_MAP_DESC_' + metric + '_DETAILS')
+    })
   // formatter function for legend
   const formatter = (value) => {
     const numFormat = getFormatterForVarName(varName);
+    const midPoint = getMidpointForVarName(varName);
+    // hack to override mid value
+    value = metric === 'grd' && value === 0 ? 1 : value;
     const lowMidHigh = valueToLowMidHigh(metric, value);
-    const langKey = 'HELP_LEGEND_VAL_' + metric + '_' + lowMidHigh
+    const dems = isGap ? getGapDemographics(demographic) : [ demographic ];
+    const dem = isGap ?
+      (value > midPoint ? dems[0] : dems[1]) : dems[0]
+    const langKey = isGap ? 
+      'HELP_LEGEND_VAL_' + metric + '_GAP_' + lowMidHigh :
+      'HELP_LEGEND_VAL_' + metric + '_' + lowMidHigh
     return getLang(langKey, {
       value: numFormat(value),
-      students: getLang('LABEL_STUDENTS_' + demographic)
+      students: getLang('LABEL_STUDENTS_' + dem)
     })
   }
   return (
@@ -120,15 +142,7 @@ const HelpMap = withRouter(({id, match, expanded, onChange}) => {
     >
       <div>
         <Typography paragraph={true}>
-          {
-            getLang('HELP_MAP_DESC', {
-              region,
-              metric: getLang('HELP_MAP_DESC_' + metric),
-              demographic: demographic === 'all' ? 'students' : getLang('LABEL_STUDENTS_' + demographic),
-              state: highlightedState === 'us' ? 'the U.S.' : getStateNameFromAbbr(highlightedState),
-              metricDescription: getLang('HELP_MAP_DESC_' + metric + '_DETAILS')
-            })
-          }
+          { descriptionLang }
         </Typography>
         <LegendBar
           vertical={true}
