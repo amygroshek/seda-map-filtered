@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -16,6 +16,7 @@ const SedaGapChart = ({
   region,
   metric,
   demographic,
+  secondary,
   highlightedState,
   hovered,
   data,
@@ -24,8 +25,8 @@ const SedaGapChart = ({
   onHover,
   onClick,
   onError,
+  onSetSecondary,
 }) => {
-  const [ secondary, setSecondary ] = useState('ses');
   const vars = getMapVars(region, metric, demographic);
   const xDem = getDemographicIdFromVarName(vars.xVar);
   // segregation only for poor vs. non-poor
@@ -51,7 +52,7 @@ const SedaGapChart = ({
         { !isPoorVsNonpoor && 
             <GapTypeInlineMenu
               metric={secondary}
-              onChange={(id) => { setSecondary(id) }}
+              onChange={(id) => { onSetSecondary(id) }}
             />
         }
       </div>
@@ -93,14 +94,14 @@ SedaGapChart.propTypes = {
 
 const mapStateToProps = ({ 
   scatterplot: { data },
-  sections: { hovered },
+  sections: { hovered, gapChartX },
 },
-{ match: { params: { region, metric, secondary, demographic, highlightedState } } }
+{ match: { params: { region, metric, demographic, highlightedState } } }
 ) => {
   return ({
     region,
     metric,
-    secondary,
+    secondary: gapChartX,
     demographic,
     highlightedState,
     hovered,
@@ -114,7 +115,6 @@ const mapDispatchToProps = (dispatch) => ({
   onReady: () => 
     dispatch(onScatterplotLoaded('map')),
   onHover: (feature, vars, e) => {
-    console.log('hover', feature, vars)
     dispatch(onHoverFeature(feature, 'map'))
     dispatch(setTooltipVars(vars))
     dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
@@ -122,7 +122,13 @@ const mapDispatchToProps = (dispatch) => ({
   onClick: (location) =>
     dispatch(loadLocation(location)),
   onError: (e, sectionId = 'map') =>
-    dispatch(onScatterplotError(e, sectionId))
+    dispatch(onScatterplotError(e, sectionId)),
+  onSetSecondary: (metric) => {
+    dispatch({
+      type: 'SET_GAP_CHART_X',
+      metric
+    })
+  }
 })
 
 export default compose(

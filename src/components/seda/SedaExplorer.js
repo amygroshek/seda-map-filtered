@@ -1,19 +1,18 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateMapSize, loadRouteLocations, toggleGapChart, onMetricChange } from '../../actions';
+import { updateMapSize, loadRouteLocations, toggleGapChart, onMetricChange, loadFlaggedSchools } from '../../actions';
 
 import SplitSection from '../templates/SplitSection';
 import SedaLocations from './SedaLocations';
 import SedaMap from './SedaMap';
 import SedaChart from './SedaChart';
 import SedaHelp from './SedaHelp';
-import SedaIntro from './SedaIntro';
 import SedaLocationPanel from './SedaLocationPanel';
 import SedaTooltip from './SedaTooltip';
 import SedaGapChart from './SedaGapChart';
@@ -79,25 +78,32 @@ const ExplorerView = ({
   view,
   demographic,
   gapChart,
+  canRender,
   activeView,
   onMetricChange,
   onLayoutChange,
   onToggleGapChart,
+  loadFlaggedSchools
 }) => {
   // use state to track if the intro is on / off
-  const [introOn, setIntroOn] = useState(false);
+  // const [introOn, setIntroOn] = useState(false);
 
   // check if viewport is above medium
   const theme = useTheme();
   const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
 
-  // flag potential layout change after loading locations
+  // load locations and flag potential layout change afterwards
   useEffect(() => {
     loadRouteLocations(locations)
       .then(()=> {
         // set map size when locations load
         onLayoutChange('map')
       })
+  }, [])
+
+  // load flagged schools
+  useEffect(() => {
+    loadFlaggedSchools()
   }, [])
 
   // flag potential layout change when there are 0 or 1 locations
@@ -112,9 +118,7 @@ const ExplorerView = ({
 
   // flag layout change when view, helpOpen changes
   useEffect(() => { onLayoutChange(view) }, [ view, helpOpen, locationActive ])
-  return introOn ? (
-    <SedaIntro onMeasureClick={(mId) => {onMetricChange(mId); setIntroOn(false) }} /> 
-  ) : (
+  return (
     <>
       { isAboveMedium && <SedaTooltip /> }
       <SplitSection
@@ -123,19 +127,19 @@ const ExplorerView = ({
         helpPanelOn={helpOpen}
         locationPanelOn={locationActive}
         activeView={activeView}
-        rightComponent={<SedaMap />}
+        rightComponent={canRender && <SedaMap />}
         leftComponent={
-          <Charts 
+          canRender && <Charts 
             hasGapChart={hasGapChart(demographic)} 
             showGapChart={hasGapChart(demographic) && gapChart} 
             sectionId={view} 
             onChartToggle={onToggleGapChart}
           />
         }
-        footerContent={<SedaLocations />}
+        footerContent={canRender && <SedaLocations />}
       >
-        <SedaHelp />
-        <SedaLocationPanel />
+        { canRender && <SedaHelp /> }
+        { canRender && <SedaLocationPanel /> }
       </SplitSection>
     </>
   )
@@ -155,20 +159,22 @@ ExplorerView.propTypes = {
   gapChart: PropTypes.bool,
   classes: PropTypes.object,
   onToggleGapChart: PropTypes.func,
+  loadFlaggedSchools: PropTypes.func,
 }
 
 const mapStateToProps = 
   (
     { selected, ui: { helpOpen }, active, sections: { gapChart } },
-    { match: { params: { locations, region, view, demographic } } }
+    { match: { params: { metric, locations, region, view, demographic } } }
   ) => ({
     gapChart,
     view,
     demographic,
     helpOpen,
     locations,
-    selected: selected[region],
+    selected: region ? selected[region] : [],
     locationActive: Boolean(active),
+    canRender: Boolean(metric) && Boolean(demographic) && Boolean(view) && Boolean(region),
     activeView: view === 'map' ? 'right' :
       view === 'chart' ? 'left' : 'split'
   })
@@ -176,6 +182,8 @@ const mapStateToProps =
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadRouteLocations: (locations) => 
     dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
+  loadFlaggedSchools: () =>
+    dispatch(loadFlaggedSchools()),
   onLayoutChange: (view) => 
     ['map', 'split'].indexOf(view) > -1 &&
       dispatch(updateMapSize()),

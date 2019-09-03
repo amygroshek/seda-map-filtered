@@ -1,40 +1,16 @@
-{
+export default {
     "version": 8,
-    "name": "seda-dev",
-    "metadata": {
-        "mapbox:type": "default",
-        "mapbox:origin": "light-v10",
-        "mapbox:autocomposite": true,
-        "mapbox:groups": {
-            "1444855786460.0557": {"name": "Roads", "collapsed": false},
-            "1444934295202.7542": {
-                "name": "Admin boundaries",
-                "collapsed": true
-            },
-            "1444855799204.86": {"name": "Bridges", "collapsed": false},
-            "1444855769305.6016": {"name": "Tunnels", "collapsed": true}
-        },
-        "mapbox:sdk-support": {
-            "js": "0.50.0",
-            "android": "6.7.0",
-            "ios": "4.6.0"
-        }
-    },
-    "center": [-68.27798502403124, 41.36607037115243],
-    "zoom": 3.972905667346941,
-    "bearing": 0,
-    "pitch": 0,
+    "name": "seda",
     "sources": {
         "composite": {
-            "url": "mapbox://mapbox.mapbox-streets-v8,hyperobjekt.counties-dev,hyperobjekt.districts-dev,hyperobjekt.schools-dev",
+            "url": "mapbox://mapbox.mapbox-streets-v8,hyperobjekt.counties-" + process.env.REACT_APP_BUILD_ID + ",hyperobjekt.districts-" + process.env.REACT_APP_BUILD_ID + ",hyperobjekt.schools-" + process.env.REACT_APP_BUILD_ID,
             "type": "vector"
         },
         "states": {
             "type": "geojson",
-            "data": "https://d2fypeb6f974r1.cloudfront.net/dev/states.geojson"
+            "data": "https://data.edopportunity.org/" + process.env.REACT_APP_BUILD_ID + "/states.geojson"
         }
     },
-    "sprite": "mapbox://sprites/hyperobjekt/cjsh1snt00igp1fqg7lj0sd6d",
     "glyphs": "mapbox://fonts/hyperobjekt/{fontstack}/{range}.pbf",
     "layers": [
         {

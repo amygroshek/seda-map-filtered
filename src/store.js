@@ -33,16 +33,20 @@ const eventsMap = {
   }),
   'MAP_LEGEND_ACTION': (action) => ({
     event: 'chartButtonSelected',
-    chartButtonSelecttion: action.itemId
+    chartButtonSelection: action.itemId
   }),
-  'SHOW_HELP_TOPIC': (action) => ({
-    event: 'helpTopicExpanded',
-    helpTopicExpansion: action.topicId
-  }),
-  'SHOW_SINGLE_TOPIC': (action) => ({
-    event: 'helpTopicExpanded',
-    helpTopicExpansion: action.topicId
-  }),
+  'SHOW_HELP_TOPIC': (action) => {
+    return {
+      event: 'helpTopicExpanded',
+      helpTopicExpansion: action.topicId
+    }
+  },
+  'SHOW_SINGLE_TOPIC': (action) => {
+    return {
+      event: 'helpTopicExpanded',
+      helpTopicExpansion: action.topicId
+    }
+  },
   'REPORT_DOWNLOAD': (action) => ({
     event: 'reportDownloaded',
     locationName: action.feature.properties.name

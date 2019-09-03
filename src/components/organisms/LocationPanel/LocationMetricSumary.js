@@ -68,19 +68,34 @@ LocationMetric.propTypes = {
   feature: PropTypes.object.isRequired,
   metric: PropTypes.string.isRequired,
   children: PropTypes.node,
+  formatter: PropTypes.func,
+  onGapClick: PropTypes.func
 }
 
 
-
-const MetricSummary = ({metric, demographic = 'all', name, value, region}) => {
+const MetricSummary = ({
+  metric, 
+  formatter = formatNumber, 
+  name, 
+  value, 
+  region
+}) => {
   const langKey = region === 'schools' ?
     'SUMMARY_SCHOOL_' + metric + '_' + valueToLowMidHigh(metric, value) :
     'SUMMARY_' + metric + '_' + valueToLowMidHigh(metric, value);
   return (
     <Typography variant="body1" paragraph={true} 
-      dangerouslySetInnerHTML={{'__html': getLang(langKey, { name, value })}}>
+      dangerouslySetInnerHTML={{'__html': getLang(langKey, { name, value: formatter(value) })}}>
     </Typography>
   )
+}
+
+MetricSummary.propTypes = {
+  metric: PropTypes.string,
+  formatter: PropTypes.func,
+  name: PropTypes.string,
+  value: PropTypes.number,
+  region: PropTypes.string,
 }
 
 export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
@@ -108,7 +123,8 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
       <MetricSummary 
         metric='avg' 
         name={name} 
-        value={formatNumber(avgValue)} 
+        value={avgValue}
+        formatter={formatNumber}
         region={region}
       />
       <Callout
@@ -157,7 +173,8 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
       <MetricSummary 
         metric='grd' 
         name={name} 
-        value={formatPercentDiff(value)} 
+        value={value}
+        formatter={formatPercentDiff}
         region={region}
       />
       <Callout
@@ -207,7 +224,8 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
         metric='coh'
         region={region}
         name={name}
-        value={formatNumber(value)} 
+        value={value}
+        formatter={formatNumber}
       />
       <Callout
         type="help"

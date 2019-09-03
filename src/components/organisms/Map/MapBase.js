@@ -98,8 +98,10 @@ const MapBase = ({
 
   // handler for map load
   const handleLoad = (e) => {
-    setLoaded(true)
-    typeof onLoad === 'function' && onLoad(e)
+    if (!loaded) {
+      setLoaded(true)
+      if(typeof onLoad === 'function') { onLoad(e) }
+    }
   }
 
   // handler for viewport change

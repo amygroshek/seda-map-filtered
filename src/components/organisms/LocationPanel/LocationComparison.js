@@ -25,14 +25,10 @@ const getDataForFeatureId = (index, id) =>
             lon: hit.lon,
             name: hit.name,
             state: hit.state_name,
-            all_avg: 1.5,
-            all_grd: 0.8,
-            all_coh: 0.2,
-            all_ses: -0.5
-            // all_avg: hit.all_avg,
-            // all_grd: hit.all_grd,
-            // all_coh: hit.all_coh,
-            // all_ses: hit.all_ses
+            all_avg: hit.all_avg,
+            all_grd: hit.all_grd,
+            all_coh: hit.all_coh,
+            all_ses: hit.all_ses
           }
         }))[0]
     )
@@ -51,24 +47,29 @@ const SimilarLocations = ({
   markerColor,
   onSelectFeature
 }) => {
-  const endpoint = process.env.REACT_APP_SIMILAR_ENDPOINT;
+  const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'similar/';
   const [ similar, setSimilar ] = useState(null);
+  const [ fetchError, setFetchError ] = useState(null);
   const featureId = getFeatureProperty(feature, 'id');
   
   useEffect(() => {
     const filename = featureId.substring(0, 2) + '.csv';
     const fetchData = async () => {
-      const result = await axios(
-        `${endpoint}${region}/${filename}`,
-      );
-      const matcher = new RegExp(`^${featureId},.*\n`, 'gm');
-      const otherIds = result.data.match(matcher)[0]
-        .slice(0,-1)
-        .split(',')
-        .filter(id => id !== featureId)
-      const otherData =
-        await getDataForFeatureIds(otherIds, region);
-      setSimilar(otherData);
+      try {
+        const result = await axios(`${endpoint}${region}/${filename}`);
+        // regex to grab the line that matches the feature ID
+        const matcher = new RegExp(`^${featureId},.*\n`, 'gm');
+        const otherIds = result.data.match(matcher)[0]
+          .slice(0,-1)
+          .split(',')
+          .filter(id => id !== featureId)
+        const otherData =
+          await getDataForFeatureIds(otherIds, region);
+        setSimilar(otherData);
+        setFetchError(null);
+      } catch (e) {
+        setFetchError("Error fetching similar locations.")
+      }
     };
     fetchData();
   }, [ featureId ]);
@@ -86,7 +87,7 @@ const SimilarLocations = ({
         onSelectFeature={onSelectFeature}
       />
     </>
-  ) : <p>Loading...</p>
+  ) : (fetchError ? <p className='error'>{fetchError}</p> : <p>Loading...</p>)
 }
 
 SimilarLocations.propTypes = {

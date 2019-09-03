@@ -13,7 +13,7 @@ const statesFips = {
     "full": "Alaska",
     "abbr": "AK",
     "xmin": -179.148909,
-    "xmax": 179.77847,
+    "xmax": -119.9795,
     "ymin": 51.214183,
     "ymax": 71.365162
   },
@@ -456,6 +456,11 @@ export const getStateAbbrFromName = (name) => {
 export const getStateName = (id) =>
   getStateProp(id, 'full')
 
+export const getStateNameFromAbbr = (abbr) => {
+  const fips = getStateFipsFromAbbr(abbr)
+  return statesFips[fips].full;
+}
+
 /**
  * Gets a list of state options for `<Select />`
  */
@@ -469,6 +474,7 @@ export const getStateSelectOptions = () =>
   ))
 
 export const getStateFipsFromAbbr = (abbr) => {
+  if (!abbr) { return null; }
   return Object.keys(statesFips).find(fips => 
     statesFips[fips].abbr.toUpperCase() === abbr.toUpperCase()  
   )

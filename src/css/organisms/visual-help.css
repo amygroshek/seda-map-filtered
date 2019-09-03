@@ -1,8 +1,8 @@
 .help-legend.legend-bar--vertical {
-  height: 120px;
+  height: 192px;
   position:relative;
   width: 100%;
-  margin: 24px 0;
+  margin: 32px 0;
 }
 
 .help-legend .legend-bar__gradient {
@@ -13,43 +13,51 @@
   display: none;
 }
 
-.help-legend .legend-bar__label.legend-bar__label--low {
-  position: absolute;
-  bottom:-24px;
-  left:0;
-  margin:0;
-}
-
-.help-legend .legend-bar__label.legend-bar__label--high {
+.help-legend .legend-bar__label {
   position: absolute;
   top:-24px;
   left:0;
   margin:0;
+  display: none
 }
 
 .help-legend .legend-bar__value {
   position: absolute;
+  z-index:10;
   left: 16px;
   font-family: var(--body-font);
   font-weight: normal;
-  line-height: 18px;
+  line-height: 16px;
+  font-size: var(--small-font-size);
+  
+  padding: 4px 8px;
+}
+
+.help-legend .legend-bar__value:before {
+  content: "";
+  width:0;
+  height:0;
+  border: 6px solid transparent;
+  border-right-color: var(--grey3);
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:-12px;
+  margin:auto;
 }
 
 .help-legend .legend-bar__value.legend-bar__value--low {
   bottom: 0;
+  transform: translateY(50%);
 }
 
 .help-legend .legend-bar__value.legend-bar__value--zero {
-  margin-bottom: -8px;
+  transform: translateY(50%);
 }
 
-.help-content .help-legend__metric {
-  font-weight: normal;
-  font-family: var(--body-bold);
-}
-
-.help-content .help-legend__concept {
-  padding-bottom: 24px;
+.help-legend .legend-bar__value.legend-bar__value--high {
+  top: 0;
+  transform: translateY(-50%);
 }
 
 .help-content__section {

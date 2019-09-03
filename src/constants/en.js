@@ -30,6 +30,8 @@ const LANG = {
   'MENU_LINKEDIN': 'Educational Opportunity Project on LinkedIn',
   'MENU_YOUTUBE': 'Educational Opportunity Project on YouTube',
 
+  'SHARE_TWITTER': 'Explore educational opportunity in your community and around the country',
+
   // Footer
   'FOOTER_COPYRIGHT': 'Copyright 2019',
   'FOOTER_SHARE_LABEL': 'Share:',
@@ -192,6 +194,11 @@ const LANG = {
   // Location Panel Headings
   'PANEL_HEADING': '$[metric] for $[region]',
 
+  // Location panel flags
+  'FLAG_SPED': 'This school serves primarily special education students; keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+  'FLAG_LEP': 'This school serves primarily students with limited English proficiency (LEP); keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+  'FLAG_GIFTED': 'This school has a high percentage of gifted students; keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+
   // Location Panel Summaries (Counties / Districts)
   'SUMMARY_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
   'SUMMARY_AVG_MID': '$[name] provides <strong>roughly average</strong> educational opportunites.',
@@ -285,13 +292,6 @@ const LANG = {
   'LOCATION_HIDE_GRD': 'hide details on learning rates',
   'LOCATION_HIDE_COH': 'hide details on test score trends',
 
-  // Explainers
-  'EXPLAINER_AVG': 'Shows the set of educational opportunities children have had from birth to the time they take the tests',
-  'EXPLAINER_GRD': 'Shows how much students learn on average while they are in school',
-  'EXPLAINER_COH': 'Indicates the extent to which a community is getting better at providing educational opportunities over time',
-  'EXPLAINER_SES': '',
-  'EXPLAINER_SEG': '',
-
   // Description of metric value for location
   'VALUE_AVG_HIGH': '$[students] score <strong>$[value] grade levels above</strong> U.S. average.',
   'VALUE_AVG_MID': '$[students] test scores are at the national average.',
@@ -322,19 +322,6 @@ const LANG = {
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
 
-  // Section Titles
-  'TITLE_SES_AVG': 'Socioeconomic Status and Educational Opportunity',
-  'TITLE_SES_GRD': 'Socioeconomic Status and School Performance',
-  'TITLE_SES_COH': 'Socioeconomic Status and Changes in Opportunity',
-  'TITLE_OPP_AVG': 'Differences in Opportunity',
-  'TITLE_OPP_GRD': 'Differences in School Performance',
-  'TITLE_OPP_COH': 'Differences in Changes of Opportunity',
-  'TITLE_ACH_AVG': 'Gaps in Achievement',
-  'TITLE_ACH_GRD': 'Gaps in Learning Rates',
-  'TITLE_ACH_COH': 'Gaps in Opportunity Changes',
-
-  // Section Descriptions
-
   // Scatterplot Titles
   'SP_TITLE_AVG_SES': 'Educational Opportunity vs. Socioeconomic Status',
   'SP_TITLE_AVG_FRL': 'Educational Opportunity vs. % Free or Reduced Lunch Program ',
@@ -358,7 +345,6 @@ const LANG = {
   // Axis Names
   'AXIS_NAME_FRL_PCT': '% of students qualifying for free or reduced lunch program',
   'AXIS_NAME_SES': '',
-
 
   // Axis Labels
   'AXIS_AVG_MID': 'national\naverage',
@@ -424,13 +410,7 @@ const LANG = {
   'BUTTON_SHOW_CHART': 'Show gap vs. other metrics',
   'BUTTON_HIDE_CHART': 'Hide gap chart',
 
-  // Intro Section
-  'INTRO_TITLE': 'What type of educational opportunity would you like to explore?',
-  'INTRO_DESCRIPTION': 'Using over 330 million test scores across the U.S., we have calculated $[avg], $[grd], and $[coh] to measure educational opportunity.',
   'SEARCH_PLACEHOLDER': 'Find a city, county, district, or school',
-  'INTRO_CARD_DESCRIPTION_AVG': 'Average test scores are influenced by children`s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. ',
-  'INTRO_CARD_DESCRIPTION_GRD': 'Growth of test scores show how much students learn each year they are in school. It is a better measure of school quality and shows school-based opportunity.',
-  'INTRO_CARD_DESCRIPTION_COH': 'Change in test scores show how test scores are improving or declining in an an area from 2009 - 2016.  This shows how community educational opportunity is changing.',
 
   // Map Legend (Mobile)
   'LEGEND_LOW': '◀ lower',
@@ -521,9 +501,9 @@ const LANG = {
   'LEGEND_MAP_GRD_LOW': 'learns $[value] less',
   'LEGEND_MAP_GRD_MID': 'national average',
   'LEGEND_MAP_GRD_HIGH': 'learns $[value] more',
-  'LEGEND_MAP_GRD_GAP_LOW': '$[value] grade levels',
+  'LEGEND_MAP_GRD_GAP_LOW': '$[value] difference',
   'LEGEND_MAP_GRD_GAP_MID': 'no gap',
-  'LEGEND_MAP_GRD_GAP_HIGH': '+$[value] grade levels',
+  'LEGEND_MAP_GRD_GAP_HIGH': '+$[value] difference',
 
   'LEGEND_MAP_COH_LOW': '$[value] grade levels',
   'LEGEND_MAP_COH_MID': 'no change',
@@ -538,12 +518,6 @@ const LANG = {
   'HELP_PANEL_TITLE': 'Help',
   'HELP_PANEL_HOW_TAB': 'How to explore',
   'HELP_PANEL_WHAT_TAB': 'What am I seeing',
-
-  // What am I seeing conditionals
-  'HP_*_*_*_*_*': 'You are viewing a $[view] showing the relationship between $[metric] and $[secondary] for $[demographic] students in U.S. $[region].',
-  'HP_*_*_AVG_*_*': 'Community Educational Opportunity is reflected in average test scores. These scores are influenced by children\'s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. They encompass the total set of educational opportunities available in a community.',
-  'HP_*_*_GRD_*_*': 'Schools’ contributions to educational opportunity are reflected in the growth of children’s test scores while they are in school. The growth of test scores indicates how much students learn while in school. Because average test scores are influenced by many out-of-school opportunities, they reflect more than what children learn while they are in school. So growth of test scores is a better measure of school quality.',
-  'HP_*_*_COH_*_*': 'The change in test scores indicates whether educational opportunities are rising or falling in a community. For example, rates of change tell us whether this year’s third graders are doing better than last year’s third graders. They reflect both changes in school quality and changes in other family and community features that provide opportunities for children.',
 
   // What am I seeing labels
   'HP_MAP': 'map',
@@ -566,21 +540,55 @@ const LANG = {
   'HELP_LEGEND_VAL_AVG_MID': 'national average',
   'HELP_LEGEND_VAL_AVG_HIGH': '$[students] score $[value] grade levels above average',
 
-  'HELP_LEGEND_VAL_GRD_LOW': '$[students] learn $[value] more per grade than average',
+  'HELP_LEGEND_VAL_GRD_LOW': '$[students] learn $[value] less per grade than average',
   'HELP_LEGEND_VAL_GRD_MID': 'national average',
-  'HELP_LEGEND_VAL_GRD_HIGH': '$[students] learn $[value] less per grade than average',
+  'HELP_LEGEND_VAL_GRD_HIGH': '$[students] learn $[value] more per grade than average',
 
   'HELP_LEGEND_VAL_COH_LOW': '$[students] average test scores declining $[value] grade levels per year',
   'HELP_LEGEND_VAL_COH_MID': 'no change',
   'HELP_LEGEND_VAL_COH_HIGH': '$[students] average test scores improving $[value] grade levels per year',
 
+  'HELP_LEGEND_VAL_AVG_GAP_LOW': 'Difference of $[value] grade levels in favor of $[students].',
+  'HELP_LEGEND_VAL_AVG_GAP_MID': 'No difference',
+  'HELP_LEGEND_VAL_AVG_GAP_HIGH': 'Difference of $[value] grade levels in favor of $[students].',
+
+  'HELP_LEGEND_VAL_GRD_GAP_LOW': 'Difference of $[value] in learning rates in favor of $[students].',
+  'HELP_LEGEND_VAL_GRD_GAP_MID': 'No difference',
+  'HELP_LEGEND_VAL_GRD_GAP_HIGH': 'Difference of $[value] in learning rates in favor of $[students].',
+
+  'HELP_LEGEND_VAL_COH_GAP_LOW': 'Difference of $[value] in trend of test scores in favor of $[students].',
+  'HELP_LEGEND_VAL_COH_GAP_MID': 'No difference',
+  'HELP_LEGEND_VAL_COH_GAP_HIGH': 'Difference of $[value] in trend of test scores in favor of $[students].',
 
   'HELP_MAP': 'What does the map show?',
+  'HELP_MAP_DESC': 'This map of $[region] in $[state] shows $[metric] for $[demographic], on a scale $[metricDescription].',
+  'HELP_MAP_DESC_GAP': 'This map of $[region] in $[state] shows the $[gap] in $[metric].', 
+  'HELP_MAP_AVG_OVERVIEW': 'Average scores reflect more than just how well schools educate children; they reveal the full range of children’s educational opportunities, both in and out of school. (To better understand schools\' contributions, see Learning Rates.)',
+  'HELP_MAP_GRD_OVERVIEW': 'Learning rates measure how much student scores improve each year while they are in school. This is a better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school.',
+  'HELP_MAP_COH_OVERVIEW': 'Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community.',
+
   'HELP_CHART': 'What does the chart show?',
+  'HELP_CHART_DOTS': 'Each circle represents a $[region]. The circle’s size shows the number of $[demographic] students.',
+  'HELP_CHART_Y': 'This chart of $[region] in $[state] shows, on the vertical (Y) axis, $[metric] for $[demographic] on a scale $[metricDescription].',
+  'HELP_CHART_X_SES': 'The horizontal (X) axis shows the $[region]’s Socioeconomic Status (SES), which is a broad measure of the economic and social resources available in a community.',
+  'HELP_CHART_X_FRL': 'The horizontal (X) axis shows the percentage of students at the school who are eligible for the Federal Free & Reduced Price Lunch Program.',
+  'HELP_CHART_PRIMARY': 'The primary chart shows a comparison of $[demographic1] and $[demographic2] students’ $[metric]. Each circle represents a $[region] in $[state]. The circle’s size shows the number of students. The vertical (Y) axis shows $[metricRange] for $[demographic2] students, on a scale $[metricDescription]. The horizontal (X) axis shows the same for $[demographic1] students.',
+  'HELP_CHART_SECONDARY': 'The chart on the right shows the $[gap] in $[metric] on the vertical (Y) axis. The higher up the axis, the larger the gap. The horizontal (X) axis shows the gap in $[secondary] between these two groups. The farther to the right, the larger the gap favors $[demographic1] families. Each circle represents a $[region] in $[state]. The circle’s size shows the number of students.',
+
+  'HELP_DATA_OVERVIEW': 'The test scores represented here were collected across grades 3-8 and the years 2009-2016 from the nation’s public elementary and middle schools.',
+
+  'HELP_DESC_AVG': 'the range of Average Test Scores',
+  'HELP_DESC_AVG_DETAILS': 'of grade levels above and below the national average',
+  'HELP_DESC_GRD': 'the range of Learning Rates',
+  'HELP_DESC_GRD_DETAILS': 'representing how much students learned in school relative to the national average',
+  'HELP_DESC_COH': 'Trend in Test Scores',
+  'HELP_DESC_COH_DETAILS': 'representing how much average test scores have improved or declined over time',
+
   'HELP_AVG_CONCEPT': 'Why do average test scores show educational opportunities in and out of school?',
   'HELP_GRD_CONCEPT': 'Why do average learning rates largely reflect schools effectiveness?',
   'HELP_COH_CONCEPT': 'How do trends in test scores show changes in a community’s educational opportunities?',
   'HELP_SES_CONCEPT': 'How does socioeconomic status impact educational opportunity?',
+  
   'HELP_AVG': 'How are average test scores calculated?',
   'HELP_GRD': 'How are learning rates calculated?',
   'HELP_COH': 'How are trends in test scores calculated?',
@@ -588,27 +596,10 @@ const LANG = {
   'HELP_SEG': 'What is Segregation and how is it calculated?',
   'HELP_FRL': 'How is Free Lunch Rate calculated and what does it mean?',
 
-  'HELP_CHART_AVG': `
-    <strong>Average Test Scores</strong><br />
-    reflect educational opportunities in and out of school
-    <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s average test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing the national average. The vertical axis shows grade levels above or below the national average. 
-  `,
-  'HELP_CHART_GRD': `
-    <strong>Learning Rates</strong><br />
-    largely reflect school effectiveness
-    <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s learning rate. The horizontal axis shows the community’s socioeconomic status, with zero representing the national average. The vertical axis shows learning rates above or below the national average.
-  `,
-  'HELP_CHART_COH': `
-    <strong>Trends in Test Scores</strong><br /> 
-    reflect changes in educational opportunities
-    <br /><br />
-    Each circle represents a $[region]. The circle’s size shows the number of students, while the color shows the $[region]’s trend in test scores. The horizontal axis shows the community’s socioeconomic status, with zero representing "no change" in test scores. The vertical axis shows average annual test score changes, measured in grade levels per year. 
-  `,
-  'HELP_AVG_CONCEPT_A': `The average test score indicates how well the average student in a school, district, or county performs on standardized tests. Importantly, many factors—both early in life and when children are in school—affect test performance. As a result, the average test scores in a school, district, or county reflect the total set of educational opportunities children have had from birth through middle school, including opportunities at home, in child care and preschool programs, and among peers. Average test scores therefore reflect a mix of school quality and out-of-school educational opportunities.`,
-  'HELP_GRD_CONCEPT_A': `The learning rate indicates approximately how much students learn in each grade in a school, district, or county. Because most educational opportunities students experience in grades 3–8 are provided by schools, the average learning rate largely reflects school quality.`,
-  'HELP_COH_CONCEPT_A': `The trend in scores indicates how rapidly average test scores within a school, district, or county have changed over time. It reflects changes over time in the total set of educational opportunities (in and out of schools) available to children. For example, average scores might improve over time because the schools are improving and/or because more high-income families have moved into the community.`,
+  'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using Learning Rates, which measure how much student scores improve while they are in school.`,
+  'HELP_GRD_CONCEPT_A': `Learning rates measure how much student scores improve each year while they are in school. This is better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much its patients’ health improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their test scores improve while in school.`,
+  'HELP_COH_CONCEPT_A': `Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community. Where the trend is positive, students’ opportunities to learn are improving. Opportunities may improve over time because of changes in school quality or because of changes in children’s family resources, home environments, early childhood experiences, and community resources.`,
+
   'HELP_SES_CONCEPT_A': ``,
   'HELP_AVG_A': `The average test score is based on the average of standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more detail.`,
   'HELP_GRD_A': `The learning rate is based on changes in average test scores from each year and grade to the next year and grade (e.g., changes from 2015 3rd grade scores to 2016 4th grade scores). The learning rates are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='/help-faq/#how-measures-computed' target="_blank">FAQ</a> for more detail.`,

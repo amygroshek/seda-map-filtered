@@ -1,8 +1,8 @@
 ## Getting Started
 
 ```bash
-git clone https://github.com/notrab/create-react-app-redux.git
-cd create-react-app-redux
+git clone git@github.com:Hyperobjekt/seda-map.git
+cd seda-map
 npm install
 npm run start
 ```
