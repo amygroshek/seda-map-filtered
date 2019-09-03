@@ -16,7 +16,6 @@
 .accordion-item__content.MuiExpansionPanelDetails-root {
   padding: 0px 16px 24px 16px;
   display: block;
-  font-size: var(--small-font-size);
   color: var(--text2);
   line-height: 1.5;
 }
