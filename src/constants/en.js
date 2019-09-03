@@ -49,7 +49,7 @@ const LANG = {
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',
-  'LABEL_AVG_W': 'white students\' average test scores',
+  'LABEL_AVG_W': 'White students\' average test scores',
   'LABEL_AVG_B': 'Black students\' average test scores',
   'LABEL_AVG_A': 'Asian students\' average test scores',
   'LABEL_AVG_H': 'Hispanic students\' average test scores',
@@ -62,7 +62,7 @@ const LANG = {
   'LABEL_AVG_PN': 'Poor / Non-Poor Gap in Test Scores',
   'LABEL_AVG_MF': 'Male / Female Gap in Test Scores',
   'LABEL_GRD': 'learning rates',
-  'LABEL_GRD_W': 'white students\' learning rates',
+  'LABEL_GRD_W': 'White students\' learning rates',
   'LABEL_GRD_B': 'Black students\' learning rates',
   'LABEL_GRD_A': 'Asian students\' learning rates',
   'LABEL_GRD_H': 'Hispanic students\' learning rates',
@@ -75,7 +75,7 @@ const LANG = {
   'LABEL_GRD_PN': 'Poor / Non-Poor Gap in Learning Rates',
   'LABEL_GRD_MF': 'Male / Female Gap in Learning Rates',
   'LABEL_COH': 'trend in test scores',
-  'LABEL_COH_W': 'white students\' trend in test scores',
+  'LABEL_COH_W': 'White students\' trend in test scores',
   'LABEL_COH_H': 'Hispanic students\' trend in test scores',
   'LABEL_COH_B': 'Black students\' trend in test scores',
   'LABEL_COH_A': 'Asian students\' trend in test scores',
@@ -88,16 +88,16 @@ const LANG = {
   'LABEL_COH_PN': 'Poor / Non-Poor Gap in Test Score Trends',
   'LABEL_COH_MF': 'Male / Female Gap in Test Score Trends',
   'LABEL_SEG': 'school poverty',
-  'LABEL_SES_NO_REGION' : 'socioeconomic status',
-  'LABEL_SES': '$[region] socioeconomic status',
-  'LABEL_SES_W': 'White families\' socioeconomic status',
-  'LABEL_SES_B': 'Black families\' socioeconomic status',
-  'LABEL_SES_A': 'Asian families\' socioeconomic status',
-  'LABEL_SES_H': 'Hispanic families\' socioeconomic status',
-  'LABEL_SES_M': '$[region] socioeconomic status',
-  'LABEL_SES_F': '$[region] socioeconomic status',
-  'LABEL_SES_P': '$[region] socioeconomic status',
-  'LABEL_SES_NP': '$[region] socioeconomic status',
+  'LABEL_SES_NO_REGION' : 'socioeconomic status (SES)',
+  'LABEL_SES': '$[region] socioeconomic status (SES)',
+  'LABEL_SES_W': 'White families\' socioeconomic status (SES)',
+  'LABEL_SES_B': 'Black families\' socioeconomic status (SES)',
+  'LABEL_SES_A': 'Asian families\' socioeconomic status (SES)',
+  'LABEL_SES_H': 'Hispanic families\' socioeconomic status (SES)',
+  'LABEL_SES_M': '$[region] socioeconomic status (SES)',
+  'LABEL_SES_F': '$[region] socioeconomic status (SES)',
+  'LABEL_SES_P': '$[region] socioeconomic status (SES)',
+  'LABEL_SES_NP': '$[region] socioeconomic status (SES)',
   'LABEL_FRL': 'free or reduced-price lunch program',
 
   // Short Metric Labels
@@ -111,12 +111,12 @@ const LANG = {
   // Concepts that correspond to metric
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
-  'LABEL_CONCEPT_COH': 'change in educational opportunity',
+  'LABEL_CONCEPT_COH': 'educational opportunity change',
 
   // Demographic Labels
   'LABEL_ALL': 'all',
   'LABEL_B': 'Black',
-  'LABEL_W': 'white',
+  'LABEL_W': 'White',
   'LABEL_H': 'Hispanic',
   'LABEL_A': 'Asian',
   'LABEL_M': 'male',
@@ -126,19 +126,19 @@ const LANG = {
   'LABEL_N': 'non-poor',
 
   // Gap Labels
-  'LABEL_WB': 'white / Black gap',
-  'LABEL_WH': 'white / Hispanic gap',
+  'LABEL_WB': 'White / Black gap',
+  'LABEL_WH': 'White / Hispanic gap',
   'LABEL_PN': 'non-poor / poor gap',
   'LABEL_MF': 'male / female gap',
   'LABEL_GAP': '$[demographic1] and $[demographic2]',
 
   // Abbreviated Gap Labels
-  'LABEL_SHORT_BW': 'white / Black',
-  'LABEL_SHORT_HW': 'white / Hispanic',
+  'LABEL_SHORT_BW': 'White / Black',
+  'LABEL_SHORT_HW': 'White / Hispanic',
   'LABEL_SHORT_PN': 'poor / non-poor',
   'LABEL_SHORT_FM': 'male / female',
-  'LABEL_SHORT_WB': 'white / Black',
-  'LABEL_SHORT_WH': 'white / Hispanic',
+  'LABEL_SHORT_WB': 'White / Black',
+  'LABEL_SHORT_WH': 'White / Hispanic',
   'LABEL_SHORT_MF': 'male / female',
 
   // Demographic label for students
@@ -152,8 +152,8 @@ const LANG = {
   'LABEL_STUDENTS_P': 'Poor students',
   'LABEL_STUDENTS_NP': 'Non-poor students',
   'LABEL_STUDENTS_N': 'Non-poor students',
-  'LABEL_STUDENTS_WB': 'difference between white and Black students',
-  'LABEL_STUDENTS_WH': 'difference between white and Hispanic students',
+  'LABEL_STUDENTS_WB': 'difference between White and Black students',
+  'LABEL_STUDENTS_WH': 'difference between White and Hispanic students',
   'LABEL_STUDENTS_MF': 'difference between male and female students',
   'LABEL_STUDENTS_PN': 'difference between non-poor and poor students',
 
@@ -174,15 +174,15 @@ const LANG = {
   'TOOLTIP_SUMMARY': 'Click on a location for more data.',
   'TOOLTIP_TYPE_MAP': 'an area on the map',
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
-  'TOOLTIP_CONTEXT_ALL': 'Average for all students:',
-  'TOOLTIP_CONTEXT_W': 'Average for white students:',
-  'TOOLTIP_CONTEXT_B': 'Average for Black students:',
-  'TOOLTIP_CONTEXT_H': 'Average for Hispanic students:',
-  'TOOLTIP_CONTEXT_A': 'Average for Asian students:',
-  'TOOLTIP_CONTEXT_M': 'Average for male students:',
-  'TOOLTIP_CONTEXT_F': 'Average for female students:',
-  'TOOLTIP_CONTEXT_P': 'Average for poor students:',
-  'TOOLTIP_CONTEXT_NP': 'Average for non-poor students:',
+  'TOOLTIP_CONTEXT_ALL': 'Data for all students:',
+  'TOOLTIP_CONTEXT_W': 'Data for White students:',
+  'TOOLTIP_CONTEXT_B': 'Data for Black students:',
+  'TOOLTIP_CONTEXT_H': 'Data for Hispanic students:',
+  'TOOLTIP_CONTEXT_A': 'Data for Asian students:',
+  'TOOLTIP_CONTEXT_M': 'Data for male students:',
+  'TOOLTIP_CONTEXT_F': 'Data for female students:',
+  'TOOLTIP_CONTEXT_P': 'Data for poor students:',
+  'TOOLTIP_CONTEXT_NP': 'Data for non-poor students:',
   'TOOLTIP_CONTEXT_WB': 'White / Black gap in:',
   'TOOLTIP_CONTEXT_WH': 'White / Hispanic gap in:',
   'TOOLTIP_CONTEXT_PN': 'Poor / non-poor gap in:',
@@ -228,9 +228,9 @@ const LANG = {
   'SUMMARY_COHSES_NONE': ' ',
 
   // Location Panel Summaries (Schools)
-  'SUMMARY_SCHOOL_AVG_LOW': 'The community surrounding $[name] provides children with <strong>lower than average</strong> educational opportunites.',
-  'SUMMARY_SCHOOL_AVG_MID': 'The community surrounding $[name] provides children with <strong>roughly average</strong> educational opportunites.',
-  'SUMMARY_SCHOOL_AVG_HIGH': 'The community surrounding $[name] provides children with <strong>higher than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_LOW': 'The children attending $[name] have <strong>lower than average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_MID': 'The children attending $[name] have <strong>roughly average</strong> educational opportunites.',
+  'SUMMARY_SCHOOL_AVG_HIGH': 'The children attending $[name] have <strong>higher than average</strong> educational opportunites.',
   
   'SUMMARY_AVGFRL_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_AVGFRL_MID': 'Average scores are equal to $[region] with similar % free or reduced-price lunch program.',
@@ -246,9 +246,9 @@ const LANG = {
   'SUMMARY_GRDFRL_HIGH': 'Learning rates are $[value] higher than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_GRDFRL_NONE': ' ',
 
-  'SUMMARY_SCHOOL_COH_LOW': 'Educational opportunities in the community surrounding $[name] have declined in the years 2009-2016.',
-  'SUMMARY_SCHOOL_COH_MID': 'Educational opportunities in the community surrounding $[name] have been roughly stable in the years 2009-2016',
-  'SUMMARY_SCHOOL_COH_HIGH': 'Educational opportunities in the community surrounding $[name] have improved in the years 2009-2016.',
+  'SUMMARY_SCHOOL_COH_LOW': 'Educational opportunities for the children attending $[name] declined in the years 2009-2016.',
+  'SUMMARY_SCHOOL_COH_MID': 'Educational opportunities for the children attending $[name] were roughly stable in the years 2009-2016',
+  'SUMMARY_SCHOOL_COH_HIGH': 'Educational opportunities for the children attending $[name] improved in the years 2009-2016.',
 
   'SUMMARY_COHFRL_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar % free or reduced-price lunch program.',
   'SUMMARY_COHFRL_MID': 'Trends in test scores are similar to $[region] with similar % free or reduced-price lunch program.',
@@ -266,8 +266,8 @@ const LANG = {
   'CALLOUT_GRD': 'How do learning rates show school effectiveness?',
   'CALLOUT_COH': 'How does the average trend in test scores show changes in educational opportunity?',
 
-  'BUTTON_GAP_WB': 'Explore the white / Black Gap',
-  'BUTTON_GAP_WH': 'Explore the white / Hispanic Gap',
+  'BUTTON_GAP_WB': 'Explore the White / Black Gap',
+  'BUTTON_GAP_WH': 'Explore the White / Hispanic Gap',
   'BUTTON_GAP_PN': 'Explore the Poor / Non-poor Gap',
   'BUTTON_GAP_MF': 'Explore the male / female Gap',
   'BUTTON_DOWNLOAD_REPORT': 'Download Report',
@@ -318,7 +318,7 @@ const LANG = {
   // Description of gap value for location
   'VALUE_AVG_GAP': 'Difference of $[value] grade levels between $[demographic] students.',
   'VALUE_GRD_GAP': 'Difference of $[value] in learning rates between $[demographic] students.',
-  'VALUE_COH_GAP': 'Difference of $[value] in trend of test scores between $[demographic] students.',
+  'VALUE_COH_GAP': 'Difference of $[value] in test score trends between $[demographic] students.',
   'VALUE_SES_GAP': '',
   'VALUE_SEG_GAP': '',
 
@@ -448,9 +448,9 @@ const LANG = {
 
   // Average test score gaps
   'LEGEND_LOW_AVG_WB': ' ',
-  'LEGEND_HIGH_AVG_WB': 'Larger gap (white students score higher) ▶',
+  'LEGEND_HIGH_AVG_WB': 'Larger gap (White students score higher) ▶',
   'LEGEND_LOW_AVG_WH': ' ',
-  'LEGEND_HIGH_AVG_WH': 'Larger gap (white students score higher) ▶',
+  'LEGEND_HIGH_AVG_WH': 'Larger gap (White students score higher) ▶',
   'LEGEND_LOW_AVG_PN': ' ',
   'LEGEND_HIGH_AVG_PN': 'Larger gap (non-poor students score higher) ▶',
   'LEGEND_LOW_AVG_MF': ' ',
@@ -458,9 +458,9 @@ const LANG = {
 
   // Learning rate gaps
   'LEGEND_LOW_GRD_WB': ' ',
-  'LEGEND_HIGH_GRD_WB': 'Larger gap (white students learn more) ▶',
+  'LEGEND_HIGH_GRD_WB': 'Larger gap (White students learn more) ▶',
   'LEGEND_LOW_GRD_WH': ' ',
-  'LEGEND_HIGH_GRD_WH': 'Larger gap (white students learn more) ▶',
+  'LEGEND_HIGH_GRD_WH': 'Larger gap (White students learn more) ▶',
   'LEGEND_LOW_GRD_PN': ' ',
   'LEGEND_HIGH_GRD_PN': 'Larger gap (non-poor students learn more) ▶',
   'LEGEND_LOW_GRD_MF': ' ',
@@ -468,9 +468,9 @@ const LANG = {
 
   // Trend in scores gaps
   'LEGEND_LOW_COH_WB': ' ',
-  'LEGEND_HIGH_COH_WB': 'Larger gap (white students\' scores improve more) ▶',
+  'LEGEND_HIGH_COH_WB': 'Larger gap (White students\' scores improve more) ▶',
   'LEGEND_LOW_COH_WH': ' ',
-  'LEGEND_HIGH_COH_WH': 'Larger gap (white students\' scores improve more) ▶',
+  'LEGEND_HIGH_COH_WH': 'Larger gap (White students\' scores improve more) ▶',
   'LEGEND_LOW_COH_PN': ' ',
   'LEGEND_HIGH_COH_PN': 'Larger gap (non-poor students\' scores improve more) ▶',
   'LEGEND_LOW_COH_MF': ' ',
@@ -478,15 +478,15 @@ const LANG = {
 
   // SES gaps
   'LEGEND_LOW_SES_WB': ' ',
-  'LEGEND_HIGH_SES_WB': 'Larger SES gap, favoring white families ▶',
+  'LEGEND_HIGH_SES_WB': 'Larger SES gap, favoring White families ▶',
   'LEGEND_LOW_SES_WH': ' ',
-  'LEGEND_HIGH_SES_WH': 'Larger SES gap, favoring white families ▶',
+  'LEGEND_HIGH_SES_WH': 'Larger SES gap, favoring White families ▶',
 
   // SEG gaps
   'LEGEND_LOW_SEG_WB': ' ',
-  'LEGEND_HIGH_SEG_WB': 'Larger school poverty gap, favoring white families ▶',
+  'LEGEND_HIGH_SEG_WB': 'Larger school poverty gap, favoring White families ▶',
   'LEGEND_LOW_SEG_WH': ' ',
-  'LEGEND_HIGH_SEG_WH': 'Larger school poverty gap, favoring white families ▶',
+  'LEGEND_HIGH_SEG_WH': 'Larger school poverty gap, favoring White families ▶',
   'LEGEND_LOW_SEG': ' ',
   'LEGEND_HIGH_SEG': 'Larger school poverty gap, favoring non-poor families ▶',
 
@@ -591,7 +591,7 @@ const LANG = {
   
   'HELP_AVG': 'How are average test scores calculated?',
   'HELP_GRD': 'How are learning rates calculated?',
-  'HELP_COH': 'How are trends in test scores trends calculated?',
+  'HELP_COH': 'How are trends in test scores calculated?',
   'HELP_SES': 'What is socioeconomic status and how is it calculated?',
   'HELP_SEG': 'What is Segregation and how is it calculated?',
   'HELP_FRL': 'How is Free Lunch Rate calculated and what does it mean?',
@@ -599,12 +599,13 @@ const LANG = {
   'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using Learning Rates, which measure how much student scores improve while they are in school.`,
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much student scores improve each year while they are in school. This is better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much its patients’ health improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their test scores improve while in school.`,
   'HELP_COH_CONCEPT_A': `Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community. Where the trend is positive, students’ opportunities to learn are improving. Opportunities may improve over time because of changes in school quality or because of changes in children’s family resources, home environments, early childhood experiences, and community resources.`,
+
   'HELP_SES_CONCEPT_A': ``,
-  'HELP_AVG_A': `The average test score is based on the average of standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href="#">FAQ</a> for more detail.`,
-  'HELP_GRD_A': `The learning rate is based on changes in average test scores from each year and grade to the next year and grade (e.g., changes from 2015 3rd grade scores to 2016 4th grade scores). The learning rates are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='#'>FAQ</a> for more detail.`,
-  'HELP_COH_A': `The trend in test scores is based on changes in average test scores from each year to the next in the same grade (e.g., changes from 2015 3rd grade scores to 2016 3rd grade scores). The test score trends are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='#'>FAQ</a> for more detail.`,
+  'HELP_AVG_A': `The average test score is based on the average of standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more detail.`,
+  'HELP_GRD_A': `The learning rate is based on changes in average test scores from each year and grade to the next year and grade (e.g., changes from 2015 3rd grade scores to 2016 4th grade scores). The learning rates are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='/help-faq/#how-measures-computed' target="_blank">FAQ</a> for more detail.`,
+  'HELP_COH_A': `The trend in test scores is based on changes in average test scores from each year to the next in the same grade (e.g., changes from 2015 3rd grade scores to 2016 3rd grade scores). The test score trends are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='/help-faq/#how-measures-computed' target="_blank">FAQ</a> for more detail.`,
   'HELP_SES_A': `Socioeconomic status (SES) is a broad measure of the economic and social resources available in a community. It is based on information about the income, educational attainment, employment, and structure of all the families living in the community served by a school district or county. This information is combined into a single composite rating for each community. A rating of 0 represents the national average of socioeconomic status; higher ratings represent more affluent communities. See the <a href="/help-faq/#ses-measured" target="_blank">FAQ</a> for more detail. `,
-  'HELP_SEG_A': `Segregation measures the extent to which students in the region attend schools with different poverty rates. To compute it, we first compute the average free lunch rate in black, Hispanic, poor students’ schools and the average free lunch rate in white, nonpoor students’ schools. The segregation measure is the difference between these two average rates. A value of 0 means that black, Hispanic, or poor and white, or nonpoor students attend schools with equal free lunch rates, on average. Positive numbers indicate that black, Hispanic, or poor students in the region attend higher-poverty schools than white or nonpoor students. See the <a href="#">FAQ</a> for more detail.`,
+  'HELP_SEG_A': `Segregation measures the extent to which students in the region attend schools with different poverty rates. To compute it, we first compute the average free lunch rate in black, Hispanic, poor students’ schools and the average free lunch rate in White, nonpoor students’ schools. The segregation measure is the difference between these two average rates. A value of 0 means that black, Hispanic, or poor and White, or nonpoor students attend schools with equal free lunch rates, on average. Positive numbers indicate that black, Hispanic, or poor students in the region attend higher-poverty schools than White or nonpoor students. See the <a href="#">FAQ</a> for more detail.`,
   'HELP_FRL_A': `The free lunch rate measures the proportion of students in the school who are eligible for free or reduced-price lunches through the National School Lunch Program. Students are eligible for free or reduced-price lunches if their family income is below 185% of the poverty threshold. A school with a free lunch rate of 0% has no poor or near-poor students; the higher the free lunch rate, the greater the number of poor students. See the <a href="#">FAQ</a> for more detail.`,
 
 
