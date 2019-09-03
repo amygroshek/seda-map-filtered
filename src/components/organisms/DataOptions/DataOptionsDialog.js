@@ -71,6 +71,7 @@ const DataOptionsDialog = ({
 
   const handleClickOpen = () => {
     setOpen(true);
+    resetOptions();
   }
 
   /** Apply the settings that have changed on save */
