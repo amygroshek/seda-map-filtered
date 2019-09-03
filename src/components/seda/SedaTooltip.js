@@ -7,13 +7,17 @@ import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
 import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
 import { getLang, getDescriptionForVarName } from '../../modules/lang';
-import { getDemographicIdFromVarName, getMetricIdFromVarName, isVersusFromVarNames, getDemographicForVarNames } from '../../modules/config';
+import { getDemographicIdFromVarName, getMetricIdFromVarName, isVersusFromVarNames, getDemographicForVarNames, isGapVarName } from '../../modules/config';
 import { getStateName } from '../../constants/statesFips';
 import { Typography } from '@material-ui/core';
 
 
 const getShortVarNameLabel = (varName) => {
   return getLang('LABEL_SHORT_' + getMetricIdFromVarName(varName))
+}
+
+const getShortVarNameGapLabel = (varName) => {
+  return getLang('LABEL_SHORT_' + getMetricIdFromVarName(varName) + '_GAP')
 }
 
 const getDemographicLabel = (varName) => {
@@ -43,6 +47,7 @@ const ConnectedTooltip = ({
   const stateName = getStateName(featureId);
   const statVars = [yVar, xVar];
   const isVersus = isVersusFromVarNames(xVar, yVar);
+  const isGap = isGapVarName(yVar);
   const descriptionVars = useMemo(() => {
     return isVersus ?
       [ getDemographicForVarNames(xVar, yVar) + '_' + xVar.split('_')[1] ] :
@@ -82,9 +87,9 @@ const ConnectedTooltip = ({
             varNames={statVars}
             size="small"
             showDescription={false}
-            varNameToLabel={isVersus ? 
-              getDemographicLabel : 
-              getShortVarNameLabel
+            varNameToLabel={
+              isVersus ? getDemographicLabel : 
+                (isGap ? getShortVarNameGapLabel : getShortVarNameLabel)
             }
           />
           <Typography

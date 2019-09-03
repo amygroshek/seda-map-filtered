@@ -108,6 +108,13 @@ const LANG = {
   'LABEL_SHORT_FRL': 'Free Lunch',
   'LABEL_SHORT_SEG': 'Poverty',
 
+  'LABEL_SHORT_AVG_GAP': 'score gap',
+  'LABEL_SHORT_GRD_GAP': 'rate gap',
+  'LABEL_SHORT_COH_GAP': 'trend gap',
+  'LABEL_SHORT_FRL_GAP': 'Free Lunch',
+  'LABEL_SHORT_SEG_GAP': 'Poverty gap',
+  'LABEL_SHORT_SES_GAP': 'SES gap',
+
   // Concepts that correspond to metric
   'LABEL_CONCEPT_AVG': 'educational opportunity',
   'LABEL_CONCEPT_GRD': 'school effectiveness',
