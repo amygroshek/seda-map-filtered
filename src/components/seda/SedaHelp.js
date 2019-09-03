@@ -78,25 +78,15 @@ const HOW_TOPICS = [
 
 const COLORS = getChoroplethColors();
 
-const HelpChart = withRouter(({id, match, expanded, onChange}) => {
+const HelpNonGapChart = withRouter(({match}) => {
   const { region, demographic, metric, highlightedState } = match.params;
   const varName = demographic + '_' + metric;
-  const colors = isGapVarName(varName) ? 
-    [...COLORS].reverse() : COLORS;
+  const colors = COLORS;
   const invert = getInvertedFromVarName(varName);
-  const [ startLabel, endLabel ] = getLegendEndLabelsForVarName(varName, 'HELP_LEGEND_');
   const colorRange = getMetricRangeFromVarName(varName, region, 'map');
   const legendRange = getMetricRangeFromVarName(varName, region);
-  const isGap = isGapVarName(varName);
   const secondary = region === 'schools' ? 'frl' : 'ses';
-  const descriptionLang = isGap ?
-    getLang('HELP_CHART_Y_GAP', {
-      region,
-      gap: getLang('LABEL_' + demographic),
-      metric: getLang('LABEL_' + metric),
-      state: highlightedState === 'us' ? 'the U.S.' : getStateNameFromAbbr(highlightedState),
-    }) :
-    getLang('HELP_CHART_Y', {
+  const descriptionLang = getLang('HELP_CHART_Y', {
       region,
       metric: getLang('HELP_DESC_' + metric),
       demographic: demographic === 'all' ? 'students' : getLang('LABEL_STUDENTS_' + demographic),
@@ -106,28 +96,16 @@ const HelpChart = withRouter(({id, match, expanded, onChange}) => {
   // formatter function for legend
   const formatter = (value) => {
     const numFormat = getFormatterForVarName(varName);
-    const midPoint = getMidpointForVarName(varName);
     // hack to override mid value
     value = metric === 'grd' && value === 0 ? 1 : value;
     const lowMidHigh = valueToLowMidHigh(metric, value);
-    const dems = isGap ? getGapDemographics(demographic) : [ demographic ];
-    const dem = isGap ?
-      (value > midPoint ? dems[0] : dems[1]) : dems[0]
-    const langKey = isGap ? 
-      'HELP_LEGEND_VAL_' + metric + '_GAP_' + lowMidHigh :
-      'HELP_LEGEND_VAL_' + metric + '_' + lowMidHigh
+    const langKey = 'HELP_LEGEND_VAL_' + metric + '_' + lowMidHigh
     return getLang(langKey, {
       value: numFormat(value),
-      students: getLang('LABEL_STUDENTS_' + dem)
+      students: getLang('LABEL_STUDENTS_' + demographic)
     })
   }
   return (
-    <AccordionItem
-      id={id}
-      heading={getLang(id)}
-      expanded={expanded}
-      onChange={onChange}
-    >
       <div>
         <Typography paragraph={true}>
           { descriptionLang }
@@ -139,17 +117,71 @@ const HelpChart = withRouter(({id, match, expanded, onChange}) => {
           colors={colors}
           colorRange={colorRange}
           legendRange={legendRange}
-          startLabel={startLabel}
-          endLabel={endLabel}
           className='help-legend'
         />
         <Typography paragraph={true}>
           { getLang('HELP_CHART_X_' + secondary, { region: getSingularRegion(region)}) }
         </Typography>
         <Typography paragraph={true}>
-          { getLang('HELP_CHART_DOTS', { region: getSingularRegion(region)}) }
+          { 
+            getLang('HELP_CHART_DOTS', { 
+              region: getSingularRegion(region), 
+              demographic: getLang('LABEL_' + demographic)
+            }) 
+          }
         </Typography>
       </div>
+  )
+})
+
+const HelpGapChart = ({match, secondary = 'ses', secondaryOn}) => {
+  const { region, demographic, metric, highlightedState } = match.params;
+  const dems = getGapDemographics(demographic);
+  const context = {
+    gap: getLang('LABEL_' + demographic),
+    demographic1: getLang('LABEL_' + dems[0]),
+    demographic2: getLang('LABEL_' + dems[1]),
+    metric: getLang('LABEL_' + metric),
+    metricRange: getLang('HELP_DESC_' + metric),
+    metricDescription: getLang('HELP_DESC_' + metric + '_DETAILS'),
+    secondary: getLang('LABEL_' + secondary, { region: ' ' }),
+    state: highlightedState === 'us' ? 'the U.S.' : getStateNameFromAbbr(highlightedState),
+    region: getSingularRegion(region)
+  };
+  return (
+    <div>
+      <Typography paragraph={true}>
+        { getLang('HELP_CHART_PRIMARY', context) }
+      </Typography>
+      {
+        secondaryOn && 
+          <Typography paragraph={true}>
+            { getLang('HELP_CHART_SECONDARY', context) }
+          </Typography>
+      }
+    </div>
+  )
+}
+
+const ConnectedHelpGapChart = compose(
+  withRouter,
+  connect(({sections: { gapChart, gapChartX }}) => 
+    ({secondary: gapChartX, secondaryOn: gapChart})
+  , null)
+)(HelpGapChart)
+
+const HelpChart = withRouter(({id, match, expanded, onChange}) => {
+  const { demographic, metric } = match.params;
+  const varName = demographic + '_' + metric;
+  const isGap = isGapVarName(varName);
+  return (
+    <AccordionItem
+      id={id}
+      heading={getLang(id)}
+      expanded={expanded}
+      onChange={onChange}
+    >
+      { isGap ? <ConnectedHelpGapChart /> : <HelpNonGapChart />}
     </AccordionItem>
   )
 })

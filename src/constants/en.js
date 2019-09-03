@@ -568,10 +568,12 @@ const LANG = {
   'HELP_MAP_COH_OVERVIEW': 'Average student test scores are influenced by children’s home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community.',
 
   'HELP_CHART': 'What does the chart show?',
-  'HELP_CHART_DOTS': 'Each circle represents a $[region]. The circle’s size shows the number of students.',
+  'HELP_CHART_DOTS': 'Each circle represents a $[region]. The circle’s size shows the number of $[demographic] students.',
   'HELP_CHART_Y': 'This chart of $[region] in $[state] shows, on the vertical (Y) axis, $[metric] for $[demographic] on a scale $[metricDescription].',
   'HELP_CHART_X_SES': 'The horizontal (X) axis shows the $[region]’s Socioeconomic Status (SES), which is a broad measure of the economic and social resources available in a community.',
   'HELP_CHART_X_FRL': 'The horizontal (X) axis shows the percentage of students at the school who are eligible for the Federal Free & Reduced Price Lunch Program.',
+  'HELP_CHART_PRIMARY': 'The primary chart shows a comparison of $[demographic1] and $[demographic2] students’ $[metric]. Each circle represents a $[region] in $[state]. The circle’s size shows the number of students. The vertical (Y) axis shows $[metricRange] for $[demographic2] students, on a scale $[metricDescription]. The horizontal (X) axis shows the same for $[demographic1] students.',
+  'HELP_CHART_SECONDARY': 'The chart on the right shows the $[gap] in $[metric] on the vertical (Y) axis. The higher up the axis, the larger the gap. The horizontal (X) axis shows the gap in $[secondary] between these two groups. The farther to the right, the larger the gap favors $[demographic1] families. Each circle represents a $[region] in $[state]. The circle’s size shows the number of students.',
 
   'HELP_DATA_OVERVIEW': 'The test scores represented here were collected across grades 3-8 and the years 2009-2016 from the nation’s public elementary and middle schools.',
 

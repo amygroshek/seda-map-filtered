@@ -37,10 +37,20 @@ const gapChart = (state = false, action) => {
   }
 }
 
+const gapChartX = (state = 'ses', action) => {
+  switch(action.type) {
+    case 'SET_GAP_CHART_X':
+      return action.metric
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   hovered,
   active,
-  gapChart
+  gapChart,
+  gapChartX
 })
 
 
