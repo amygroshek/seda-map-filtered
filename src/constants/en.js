@@ -404,7 +404,7 @@ const LANG = {
   'AXIS_SEG_LOW': 'less',
   'AXIS_SEG_HIGH': 'more',
 
-  'AXIS_SEG_ZERO_GAP': 'no gap in\nsegregation',
+  'AXIS_SEG_GAP_MID': 'no gap',
   'AXIS_SEG_LOW_GAP': 'less',
   'AXIS_SEG_HIGH_GAP': 'more',
 
