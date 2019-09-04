@@ -484,6 +484,8 @@ export const getFormatterForVarName = (varName) => {
       return formatPercentDiff
     case 'frl':
       return formatPercent
+    case 'seg':
+      return formatPercent
     default:
       return formatNumber
   }
