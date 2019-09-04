@@ -48,9 +48,10 @@ const ConnectedTooltip = ({
   const statVars = [yVar, xVar];
   const isVersus = isVersusFromVarNames(xVar, yVar);
   const isGap = isGapVarName(yVar);
+  const demographic = getDemographicForVarNames(xVar, yVar);
   const descriptionVars = useMemo(() => {
     return isVersus ?
-      [ getDemographicForVarNames(xVar, yVar) + '_' + xVar.split('_')[1] ] :
+      [ demographic + '_' + xVar.split('_')[1] ] :
       [ yVar, xVar ]
   }, [ xVar, yVar ])
   // add var to feature if missing
@@ -68,6 +69,7 @@ const ConnectedTooltip = ({
       desc
   }, '')
   const langContextKey = getContextLangKey(isVersus, yVar);
+
   return (
     <div className="tooltip__wrapper">
       { (featureId) &&

@@ -2,7 +2,8 @@ import {
   isGapDemographic, 
   getMetricIdFromVarName, 
   getDemographicIdFromVarName, 
-  getFormatterForVarName
+  getFormatterForVarName,
+  getGapDemographics
 } from "./config";
 
 import LANG from '../constants/en';
@@ -184,6 +185,20 @@ const getDescriptionLangKey = (metricId, value) => {
   }
 }
 
+export const getDifferenceForMetric = (metricId, value) => {
+  switch(metricId) {
+    case 'ses':
+      return getLang(
+        value > 1.5 ? `DIFF_VERY_HIGH` :
+          value > 0.5 ? `DIFF_HIGH` :
+            value > -0.5 ? `DIFF_MID` :
+              value > -1.5 ? `DIFF_LOW` : `DIFF_VERY_LOW`
+      )
+    default:
+      return null;
+  }
+}
+
 /**
  * Returns a description string given the provided variable and
  * value. 
@@ -197,18 +212,30 @@ export const getDescriptionForVarName = (varName, value) => {
   const demographicId = getDemographicIdFromVarName(varName);
   const langKey = getDescriptionLangKey(metricId, value);
   const isGap = isGapDemographic(demographicId);
-  const formattedValue = '' + formatter(value);
+  const formattedValue = metricId === 'seg' ? 
+    (
+      formatter(value)[0] === '-' ? 
+        formatter(value).substr(1) : formatter(value)
+    ) : '' + formatter(value)
+
   if (!isGap) {
-    return getLang(langKey, { 
+    return getLang(langKey, {
       value: formattedValue[0] === '-' ? 
         formattedValue.substring(1) : formattedValue,
       students: getLang('LABEL_STUDENTS_' + demographicId)
     })
   }
   // gap demographic lang
+  const context = {
+    demographic1: getLang('LABEL_' + getGapDemographics(demographicId)[0]),
+    demographic2: getLang('LABEL_' + getGapDemographics(demographicId)[1]),
+    difference: getDifferenceForMetric(metricId, value),
+    highLow: value < 0 ? 'lower' : 'higher'
+  }
   return getLang('VALUE_' + metricId + '_GAP', { 
     value: formattedValue,
-    demographic: getLang('LABEL_SHORT_' + demographicId)
+    demographic: getLang('LABEL_SHORT_' + demographicId),
+    ...context
   })
   
   

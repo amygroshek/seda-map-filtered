@@ -108,12 +108,11 @@ const LANG = {
   'LABEL_SHORT_FRL': 'Free Lunch',
   'LABEL_SHORT_SEG': 'Poverty',
 
-  'LABEL_SHORT_AVG_GAP': 'score gap',
-  'LABEL_SHORT_GRD_GAP': 'rate gap',
-  'LABEL_SHORT_COH_GAP': 'trend gap',
-  'LABEL_SHORT_FRL_GAP': 'Free Lunch',
-  'LABEL_SHORT_SEG_GAP': 'Poverty gap',
-  'LABEL_SHORT_SES_GAP': 'SES gap',
+  'LABEL_SHORT_AVG_GAP': 'scores',
+  'LABEL_SHORT_GRD_GAP': 'rate',
+  'LABEL_SHORT_COH_GAP': 'trend',
+  'LABEL_SHORT_SEG_GAP': 'Poverty',
+  'LABEL_SHORT_SES_GAP': 'SES',
 
   // Concepts that correspond to metric
   'LABEL_CONCEPT_AVG': 'educational opportunity',
@@ -323,11 +322,17 @@ const LANG = {
   'VALUE_SEG': '<strong>$[value] school poverty</strong>',
 
   // Description of gap value for location
-  'VALUE_AVG_GAP': 'Difference of $[value] grade levels between $[demographic] students.',
-  'VALUE_GRD_GAP': 'Difference of $[value] in learning rates between $[demographic] students.',
-  'VALUE_COH_GAP': 'Difference of $[value] in test score trends between $[demographic] students.',
-  'VALUE_SES_GAP': '',
-  'VALUE_SEG_GAP': '',
+  'VALUE_AVG_GAP': '$[demographic1] and $[demographic2] students’ average scores differ by $[value] grade levels.',
+  'VALUE_GRD_GAP': '$[demographic1] and $[demographic2] students’ learning rates differ by $[value] per year.',
+  'VALUE_COH_GAP': '$[demographic1] and $[demographic2] students’ learning rates differ by $[value] grade levels per year.',
+  'VALUE_SES_GAP': '$[demographic1] students’ average socioeconomic status is $[difference] $[demographic2] students’.',
+  'VALUE_SEG_GAP': 'Poverty rate in $[demographic2] students’ schools are $[value] $[highLow] than $[demographic1] students’ schools.',
+
+  'DIFF_VERY_HIGH': 'much higher than',
+  'DIFF_HIGH': 'higher than',
+  'DIFF_MID': 'roughly equal to',
+  'DIFF_LOW': 'lower than',
+  'DIFF_VERY_LOW': 'much lower than',
 
   // Scatterplot Titles
   'SP_TITLE_AVG_SES': 'Educational Opportunity vs. Socioeconomic Status',
