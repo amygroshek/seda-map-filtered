@@ -237,8 +237,6 @@ export const getDescriptionForVarName = (varName, value) => {
     demographic: getLang('LABEL_SHORT_' + demographicId),
     ...context
   })
-  
-  
 }
 
 /**

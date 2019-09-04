@@ -38,6 +38,7 @@ const LANG = {
   'FOOTER_SHARE_FACEBOOK': 'Share on Facebook',
   'FOOTER_SHARE_TWITTER': 'Share on Twitter',
   'FOOTER_SHARE_LINK': 'Share Link',
+  'FOOTER_EMBED_LINK': 'Embed the map or chart',
   'FOOTER_EXPORT_LABEL': 'Export:',
   'FOOTER_EXPORT_PDF': 'PDF',
   'FOOTER_EXPORT_PPT': 'Powerpoint',

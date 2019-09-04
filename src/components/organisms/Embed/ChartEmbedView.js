@@ -124,8 +124,10 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch) => ({
   onData: (data, region) =>
     dispatch(onScatterplotData(data, region)),
-  onReady: () => 
-    dispatch(onScatterplotLoaded('map')),
+  onReady: () => {
+    dispatch(onScatterplotLoaded('map'))
+    window.SEDA.trigger('map')
+  },
   onHover: (feature, vars, e) => {
     dispatch(onHoverFeature(feature, 'map'))
     dispatch(setTooltipVars(vars))

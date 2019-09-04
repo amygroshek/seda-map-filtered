@@ -21,6 +21,8 @@ import { getLang } from '../../modules/lang';
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import EmbedDialog from '../organisms/Embed/EmbedDialog';
+import { ShareLinkDialog } from '../organisms/Share';
 
 
 const Charts = ({
@@ -141,6 +143,8 @@ const ExplorerView = ({
         { canRender && <SedaHelp /> }
         { canRender && <SedaLocationPanel /> }
       </SplitSection>
+      <EmbedDialog />
+      <ShareLinkDialog />
     </>
   )
 }

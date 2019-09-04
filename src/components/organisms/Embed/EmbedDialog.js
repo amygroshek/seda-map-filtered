@@ -49,12 +49,16 @@ const getEmbedCode = (link) => {
   return `<iframe src="${link}" style="width:720px;height:405px" frameborder="0"></iframe>`
 }
 
-function EmbedDialog({open, onClose, mapLink, chartLink}) {
+function EmbedDialog({open, onClose, ...rest}) {
   const [ copied, setCopied ] = React.useState('');
+  console.log(rest)
+  const mapLink = getMapEmbedLink(rest);
+  const chartLink = getChartEmbedLink(rest);
   const mapEmbedCode = getEmbedCode(mapLink);
-  const chartEmbedCode = getEmbedCode(chartLink);
+  const chartEmbedCode = getEmbedCode(getChartEmbedLink(rest));
 
   const handleFocus = (event) => event.target.select();
+  console.log(mapEmbedCode)
 
   return (
     <Dialog 
@@ -137,11 +141,26 @@ function EmbedDialog({open, onClose, mapLink, chartLink}) {
 
 const mapStateToProps = (
   state,
-  { match: { params } }
+  { match: { params: { 
+    region, 
+    demographic, 
+    metric, 
+    zoom, 
+    lat, 
+    lon, 
+    locations, 
+    highlightedState
+  } } }
 ) => {
   return {
-    mapLink: getMapEmbedLink(params),
-    chartLink: getChartEmbedLink(params),
+    region, 
+    demographic, 
+    metric, 
+    zoom, 
+    lat, 
+    lon, 
+    locations, 
+    highlightedState,
     open: state.ui.embedOpen,
   }
 }
