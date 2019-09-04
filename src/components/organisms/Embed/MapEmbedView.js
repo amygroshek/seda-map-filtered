@@ -117,6 +117,7 @@ const MapEmbedView = ({
         hoveredId={hoveredId}
         onHover={handleHover}
         onClick={()=>{}}
+        onLoad={() => window.SEDA.trigger('map')}
         {...{onViewportChange}}
       >
         <MapLegend

@@ -8,11 +8,11 @@ import TwitterIcon from '../atoms/TwitterIcon';
 import LinkIcon from '@material-ui/icons/Link';
 import CodeIcon from '@material-ui/icons/Code';
 import StanfordLogo from '../atoms/StanfordLogo';
-import EmbedDialog from '../organisms/Embed/EmbedDialog';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { connect } from 'react-redux'
 import { toggleEmbedDialog } from '../../actions';
-import { onTwitterShare, onFacebookShare, toggleLinkShareDialog, ShareLinkDialog } from '../organisms/Share';
+import { onTwitterShare, onFacebookShare, toggleLinkShareDialog } from '../organisms/Share';
 
 const branding = {
   url: '#',
@@ -20,20 +20,6 @@ const branding = {
 };
 
 const links = [
-  // {
-  //   id: 'export',
-  //   label: getLang('FOOTER_EXPORT_LABEL'),
-  //   items: [
-  //     {
-  //       id: 'pdf',
-  //       label: getLang('FOOTER_EXPORT_PDF'),
-  //     },
-  //     {
-  //       id: 'ppt',
-  //       label: getLang('FOOTER_EXPORT_PPT'),
-  //     }
-  //   ],
-  // },
   {
     id: 'share',
     label: getLang('FOOTER_SHARE_LABEL'),
@@ -69,14 +55,15 @@ const FooterLinks = ({id, label, links, onClick}) =>
     <span className="site-footer__link-label">{label}</span>
     {
       Boolean(links.length) && links.map((item, i) =>
-        <Button 
-          key={'footer-link-'+i} 
-          className="site-footer__button" 
-          onClick={() => onClick(id, item)}
-          aria-label={item.icon && item.label}
-        >
-          { item.icon ? item.icon : item.label }
-        </Button>  
+        <Tooltip key={'footer-link-'+i} title={item.label} placement="top">
+          <Button 
+            className="site-footer__button" 
+            onClick={() => onClick(id, item)}
+            aria-label={item.icon && item.label}
+          >
+            { item.icon ? item.icon : item.label }
+          </Button>
+        </Tooltip>
       )
     }
   </div>
@@ -123,8 +110,6 @@ const SedaFooter = ({
       copyright={copyright}
       links={
         <div className="site-footer__actions">
-          <EmbedDialog />
-          <ShareLinkDialog />
           { links && links.map((collection, i) =>
             <FooterLinks
               id={collection.id}
