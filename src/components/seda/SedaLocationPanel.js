@@ -7,6 +7,7 @@ import LocationPanel from '../organisms/LocationPanel';
 import { onReportDownload, clearActiveLocation, setDemographicAndMetric, loadLocation, handleLocationActivation, toggleHelp, showSingleHelpTopic, onShowSimilar } from '../../actions';
 import { getRegionFromFeature } from '../../modules/config';
 import { getFeatureProperty } from '../../modules/features';
+import axios from 'axios';
 
 const getFeatureFlags = (feature, flagged) => {
   const featureId = getFeatureProperty(feature, 'id');
@@ -28,6 +29,7 @@ const SedaLocationPanel = ({
   onGapClick,
   onHelpClick,
   onSelectFeature,
+  onDownloadReport
 }) => {
   // use memo to store other features
   const others = useMemo(() => 
@@ -48,6 +50,7 @@ const SedaLocationPanel = ({
       onHelpClick={handleHelpClick}
       onSelectFeature={onSelectFeature}
       onShowSimilar={onShowSimilar}
+      onDownloadReport={onDownloadReport}
     />
   )
 }
@@ -103,6 +106,29 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onDownloadReport: (feature) => {
     dispatch(onReportDownload(feature))
+    axios({
+      url: 'http://localhost:3001/',
+      method: 'POST',
+      data: {
+        "region": "county",
+        "location": {
+          ...feature.properties,
+          "diff_avg": -1.244,
+          "diff_grd": -12,
+          "diff_coh": 1.34499
+        },
+        "url": "https://specific-view-selected.test",
+        "others": null
+      },
+      responseType: 'blob', // important
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', feature.properties.name+'.pdf');
+      document.body.appendChild(link);
+      link.click();
+    });
   }
 })
 
