@@ -43,26 +43,27 @@ function ScatterplotPreview({
   children,
   onError
 }) {
+  const regionData = data && data[region]
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
       return getScatterplotOptions(
         'preview', 
-        data[region], 
+        regionData, 
         { xVar, yVar, zVar }, 
         highlightedState,
         region
       )
     },
-    [xVar, yVar, zVar, highlightedState, data[region]]
+    [xVar, yVar, zVar, highlightedState, regionData, region]
   );
   // memoize highlighted state IDs for the scatterplot
   const highlighted = useMemo(() => {
-      const hl = getStateHighlights(highlightedState, data && data[region])
+      const hl = getStateHighlights(highlightedState, regionData)
       // limit to 3000
       return hl.slice(0, 3000)
     },
-    [highlightedState, region, data[region]]
+    [highlightedState, regionData]
   );
   return (
     <div className='scatterplot-preview'>

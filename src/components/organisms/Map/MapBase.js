@@ -87,7 +87,7 @@ const MapBase = ({
   // update map style layers when layers change
   const mapStyle = useMemo(() => 
     getUpdatedMapStyle(style, layers),
-    [ layers ]
+    [ style, layers ]
   );
 
   // update list of interactive layer ids when layers change
@@ -127,18 +127,17 @@ const MapBase = ({
   const handleClick = ({ features }) =>
     features && features.length > 0 && onClick(features[0])
 
-  // handler for resize event
-  const handleResize = () => {
-    onViewportChange({...getContainerSize(mapEl.current)}, false);
-  }
-
   // resize map on window resize
   useEffect(() => {
+    // handler for resize event
+    const handleResize = () => {
+      onViewportChange({...getContainerSize(mapEl.current)}, false);
+    }
     window.addEventListener('resize', handleResize);
     return function cleanup() {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [ onViewportChange ]);
 
   // set hovered outline when hoveredId changes
   useEffect(() => {
@@ -146,7 +145,8 @@ const MapBase = ({
       setFeatureState(prev.hoveredId, { hover: false });
     hoveredId &&
       setFeatureState(hoveredId, { hover: true });
-  }, [ hoveredId, loaded ])
+  // eslint-disable-next-line
+  }, [ hoveredId, loaded ]) // update only when hovered id changes
 
   // set selected outlines when selected IDs change
   useEffect(() => {
@@ -156,7 +156,8 @@ const MapBase = ({
     selectedIds.forEach((id, i) => 
       setFeatureState(id, { selected: selectedColors[i % selectedColors.length] })
     )
-  }, [ selectedIds, loaded ])
+  // eslint-disable-next-line
+  }, [ selectedIds, loaded ]) // update only when selected ids change
 
   return (
     <div 

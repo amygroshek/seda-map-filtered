@@ -46,7 +46,8 @@ const MapEmbedView = ({
         // set map size when locations load
         onLayoutChange()
       })
-  }, [])
+  // eslint-disable-next-line
+  }, []) // only load on mount
 
   const vars = getScatterplotVars(region, metric, demographic);
 
