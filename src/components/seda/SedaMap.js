@@ -46,7 +46,8 @@ const SedaExplorerMap = ({
     ) {
       resetHighlightedState && resetHighlightedState()
     }
-  }, [viewport.zoom])
+  // eslint-disable-next-line
+  }, [viewport.zoom]) // only execute when viewport zoom changes
 
   // map layers for choropleths / dots
   const layers = useMemo(() => {

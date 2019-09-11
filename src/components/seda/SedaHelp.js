@@ -386,7 +386,7 @@ const SedaHelp = ({
         , 200);
       }
     }
-  }, [ help ])
+  }, [ prev, help ])
 
   /** Template */
 
