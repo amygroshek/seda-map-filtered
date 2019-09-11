@@ -54,7 +54,7 @@ const SedaLocations = ({
   onCardEntered, 
   onCardExited
 }) => {
-  const cards = useMemo(() => getCards(selected, features), [ selected ])
+  const cards = useMemo(() => getCards(selected, features), [ selected, features ])
   return (cards && cards.length ?
     <LocationStack {...{
         activeId, 

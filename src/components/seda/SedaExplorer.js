@@ -101,12 +101,13 @@ const ExplorerView = ({
         // set map size when locations load
         onLayoutChange('map')
       })
-  }, [])
+  // eslint-disable-next-line
+  }, []) // empty array so this only happens on mount
 
   // load flagged schools
   useEffect(() => {
     loadFlaggedSchools()
-  }, [])
+  }, [ loadFlaggedSchools ])
 
   // flag potential layout change when there are 0 or 1 locations
   useEffect(() => {
@@ -116,10 +117,12 @@ const ExplorerView = ({
     ) {
       onLayoutChange('map')
     }
-  }, [ selected ])
+  }, [ selected, onLayoutChange ])
 
   // flag layout change when view, helpOpen changes
-  useEffect(() => { onLayoutChange(view) }, [ view, helpOpen, locationActive ])
+  useEffect(() => { 
+    onLayoutChange(view) 
+  }, [ view, helpOpen, locationActive, onLayoutChange ])
   return (
     <>
       { isAboveMedium && <SedaTooltip /> }

@@ -143,7 +143,7 @@ const ScatterplotOverlay = ({
       region, 
       selected, 
     })
-  , [xVar, yVar, zVar, selected, region, features])
+  , [xVar, yVar, zVar, selected, region, features, xValueToPercent, yValueToPercent, zValueToRadius])
   // circle for hovered feature
   const hoveredCircle = !isHoveredSelected(hovered, selected)
     && getCircleForFeature({

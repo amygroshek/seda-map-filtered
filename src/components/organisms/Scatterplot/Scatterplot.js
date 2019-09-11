@@ -52,36 +52,37 @@ function Scatterplot({
   onReady,
   onError
 }) {
-
+  const regionData = data[region]
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
       const options = getScatterplotOptions(
         variant, 
-        data[region], 
+        regionData, 
         { xVar, yVar, zVar }, 
         highlightedState,
         region
       )
       return options
     },
-    [xVar, yVar, zVar, highlightedState, data[region]]
+    [xVar, yVar, zVar, region, variant, highlightedState, regionData]
   );
 
   // memoize highlighted state IDs for the scatterplot
   const highlighted = useMemo(() => {
-    const hl = getStateHighlights(highlightedState, data && data[region])
+    const hl = getStateHighlights(highlightedState, regionData)
     // limit to 3000
     return hl.slice(0, 3000)
-  }, [highlightedState, region, data[region]]);
+  }, [highlightedState, regionData]);
 
+  const needsData = !data || !data[region] || !data['name']
   // fetch base vars for region if they haven't already been fetched
   // this is required 
   useEffect(() => {
-    if (!data || !data[region] || !data['name']) {
+    if (needsData) {
       fetchScatterplotVars(
         [ 'name' ], 
-        region, 
+        region,
         endpoint, 
         getBaseVars()[region]
       ).then((data) => {
@@ -89,7 +90,9 @@ function Scatterplot({
         return data
       })
     }
-  }, [ region, zVar ]);
+  // disable lint, this doesn't need to fire when onData changes
+  // eslint-disable-next-line
+  }, [ region, zVar, region, needsData ]);
 
   // fetch any additional school level data for highlighted states
   useEffect(() => {
@@ -105,6 +108,8 @@ function Scatterplot({
         return data
       })
     }
+  // disable lint, this doesn't need to fire when onData changes
+  // eslint-disable-next-line
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
 
   return (

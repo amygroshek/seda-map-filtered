@@ -72,7 +72,7 @@ const SimilarLocations = ({
       }
     };
     fetchData();
-  }, [ featureId ]);
+  }, [ featureId, endpoint, region ]);
   return similar ? (
     <>
       <Typography>
