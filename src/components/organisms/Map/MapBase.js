@@ -165,6 +165,7 @@ const MapBase = ({
       onMouseLeave={() => handleHover({features: null, point: [null, null]})}
     >
       <ReactMapGL
+        tabindex="-1"
         ref={mapRef}
         mapStyle={mapStyle}
         dragRotate={false}

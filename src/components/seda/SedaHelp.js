@@ -350,19 +350,6 @@ const SedaHelp = ({
   help
 }) => {
   
-  /** context for populating help (not currently used, but may be needed later) */
-
-  // const isGap = isGapDemographic(demographic)
-
-  // const context = {
-  //   demographic1: isGap && demographic[1],
-  //   demographic2: isGap && demographic[0],
-  //   demographic,
-  //   region, 
-  //   metric,
-  //   secondary
-  // }
-
   /** Help Topics */
   
   const currentTopics = getCurrentViewTopics(view, metric, secondary);
@@ -373,14 +360,28 @@ const SedaHelp = ({
 
   // ref for the panel scrollable div
   const ref = useRef(null);
+  // track open state to give focus
+  const prevOpen = usePrevious(open);
   // track previous to get newly expanded topics
   const prev = usePrevious(help);
+
+  // effect to give proper focus on open / close
+  useEffect(() => {
+    if (!prevOpen && open) {
+      document.getElementById('helpClose').focus()
+    }
+    if (prevOpen && !open) {
+      document.getElementById('helpToggle').focus()
+    }
+  }, [ open ]);
+
   // effect to scroll to selected items
   useEffect(() => {
     if (prev && help && ref) {
       const newTopic = help.filter(tId => prev.indexOf(tId) === -1);
       if (newTopic.length === 1) {
         const topicEl = document.getElementById(newTopic[0]);
+        topicEl.focus();
         setTimeout(() =>
           scrollTo(ref.current, topicEl.offsetTop - ref.current.offsetTop, 200)
         , 200);
@@ -396,6 +397,7 @@ const SedaHelp = ({
       open={open} 
       onClose={onClose} 
       classes={{root: 'panel--help'}}
+      closeId='helpClose'
       ref={ref}
     >
       <div className="help-content">

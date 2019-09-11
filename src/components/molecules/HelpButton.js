@@ -6,6 +6,7 @@ import { Button } from '@material-ui/core';
 const HelpButton = ({className, ...props}) => {
   return (
     <Button 
+      id="helpToggle"
       className={classNames("button--help", className)}
       color='secondary'
       variant="contained"
