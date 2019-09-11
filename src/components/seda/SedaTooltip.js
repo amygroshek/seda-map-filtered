@@ -41,11 +41,6 @@ const ConnectedTooltip = ({
   yVar, 
   xVar
 }) => {
-  if (!feature || !feature.properties) { return null }
-  const featureId = getFeatureProperty(feature, 'id');
-  const title = getFeatureProperty(feature, 'name');
-  const stateName = getStateName(featureId);
-  const statVars = [yVar, xVar];
   const isVersus = isVersusFromVarNames(xVar, yVar);
   const isGap = isGapVarName(yVar);
   const demographic = getDemographicForVarNames(xVar, yVar);
@@ -54,6 +49,12 @@ const ConnectedTooltip = ({
       [ demographic + '_' + xVar.split('_')[1] ] :
       [ yVar, xVar ]
   }, [ xVar, yVar ])
+  if (!feature || !feature.properties) { return null }
+  const featureId = getFeatureProperty(feature, 'id');
+  const title = getFeatureProperty(feature, 'name');
+  const stateName = getStateName(featureId);
+  const statVars = [yVar, xVar];
+
   // add var to feature if missing
   if (
     isVersus && 
