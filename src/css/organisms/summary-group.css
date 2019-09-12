@@ -58,6 +58,11 @@
   overflow:hidden;
 }
 
+/** Hide the ripple on the tab when focusing on the close button */
+.tab__wrapper:focus-within + .MuiTouchRipple-root {
+  display: none;
+}
+
 .tab.summary-group__cards-enter {
   transform: translateY(100%);
 }

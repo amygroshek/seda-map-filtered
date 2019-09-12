@@ -121,9 +121,6 @@ const HeaderSecondary = ({
       className={classNames({ 'button--help-on': helpOpen})}
       onClick={onHelpClick}
     />
-    <SedaSearch inputProps={{
-      placeholder: getLang('SEARCH_PLACEHOLDER')
-    }} />
     <HeaderSecondaryControls metric={metric} region={region} />
     <ToggleButtons
       items={[
@@ -146,6 +143,9 @@ const HeaderSecondary = ({
       activeItemId={view}
       setActiveItem={onViewChange}
     />
+    <SedaSearch inputProps={{
+      placeholder: getLang('SEARCH_PLACEHOLDER')
+    }} />
   </div>
 }
 
@@ -182,13 +182,15 @@ const SedaHeader = ({
       <HeaderSecondary {...{metric, region, view, helpOpen, onViewChange, onHelpClick}} />
     }
     actionContent={
-      <MenuButton onClick={onMenuClick}>
-        <MenuIcon />
-      </MenuButton>
+      <>
+        <MenuButton onClick={onMenuClick}>
+          <MenuIcon />
+        </MenuButton>
+        <SedaMenu />
+      </>
     }
     {...rest}
   >
-    <SedaMenu />
   </Header>
 
 SedaHeader.propTypes = {
