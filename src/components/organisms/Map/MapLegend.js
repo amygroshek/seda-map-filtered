@@ -106,7 +106,7 @@ const MapLegend = ({
               )
             }
             { ' ' }
-            <ButtonBase onClick={() => onHelpClick(helpOpen)} className="button--link">more info</ButtonBase>
+            <ButtonBase onClick={() => onHelpClick(helpOpen)} className="button button--link">more info</ButtonBase>
           </Typography>
 
           { variant === 'chart' &&

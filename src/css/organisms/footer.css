@@ -11,6 +11,12 @@
   z-index: 99;
 }
 
+.site-footer__branding-link {
+  display: block;
+  height: 40px;
+  line-height: 1;
+}
+
 .site-footer__copyright {
   flex: 1;
 }

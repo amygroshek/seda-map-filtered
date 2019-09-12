@@ -100,6 +100,9 @@ const MapBase = ({
   const handleLoad = (e) => {
     if (!loaded) {
       setLoaded(true)
+      // HACK: remove tabindex from map div
+      document.querySelector('.map:first-child')
+        .children[0].removeAttribute('tabindex');
       if(typeof onLoad === 'function') { onLoad(e) }
     }
   }
@@ -166,7 +169,6 @@ const MapBase = ({
       onMouseLeave={() => handleHover({features: null, point: [null, null]})}
     >
       <ReactMapGL
-        tabindex="-1"
         ref={mapRef}
         mapStyle={mapStyle}
         dragRotate={false}

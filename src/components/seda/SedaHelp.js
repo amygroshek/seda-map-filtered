@@ -373,7 +373,7 @@ const SedaHelp = ({
     if (prevOpen && !open) {
       document.getElementById('helpToggle').focus()
     }
-  }, [ open ]);
+  }, [ open, prevOpen ]);
 
   // effect to scroll to selected items
   useEffect(() => {
