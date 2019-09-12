@@ -31,8 +31,13 @@
     height:100%;
     width:100%;
     text-align: left; 
-
     transition: transform 0.2s ease-in-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section__content {
+      transition: none;
+    }
   }
 
     /** Left side of section */
