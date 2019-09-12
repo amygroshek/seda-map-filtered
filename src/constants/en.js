@@ -55,7 +55,7 @@ const LANG = {
   'UI_CHART_BUTTON_SR': 'Go to chart view',
   'UI_SPLIT_BUTTON_SR': 'Go to chart and map split view',
   'UI_MAP_SR': 'Map of $[region] in the United States, with colors showing $[metric] for $[demographic].',
-  'UI_CHART_SR': 'Scatterplot with dots representing $[region] in the United States.  $[region] are placed vertically on the Y axis based on their $[yVar] value and horizontally on the X axis based on their $[yVar] value.',
+  'UI_CHART_SR': 'Scatterplot with dots representing $[region] in the United States.  $[region] are positioned vertically on the Y axis based on $[yVar] and horizontally on the X axis based on $[xVar].',
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',

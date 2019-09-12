@@ -84,7 +84,8 @@ const MetricSummary = ({
     'SUMMARY_SCHOOL_' + metric + '_' + valueToLowMidHigh(metric, value) :
     'SUMMARY_' + metric + '_' + valueToLowMidHigh(metric, value);
   return (
-    <Typography variant="body1" paragraph={true} 
+    // eslint-disable-next-line
+    <Typography role="text" variant="body1" paragraph={true} 
       dangerouslySetInnerHTML={{'__html': getLang(langKey, { name, value: formatter(value) })}}>
     </Typography>
   )

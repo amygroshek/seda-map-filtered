@@ -104,3 +104,9 @@ export const titleCase = (str) => {
     return word.replace(word[0], word[0].toUpperCase());
   }).join(' ');
 }
+
+export const stripHtml = (html) => {
+  var tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}
