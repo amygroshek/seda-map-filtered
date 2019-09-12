@@ -47,6 +47,7 @@ const MapBase = ({
   children,
   idMap,
   selectedColors = [ '#00ff00' ],
+  ariaLabel,
   onViewportChange,
   onHover,
   onClick,
@@ -61,6 +62,12 @@ const MapBase = ({
 
   // refernce to the ReactMapGL instance
   const mapRef = useRef(null);
+
+  // canvase element
+  const canvas = mapRef && 
+    mapRef.current && 
+    mapRef.current.getMap && 
+    mapRef.current.getMap().getCanvas();
 
   // storing previous hover / selected IDs
   const prev = usePrevious({hoveredId, selectedIds});
@@ -96,6 +103,12 @@ const MapBase = ({
     [ layers ]
   );
 
+  useEffect(() => {
+    if (canvas) {
+      canvas.setAttribute('aria-label', ariaLabel)
+    }
+  }, [ ariaLabel, canvas ])
+
   // handler for map load
   const handleLoad = (e) => {
     if (!loaded) {
@@ -103,6 +116,10 @@ const MapBase = ({
       // HACK: remove tabindex from map div
       document.querySelector('.map:first-child')
         .children[0].removeAttribute('tabindex');
+      // add screen reader content for map
+      const canvas = mapRef.current.getMap().getCanvas();
+      canvas.setAttribute('role', 'img')
+      canvas.setAttribute('aria-label', ariaLabel)
       if(typeof onLoad === 'function') { onLoad(e) }
     }
   }

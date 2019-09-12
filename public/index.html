@@ -262,6 +262,12 @@
       }
     }
 
+    .section.section--intro.section--hidden .section__body,
+    .section.section--intro.section--hidden .section__loading,
+    .section.section--intro.section--hidden .section__header {
+      visibility:hidden;
+    }
+
     /** Intro Header */
 
     .section--intro .section__header {
@@ -346,8 +352,6 @@
         }
       }
 
-      .section.section--intro.section--hidden .section__cards button { display: none; }
-
       .section--intro .section__loading {
         position:absolute;
         width: 100%;
@@ -357,6 +361,7 @@
         align-items:center;
         justify-content: flex-start;
         opacity:0;
+        visibility: hidden;
         transition: opacity 0.4s ease;
       }
 
@@ -368,6 +373,7 @@
 
       .section--intro .section__body--loading .section__loading {
         opacity: 1;
+        visibility: visible;
       }
 
       .section--intro .loading__text {
@@ -522,6 +528,10 @@
       width: 100%;
       height:100%;
       min-height: 100vh;
+    }
+
+    .hidden {
+      visibility: hidden;
     }
 
     /*!
@@ -691,7 +701,7 @@
       </div>
     </div>
   </div>
-  <div id="root"></div>
+  <div id="root" class="hidden"></div>
   <script>
     window.SEDA = (function() {
       var handlers = {};
@@ -712,6 +722,7 @@
         var el = document.getElementsByClassName('section--intro')[0];
         if (el) {
           el.classList.add("section--hidden")
+          document.getElementById('root').classList.remove('hidden');
         }    
       }
       var showCards = function() {

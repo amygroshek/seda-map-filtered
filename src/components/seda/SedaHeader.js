@@ -126,17 +126,20 @@ const HeaderSecondary = ({
       items={[
         {
           id: 'map',
-          label: 'Map',
+          label: getLang('UI_MAP_BUTTON'),
+          ariaLabel: getLang('UI_MAP_BUTTON_SR'),
           icon: <PlaceIcon />
         },
         {
           id: 'chart',
-          label: 'chart',
+          label: getLang('UI_CHART_BUTTON'),
+          ariaLabel: getLang('UI_CHART_BUTTON_SR'),
           icon: <BubbleChartIcon />
         }, 
         {
           id: 'split',
-          label: "Chart + Map",
+          label: getLang('UI_SPLIT_BUTTON'),
+          ariaLabel: getLang('UI_SPLIT_BUTTON_SR'),
           icon: <VerticalSplitIcon />
         }
       ]}

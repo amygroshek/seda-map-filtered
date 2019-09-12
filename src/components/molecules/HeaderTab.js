@@ -6,7 +6,7 @@ const HeaderTab = ({text, subtext, icon, ...rest}) => {
   return (
     <div className="tab-label" {...rest}>
       { icon &&
-          <img alt={text} className="tab-label__icon" src={icon} />
+          <img alt="" className="tab-label__icon" src={icon} />
       }
       <div className="tab-label__text">
         <Typography component="span" variant="h6" className="tab-label__title">{text}</Typography>
