@@ -83,6 +83,14 @@
   transition: flex 0.2s ease-in;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .tab.summary-group__cards-enter.summary-group__cards-enter-active,
+  .tab.summary-group__cards-exit.summary-group__cards-exit-active {
+    transition: none;
+    flex:1;  
+  }
+}
+
 .summary-group .location-item {
   padding: 0 8px;
 }

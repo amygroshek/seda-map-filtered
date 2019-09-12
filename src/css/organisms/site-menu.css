@@ -18,6 +18,12 @@
   transform: translateX(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .site-menu {
+    transition: none;
+  }
+}
+
 .site-menu .site-menu__close {
   position: absolute;
   right: var(--grid-unit);

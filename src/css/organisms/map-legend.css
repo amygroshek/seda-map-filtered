@@ -292,6 +292,12 @@
       visibility: hidden;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .map-legend__preview .map-legend__chart-callout {
+        transition: none;
+      }
+    }
+
     .map-legend__chart-callout p {
       margin-bottom: 8px;
       font-size: var(--mini-font-size);
