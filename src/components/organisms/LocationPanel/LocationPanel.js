@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Panel from '../../molecules/Panel';
 import { getRegionFromFeatureId, getSelectedColors, getSingularRegion, getRegionFromFeature } from '../../../modules/config';
@@ -6,12 +6,15 @@ import { getLang } from '../../../modules/lang';
 import AccordionItem from '../../molecules/AccordionItem';
 import LocationComparison from './LocationComparison';
 import { LocationStatDiverging } from './LocationStats';
-import LocationItem from './LocationItem';
 import LocationMetricDetails from './LocationMetricSumary';
 import { Button, ButtonBase, Typography } from '@material-ui/core';
 import { getFeatureProperty } from '../../../modules/features';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import usePrevious from '../../../hooks/usePrevious';
+import { getStateName } from '../../../constants/statesFips';
+import BaseMarker from '../../atoms/BaseMarker';
+
 const SELECTED = getSelectedColors();
 
 const LocationMetric = ({
@@ -27,7 +30,7 @@ const LocationMetric = ({
   const hasVal = Boolean(val) || val === 0;
   return (
     <div className="metric-summary">
-      <Typography className="panel-section__heading">
+      <Typography component="h5" className="panel-section__heading">
         { 
           getLang('PANEL_HEADING', { 
             region: getSingularRegion(region),
@@ -80,6 +83,34 @@ LocationMetric.propTypes = {
   expanded: PropTypes.bool,
 }
 
+
+const LocationHeading = ({ 
+  idx,
+  feature,
+}) => {
+  const stateName = getStateName(
+    feature.properties.id.substring(0,2)
+  )
+  return (
+    <div className="location-item">
+      { (idx || idx === 0) &&
+        <BaseMarker
+          aria-label={"Location number " + (parseInt(idx)+1)}
+          className="location-item__marker" 
+          color={SELECTED[idx]} 
+          type="circle"
+        >{idx+1}</BaseMarker>
+      }
+      <div className="location-item__content-wrapper">
+        <h4 className="location-item__heading">
+          <span className="location-item__name">{feature.properties.name}</span>
+          <span className="location-item__state">{stateName}</span>
+        </h4>
+      </div>
+    </div>
+  )
+}
+
 const LocationPanel = ({
   feature,
   metric,
@@ -110,10 +141,28 @@ const LocationPanel = ({
   )
   const markerColor = SELECTED[selectedIndex];
 
+  // track open state to give focus
+  const prevOpen = usePrevious(Boolean(feature));
+
+  // effect to give proper focus on open / close
+  useEffect(() => {
+    if (!prevOpen && feature) {
+      setTimeout(() => {
+        const el = document.getElementById('locationClose')
+        if (el && el.focus) { el.focus() }
+      }, 500); // give some time to open the panel
+    }
+    if (prevOpen && !feature) {
+      const el = document.querySelector('.react-autosuggest__input:first-child')
+      if (el && el.focus) { el.focus() }
+    }
+  }, [ feature, prevOpen ]);
+
   return feature && feature.properties ? (
     <Panel
+      id="locationPanel"
       title={
-        id && <LocationItem
+        id && <LocationHeading
           idx={selectedIndex}
           feature={feature}
         />
@@ -121,6 +170,7 @@ const LocationPanel = ({
       classes={{root: 'panel--location'}}
       onClose={onClose}
       open={Boolean(feature)}
+      closeId='locationClose'
     > 
       <div className="panel-section panel-section--summary">
         <div className="panel-section__content">
@@ -165,7 +215,7 @@ const LocationPanel = ({
             toggleExpanded={toggleExpanded}
           />
           <hr />
-          <Typography className="panel-section__heading">
+          <Typography component="h5" className="panel-section__heading">
             { 
               getLang('PANEL_HEADING', { 
                 region: getSingularRegion(region),

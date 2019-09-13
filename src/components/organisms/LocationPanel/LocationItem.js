@@ -10,7 +10,7 @@ const SELECTED = getSelectedColors();
 const LocationItem = ({ 
   idx,
   label,
-  feature, 
+  feature,
   children,
   actionIcon,
   onActionPress,
@@ -24,11 +24,12 @@ const LocationItem = ({
     <div onMouseEnter={onHover} className="location-item" {...props}>
       { (label || idx || idx === 0) &&
         <Marker 
-            className="location-item__marker" 
-            color={SELECTED[idx]} 
-            type="circle"
-          >
-            {label ? label  : idx+1}
+          aria-label={"Location number " + (parseInt(idx)+1)}
+          className="location-item__marker" 
+          color={SELECTED[idx]} 
+          type="circle"
+        >
+          {label ? label  : idx+1}
         </Marker>
       }
       <div className="location-item__content-wrapper">

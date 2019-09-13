@@ -34,12 +34,12 @@ const LocationStack = ({
     >
       <Tab 
         component="div"
+        onClick={() => onCardClick && onCardClick(c)}
         label={
           <LocationItem
             key={'f'+i} 
             idx={i} 
             feature={c.feature}
-            onClick={() => onCardClick && onCardClick(c)}
             onHover={() => onCardHover && onCardHover(c)}
             actionIcon={<CloseIcon />}
             onActionPress={() => onCardDismiss && onCardDismiss(c)}

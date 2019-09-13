@@ -12,6 +12,7 @@
   box-shadow: var(--shadow100);
   padding-top: 60px;
   padding-left: 48px;
+  overflow: auto;
 }
 
 .site-menu--open {
