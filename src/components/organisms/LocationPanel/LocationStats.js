@@ -7,7 +7,7 @@ import { getLang, getDescriptionForVarName } from '../../../modules/lang';
 import StatSummary from './StatSummary';
 import { getFeatureProperty } from '../../../modules/features';
 
-import { getPositionFromValue } from '../../../utils';
+import { getPositionFromValue, stripHtml } from '../../../utils';
 import StatDiverging from '../../molecules/StatDiverging';
 
 
@@ -78,8 +78,8 @@ export const LocationStatDiverging = ({
     {}
 
   // get description if showing
-  const description = showDescription ? 
-    getDescriptionForVarName(varName, value, formatter) : null;
+  const description = 
+    getDescriptionForVarName(varName, value, formatter);
 
   // get position for other feature marker
   const otherValue = getFeatureProperty(otherFeature, varName);
@@ -93,7 +93,8 @@ export const LocationStatDiverging = ({
       markerColor={markerColor}
       formatter={formatter}
       color={color}
-      description={description}
+      showDescription={showDescription}
+      description={showDescription ? description : stripHtml(description)}
       midPoint={midPoint}
       midPosition={midPosition}
       full = { metricId === 'frl' }

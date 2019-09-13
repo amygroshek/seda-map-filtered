@@ -106,7 +106,7 @@ const MapLegend = ({
               )
             }
             { ' ' }
-            <ButtonBase onClick={() => onHelpClick(helpOpen)} className="button button--link">more info</ButtonBase>
+            <ButtonBase aria-label="more info about what the map shows" onClick={() => onHelpClick(helpOpen)} className="button button--link">more info</ButtonBase>
           </Typography>
 
           { variant === 'chart' &&

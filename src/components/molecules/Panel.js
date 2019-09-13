@@ -17,8 +17,11 @@ const Panel = React.forwardRef(({
 }, ref) => {
   return (
     <Paper
+      component="aside"
+      role="complementary"
       square={true}
       elevation={0}
+      aria-hidden={!open}
       classes={{
         root: classNames(
           'panel',

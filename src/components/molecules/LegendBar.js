@@ -74,6 +74,21 @@ const LegendBar = ({
     legendRange
   )
   const midPercent = (midPosition * 100) + '%'
+  const lowValue = valueLangPrefix ? 
+    getLang(valueLangPrefix + 'LOW', { value: formatter(legendRange[0]) }) : 
+    formatter(legendRange[0])
+  const midValue = valueLangPrefix ? 
+    getLang(valueLangPrefix + 'MID', { value: formatter((colorRange[1] + colorRange[0])/2) }) :
+    formatter((colorRange[1] + colorRange[0])/2)
+  const highValue = valueLangPrefix ? 
+    getLang(valueLangPrefix + 'HIGH', { value: formatter(legendRange[1]) }) : 
+    formatter(legendRange[1])
+  const ariaLabel = getLang('UI_LEGEND_BAR_SR', {
+    title: title || 'the current metric',
+    lowValue,
+    midValue,
+    highValue
+  })
   return (
     <div 
       className={classNames(
@@ -82,6 +97,8 @@ const LegendBar = ({
         { 'legend-bar--title': title },
         className,
       )}
+      role="img"
+      aria-label={ariaLabel}
     >
       {
         title && 
@@ -104,12 +121,7 @@ const LegendBar = ({
 
       <div className="legend-bar__values">
         <div className="legend-bar__value legend-bar__value--low">
-          { valueLangPrefix ? 
-              getLang(
-                valueLangPrefix + 'LOW', 
-                { value: formatter(legendRange[0]) }
-              ) : formatter(legendRange[0])
-          }
+          { lowValue }
         </div>
         <div className="legend-bar__value legend-bar__value--zero"
           style={{
@@ -118,20 +130,10 @@ const LegendBar = ({
             bottom: vertical ? midPercent : null
           }}
         >
-          { valueLangPrefix ? 
-              getLang(
-                valueLangPrefix + 'MID', 
-                { value: formatter((colorRange[1] + colorRange[0])/2) }
-              ) : formatter((colorRange[1] + colorRange[0])/2)
-          }
+          { midValue }
         </div>
         <div className="legend-bar__value legend-bar__value--high">
-          { valueLangPrefix ? 
-              getLang(
-                valueLangPrefix + 'HIGH', 
-                { value: formatter(legendRange[1]) }
-              ) : (formatter(legendRange[1]))
-          }
+          { highValue }
         </div>
       </div>
 

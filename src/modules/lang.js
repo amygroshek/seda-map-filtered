@@ -3,7 +3,8 @@ import {
   getMetricIdFromVarName, 
   getDemographicIdFromVarName, 
   getFormatterForVarName,
-  getGapDemographics
+  getGapDemographics,
+  getLabelFromVarName
 } from "./config";
 
 import LANG from '../constants/en';
@@ -206,7 +207,7 @@ export const getDifferenceForMetric = (metricId, value) => {
  *          returned for `getDescriptionFromVarName('all_avg', 1.34)`
  */
 export const getDescriptionForVarName = (varName, value) => {
-  if ((!value || value === -9999) && value !== 0 ) { return ''; }
+  if ((!value || value === -9999) && value !== 0 ) { return getLabelFromVarName(varName) + ' unavailable'; }
   const metricId = getMetricIdFromVarName(varName);
   const formatter = getFormatterForVarName(varName);
   const demographicId = getDemographicIdFromVarName(varName);

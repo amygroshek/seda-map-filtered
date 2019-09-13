@@ -5,6 +5,7 @@ import { theme } from './echartTheme';
 import { getBaseVars } from '../../../modules/config'
 import { getScatterplotOptions } from './utils';
 import { getStateFipsFromAbbr } from '../../../constants/statesFips';
+import { getLang, getLabelForVarName } from '../../../modules/lang';
 
 const baseVars = getBaseVars()
 const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'scatterplot/';
@@ -65,8 +66,18 @@ function ScatterplotPreview({
     },
     [highlightedState, regionData]
   );
+
+  const ariaLabel = getLang('UI_CHART_SR', {
+    region,
+    xVar: getLabelForVarName(xVar),
+    yVar: getLabelForVarName(yVar)
+  })
   return (
-    <div className='scatterplot-preview'>
+    <div 
+      role="img" 
+      aria-label={ariaLabel}
+      className='scatterplot-preview'
+    >
       <SedaScatterplot
         {...{
           endpoint,

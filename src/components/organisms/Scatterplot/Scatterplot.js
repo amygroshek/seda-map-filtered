@@ -6,6 +6,7 @@ import { theme } from './echartTheme';
 import { getBaseVars } from '../../../modules/config'
 import { getScatterplotOptions } from './utils';
 import { getStateAbbr } from '../../../constants/statesFips';
+import { getLang, getLabelForVarName } from '../../../modules/lang';
 
 const baseVars = getBaseVars()
 const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'scatterplot/';
@@ -111,13 +112,21 @@ function Scatterplot({
   // disable lint, this doesn't need to fire when onData changes
   // eslint-disable-next-line
   }, [xVar, yVar, zVar, region, highlightedState, freeze])
-
+  
+  const ariaLabel = getLang('UI_CHART_SR', {
+    region,
+    xVar: getLabelForVarName(xVar),
+    yVar: getLabelForVarName(yVar)
+  })
   return (
-    <div className={classNames('scatterplot', className)}>
+    <div 
+      role="img" 
+      aria-label={ariaLabel} 
+      className={classNames('scatterplot', className)}
+    >
       { error &&
         <span className="notification notification--error">{ error }</span>
       }
-
       <SedaScatterplot
         {...{
           endpoint,

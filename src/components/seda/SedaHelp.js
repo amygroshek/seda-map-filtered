@@ -393,6 +393,7 @@ const SedaHelp = ({
 
   return (
     <Panel
+      id="helpPanel"
       title={<Typography variant="h5">Help</Typography>}
       open={open} 
       onClose={onClose} 

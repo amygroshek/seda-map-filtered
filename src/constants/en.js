@@ -14,7 +14,6 @@ const LANG = {
   // Mobile header
   'MOBILE_SUBLINE': 'for $[demographic] in $[place] $[region]',
   
-
   // Menu
   'MENU_HOME': 'Home',
   'MENU_OPPORTUNITY': 'Opportunity Explorer',
@@ -45,8 +44,20 @@ const LANG = {
 
   'DATA_UNAVAILABLE': 'No data available',
 
-  // Help
+  // UI Labels
   'HELP_BUTTON': 'Help',
+  'UI_MAP_BUTTON': 'Map',
+  'UI_CHART_BUTTON': 'Chart',
+  'UI_SPLIT_BUTTON': 'Chart + map',
+
+  // Screen Reader Labels
+  'UI_MAP_BUTTON_SR': 'Go to map view',
+  'UI_CHART_BUTTON_SR': 'Go to chart view',
+  'UI_SPLIT_BUTTON_SR': 'Go to chart and map split view',
+  'UI_MAP_SR': 'Map of $[region] in the United States, with colors showing $[metric] for $[demographic].',
+  'UI_CHART_SR': 'Scatterplot with dots representing $[region] in the United States.  $[region] are positioned vertically on the Y axis based on $[yVar] and horizontally on the X axis based on $[xVar].',
+  'UI_LEGEND_BAR_SR': 'A legend bar for $[title] showing $[lowValue] on the low end, $[midValue] in the middle, and $[highValue] on the high end.',
+  'UI_BRANDING_SR': 'Brought to you by Stanford University',
 
   // Metric Labels
   'LABEL_AVG': 'average test scores',

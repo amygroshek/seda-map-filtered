@@ -41,6 +41,7 @@ const ToggleButtons = ({
               {'toggle-buttons__button--active': isActive(item, activeItemId)}
             )
           }
+          aria-label={item.ariaLabel}
           onClick={() => setActiveItem(item)}
         >
           { item.hasOwnProperty('icon') && item.icon }
