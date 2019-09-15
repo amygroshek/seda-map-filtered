@@ -5,7 +5,7 @@ import { LocationStack } from '../organisms/LocationPanel';
 import { getSelectedColors } from '../../modules/config';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { onRemoveSelectedFeature, onViewportChange, updateMapSize, setActiveLocation } from "../../actions";
+import { onRemoveSelectedFeature, onViewportChange, updateMapSize, setActiveLocation, onHoverFeature } from "../../actions";
 import { parseLocationsString, getLocationFromFeature } from '../../modules/router';
 import * as _debounce from 'lodash.debounce';
 
@@ -54,7 +54,7 @@ const SedaLocations = ({
   onCardEntered, 
   onCardExited
 }) => {
-  const cards = useMemo(() => getCards(selected, features), [ selected ])
+  const cards = useMemo(() => getCards(selected, features), [ selected, features ])
   return (cards && cards.length ?
     <LocationStack {...{
         activeId, 
@@ -110,7 +110,8 @@ const mapDispatchToProps = (dispatch) => ({
       feature
     )),
   onCardHover: ({feature}) => {
-    // dispatch(onHoverFeature(feature))
+    console.log(feature);
+    dispatch(onHoverFeature(feature))
   },
   onCardClick: ({feature}) => {
     const l = parseLocationsString(

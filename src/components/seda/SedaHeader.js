@@ -121,31 +121,34 @@ const HeaderSecondary = ({
       className={classNames({ 'button--help-on': helpOpen})}
       onClick={onHelpClick}
     />
-    <SedaSearch inputProps={{
-      placeholder: getLang('SEARCH_PLACEHOLDER')
-    }} />
     <HeaderSecondaryControls metric={metric} region={region} />
     <ToggleButtons
       items={[
         {
           id: 'map',
-          label: 'Map',
+          label: getLang('UI_MAP_BUTTON'),
+          ariaLabel: getLang('UI_MAP_BUTTON_SR'),
           icon: <PlaceIcon />
         },
         {
           id: 'chart',
-          label: 'chart',
+          label: getLang('UI_CHART_BUTTON'),
+          ariaLabel: getLang('UI_CHART_BUTTON_SR'),
           icon: <BubbleChartIcon />
         }, 
         {
           id: 'split',
-          label: "Chart + Map",
+          label: getLang('UI_SPLIT_BUTTON'),
+          ariaLabel: getLang('UI_SPLIT_BUTTON_SR'),
           icon: <VerticalSplitIcon />
         }
       ]}
       activeItemId={view}
       setActiveItem={onViewChange}
     />
+    <SedaSearch inputProps={{
+      placeholder: getLang('SEARCH_PLACEHOLDER')
+    }} />
   </div>
 }
 
@@ -182,13 +185,15 @@ const SedaHeader = ({
       <HeaderSecondary {...{metric, region, view, helpOpen, onViewChange, onHelpClick}} />
     }
     actionContent={
-      <MenuButton onClick={onMenuClick}>
-        <MenuIcon />
-      </MenuButton>
+      <>
+        <MenuButton onClick={onMenuClick}>
+          <MenuIcon />
+        </MenuButton>
+        <SedaMenu />
+      </>
     }
     {...rest}
   >
-    <SedaMenu />
   </Header>
 
 SedaHeader.propTypes = {

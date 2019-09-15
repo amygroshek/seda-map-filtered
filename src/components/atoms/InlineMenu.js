@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
-import { makeId } from '../../utils';
 
 function InlineMenu({
   id,
@@ -11,7 +10,6 @@ function InlineMenu({
   formatter,
   onChange
 }) {
-  id = id || useState(makeId())[0];
   const selectedItem = options.find(i => i.id === value);
   if(!selectedItem) {
     console.error('no selected item', id, value)

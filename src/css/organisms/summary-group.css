@@ -58,6 +58,11 @@
   overflow:hidden;
 }
 
+/** Hide the ripple on the tab when focusing on the close button */
+.tab__wrapper:focus-within + .MuiTouchRipple-root {
+  display: none;
+}
+
 .tab.summary-group__cards-enter {
   transform: translateY(100%);
 }
@@ -76,6 +81,14 @@
   /* opacity:0.1; */
   flex:0.0001;
   transition: flex 0.2s ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab.summary-group__cards-enter.summary-group__cards-enter-active,
+  .tab.summary-group__cards-exit.summary-group__cards-exit-active {
+    transition: none;
+    flex:1;  
+  }
 }
 
 .summary-group .location-item {

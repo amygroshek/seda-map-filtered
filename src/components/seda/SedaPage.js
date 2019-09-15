@@ -9,7 +9,7 @@ const SedaPage = ({children, classes = {}}) => {
   return (
     <div className={classNames("page", classes.root)}>
       <SedaHeader />
-      <main className={classNames("page__body", classes.main)}>
+      <main id="main" className={classNames("page__body", classes.main)}>
         {children}
       </main>
       <SedaFooter />

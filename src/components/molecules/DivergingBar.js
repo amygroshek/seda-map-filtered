@@ -16,7 +16,8 @@ const DivergingBar = ({
   color,
   className,
   size,
-  full = false
+  full = false,
+  ...rest
 }) => {
   position = Math.min(1, Math.max(-1, position));
   const isValue = Boolean(value) || value === 0;
@@ -38,7 +39,9 @@ const DivergingBar = ({
           "diverging-bar--unavailable": !isValue
         }
       )
-    }>
+    }
+    {...rest}
+    >
       <div className='diverging-bar__bar-wrapper'>
         <span className='diverging-bar__rect-value' style={{
           background: color,

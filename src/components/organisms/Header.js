@@ -17,8 +17,8 @@ const Header = ({
         { branding }
       </div>
       <div className="header__content">
-        { children }
         { primaryContent }
+        { children }
       </div>
       <div className="header__actions">
         {actionContent}

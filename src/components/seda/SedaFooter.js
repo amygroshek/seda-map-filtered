@@ -14,10 +14,6 @@ import { connect } from 'react-redux'
 import { toggleEmbedDialog } from '../../actions';
 import { onTwitterShare, onFacebookShare, toggleLinkShareDialog } from '../organisms/Share';
 
-const branding = {
-  url: '#',
-  alt: 'Stanford',
-};
 
 const links = [
   {
@@ -103,9 +99,9 @@ const SedaFooter = ({
   return (
     <Footer
       branding={
-        <a className="site-footer__branding-link" href={branding.url}>
+        <div className="site-footer__branding-link">
           <StanfordLogo />
-        </a>  
+        </div>
       }
       copyright={copyright}
       links={

@@ -31,8 +31,13 @@
     height:100%;
     width:100%;
     text-align: left; 
-
     transition: transform 0.2s ease-in-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section__content {
+      transition: none;
+    }
   }
 
     /** Left side of section */
@@ -50,7 +55,6 @@
       background: #fff;
       z-index:5;
       transform: translateX(-100%);
-      transition: transform 0.4s ease-in-out 0.1s;
     }
 
     @media(min-width: 1023px) {
@@ -69,7 +73,6 @@
       flex:1;
       z-index:4;
       transform: translateX(0%);
-      transition: transform 0.4s ease-in-out 0.1s;
     }
 
 
@@ -123,7 +126,7 @@
 
   /** Translate right section out of view on left modifier */
   .section__content--left .section__right {
-    transform: translateX(0%);
+    visibility: hidden;
   }
 
 /** Right Component is visible */
@@ -136,5 +139,5 @@
 
   /** Translate left section out of view on right modifier */
   .section__content--right .section__left {
-    transform: translateX(100%);
+    visibility: hidden;
   }

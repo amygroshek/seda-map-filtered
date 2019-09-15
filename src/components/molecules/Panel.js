@@ -12,12 +12,16 @@ const Panel = React.forwardRef(({
   children,
   classes = {},
   actions,
+  closeId,
   ...rest
 }, ref) => {
   return (
     <Paper
+      component="aside"
+      role="complementary"
       square={true}
       elevation={0}
+      aria-hidden={!open}
       classes={{
         root: classNames(
           'panel',
@@ -29,12 +33,14 @@ const Panel = React.forwardRef(({
     >
       <Toolbar classes={{ root: 'panel__toolbar' }}>
         { title }
-        { actions }
-        { (!actions && onClose) && <CloseButton onClick={onClose} /> }
+        { open && actions }
+        { (!actions && open && onClose) && <CloseButton id={closeId} onClick={onClose} /> }
       </Toolbar>
-      <div ref={ref} className="panel__content">
-        { children }
-      </div>
+      { open && 
+        <div ref={ref} className="panel__content">
+          { children }
+        </div> 
+      }
     </Paper>
   )
 })

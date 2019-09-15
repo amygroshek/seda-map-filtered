@@ -58,7 +58,7 @@ const MapLegend = ({
 }) => {
   const vars = getScatterplotVars(region, metric, demographic);
   const isVersus = isVersusFromVarNames(vars.xVar, vars.yVar);
-  if (view === 'chart' || (view === 'split' && !isVersus)) { return null }
+  
   const mapVars = getMapVars(region, metric, demographic);
   const theme = useTheme();
   const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
@@ -70,6 +70,7 @@ const MapLegend = ({
     (isGapDemographic(demographic) ? '_GAP_' : '_')
   // const legendChartKey = 'LEGEND_CHART_' + metric +
   //   (isGapDemographic(demographic) ? '_GAP' : '')
+  if (view === 'chart' || (view === 'split' && !isVersus)) { return null }
   return (
     <div className={classNames(
       "map-legend", 
@@ -105,7 +106,7 @@ const MapLegend = ({
               )
             }
             { ' ' }
-            <ButtonBase onClick={() => onHelpClick(helpOpen)} className="button--link">more info</ButtonBase>
+            <ButtonBase aria-label="more info about what the map shows" onClick={() => onHelpClick(helpOpen)} className="button button--link">more info</ButtonBase>
           </Typography>
 
           { variant === 'chart' &&

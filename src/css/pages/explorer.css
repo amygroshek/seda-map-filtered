@@ -200,6 +200,12 @@
   transition: transform 0.2s ease-in-out;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .section--explorer .panel {
+    transition: none;
+  }
+}
+
   /** Location Panel */
 
   .section--explorer .panel {

@@ -46,6 +46,7 @@
   display: inline;
   vertical-align: top;
   padding:0;
+  margin:0;
 }
 
 /** CONDENSED VIEW */
@@ -288,6 +289,13 @@
       padding-top: 50%;
       transition: transform 0.4s ease-in-out;
       transform: translateY(100%);
+      visibility: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .map-legend__preview .map-legend__chart-callout {
+        transition: none;
+      }
     }
 
     .map-legend__chart-callout p {
@@ -297,6 +305,7 @@
 
     .map-legend__preview:hover .map-legend__chart-callout {
       transform: translateY(0%);
+      visibility: visible;
     }
 
 /** Legend Actions */

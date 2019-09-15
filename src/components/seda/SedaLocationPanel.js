@@ -33,7 +33,7 @@ const SedaLocationPanel = ({
   // use memo to store other features
   const others = useMemo(() => 
     selected.map(fId => features[fId])
-  , [ selected ])
+  , [ selected, features ])
   const flags = useMemo(() => 
     getFeatureFlags(active, flagged)
   , [ active, flagged ])

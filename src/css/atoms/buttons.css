@@ -10,7 +10,7 @@
 
 .button.button--link:focus {
   text-decoration: underline;
-  box-shadow: 0 0 2px var(--link);
+  box-shadow: 0 0 3px 1px var(--link);
 }
 
 
