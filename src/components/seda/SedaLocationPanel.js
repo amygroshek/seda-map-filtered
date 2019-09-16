@@ -24,10 +24,13 @@ const SedaLocationPanel = ({
   features,
   selected,
   flagged,
+  reportLoading,
+  reportError,
   clearActiveLocation,
   onGapClick,
   onHelpClick,
   onSelectFeature,
+  onDownloadReport
 }) => {
   // use memo to store other features
   const others = useMemo(() => 
@@ -44,10 +47,13 @@ const SedaLocationPanel = ({
       flags={flags}
       onClose={clearActiveLocation}
       metric={metric}
+      reportLoading={reportLoading}
+      reportError={reportError}
       onGapClick={onGapClick}
       onHelpClick={handleHelpClick}
       onSelectFeature={onSelectFeature}
       onShowSimilar={onShowSimilar}
+      onDownloadReport={onDownloadReport}
     />
   )
 }
@@ -68,7 +74,7 @@ SedaLocationPanel.propTypes = {
 
 const mapStateToProps = 
   (
-    { features, active, selected, ui: { helpOpen }, flagged },
+    { features, active, selected, ui: { helpOpen, reportLoading, reportError }, flagged },
     { match: { params: { metric, region } } }
   ) => ({
     active,
@@ -77,6 +83,8 @@ const mapStateToProps =
     region,
     metric,
     helpOpen,
+    reportLoading,
+    reportError,
     selected: selected[region]
   })
 
@@ -103,6 +111,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onDownloadReport: (feature) => {
     dispatch(onReportDownload(feature))
+
   }
 })
 

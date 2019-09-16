@@ -5,7 +5,9 @@ const initialState = {
   statsViewActive: false,
   helpTab: 0,
   legendType: 'chart',
-  shareLinkOpen: false
+  shareLinkOpen: false,
+  reportLoading: false,
+  reportError: false,
 }
 
 export default (state = initialState, action) => {
@@ -27,6 +29,12 @@ export default (state = initialState, action) => {
       return { ...state, embedOpen: action.open }
     case 'SET_LINK_DIALOG':
       return { ...state, shareLinkOpen: action.open }
+    case 'REPORT_DOWNLOAD_REQUEST':
+      return { ...state, reportLoading: true, reportError: false }
+    case 'REPORT_DOWNLOAD_SUCCESS':
+      return { ...state, reportLoading: false }
+    case 'REPORT_DOWNLOAD_FAILED':
+      return { ...state, reportLoading: false, reportError: true }
     default:
       return state
   }

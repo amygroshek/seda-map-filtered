@@ -1,10 +1,12 @@
 import { loadFeaturesFromRoute, loadFeatureFromCoords, loadFlaggedData } from "../utils/tilequery";
-import { getRegionFromFeatureId } from "../modules/config";
+import { getRegionFromFeatureId, getRegionFromFeature, getPredictedValue } from "../modules/config";
 import {FlyToInterpolator} from 'react-map-gl';
 import * as ease from 'd3-ease';
 import { addFeatureToRoute, removeFeatureFromRoute, updateRoute } from '../modules/router';
-import { getStateViewport } from '../constants/statesFips';
+import { getStateViewport, getStateName } from '../constants/statesFips';
 import { getFeatureProperty } from "../modules/features";
+import axios from 'axios';
+import { formatNumber } from "../utils";
 
 /** ACTIONS */
 
@@ -269,10 +271,7 @@ export const onMapLegendAction = (itemId) => ({
   itemId
 })
 
-export const onReportDownload = (feature) => ({
-  type: 'REPORT_DOWNLOAD',
-  feature
-})
+
 
 export const onShowSimilar = (feature) => ({
   type: 'SHOW_SIMILAR',
@@ -493,3 +492,64 @@ export const toggleHelp = (forceOpen = false) =>
       open: !helpOpen || forceOpen
     })
   }
+
+  const getPdfRegion = (region) => {
+    return region === 'counties' ? 'county' :
+      (region === 'districts') ? 'district' : 'school'
+  }
+
+  export const onReportDownload = (feature) => dispatch => {
+    dispatch({
+      type: 'REPORT_DOWNLOAD_REQUEST',
+      feature
+    })
+    const region = getRegionFromFeature(feature);
+    const avgValue = getFeatureProperty(feature, 'all_avg');
+    const grdValue = getFeatureProperty(feature, 'all_grd');
+    const cohValue = getFeatureProperty(feature, 'all_coh');
+    const sesValue = region === 'schools' ?
+      getFeatureProperty(feature, 'all_frl') :
+      getFeatureProperty(feature, 'all_ses');
+    const diffAvg = sesValue || sesValue === 0 ? 
+      formatNumber(avgValue - getPredictedValue(sesValue, 'avg', region)) :
+      null;
+    const diffGrd = sesValue || sesValue === 0 ? 
+      (grdValue - getPredictedValue(sesValue, 'grd', region))*100 :
+      null;
+    const diffCoh = sesValue || sesValue === 0 ? 
+      formatNumber(cohValue - getPredictedValue(sesValue, 'coh', region)) :
+      null; 
+    axios({
+      url: 'http://export.edopportunity.org/',
+      method: 'POST',
+      data: {
+        "region": getPdfRegion(region),
+        "location": {
+          ...feature.properties,
+          "state_name": getStateName(feature.properties.id),
+          "diff_avg": diffAvg,
+          "diff_grd": diffGrd,
+          "diff_coh": diffCoh
+        },
+        "url": window.location.href,
+        "others": null
+      },
+      responseType: 'blob', // important
+    }).then((response) => {
+      dispatch({
+        type: 'REPORT_DOWNLOAD_SUCCESS',
+        feature
+      })
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', feature.properties.name+'.pdf');
+      document.body.appendChild(link);
+      link.click();
+    }).catch((error) => {
+      dispatch({
+        type: 'REPORT_DOWNLOAD_FAILED',
+        error
+      })
+    });
+  } 

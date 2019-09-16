@@ -116,6 +116,8 @@ const LocationPanel = ({
   metric,
   flags = [],
   others = [],
+  reportLoading,
+  reportError,
   onClose,
   onGapClick,
   onHelpClick,
@@ -253,11 +255,16 @@ const LocationPanel = ({
         <Typography paragraph={true}>
           { getLang('LOCATION_EXPORT_REPORT', { name }) }
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => { onDownloadReport(feature) }}
-        >{getLang('BUTTON_DOWNLOAD_REPORT')}</Button>
+        {
+          reportLoading ? 
+            <p>Loading...</p> :
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => { onDownloadReport(feature) }}
+            >{getLang('BUTTON_DOWNLOAD_REPORT')}</Button>
+        }
+        { reportError && <p className="error">Error generating report.</p>}
       </AccordionItem>
     </Panel>
   ) : null
