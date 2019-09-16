@@ -47,7 +47,7 @@ const eventsMap = {
       helpTopicExpansion: action.topicId
     }
   },
-  'REPORT_DOWNLOAD': (action) => ({
+  'REPORT_DOWNLOAD_REQUEST': (action) => ({
     event: 'reportDownloaded',
     locationName: action.feature.properties.name
   }),

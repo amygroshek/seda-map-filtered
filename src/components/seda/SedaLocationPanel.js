@@ -24,6 +24,8 @@ const SedaLocationPanel = ({
   features,
   selected,
   flagged,
+  reportLoading,
+  reportError,
   clearActiveLocation,
   onGapClick,
   onHelpClick,
@@ -45,6 +47,8 @@ const SedaLocationPanel = ({
       flags={flags}
       onClose={clearActiveLocation}
       metric={metric}
+      reportLoading={reportLoading}
+      reportError={reportError}
       onGapClick={onGapClick}
       onHelpClick={handleHelpClick}
       onSelectFeature={onSelectFeature}
@@ -70,7 +74,7 @@ SedaLocationPanel.propTypes = {
 
 const mapStateToProps = 
   (
-    { features, active, selected, ui: { helpOpen }, flagged },
+    { features, active, selected, ui: { helpOpen, reportLoading, reportError }, flagged },
     { match: { params: { metric, region } } }
   ) => ({
     active,
@@ -79,6 +83,8 @@ const mapStateToProps =
     region,
     metric,
     helpOpen,
+    reportLoading,
+    reportError,
     selected: selected[region]
   })
 
