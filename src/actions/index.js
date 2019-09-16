@@ -520,7 +520,7 @@ export const toggleHelp = (forceOpen = false) =>
       formatNumber(cohValue - getPredictedValue(sesValue, 'coh', region)) :
       null; 
     axios({
-      url: 'http://export.edopportunity.org/',
+      url: 'https://export.edopportunity.org/',
       method: 'POST',
       data: {
         "region": getPdfRegion(region),
