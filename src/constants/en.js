@@ -110,7 +110,7 @@ const LANG = {
   'LABEL_SES_F': '$[region] socioeconomic status (SES)',
   'LABEL_SES_P': '$[region] socioeconomic status (SES)',
   'LABEL_SES_NP': '$[region] socioeconomic status (SES)',
-  'LABEL_FRL': 'free or reduced-price lunch program',
+  'LABEL_FRL': 'Free/Reduced Price Lunch Percentage',
 
   // Short Metric Labels
   'LABEL_SHORT_AVG': 'scores',
@@ -189,7 +189,7 @@ const LANG = {
   'LABEL_HIGHLIGHTED_STATE': 'Highlighted State',
 
   // Tooltips
-  'TOOLTIP_SUMMARY': 'Click on a location for more data.',
+  'TOOLTIP_SUMMARY': 'Click on a location for more.',
   'TOOLTIP_TYPE_MAP': 'an area on the map',
   'TOOLTIP_TYPE_CHART': 'an area on the chart',
   'TOOLTIP_CONTEXT_ALL': 'Data for all students:',
@@ -250,27 +250,27 @@ const LANG = {
   'SUMMARY_SCHOOL_AVG_MID': 'The children attending $[name] have <strong>roughly average</strong> educational opportunites.',
   'SUMMARY_SCHOOL_AVG_HIGH': 'The children attending $[name] have <strong>higher than average</strong> educational opportunites.',
   
-  'SUMMARY_AVGFRL_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar % free or reduced-price lunch program.',
-  'SUMMARY_AVGFRL_MID': 'Average scores are equal to $[region] with similar % free or reduced-price lunch program.',
-  'SUMMARY_AVGFRL_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_AVGFRL_LOW': 'Average scores are $[value] grade levels lower than $[region] with similar free/reduced-price lunch percentage.',
+  'SUMMARY_AVGFRL_MID': 'Average scores are equal to $[region] with similar free/reduced-price lunch percentage.',
+  'SUMMARY_AVGFRL_HIGH': 'Average scores are $[value] grade levels higher than $[region] with similar free/reduced-price lunch percentage.',
   'SUMMARY_AVGFRL_NONE': ' ',
 
   'SUMMARY_SCHOOL_GRD_LOW': '$[name] provides lower than average educational opportunities while children are in school.',
   'SUMMARY_SCHOOL_GRD_MID': '$[name] provides roughly average educational opportunities while children are in school.',
   'SUMMARY_SCHOOL_GRD_HIGH': '$[name] provides higher than average educational opportunities while children are in school.',
   
-  'SUMMARY_GRDFRL_LOW': 'Learning rates are $[value] lower than $[region] with similar % free or reduced-price lunch program.',
-  'SUMMARY_GRDFRL_MID': 'Learning rates are equal to $[region] with similar % free or reduced-price lunch program.',
-  'SUMMARY_GRDFRL_HIGH': 'Learning rates are $[value] higher than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_GRDFRL_LOW': 'Learning rates are $[value] lower than $[region] with similar free/reduced-price lunch percentage.',
+  'SUMMARY_GRDFRL_MID': 'Learning rates are equal to $[region] with similar free/reduced-price lunch percentage.',
+  'SUMMARY_GRDFRL_HIGH': 'Learning rates are $[value] higher than $[region] with similar free/reduced-price lunch percentage.',
   'SUMMARY_GRDFRL_NONE': ' ',
 
   'SUMMARY_SCHOOL_COH_LOW': 'Educational opportunities for the children attending $[name] declined in the years 2009-2016.',
   'SUMMARY_SCHOOL_COH_MID': 'Educational opportunities for the children attending $[name] were roughly stable in the years 2009-2016',
   'SUMMARY_SCHOOL_COH_HIGH': 'Educational opportunities for the children attending $[name] improved in the years 2009-2016.',
 
-  'SUMMARY_COHFRL_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar % free or reduced-price lunch program.',
-  'SUMMARY_COHFRL_MID': 'Trends in test scores are similar to $[region] with similar % free or reduced-price lunch program.',
-  'SUMMARY_COHFRL_HIGH': 'Average scores have improved by $[value] grade levels more than $[region] with similar % free or reduced-price lunch program.',
+  'SUMMARY_COHFRL_LOW': 'Average scores have declined by $[value] grade levels less than $[region] with similar free/reduced-price lunch percentage.',
+  'SUMMARY_COHFRL_MID': 'Trends in test scores are similar to $[region] with similar free/reduced-price lunch percentage.',
+  'SUMMARY_COHFRL_HIGH': 'Average scores have improved by $[value] grade levels more than $[region] with similar free/reduced-price lunch percentage.',
   'SUMMARY_COHFRL_NONE': ' ',
 
   'SUMMARY_AVG_NONE': 'No community educational opportunity data for $[name].', 
@@ -617,8 +617,8 @@ const LANG = {
   'HELP_GRD': 'How are learning rates calculated?',
   'HELP_COH': 'How are trends in test scores calculated?',
   'HELP_SES': 'What is socioeconomic status and how is it calculated?',
-  'HELP_SEG': 'What is Segregation and how is it calculated?',
-  'HELP_FRL': 'How is Free Lunch Rate calculated and what does it mean?',
+  'HELP_SEG': 'What is the Gap in School Poverty and how is it calculated?',
+  'HELP_FRL': 'How is the Free/Reduced-price Lunch Percentage calculated and what does it mean?',
 
   'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by children’s opportunities to learn in their homes, in their neighborhoods, in the childcare, preschool, and after-school programs they attend, from their peers and friends, and in their schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using Learning Rates, which measure how much student scores improve while they are in school.`,
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much student scores improve each year while they are in school. This is better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much its patients’ health improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their test scores improve while in school.`,
@@ -629,8 +629,8 @@ const LANG = {
   'HELP_GRD_A': `The learning rate is based on changes in average test scores from each year and grade to the next year and grade (e.g., changes from 2015 3rd grade scores to 2016 4th grade scores). The learning rates are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='/help-faq/#how-measures-computed' target="_blank">FAQ</a> for more detail.`,
   'HELP_COH_A': `The trend in test scores is based on changes in average test scores from each year to the next in the same grade (e.g., changes from 2015 3rd grade scores to 2016 3rd grade scores). The test score trends are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href='/help-faq/#how-measures-computed' target="_blank">FAQ</a> for more detail.`,
   'HELP_SES_A': `Socioeconomic status (SES) is a broad measure of the economic and social resources available in a community. It is based on information about the income, educational attainment, employment, and structure of all the families living in the community served by a school district or county. This information is combined into a single composite rating for each community. A rating of 0 represents the national average of socioeconomic status; higher ratings represent more affluent communities. See the <a href="/help-faq/#ses-measured" target="_blank">FAQ</a> for more detail. `,
-  'HELP_SEG_A': `Segregation measures the extent to which students in the region attend schools with different poverty rates. To compute it, we first compute the average free lunch rate in black, Hispanic, poor students’ schools and the average free lunch rate in White, nonpoor students’ schools. The segregation measure is the difference between these two average rates. A value of 0 means that black, Hispanic, or poor and White, or nonpoor students attend schools with equal free lunch rates, on average. Positive numbers indicate that black, Hispanic, or poor students in the region attend higher-poverty schools than White or nonpoor students. See the <a href="#">FAQ</a> for more detail.`,
-  'HELP_FRL_A': `The free lunch rate measures the proportion of students in the school who are eligible for free or reduced-price lunches through the National School Lunch Program. Students are eligible for free or reduced-price lunches if their family income is below 185% of the poverty threshold. A school with a free lunch rate of 0% has no poor or near-poor students; the higher the free lunch rate, the greater the number of poor students. See the <a href="#">FAQ</a> for more detail.`,
+  'HELP_SEG_A': `The gap in school poverty is a measure of school segregation. We use the proportion of students defined as “economically disadvantaged” in a school as a measure of school poverty. The black-white gap in school poverty, for example, measures the difference between the poverty rate of the average black student’s school and the poverty rate of the average white student’s school. When there is no segregation—when white and black students attend the same schools, or when white and black students’ schools have equal poverty rates—the black-white school poverty gap is 0. A positive black-white school poverty gap means that black students’ schools have higher poverty rates than white students’ schools, on average. A negative black-white school poverty gap means that white students’ schools have higher poverty rates than black students’ schools, on average.`,
+  'HELP_FRL_A': `The free/reduced-price lunch percentage measures the proportion of students in the school who are eligible for free or reduced-price lunches through the National School Lunch Program. Students are eligible for free or reduced-price lunches if their family income is below 185% of the poverty threshold. A school with a free lunch rate of 0% has no poor or near-poor students; the higher the free lunch rate, the greater the number of poor students. The lower the free/reduced-price lunch percentage, the more affluent the school.`,
 
 
   'HELP_HOW_Q1': 'What are the different ways of exploring the data?',
