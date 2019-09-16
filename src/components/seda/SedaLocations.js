@@ -110,7 +110,6 @@ const mapDispatchToProps = (dispatch) => ({
       feature
     )),
   onCardHover: ({feature}) => {
-    console.log(feature);
     dispatch(onHoverFeature(feature))
   },
   onCardClick: ({feature}) => {

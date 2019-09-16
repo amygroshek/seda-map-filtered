@@ -7,7 +7,7 @@ import { combineReducers } from "redux";
 const hovered = (state = null, action) => {
   switch(action.type) {
     case 'SET_HOVERED_FEATURE':
-      return action.feature || null;
+      return action.feature || state;
     default:
       return state;
   }

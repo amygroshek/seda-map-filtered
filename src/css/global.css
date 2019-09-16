@@ -55,8 +55,8 @@ hr {
   bottom: 0px;
   top: 0px;
   height: 100%;
-  right: 24px;
-  left: auto;
+  left: 24px;
+  right: auto;
   margin: auto;
   display: flex;
   align-items: center;

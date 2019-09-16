@@ -51,14 +51,12 @@ const getEmbedCode = (link) => {
 
 function EmbedDialog({open, onClose, ...rest}) {
   const [ copied, setCopied ] = React.useState('');
-  console.log(rest)
   const mapLink = getMapEmbedLink(rest);
   const chartLink = getChartEmbedLink(rest);
   const mapEmbedCode = getEmbedCode(mapLink);
   const chartEmbedCode = getEmbedCode(getChartEmbedLink(rest));
 
   const handleFocus = (event) => event.target.select();
-  console.log(mapEmbedCode)
 
   return (
     <Dialog 

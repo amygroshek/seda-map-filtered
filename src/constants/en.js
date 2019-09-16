@@ -49,6 +49,7 @@ const LANG = {
   'UI_MAP_BUTTON': 'Map',
   'UI_CHART_BUTTON': 'Chart',
   'UI_SPLIT_BUTTON': 'Chart + map',
+  'UI_REPORT_LOADING': 'Generating PDF report. Please be patient—this may take up to 30 seconds...',
 
   // Screen Reader Labels
   'UI_MAP_BUTTON_SR': 'Go to map view',

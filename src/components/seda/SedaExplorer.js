@@ -18,8 +18,6 @@ import SedaTooltip from './SedaTooltip';
 import SedaGapChart from './SedaGapChart';
 import { Button } from '@material-ui/core';
 import { getLang } from '../../modules/lang';
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import EmbedDialog from '../organisms/Embed/EmbedDialog';
 import { ShareLinkDialog } from '../organisms/Share';
@@ -90,10 +88,6 @@ const ExplorerView = ({
   // use state to track if the intro is on / off
   // const [introOn, setIntroOn] = useState(false);
 
-  // check if viewport is above medium
-  const theme = useTheme();
-  const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
-
   // load locations and flag potential layout change afterwards
   useEffect(() => {
     loadRouteLocations(locations)
@@ -125,7 +119,7 @@ const ExplorerView = ({
   }, [ view, helpOpen, locationActive, onLayoutChange ])
   return (
     <>
-      { isAboveMedium && <SedaTooltip /> }
+      <SedaTooltip />
       <SplitSection
         id="map"
         classes={{ root: 'section--explorer' }}
