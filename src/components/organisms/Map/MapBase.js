@@ -114,8 +114,8 @@ const MapBase = ({
     if (!loaded) {
       setLoaded(true)
       // HACK: remove tabindex from map div
-      document.querySelector('.map:first-child')
-        .children[0].removeAttribute('tabindex');
+      const tabindexEl = document.querySelector('.map:first-child')
+      if (tabindexEl) { tabindexEl.children[0].removeAttribute('tabindex'); }
       // add screen reader content for map
       const canvas = mapRef.current.getMap().getCanvas();
       canvas.setAttribute('role', 'img')
@@ -151,13 +151,15 @@ const MapBase = ({
   useEffect(() => {
     // handler for resize event
     const handleResize = () => {
+      console.log('hr')
       onViewportChange({...getContainerSize(mapEl.current)}, false);
     }
     window.addEventListener('resize', handleResize);
     return function cleanup() {
       window.removeEventListener('resize', handleResize);
     };
-  }, [ onViewportChange ]);
+  // eslint-disable-next-line
+  }, []); // only register listener on mount
 
   // set hovered outline when hoveredId changes
   useEffect(() => {
