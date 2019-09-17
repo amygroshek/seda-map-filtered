@@ -99,7 +99,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     if (feature.stub) {
       dispatch(loadLocation(feature.properties))
     } else {
-      dispatch(handleLocationActivation(feature))
+      dispatch(handleLocationActivation(feature, 'panel'))
     }
   },
   onShowSimilar: (feature) => {

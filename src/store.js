@@ -49,12 +49,19 @@ const eventsMap = {
   },
   'REPORT_DOWNLOAD_REQUEST': (action) => ({
     event: 'reportDownloaded',
+    locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
   }),
   'SHOW_SIMILAR': (action) => ({
     event: 'similarPlacesComparison',
+    locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
   }),
+  'SOCIAL_SHARE': (action) => ({
+    event: 'similarPlacesComparison',
+    shareType: action.shareType,
+    shareUrl: action.url
+  })
 }
 
 const gtm = GoogleTagManager();

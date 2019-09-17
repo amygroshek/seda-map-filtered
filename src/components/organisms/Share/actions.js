@@ -44,3 +44,9 @@ export const toggleLinkShareDialog = (open) => ({
   type: 'SET_LINK_DIALOG',
   open
 })
+
+export const onShare = (url, shareType) => ({
+  type: 'SOCIAL_SHARE',
+  url,
+  shareType
+})

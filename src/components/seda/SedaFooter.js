@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { connect } from 'react-redux'
 import { toggleEmbedDialog } from '../../actions';
 import { onTwitterShare, onFacebookShare, toggleLinkShareDialog } from '../organisms/Share';
+import { onShare } from '../organisms/Share/actions';
 
 
 const links = [
@@ -78,7 +79,9 @@ FooterLinks.propTypes = {
 
 const SedaFooter = ({
   onLinkShare,
-  onEmbed
+  onEmbed,
+  onFacebookLinkShare,
+  onTwitterLinkShare
 }) => {
   const shareUrl = window.location.href;
 
@@ -89,9 +92,9 @@ const SedaFooter = ({
       case 'embed':
         return onEmbed()
       case 'twitter':
-        return onTwitterShare(shareUrl, getLang('SHARE_TWITTER'))
+        return onTwitterLinkShare(shareUrl, getLang('SHARE_TWITTER'))
       case 'facebook':
-        return onFacebookShare(shareUrl)
+        return onFacebookLinkShare(shareUrl)
       default:
         return null;
     }
@@ -144,9 +147,19 @@ SedaFooter.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   onEmbed: () => {
     dispatch(toggleEmbedDialog(true))
+    dispatch(onShare(window.location.href, 'embed'))
   },
   onLinkShare: () => {
     dispatch(toggleLinkShareDialog(true))
+    dispatch(onShare(window.location.href, 'link'))
+  },
+  onTwitterLinkShare: (url, text) => {
+    onTwitterShare(url,text)
+    dispatch(onShare(url, 'twitter'))
+  },
+  onFacebookLinkShare: (url) => {
+    onFacebookShare(url)
+    dispatch(onShare(url, 'facebook'))
   }
 })
 

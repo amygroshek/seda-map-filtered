@@ -70,9 +70,10 @@ const addSelectedFeature = (feature, region) => ({
 })
 
 /** Returns an action that sets the active location  */
-export const setActiveLocation = (feature) => ({
+export const setActiveLocation = (feature, source) => ({
   type: 'SET_ACTIVE_LOCATION',
-  feature
+  feature,
+  source
 })
 
 /** Returns an action that clears the active location  */
@@ -291,13 +292,13 @@ export const toggleEmbedDialog = (open) => ({
  * @param {object} location object with id,lat,lon
  *  e.g. { id: 120156001683, lat: 27.83, lon: -82.61 } 
  */
-export const loadLocation = (location) =>
+export const loadLocation = (location, source) =>
   (dispatch) => {
     dispatch(onLoadFeaturesRequest([location]))
     return loadFeatureFromCoords(location)
       .then(feature => {
         dispatch(onLoadFeaturesSuccess([feature]))
-        dispatch(handleLocationActivation(feature))
+        dispatch(handleLocationActivation(feature, source))
       })
       .catch((error) => {
         dispatch(onLoadFeaturesError(error))
@@ -322,7 +323,7 @@ export const loadRouteLocations = (locations, region) =>
           const featureRegion = getRegionFromFeatureId(f.properties.id)
           dispatch(addSelectedFeature(f, featureRegion))
           if (!activeFeature && featureRegion === region) {
-            dispatch(setActiveLocation(f))
+            dispatch(setActiveLocation(f, 'url'))
             activeFeature = true;
           }
         })
@@ -472,12 +473,12 @@ export const onRemoveSelectedFeature = (feature) =>
  * Thunk that adds a selected feature to the collection and
  * activates the location.
  */
-export const handleLocationActivation = (feature) => 
+export const handleLocationActivation = (feature, source) => 
   (dispatch, getState) => {
     dispatch(
       addSelectedFeature(feature, getRegionFromFeatureId(feature.properties.id))
     )
-    dispatch(setActiveLocation(feature))
+    dispatch(setActiveLocation(feature, source))
     const pathname = getState().router.location.pathname;
     addFeatureToRoute(dispatch, pathname, feature)
   }
