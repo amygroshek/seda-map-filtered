@@ -49,6 +49,12 @@
   margin:0;
 }
 
+@media(max-height: 500px) and (max-width: 768px) {
+  .map-legend .legend-panel__description {
+    display: none;
+  }
+}
+
 /** CONDENSED VIEW */
 
   .map-legend .map-legend__legend-bar {

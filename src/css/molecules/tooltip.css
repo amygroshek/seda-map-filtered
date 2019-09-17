@@ -26,7 +26,13 @@
   pointer-events: none;
   text-align: left;
   transform-origin: top left;
-  width: 244px;
+  width: auto;
+}
+
+@media(min-width: 1024px) {
+  .tooltip {
+    width: 244px;
+  }
 }
 
 .tooltip__title {
@@ -39,7 +45,15 @@
 .tooltip__content {
   line-height: 16px;
   margin-top: 8px;
+  display: none;
 }
+
+@media(min-width: 1024px) {
+  .tooltip__content {
+    display: block;
+  }
+}
+
 
 .tooltip .tooltip__description {
   display: block;
@@ -65,7 +79,7 @@
 }
 
 .tooltip .stat.stat--diverging.stat--long {
-  margin:0 0 8px 0;
+  margin: 4px 0 4px 0;
   padding:0;
 }
 

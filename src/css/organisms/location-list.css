@@ -26,6 +26,7 @@
 }
 
 .location-list .location-item__content-wrapper {
+  max-width: 100%;
   padding:0;
 }
 
