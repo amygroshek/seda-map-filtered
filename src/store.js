@@ -5,15 +5,17 @@ import createHistory from 'history/createHashHistory'
 import rootReducer from './modules'
 import { createMiddleware } from 'redux-beacon';
 import GoogleTagManager from '@redux-beacon/google-tag-manager';
+import { getRegionFromFeature } from './modules/config'
+import { getLang } from './modules/lang'
 
 const eventsMap = {
   'SET_EXPLORER_METRIC': (action) => ({
     event: 'metricSelected',
-    metricSelection: action.metricId,
+    metricSelection: getLang('LABEL_' + action.metricId),
   }),
   'SET_EXPLORER_DEMOGRAPHIC': (action) => ({
     event: 'studentTypeSelected',
-    studentTypeSelection: action.demographicId
+    studentTypeSelection: getLang('LABEL_' + action.demographicId)
   }),
   'SET_EXPLORER_REGION': (action) => ({
     event: 'geoTypeSelected',
@@ -38,21 +40,36 @@ const eventsMap = {
   'SHOW_HELP_TOPIC': (action) => {
     return {
       event: 'helpTopicExpanded',
-      helpTopicExpansion: action.topicId
+      helpTopicExpansion: getLang(action.topicId)
     }
   },
   'SHOW_SINGLE_TOPIC': (action) => {
     return {
       event: 'helpTopicExpanded',
-      helpTopicExpansion: action.topicId
+      helpTopicExpansion: getLang(action.topicId)
     }
   },
   'REPORT_DOWNLOAD_REQUEST': (action) => ({
     event: 'reportDownloaded',
+    geoTypeSelected: getRegionFromFeature(action.feature),
+    locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
+  }),
+  'SOCIAL_SHARE': (action) => ({
+    event: 'shareType',
+    shareType: action.shareType,
+    shareUrl: action.url
+  }),
+  'SET_ACTIVE_LOCATION': (action) => ({
+    event: 'locationSelected',
+    locationId: action.feature.properties.id,
+    locationName: action.feature.properties.name,
+    selectionSource: action.source
   }),
   'SHOW_SIMILAR': (action) => ({
     event: 'similarPlacesComparison',
+    geoTypeSelected: getRegionFromFeature(action.feature),
+    locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
   }),
 }

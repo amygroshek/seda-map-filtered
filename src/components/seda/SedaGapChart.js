@@ -120,7 +120,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
   },
   onClick: (location) =>
-    dispatch(loadLocation(location)),
+    dispatch(loadLocation(location, 'chart')),
   onError: (e, sectionId = 'map') =>
     dispatch(onScatterplotError(e, sectionId)),
   onSetSecondary: (metric) => {

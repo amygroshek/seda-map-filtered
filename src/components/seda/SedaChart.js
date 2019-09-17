@@ -106,7 +106,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
     
   onClick: (location) =>
-    dispatch(loadLocation(location)),
+    dispatch(loadLocation(location, 'chart')),
   onError: (e, sectionId = 'map') =>
     dispatch(onScatterplotError(e, sectionId))
 })

@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch) => ({
       getLocationFromFeature(feature)
     )[0];
     if (l) {
-      dispatch(setActiveLocation(feature))
+      dispatch(setActiveLocation(feature, 'pinned'))
       dispatch(onViewportChange({ 
         latitude: parseFloat(l.lat), 
         longitude: parseFloat(l.lon),

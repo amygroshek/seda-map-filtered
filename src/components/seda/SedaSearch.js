@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
           id: hit.id,
           lat: hit.lat,
           lon: hit.lon
-        }))
+        }, 'search'))
       }
       dispatch(onSearchSelection(hit))
       dispatch(onRouteUpdates(routeUpdates, ownProps))
