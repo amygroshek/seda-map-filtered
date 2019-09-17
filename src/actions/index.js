@@ -272,12 +272,12 @@ export const onMapLegendAction = (itemId) => ({
   itemId
 })
 
-
-
-export const onShowSimilar = (feature) => ({
-  type: 'SHOW_SIMILAR',
-  feature
-})
+export const onShowSimilarAction = (feature) => {
+  return {
+    type: 'SHOW_SIMILAR',
+    feature
+  }
+}
 
 export const toggleEmbedDialog = (open) => ({
   type: 'SET_EMBED_DIALOG',
