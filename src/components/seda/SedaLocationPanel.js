@@ -104,9 +104,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     }
   },
   onShowSimilar: (feature) => {
-    console.log('predis')
     dispatch(onShowSimilarAction(feature))
-    console.log('dispatched', onShowSimilarAction(feature))
   },
   onHelpClick: (topicId, helpOpen) => {
     !helpOpen && dispatch(toggleHelp());

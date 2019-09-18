@@ -66,6 +66,7 @@
 
 .tooltip .tooltip__content em {
   color: var(--grey3);
+  display: block;
 }
 
 .tooltip .arrow-stat {

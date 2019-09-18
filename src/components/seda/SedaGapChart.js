@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getMapVars, getDemographicIdFromVarName } from '../../modules/config';
+import { getMapVars, getDemographicIdFromVarName, getGapDemographics } from '../../modules/config';
 import { getStateFipsFromAbbr } from '../../constants/statesFips';
 import { loadLocation, onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, setTooltipVars } from "../../actions";
 import Scatterplot from '../organisms/Scatterplot';
 import SedaLocationMarkers from './SedaLocationMarkers';
 import ScatterplotAxis from '../organisms/Scatterplot/ScatterplotAxis';
 import { GapTypeInlineMenu } from './SedaSelectControls';
-import { getLabel } from '../../modules/lang';
+import { getLabel, getLang } from '../../modules/lang';
 
 const SedaGapChart = ({
   region,
@@ -33,6 +33,10 @@ const SedaGapChart = ({
   const isPoorVsNonpoor = xDem === 'pn';
   vars.xVar = isPoorVsNonpoor ?
     'np_seg' : xDem + '_' + secondary;
+  const dems = getGapDemographics(xDem).map(d => getLang('LABEL_'+d));
+  const gapInputLabel = secondary === 'ses' ?
+    getLang('LABEL_GAP_INPUT', { dem1: dems[0], dem2: dems[1] }) :
+    getLang('LABEL_GAP_INPUT', { dem1: dems[1], dem2: dems[0] });
   return (
     <Scatterplot {...{
       ...vars,
@@ -48,7 +52,7 @@ const SedaGapChart = ({
       onError
     }}>
       <div className="scatterplot__gap-selector">
-        <span>Gap in { isPoorVsNonpoor && getLabel('SEG') }</span>
+        <span>{gapInputLabel} { isPoorVsNonpoor && getLabel('SEG') }</span>
         { !isPoorVsNonpoor && 
             <GapTypeInlineMenu
               metric={secondary}
