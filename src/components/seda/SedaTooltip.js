@@ -82,7 +82,7 @@ const ConnectedTooltip = ({
           above={above}
           left={left}
         >
-          <Typography variant="caption">
+          <Typography variant="caption" className="tooltip__demographic">
             { getLang(langContextKey) }
           </Typography>
           <LocationStatSummaryList 

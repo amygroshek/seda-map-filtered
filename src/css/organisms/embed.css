@@ -141,6 +141,11 @@
   display: none;
 }
 
+.map-embed .tooltip__demographic,
+.chart-embed .tooltip__demographic {
+  display: none;
+}
+
 /** Locations */
 
 .map-embed .summary-group {
