@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
-import { getValuePositionInRange, getPositionForVarNameValue, getRegionFromFeatureId, getColorForVarNameValue, getMetricIdFromVarName, getMetricRangeFromVarName, getFormatterForVarName } from '../../../modules/config';
+import { getValuePositionInRange, getPositionForVarNameValue, getRegionFromFeatureId, getColorForVarNameValue, getMetricIdFromVarName, getMetricRangeFromVarName, getFormatterForVarName, isGapVarName } from '../../../modules/config';
 import { getLang, getDescriptionForVarName } from '../../../modules/lang';
 
 import StatSummary from './StatSummary';
@@ -64,12 +64,13 @@ export const LocationStatDiverging = ({
 }) => {
   const region = getRegionFromFeatureId(feature.properties.id)
   const metricId = getMetricIdFromVarName(varName);
+  const isGap = isGapVarName(varName);
   const value = getFeatureProperty(feature, varName);
   range = range || getMetricRangeFromVarName(varName, region, 'map');
   formatter = formatter || getFormatterForVarName(varName);
   const color = getColorForVarNameValue(value, varName, region)
   const position = getPositionForVarNameValue(varName, value, range);
-  const midPoint = metricId === 'grd' ? 1 : 0;
+  const midPoint = metricId === 'grd' && !isGap ? 1 : 0;
   const midPosition = (getValuePositionInRange(midPoint, range) * 100) + '%';
   
   // get min / max labels if showing
