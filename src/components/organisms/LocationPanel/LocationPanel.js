@@ -255,16 +255,17 @@ const LocationPanel = ({
         <Typography paragraph={true}>
           { getLang('LOCATION_EXPORT_REPORT', { name }) }
         </Typography>
+        { reportError && <p className="error">Error generating report.</p>}
         {
           reportLoading ? 
-            <p>Loading...</p> :
+            <p>{ getLang('UI_REPORT_LOADING') }</p> :
             <Button
               variant="contained"
               color="primary"
               onClick={() => { onDownloadReport(feature) }}
             >{getLang('BUTTON_DOWNLOAD_REPORT')}</Button>
         }
-        { reportError && <p className="error">Error generating report.</p>}
+        
       </AccordionItem>
     </Panel>
   ) : null
