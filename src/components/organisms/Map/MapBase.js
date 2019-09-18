@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import ReactMapGL, { NavigationControl, GeolocateControl } from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import PropTypes from 'prop-types';
 import usePrevious from '../../../hooks/usePrevious';
 import ZoomToUSControl from './ZoomToControl';
