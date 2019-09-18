@@ -101,6 +101,9 @@ const LANG = {
   'LABEL_COH_PN': 'Poor / Non-Poor Gap in Test Score Trends',
   'LABEL_COH_MF': 'Male / Female Gap in Test Score Trends',
   'LABEL_SEG': 'school poverty',
+  'LABEL_SEG_NP': 'poor - non-poor gap in school poverty',
+  'LABEL_SEG_WB': 'Black - White gap in school poverty',
+  'LABEL_SEG_WH': 'Hispanic - White gap in school poverty',
   'LABEL_SES_NO_REGION' : 'socioeconomic status (SES)',
   'LABEL_SES': '$[region] socioeconomic status (SES)',
   'LABEL_SES_W': 'White families\' socioeconomic status (SES)',
@@ -111,6 +114,8 @@ const LANG = {
   'LABEL_SES_F': '$[region] socioeconomic status (SES)',
   'LABEL_SES_P': '$[region] socioeconomic status (SES)',
   'LABEL_SES_NP': '$[region] socioeconomic status (SES)',
+  'LABEL_SES_WB': 'White - Black gap in socioeconomic status',
+  'LABEL_SES_WH': 'White - Hispanic gap in socioeconomic status',
   'LABEL_FRL': 'Free/Reduced Price Lunch Percentage',
 
   // Short Metric Labels
@@ -700,6 +705,7 @@ const LANG = {
   'EMBED_CHART_INSTRUCTIONS': 'Use the code below to embed the chart on your website.  The chart will match your current data selections. ',
   'EMBED_CHART_PREVIEW': 'View Chart Preview',
   'EMBED_CHART_INPUT_LABEL': 'Chart Embed Code',
+  'EMBED_SECONDARY_INSTRUCTIONS': 'The current gap view has two charts, use the code below to embed the secondary chart on your website.',
   'EMBED_COPY_LABEL': 'Copy embed code',
 
   'LINK_DIALOG_TITLE': 'Share a Link',
