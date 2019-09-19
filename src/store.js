@@ -107,6 +107,14 @@ const eventsMap = {
     locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
   }),
+  'SET_GAP_CHART_VISIBILITY': (action) => {
+    if (action.visible) {
+      return {
+        event: 'gapViewActivated',
+        studentTypeSelection: getLang('LABEL_' + action.demographicId)
+      }
+    }
+  }
 }
 
 const gtm = GoogleTagManager();

@@ -729,8 +729,38 @@
     // SEDA namespace for globals
     window.SEDA = (function() {
 
+      // track start time
+      var startTime = new Date();
+      
+      // track time after metric selection
+      var startTimeDataLoad;
+
+      // timeout to track long load times
+      var loadTimeout;
+
       // stores event handlers
       var handlers = {};
+
+      // labels for tracking
+      var LANG = {
+        'ALL': 'all',
+        'B': 'Black',
+        'W': 'White',
+        'H': 'Hispanic',
+        'A': 'Asian',
+        'M': 'male',
+        'F': 'female',
+        'P': 'poor',
+        'NP': 'non-poor',
+        'N': 'non-poor',
+        'WB': 'White / Black gap',
+        'WH': 'White / Hispanic gap',
+        'PN': 'non-poor / poor gap',
+        'MF': 'male / female gap',
+        'AVG': 'average test scores',
+        'GRD': 'learning rates',
+        'COH': 'trend in test scores'
+      }
 
       // registers a handler for a custom event
       var addHandler = function(handlerId, handler) {
@@ -796,6 +826,10 @@
         var metric = getItem('metric') || 'avg';
         var view = getItem('view') || 'map';
         var demographic = getItem('demographic') || 'all';
+        trackRegion(region);
+        trackMetric(metric);
+        trackView(view);
+        trackDemographic(demographic);
         location.hash = `/${view}/us/${region}/${metric}/ses/${demographic}/3.5/38/-97`;
       }
 
@@ -807,13 +841,79 @@
 
       // show remaining loading messages while the map / charts load
       var showLoadRemainingAssets = function () {
+        startTimeDataLoad = new Date();
         updateLoadingText('Loading maps')
         setTimeout(function() { updateLoadingText('Loading charts') }, 3000)
         setTimeout(function() { updateLoadingText('Loading school data') }, 8000)
+        loadTimeout = setTimeout(function() { 
+          updateLoadingText('Still loading...');
+          trackProblem('explorer load longer than 30 seconds');
+        }, 30000);
+      }
+
+      var trackTiming = function(type, id, value) {
+        if (!dataLayer || !dataLayer.push) { return; }
+        dataLayer.push({
+          'event': 'timingEvent', 
+          'timingType': type, 
+          'timingId': id,
+          'timeValue': value
+        })
+      }
+
+      var trackProblem = function(type) {
+        if (!dataLayer || !dataLayer.push) { return; }
+        dataLayer.push({
+          'event': 'problemDetected', 
+          'problemType': type
+        })
+      }
+
+      var trackRegion = function(region) {
+        if (!dataLayer || !dataLayer.push) { return; }
+        dataLayer.push({
+          'event': 'geoTypeSelected',
+          'geoTypeSelection': region
+        })
+      }
+
+      var trackMetric = function(metric) {
+        if (!metric || !dataLayer || !dataLayer.push) { return; }
+        dataLayer.push({
+          'event': 'metricSelected',
+          'metricSelection': LANG[metric.toUpperCase()] || metric
+        })
+      }
+
+      var trackDemographic = function(demographic) {
+        if (!demographic || !dataLayer || !dataLayer.push) { return; }
+        dataLayer.push({
+          'event': 'studentTypeSelected',
+          'studentTypeSelection': LANG[demographic.toUpperCase()] || demographic
+        })
+      }
+
+      var trackView = function(view) {
+        if (!dataLayer || !dataLayer.push) { return; }
+        dataLayer.push({
+          'event': 'displayTypeSelected',
+          'displayTypeSelection': view
+        })
+      }
+
+      // tracks the view for direct links
+      var trackDirectLink = function() {
+        var url = window.location.hash;
+        if (url.indexOf('#/map') === 0) { trackView('map') }
+        if (url.indexOf('#/chart') === 0) { trackView('chart') }
+        if (url.indexOf('#/split') === 0) { trackView('split') }
       }
 
       // handler for when the 'app' event fires, indicating app assets are available
       var appLoadedHandler = function() {
+        var appLoadTime = new Date();
+        var appLoadSeconds = parseInt((appLoadTime - startTime) / 1000);
+        trackTiming('load', 'loading assets', appLoadSeconds);
         if (location.hash.length < 3) {
           if (supportsLocalStorage && localStorage.getItem('metric')) {
             // load route from local storage
@@ -826,18 +926,29 @@
         } else {
           // route already exists, load
           showLoadRemainingAssets();
+          trackDirectLink();
         }
       }
 
+      var mapLoadHandler = function() {
+        if (loadTimeout) { clearTimeout(loadTimeout); }
+        var endTimeDataLoad = new Date();
+        var dataLoadSeconds = parseInt((endTimeDataLoad - startTimeDataLoad) / 1000);
+        trackTiming('load', 'loading map data', dataLoadSeconds);
+        hideIntro();
+      }
+
       // bind events
-      addHandler('app', appLoadedHandler)
-      addHandler('map', hideIntro);
+      addHandler('app', appLoadedHandler);
+      addHandler('map', mapLoadHandler);
 
       // return public functions
       return {
         addHandler: addHandler,
         trigger: trigger,
-        loadView: loadView
+        loadView: loadView,
+        trackTiming: trackTiming,
+        trackProblem: trackProblem
       }
     })()
 
