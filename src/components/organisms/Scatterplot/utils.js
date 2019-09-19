@@ -418,6 +418,7 @@ const getVersusOverlay = (xVar, yVar) => {
     visualMap: false,
     data: [[-6, -6], [6, 6]],
     symbolSize: 0.1,
+    z:100,
     label: {
       show:false
     },
@@ -427,6 +428,7 @@ const getVersusOverlay = (xVar, yVar) => {
     markLine: {
       animation: false,
       silent: true,
+      z: 100,
       label: {
         position: 'middle',
         formatter: function(value) {
@@ -446,6 +448,7 @@ const getVersusOverlay = (xVar, yVar) => {
           {
             coord: labelEnd,
             symbol: 'none',
+            z:100,
             name: getLang('LINE_EQUAL_OPPORTUNITY', {
               demographic1: getLang('LABEL_' + xDem.id),
               demographic2: getLang('LABEL_' + yDem.id)

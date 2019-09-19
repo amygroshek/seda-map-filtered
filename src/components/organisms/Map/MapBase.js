@@ -128,7 +128,9 @@ const MapBase = ({
         trackUserLocation: true
       });
       const controlContainer = document.querySelector('.map__zoom:first-child');
-      controlContainer.appendChild(geolocateControl.onAdd(map))
+      if (controlContainer) {
+        controlContainer.appendChild(geolocateControl.onAdd(map))
+      }
       // trigger load callback
       if(typeof onLoad === 'function') { onLoad(e) }
     }
