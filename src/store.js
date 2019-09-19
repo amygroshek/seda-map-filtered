@@ -8,6 +8,41 @@ import GoogleTagManager from '@redux-beacon/google-tag-manager';
 import { getRegionFromFeature } from './modules/config'
 import { getLang } from './modules/lang'
 
+
+const localStorageMiddleware = (store) => (next) => (action) => {
+  const state = store.getState();
+  // only apply middleware if it's a non-embed route
+  if (
+    window.supportsLocalStorage &&
+    state.router && 
+    state.router.location && 
+    state.router.location.pathname &&
+    state.router.location.pathname.indexOf('embed') === -1
+  ) {
+    if (action.type === 'SET_EXPLORER_REGION') {
+      if (localStorage.getItem('region') !== action.regionId) {
+        localStorage.setItem('region', action.regionId);
+      }
+    }
+    if (action.type === 'SET_EXPLORER_VIEW') {
+      if (localStorage.getItem('view') !== action.view) {
+        localStorage.setItem('view', action.view);
+      }
+    }
+    if (action.type === 'SET_EXPLORER_METRIC') {
+      if (localStorage.getItem('metric') !== action.metricId) {
+        localStorage.setItem('metric', action.metricId);
+      }
+    }
+    if (action.type === 'SET_EXPLORER_DEMOGRAPHIC') {
+      if (localStorage.getItem('demographic') !== action.demographicId) {
+        localStorage.setItem('demographic', action.demographicId);
+      }
+    }
+  }
+  return next(action);
+}
+
 const eventsMap = {
   'SET_EXPLORER_METRIC': (action) => ({
     event: 'metricSelected',
@@ -82,7 +117,7 @@ export const history = createHistory()
 
 const initialState = {}
 const enhancers = []
-const middleware = [thunk, routerMiddleware(history), gtmMiddleware]
+const middleware = [thunk, routerMiddleware(history), gtmMiddleware, localStorageMiddleware]
 
 if (process.env.NODE_ENV === 'development') {
   const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__
