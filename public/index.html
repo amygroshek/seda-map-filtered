@@ -714,14 +714,33 @@
   </div>
   <div id="root" class="hidden"></div>
   <script>
+    // test for local storage support
+    window.supportsLocalStorage = (function() {
+      var mod = 'test';
+      try {
+        localStorage.setItem(mod, mod);
+        localStorage.removeItem(mod);
+        return true;
+      } catch(e) {
+        return false;
+      }
+    })()
+
+    // SEDA namespace for globals
     window.SEDA = (function() {
+
+      // stores event handlers
       var handlers = {};
+
+      // registers a handler for a custom event
       var addHandler = function(handlerId, handler) {
         if (!handlers.hasOwnProperty(handlerId)) {
           handlers[handlerId] = [];
         }
         handlers[handlerId].push(handler);
       }
+
+      // triggers a custom event
       var trigger = function(handlerId, data) {
         if (handlers[handlerId]) {
           handlers[handlerId].forEach(function(handler) {
@@ -729,6 +748,8 @@
           })
         }
       }
+
+      // hides the intro section and reveals the tool
       var hideIntro = function() {
         var el = document.getElementsByClassName('section--intro')[0];
         if (el) {
@@ -736,40 +757,83 @@
           document.getElementById('root').classList.remove('hidden');
         }    
       }
+
+      // shows the cards for metric selection
       var showCards = function() {
         var el = document.getElementsByClassName('section__body--loading')[0]
         if (el) {
           el.classList.remove("section__body--loading")
         }
       }
+
+      // hide the cards for metric selection
       var hideCards = function() {
         var el = document.getElementsByClassName('section__body')[0]
         if (el) {
           el.classList.add("section__body--loading")
         }
       }
+
+      // load view for the provided metric, set in local storage to remember 
       var loadView = function(metric) {
-        location.hash = '/map/us/districts/' + metric + '/ses/all/3.5/38/-97';
+        if (supportsLocalStorage) {
+          localStorage.setItem('region', 'districts')
+          localStorage.setItem('metric', metric)
+          localStorage.setItem('view', 'map')
+          localStorage.setItem('demographic', 'all')
+        }
+        loadRoute();
         hideCards();
         showLoadRemainingAssets();
       }
+
+      // load the route from local storage, or default options
+      var loadRoute = function() {
+        var getItem = function(item) {
+          return supportsLocalStorage ? localStorage.getItem(item) : null
+        }
+        var region = getItem('region') || 'districts';
+        var metric = getItem('metric') || 'avg';
+        var view = getItem('view') || 'map';
+        var demographic = getItem('demographic') || 'all';
+        location.hash = `/${view}/us/${region}/${metric}/ses/${demographic}/3.5/38/-97`;
+      }
+
+      // updates the loading message
       var updateLoadingText = function(text) {
         var el = document.getElementById('loadingText')
         if (el) { el.innerHTML = text }
       }
+
+      // show remaining loading messages while the map / charts load
       var showLoadRemainingAssets = function () {
         updateLoadingText('Loading maps')
         setTimeout(function() { updateLoadingText('Loading charts') }, 3000)
         setTimeout(function() { updateLoadingText('Loading school data') }, 8000)
       }
-      addHandler('app', function() {
+
+      // handler for when the 'app' event fires, indicating app assets are available
+      var appLoadedHandler = function() {
         if (location.hash.length < 3) {
-          showCards();
+          if (supportsLocalStorage && localStorage.getItem('metric')) {
+            // load route from local storage
+            loadRoute();
+            showLoadRemainingAssets();
+          } else {
+            // no route in local storage, show selection
+            showCards();
+          }
         } else {
+          // route already exists, load
           showLoadRemainingAssets();
         }
-      })
+      }
+
+      // bind events
+      addHandler('app', appLoadedHandler)
       addHandler('map', hideIntro);
+
+      // return public functions
       return {
         addHandler: addHandler,
         trigger: trigger,
