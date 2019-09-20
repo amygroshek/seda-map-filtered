@@ -283,13 +283,13 @@
   bottom: 32px;
   z-index: 10;
   color: var(--text3);
-  font-weight: normal;
-  font-family: var(--body-bold);
-  font-size: var(--small-font-size);
+  font-weight: 600;
+  font-size: var(--font-size);
 }
 
 .scatterplot__gap-selector .inline-menu .MuiInput-input {
-  font-size: var(--small-font-size);
+  font-size: var(--font-size);
+  font-weight: normal;
   margin-top: 3px;
 }
 
