@@ -207,9 +207,10 @@ export const onScatterplotUnloaded = (scatterplotId) => ({
   scatterplotId
 });
 
-export const toggleGapChart = (visible) => ({
+export const toggleGapChart = (visible, demographicId) => ({
   type: 'SET_GAP_CHART_VISIBILITY',
-  visible
+  visible,
+  demographicId
 })
 
 export const showHelpTopic = (topicId) => ({
@@ -297,11 +298,12 @@ export const loadLocation = (location, source) =>
     dispatch(onLoadFeaturesRequest([location]))
     return loadFeatureFromCoords(location)
       .then(feature => {
-        dispatch(onLoadFeaturesSuccess([feature]))
-        dispatch(handleLocationActivation(feature, source))
+        dispatch(onLoadFeaturesSuccess([feature]));
+        dispatch(handleLocationActivation(feature, source));
       })
       .catch((error) => {
-        dispatch(onLoadFeaturesError(error))
+        dispatch(onLoadFeaturesError(error));
+        window.SEDA.trackProblem(`error loading location from ${source}: ${location}`)
       })
     }
 
@@ -330,6 +332,7 @@ export const loadRouteLocations = (locations, region) =>
       })
       .catch((error) => {
         dispatch(onLoadFeaturesError(error))
+        window.SEDA.trackProblem('error loading locations from route')
       })
   }
 
@@ -345,6 +348,7 @@ export const loadFlaggedSchools = () =>
           dispatch(onLoadFlaggedSuccess(type, res.data))
         }).catch((error) => {
           dispatch(onLoadFlaggedError(error))
+          window.SEDA.trackProblem('error loading flagged schools')
         })
       })
     )
@@ -504,6 +508,12 @@ export const toggleHelp = (forceOpen = false) =>
       type: 'REPORT_DOWNLOAD_REQUEST',
       feature
     })
+    const startTimeReport = new Date();
+    
+    const featureId = getFeatureProperty(feature, 'id');
+    const reportTimeout = setTimeout(() => {
+      window.SEDA.trackProblem('report generation longer than 45 seconds: ' + featureId);
+    }, 45000);
     const region = getRegionFromFeature(feature);
     const avgValue = getFeatureProperty(feature, 'all_avg');
     const grdValue = getFeatureProperty(feature, 'all_grd');
@@ -541,6 +551,10 @@ export const toggleHelp = (forceOpen = false) =>
         type: 'REPORT_DOWNLOAD_SUCCESS',
         feature
       })
+      clearTimeout(reportTimeout);
+      const endTimeReport = new Date();
+      const reportTime = parseInt((endTimeReport - startTimeReport)/1000);
+      window.SEDA.trackTiming('load', 'pdf generated', reportTime);
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -551,6 +565,7 @@ export const toggleHelp = (forceOpen = false) =>
       dispatch({
         type: 'REPORT_DOWNLOAD_FAILED',
         error
-      })
+      });
+      window.SEDA.trackProblem('error generating PDF for ' + featureId);
     });
   } 

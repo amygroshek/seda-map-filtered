@@ -122,6 +122,9 @@ const ExplorerView = ({
   // eslint-disable-next-line
   }, [ view, helpOpen, locationActive ])
 
+  const handleToggleGapChart = (visible) =>
+    onToggleGapChart(visible, demographic);
+
   return (
     <>
       <SedaTooltip />
@@ -137,7 +140,7 @@ const ExplorerView = ({
             hasGapChart={hasGapChart(demographic)} 
             showGapChart={hasGapChart(demographic) && gapChart} 
             sectionId={view} 
-            onChartToggle={onToggleGapChart}
+            onChartToggle={handleToggleGapChart}
           />
         }
         footerContent={canRender && <SedaLocations />}
@@ -196,8 +199,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onMetricChange: (metricId) =>
     dispatch(onMetricChange(metricId, ownProps))
   ,
-  onToggleGapChart: (visible) => {
-    dispatch(toggleGapChart(visible))
+  onToggleGapChart: (visible, demographicId) => {
+    dispatch(toggleGapChart(visible, demographicId))
   }
 })
 
