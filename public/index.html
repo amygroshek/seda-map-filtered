@@ -901,12 +901,18 @@
         })
       }
 
-      // tracks the view for direct links
+      // tracks the view and region for direct links
       var trackDirectLink = function() {
         var url = window.location.hash;
-        if (url.indexOf('#/map') === 0) { trackView('map') }
-        if (url.indexOf('#/chart') === 0) { trackView('chart') }
-        if (url.indexOf('#/split') === 0) { trackView('split') }
+        if (url.indexOf('/map/') !== -1) { trackView('map') }
+        if (url.indexOf('/chart/') !== -1) { trackView('chart') }
+        if (url.indexOf('/split/') !== -1) { trackView('split') }
+        if (url.indexOf('/schools/') !== -1) { trackRegion('schools') }
+        if (url.indexOf('/districts/') !== -1) { trackRegion('districts') }
+        if (url.indexOf('/counties/') !== -1) { trackRegion('counties') }
+        if (url.indexOf('/avg/') !== -1) { trackMetric('avg') }
+        if (url.indexOf('/grd/') !== -1) { trackMetric('grd') }
+        if (url.indexOf('/coh/') !== -1) { trackMetric('coh') }
       }
 
       // handler for when the 'app' event fires, indicating app assets are available
