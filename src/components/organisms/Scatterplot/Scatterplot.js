@@ -5,7 +5,7 @@ import SedaScatterplot, { fetchScatterplotVars } from 'react-seda-scatterplot'
 import { theme } from './echartTheme';
 import { getBaseVars } from '../../../modules/config'
 import { getScatterplotOptions } from './utils';
-import { getStateAbbr } from '../../../constants/statesFips';
+import { getStateAbbr, getStateFipsFromAbbr } from '../../../constants/statesFips';
 import { getLang, getLabelForVarName } from '../../../modules/lang';
 
 const baseVars = getBaseVars()
@@ -54,6 +54,9 @@ function Scatterplot({
   onError
 }) {
   const regionData = data[region]
+  
+  const stateFips = getStateFipsFromAbbr(highlightedState);
+
   // memoize scatterplot options
   const scatterplotOptions = useMemo(
     () => {
@@ -140,7 +143,8 @@ function Scatterplot({
           data,
           highlighted,
           theme,
-          freeze
+          freeze,
+          stateFips,
         }}
         prefix={region}
         options={scatterplotOptions}
