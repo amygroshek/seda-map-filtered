@@ -10,20 +10,27 @@ import { getStateAbbrFromName } from '../../constants/statesFips';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onSuggestionSelected: (hit) => {
-    const region = getRegionFromFeatureId(hit.id)
+    const region = getRegionFromFeatureId(hit.id) || 'schools';
     const state = getStateAbbrFromName(hit.state_name);
     const routeUpdates = {}
     if (hit) {
       dispatch(onViewportChange({ 
         latitude: parseFloat(hit.lat), 
         longitude: parseFloat(hit.lon),
-        zoom: hit.id ? (hit.id.length + 3.5) : 10,
+        zoom: hit.id ? (hit.id.length + 3.5) : 12,
         transitionDuration: 3000,
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: ease.easeCubic
       }))
       if (region) {
         routeUpdates['region'] = region
+      }
+      // switch demographic to all if schools
+      if (region === 'schools') {
+        routeUpdates['demographic'] = 'all';
+        routeUpdates['secondary'] = 'frl';
+      } else {
+        routeUpdates['secondary'] = 'ses';
       }
       if (state) {
         routeUpdates['highlightedState'] = state.toLowerCase()

@@ -70,7 +70,7 @@ const MapLegend = ({
     (isGapDemographic(demographic) ? '_GAP_' : '_')
   // const legendChartKey = 'LEGEND_CHART_' + metric +
   //   (isGapDemographic(demographic) ? '_GAP' : '')
-  if (view === 'chart' || (view === 'split' && !isVersus)) { return null }
+  const freeze = (view === 'chart' || (view === 'split' && !isVersus));
   return (
     <div className={classNames(
       "map-legend", 
@@ -111,7 +111,7 @@ const MapLegend = ({
 
           { variant === 'chart' &&
             <div className="map-legend__preview">
-              <SedaScatterplotPreview>
+              <SedaScatterplotPreview freeze={freeze}>
                 <SedaLocationMarkers {...{...vars}} />
                 <ScatterplotAxis
                   axis='y'
