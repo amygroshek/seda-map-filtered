@@ -40,7 +40,10 @@ const SedaLocationPanel = ({
   const flags = useMemo(() => 
     getFeatureFlags(active, flagged)
   , [ active, flagged ])
-  const handleHelpClick = (topicId) => onHelpClick(topicId, helpOpen)
+  const handleHelpClick = useMemo(() =>
+    (topicId) => onHelpClick(topicId, helpOpen)
+  // eslint-disable-next-line
+  , [helpOpen])
   return (
     <LocationPanel 
       feature={active} 
