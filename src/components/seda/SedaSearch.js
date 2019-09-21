@@ -25,6 +25,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       if (region) {
         routeUpdates['region'] = region
       }
+      // switch demographic to all if schools
+      if (region === 'schools') {
+        routeUpdates['demographic'] = 'all';
+        routeUpdates['secondary'] = 'frl';
+      } else {
+        routeUpdates['secondary'] = 'ses';
+      }
       if (state) {
         routeUpdates['highlightedState'] = state.toLowerCase()
       }
