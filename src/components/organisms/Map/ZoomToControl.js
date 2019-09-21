@@ -22,9 +22,9 @@ ZoomToControl.propTypes = {
   onButtonClick: PropTypes.func,
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onButtonClick: () =>
-    dispatch(onHighlightedStateChange('us', ownProps))
+    dispatch(onHighlightedStateChange('us'))
 })
 
 export default compose(

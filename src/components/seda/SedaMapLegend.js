@@ -25,13 +25,13 @@ const mapStateToProps = ({
   })
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onToggleClick: () => {
     dispatch({type: 'TOGGLE_LEGEND_TYPE'})
     dispatch(onMapLegendAction('toggle-legend'))
   },
   onFullClick: () => {
-    dispatch(onViewChange('chart', ownProps))
+    dispatch(onViewChange('chart'))
     dispatch(onMapLegendAction('full-chart'))
   },
   onHelpClick: (helpOpen) => {

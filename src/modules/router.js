@@ -1,7 +1,7 @@
 import * as _debounce from 'lodash.debounce';
 import * as polylabel from 'polylabel';
 import { push } from 'connected-react-router';
-
+import { history } from '../store';
 /**
  * Variables stored in the root, in order
  */
@@ -99,13 +99,15 @@ export const removeLocationFromPathname = (pathname, locationId) => {
  * @param {string} path 
  * @returns {object} e.g. { region: 'counties', metric: 'avg', ... }
  */
-export const getParamsFromPathname = (path, routeVars = DEFAULT_ROUTEVARS) =>
-  path.substring(1, path.length)
+export const getParamsFromPathname = (path, routeVars = DEFAULT_ROUTEVARS) => {
+  return path.substring(1, path.length)
     .split('/')
     .reduce((acc, curr, i) => ({
       ...acc,
       [routeVars[i]]: curr
     }), {})
+}
+
 
 /**
  * Get the route string based on some passed parameters
@@ -162,14 +164,15 @@ const areNewUpdates = (params, updates) => {
  * @param {object} props props from a component connected to the router
  * @param {object} updates an object of route params to update
  */
-export const updateRoute = (props, updates, routeVars) => {
+export const updateRoute = (updates, routeVars) => {
   if (updates && updates['highlightedState']) {
     updates['highlightedState'] = updates['highlightedState'].toLowerCase()
   }
-  const root = props.match.path.split(':')[0].slice(0,-1)
-  areNewUpdates(props.match.params, updates) &&
-    props.history.push(
-      root + getPathnameFromParams(props.match.params, updates, routeVars)
+  const path = window.location.hash.substr(1);
+  const params = getParamsFromPathname(path);
+  areNewUpdates(params, updates) &&
+    history.push(
+      getPathnameFromParams(params, updates, routeVars)
     );
 }
 
@@ -179,7 +182,7 @@ export const updateRoute = (props, updates, routeVars) => {
  * @param {object} props props from a component connected to the router
  * @param {object} vp an object with the updated viewport params
  */
-export const updateViewportRoute = _debounce((props, vp) => {
+export const updateViewportRoute = _debounce((vp) => {
   if (vp.latitude && vp.longitude && vp.zoom) {
     const paramMap = [ 'latitude', 'longitude', 'zoom' ]
     const routeUpdates = [ 'lat', 'lon', 'zoom' ]
@@ -187,7 +190,7 @@ export const updateViewportRoute = _debounce((props, vp) => {
         ...acc, 
         [curr]: Math.round(vp[paramMap[i]] * 100) / 100
       }), {})
-    updateRoute(props, routeUpdates);
+    updateRoute(routeUpdates);
   }
 }, 1000);
 

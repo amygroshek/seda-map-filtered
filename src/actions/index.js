@@ -368,40 +368,40 @@ export const navigateToStateByAbbr = (abbr) =>
 /**
  * Update the route and dispatch the event to update metric
  */
-export const onMetricChange = (metric, ownProps) => (dispatch) => {
-  updateRoute(ownProps, { metric })
+export const onMetricChange = (metric) => (dispatch) => {
+  updateRoute({ metric })
   dispatch(setExplorerMetric(metric))
 }
 
 /**
  * Update the route and dispatch the event to update metric
  */
-export const onViewChange = (view, ownProps) => (dispatch) => {
-  updateRoute(ownProps, { view })
+export const onViewChange = (view) => (dispatch) => {
+  updateRoute({ view })
   dispatch(setExplorerView(view))
 }
 
 
-export const onDemographicChange = (demographic, ownProps) =>
+export const onDemographicChange = (demographic) =>
   (dispatch) => {
-    updateRoute(ownProps, { demographic })
+    updateRoute({ demographic })
     dispatch(setExplorerDemographic(demographic))
   }
 
-export const setDemographicAndMetric = (demographic, metric, ownProps) =>
+export const setDemographicAndMetric = (demographic, metric) =>
   (dispatch) => {
-    updateRoute(ownProps, { demographic, metric })
+    updateRoute({ demographic, metric })
     dispatch(setExplorerDemographic(demographic))
     dispatch(setExplorerMetric(metric))
   }
 
-export const onHighlightedStateChange = (stateAbbr, ownProps) => (dispatch) => {
-  updateRoute(ownProps, { highlightedState: stateAbbr })
+export const onHighlightedStateChange = (stateAbbr) => (dispatch) => {
+  updateRoute({ highlightedState: stateAbbr })
   dispatch(setExplorerState(stateAbbr))
   dispatch(navigateToStateByAbbr(stateAbbr))
 }
 
-export const onRouteUpdates = (updates = {}, ownProps) => (dispatch) => {
+export const onRouteUpdates = (updates = {}) => (dispatch) => {
   if (updates.hasOwnProperty('region')) {
     dispatch(setExplorerRegion(updates.region))
   }
@@ -420,14 +420,14 @@ export const onRouteUpdates = (updates = {}, ownProps) => (dispatch) => {
   if (updates.hasOwnProperty('locations')) {
     dispatch(setExplorerLocations(updates.locations))
   }
-  updateRoute(ownProps, updates);
+  updateRoute(updates);
 } 
 
 /**
  * Thunk that updates the region in the route
  * @param {*} region 
  */
-export const onRegionChange = (region, ownProps) => 
+export const onRegionChange = (region) => 
   (dispatch) => {
     const routeUpdates = { region };
     // set demographic to 'all' if switching to schools
@@ -437,7 +437,7 @@ export const onRegionChange = (region, ownProps) =>
     } else {
       routeUpdates['secondary'] = 'ses';
     }
-    updateRoute(ownProps, routeUpdates)
+    updateRoute(routeUpdates)
     dispatch(setExplorerRegion(region))
     dispatch(clearActiveLocation())
   }

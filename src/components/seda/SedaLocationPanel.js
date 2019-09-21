@@ -89,9 +89,9 @@ const mapStateToProps =
     selected: selected[region]
   })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onGapClick: (gapId, metricId) => {
-    dispatch(setDemographicAndMetric(gapId, metricId, ownProps))
+    dispatch(setDemographicAndMetric(gapId, metricId))
   },
   clearActiveLocation: () => 
     dispatch(clearActiveLocation()),

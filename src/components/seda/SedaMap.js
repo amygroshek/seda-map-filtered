@@ -130,7 +130,7 @@ const mapStateToProps = ({
   })
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onHover: (feature, vars, coords) => {
     dispatch(onHoverFeature(feature))
     dispatch(setTooltipVars(vars))
@@ -139,10 +139,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onViewportChange: (vp, updateRoute = true) => {
     dispatch(onViewportChange(vp))
-    updateRoute && updateViewportRoute(ownProps, vp);
+    updateRoute && updateViewportRoute(vp);
   },
   resetHighlightedState: () => {
-    dispatch(onHighlightedStateChange('us', ownProps))
+    dispatch(onHighlightedStateChange('us'))
   },
   onClick: (feature) => dispatch(
     handleLocationActivation(feature, 'map')

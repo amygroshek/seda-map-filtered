@@ -78,6 +78,7 @@ const ExplorerView = ({
   view,
   demographic,
   gapChart,
+  region,
   canRender,
   activeView,
   onMetricChange,
@@ -90,7 +91,7 @@ const ExplorerView = ({
 
   // load locations and flag potential layout change afterwards
   useEffect(() => {
-    loadRouteLocations(locations)
+    loadRouteLocations(locations, region)
       .then(()=> {
         // set map size when locations load
         onLayoutChange('map')
@@ -180,6 +181,7 @@ const mapStateToProps =
     view,
     demographic,
     helpOpen,
+    region,
     locations,
     selected: selected[region],
     locationActive: Boolean(active),
@@ -188,16 +190,16 @@ const mapStateToProps =
       view === 'chart' ? 'left' : 'split'
   })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadRouteLocations: (locations) => 
-    dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
+const mapDispatchToProps = (dispatch) => ({
+  loadRouteLocations: (locations, region) => 
+    dispatch(loadRouteLocations(locations, region)),
   loadFlaggedSchools: () =>
     dispatch(loadFlaggedSchools()),
   onLayoutChange: (view) => 
     ['map', 'split'].indexOf(view) > -1 &&
       dispatch(updateMapSize()),
   onMetricChange: (metricId) =>
-    dispatch(onMetricChange(metricId, ownProps))
+    dispatch(onMetricChange(metricId))
   ,
   onToggleGapChart: (visible, demographicId) => {
     dispatch(toggleGapChart(visible, demographicId))

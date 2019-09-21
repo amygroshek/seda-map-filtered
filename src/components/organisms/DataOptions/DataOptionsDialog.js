@@ -147,9 +147,9 @@ const mapStateToProps = (
   region, demographic, metric, highlightedState
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onApplySettings: (updates) => {
-    dispatch(onRouteUpdates(updates, ownProps))
+    dispatch(onRouteUpdates(updates))
   }
 })
 
