@@ -221,18 +221,18 @@ const mapStateToProps = (
   region: ownProps.match.params.region,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onHelpClick: () => dispatch(toggleHelp()),
   onMenuClick: () => dispatch({
     type: 'TOGGLE_MENU',
     open: true
   }),
   onMetricChange: _debounce((metricId) => {
-    dispatch(onMetricChange(metricId, ownProps));
+    dispatch(onMetricChange(metricId));
   }, 400),
   onViewChange: (view) => {
     const updatedView = view && view.id ? view.id : view
-    dispatch(onViewChange(updatedView, ownProps));
+    dispatch(onViewChange(updatedView));
   }
 })
 

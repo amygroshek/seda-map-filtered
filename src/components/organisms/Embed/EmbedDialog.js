@@ -243,7 +243,7 @@ const mapStateToProps = (
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onClose: () => {
     dispatch(toggleEmbedDialog(false))
   }

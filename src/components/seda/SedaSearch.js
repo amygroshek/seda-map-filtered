@@ -8,7 +8,7 @@ import { getRegionFromFeatureId } from '../../modules/config';
 import Search from '../molecules/Search';
 import { getStateAbbrFromName } from '../../constants/statesFips';
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onSuggestionSelected: (hit) => {
     const region = getRegionFromFeatureId(hit.id) || 'schools';
     const state = getStateAbbrFromName(hit.state_name);
@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         }, 'search'))
       }
       dispatch(onSearchSelection(hit))
-      dispatch(onRouteUpdates(routeUpdates, ownProps))
+      dispatch(onRouteUpdates(routeUpdates))
     }
   }
 })

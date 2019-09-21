@@ -40,7 +40,10 @@ const SedaLocationPanel = ({
   const flags = useMemo(() => 
     getFeatureFlags(active, flagged)
   , [ active, flagged ])
-  const handleHelpClick = (topicId) => onHelpClick(topicId, helpOpen)
+  const handleHelpClick = useMemo(() =>
+    (topicId) => onHelpClick(topicId, helpOpen)
+  // eslint-disable-next-line
+  , [helpOpen])
   return (
     <LocationPanel 
       feature={active} 
@@ -89,9 +92,9 @@ const mapStateToProps =
     selected: selected[region]
   })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   onGapClick: (gapId, metricId) => {
-    dispatch(setDemographicAndMetric(gapId, metricId, ownProps))
+    dispatch(setDemographicAndMetric(gapId, metricId))
   },
   clearActiveLocation: () => 
     dispatch(clearActiveLocation()),
