@@ -553,7 +553,7 @@ export const toggleHelp = (forceOpen = false) =>
       })
       clearTimeout(reportTimeout);
       const endTimeReport = new Date();
-      const reportTime = parseInt((endTimeReport - startTimeReport)/1000);
+      const reportTime = parseInt((endTimeReport - startTimeReport));
       window.SEDA.trackTiming('load', 'pdf generated', reportTime);
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');

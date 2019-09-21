@@ -731,6 +731,9 @@
 
       // track start time
       var startTime = new Date();
+
+      var viewTime;
+      var currentView;
       
       // track time after metric selection
       var startTimeDataLoad;
@@ -918,7 +921,7 @@
       // handler for when the 'app' event fires, indicating app assets are available
       var appLoadedHandler = function() {
         var appLoadTime = new Date();
-        var appLoadSeconds = parseInt((appLoadTime - startTime) / 1000);
+        var appLoadSeconds = parseInt((appLoadTime - startTime));
         trackTiming('load', 'loading assets', appLoadSeconds);
         if (location.hash.length < 3) {
           if (supportsLocalStorage && localStorage.getItem('metric')) {
@@ -936,12 +939,40 @@
         }
       }
 
+      var getViewFromURL = function(url) {
+        if (url.indexOf('/map/') > -1) { return 'map' }
+        if (url.indexOf('/chart/') > -1) { return 'chart' }
+        if (url.indexOf('/split/') > -1) { return 'split' }
+        return 'unknown';
+      }
+
+      var setupViewTiming = function() {
+        viewTime = new Date();
+        currentView = getViewFromURL(window.location.hash)
+        var handleHashChange = function(e) {
+          var newView = getViewFromURL(e.newURL)
+          if (newView !== currentView) {
+            var elapsedTime = parseInt(((new Date()) - viewTime));
+            trackTiming('interaction', 'viewing ' + currentView, elapsedTime);
+            viewTime = new Date();
+            currentView = newView;
+          }
+        }
+        var handleUnload = function() {
+          var elapsedTime = parseInt(((new Date()) - viewTime));
+          trackTiming('interaction', 'viewing ' + currentView, elapsedTime);
+        }
+        window.addEventListener("hashchange", handleHashChange, false);
+        window.addEventListener("beforeunload", handleUnload, false)
+      }
+
       var mapLoadHandler = function() {
         if (loadTimeout) { clearTimeout(loadTimeout); }
         var endTimeDataLoad = new Date();
-        var dataLoadSeconds = parseInt((endTimeDataLoad - startTimeDataLoad) / 1000);
+        var dataLoadSeconds = parseInt((endTimeDataLoad - startTimeDataLoad));
         trackTiming('load', 'loading map data', dataLoadSeconds);
         hideIntro();
+        setupViewTiming();
       }
 
       // bind events
