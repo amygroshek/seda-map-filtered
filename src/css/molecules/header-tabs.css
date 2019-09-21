@@ -90,7 +90,7 @@
 
 .tab-label .tab-label__title {
   text-transform: capitalize;
-  line-height:1;
+  line-height:1.1;
   font-size: var(--header-title-size);
   overflow:hidden;
   text-overflow: ellipsis;

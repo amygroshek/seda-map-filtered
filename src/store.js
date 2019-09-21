@@ -5,15 +5,52 @@ import createHistory from 'history/createHashHistory'
 import rootReducer from './modules'
 import { createMiddleware } from 'redux-beacon';
 import GoogleTagManager from '@redux-beacon/google-tag-manager';
+import { getRegionFromFeature } from './modules/config'
+import { getLang } from './modules/lang'
+
+
+const localStorageMiddleware = (store) => (next) => (action) => {
+  const state = store.getState();
+  // only apply middleware if it's a non-embed route
+  if (
+    window.supportsLocalStorage &&
+    state.router && 
+    state.router.location && 
+    state.router.location.pathname &&
+    state.router.location.pathname.indexOf('embed') === -1
+  ) {
+    if (action.type === 'SET_EXPLORER_REGION') {
+      if (localStorage.getItem('region') !== action.regionId) {
+        localStorage.setItem('region', action.regionId);
+      }
+    }
+    if (action.type === 'SET_EXPLORER_VIEW') {
+      if (localStorage.getItem('view') !== action.view) {
+        localStorage.setItem('view', action.view);
+      }
+    }
+    if (action.type === 'SET_EXPLORER_METRIC') {
+      if (localStorage.getItem('metric') !== action.metricId) {
+        localStorage.setItem('metric', action.metricId);
+      }
+    }
+    if (action.type === 'SET_EXPLORER_DEMOGRAPHIC') {
+      if (localStorage.getItem('demographic') !== action.demographicId) {
+        localStorage.setItem('demographic', action.demographicId);
+      }
+    }
+  }
+  return next(action);
+}
 
 const eventsMap = {
   'SET_EXPLORER_METRIC': (action) => ({
     event: 'metricSelected',
-    metricSelection: action.metricId,
+    metricSelection: getLang('LABEL_' + action.metricId),
   }),
   'SET_EXPLORER_DEMOGRAPHIC': (action) => ({
     event: 'studentTypeSelected',
-    studentTypeSelection: action.demographicId
+    studentTypeSelection: getLang('LABEL_' + action.demographicId)
   }),
   'SET_EXPLORER_REGION': (action) => ({
     event: 'geoTypeSelected',
@@ -38,23 +75,46 @@ const eventsMap = {
   'SHOW_HELP_TOPIC': (action) => {
     return {
       event: 'helpTopicExpanded',
-      helpTopicExpansion: action.topicId
+      helpTopicExpansion: getLang(action.topicId)
     }
   },
   'SHOW_SINGLE_TOPIC': (action) => {
     return {
       event: 'helpTopicExpanded',
-      helpTopicExpansion: action.topicId
+      helpTopicExpansion: getLang(action.topicId)
     }
   },
   'REPORT_DOWNLOAD_REQUEST': (action) => ({
     event: 'reportDownloaded',
+    geoTypeSelected: getRegionFromFeature(action.feature),
+    locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
+  }),
+  'SOCIAL_SHARE': (action) => ({
+    event: 'shareType',
+    shareType: action.shareType,
+    shareUrl: action.url
+  }),
+  'SET_ACTIVE_LOCATION': (action) => ({
+    event: 'locationSelected',
+    locationId: action.feature.properties.id,
+    locationName: action.feature.properties.name,
+    selectionSource: action.source
   }),
   'SHOW_SIMILAR': (action) => ({
     event: 'similarPlacesComparison',
+    geoTypeSelected: getRegionFromFeature(action.feature),
+    locationId: action.feature.properties.id,
     locationName: action.feature.properties.name
   }),
+  'SET_GAP_CHART_VISIBILITY': (action) => {
+    if (action.visible) {
+      return {
+        event: 'gapViewActivated',
+        studentTypeSelection: getLang('LABEL_' + action.demographicId)
+      }
+    }
+  }
 }
 
 const gtm = GoogleTagManager();
@@ -65,7 +125,7 @@ export const history = createHistory()
 
 const initialState = {}
 const enhancers = []
-const middleware = [thunk, routerMiddleware(history), gtmMiddleware]
+const middleware = [thunk, routerMiddleware(history), gtmMiddleware, localStorageMiddleware]
 
 if (process.env.NODE_ENV === 'development') {
   const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__

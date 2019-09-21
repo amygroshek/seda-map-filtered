@@ -128,12 +128,6 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
         formatter={formatNumber}
         region={region}
       />
-      <Callout
-        type="help"
-        size="small"
-        icon={<HelpIcon />}
-        onClick={() => onHelpClick('HELP_AVG_CONCEPT')}
-      >{ getLang('CALLOUT_AVG_OPP') }</Callout>
       <Typography 
         variant="body1" 
         paragraph={true} 
@@ -143,8 +137,8 @@ export const LocationAvgSection = ({feature, onHelpClick, ...rest}) => {
         type="help"
         size="small"
         icon={<HelpIcon />}
-        onClick={() => onHelpClick('HELP_SES_CONCEPT')}
-      >{ getLang('CALLOUT_AVG_SES') }</Callout>
+        onClick={() => onHelpClick('HELP_AVG_CONCEPT')}
+      >{ getLang('CALLOUT_AVG_OPP') }</Callout>
     </LocationMetric>
   )
 }
@@ -178,12 +172,6 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
         formatter={formatPercentDiff}
         region={region}
       />
-      <Callout
-        type="help"
-        size="small"
-        icon={<HelpIcon />}
-        onClick={() => onHelpClick('HELP_GRD_CONCEPT')}
-      >{ getLang('CALLOUT_GRD') }</Callout>
       <Typography 
         variant="body1" 
         paragraph={true} 
@@ -195,6 +183,12 @@ export const LocationGrdSection = ({feature, onHelpClick, ...rest}) => {
           })
         }}
       />
+      <Callout
+        type="help"
+        size="small"
+        icon={<HelpIcon />}
+        onClick={() => onHelpClick('HELP_GRD_CONCEPT')}
+      >{ getLang('CALLOUT_GRD') }</Callout>
     </LocationMetric>
   )
 }
@@ -228,12 +222,6 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
         value={value}
         formatter={formatNumber}
       />
-      <Callout
-        type="help"
-        size="small"
-        icon={<HelpIcon />}
-        onClick={() => onHelpClick('HELP_COH_CONCEPT')}
-      >{ getLang('CALLOUT_COH') }</Callout>
       <Typography 
         variant="body1" 
         paragraph={true} 
@@ -245,6 +233,12 @@ export const LocationCohSection = ({feature, onHelpClick, ...rest}) => {
           })
         }}
       />
+      <Callout
+        type="help"
+        size="small"
+        icon={<HelpIcon />}
+        onClick={() => onHelpClick('HELP_COH_CONCEPT')}
+      >{ getLang('CALLOUT_COH') }</Callout>
     </LocationMetric>
   )
 }

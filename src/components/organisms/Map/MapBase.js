@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import ReactMapGL, { NavigationControl, GeolocateControl } from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import PropTypes from 'prop-types';
 import usePrevious from '../../../hooks/usePrevious';
-
+import ZoomToUSControl from './ZoomToControl';
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 /**
  * Returns the width and height of the provided element
  */
@@ -112,14 +113,25 @@ const MapBase = ({
   // handler for map load
   const handleLoad = (e) => {
     if (!loaded) {
+      const map = mapRef.current.getMap()
       setLoaded(true)
       // HACK: remove tabindex from map div
-      document.querySelector('.map:first-child')
-        .children[0].removeAttribute('tabindex');
+      const tabindexEl = document.querySelector('.map:first-child')
+      if (tabindexEl) { tabindexEl.children[0].removeAttribute('tabindex'); }
       // add screen reader content for map
-      const canvas = mapRef.current.getMap().getCanvas();
+      const canvas = map.getCanvas();
       canvas.setAttribute('role', 'img')
       canvas.setAttribute('aria-label', ariaLabel)
+      // add geolocation
+      const geolocateControl = new mapboxgl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: true
+      });
+      const controlContainer = document.querySelector('.map__zoom:first-child');
+      if (controlContainer) {
+        controlContainer.appendChild(geolocateControl.onAdd(map))
+      }
+      // trigger load callback
       if(typeof onLoad === 'function') { onLoad(e) }
     }
   }
@@ -157,7 +169,8 @@ const MapBase = ({
     return function cleanup() {
       window.removeEventListener('resize', handleResize);
     };
-  }, [ onViewportChange ]);
+  // eslint-disable-next-line
+  }, []); // only register listener on mount
 
   // set hovered outline when hoveredId changes
   useEffect(() => {
@@ -181,6 +194,7 @@ const MapBase = ({
 
   return (
     <div 
+      id="map"
       className="map"
       ref={mapEl}
       onMouseLeave={() => handleHover({features: null, point: [null, null]})}
@@ -203,7 +217,8 @@ const MapBase = ({
         { children }
         <div className="map__zoom">
           <NavigationControl showCompass={false} onViewportChange={handleViewportChange} />
-          <GeolocateControl positionOptions={{enableHighAccuracy: true}} />
+          <ZoomToUSControl title="Zoom to U.S." />
+          
         </div>
       </ReactMapGL>
     </div>

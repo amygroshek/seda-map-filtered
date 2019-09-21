@@ -154,7 +154,7 @@ const LocationComparison = ({
           />
         ) : (
           <Button 
-            onClick={() => setShowSimilar(true) && onShowSimilar(feature)}
+            onClick={() => { setShowSimilar(true); onShowSimilar(feature); }}
             variant="contained"
             color="primary"
           >{ getLang('LOCATION_SIMILAR_SHOW') }</Button>

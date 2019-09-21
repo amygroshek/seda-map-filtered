@@ -474,7 +474,7 @@ export const getStateSelectOptions = () =>
   ))
 
 export const getStateFipsFromAbbr = (abbr) => {
-  if (!abbr) { return null; }
+  if (!abbr || abbr === 'us') { return null; }
   return Object.keys(statesFips).find(fips => 
     statesFips[fips].abbr.toUpperCase() === abbr.toUpperCase()  
   )

@@ -28,7 +28,7 @@ const active = (state = 'map', action) => {
   }
 }
 
-const gapChart = (state = false, action) => {
+const gapChart = (state = true, action) => {
   switch(action.type) {
     case 'SET_GAP_CHART_VISIBILITY':
       return action.visible

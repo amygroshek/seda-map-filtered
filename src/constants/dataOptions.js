@@ -184,7 +184,9 @@ export const METRICS = [
     id: 'seg',
     label: LANG['LABEL_SEG'],
     range: {
+      '*_*_np': [ 0, 0.75 ],
       '*': [ -0.25, 0.75 ],
+
     },
     map: false,
     scatterplot: true

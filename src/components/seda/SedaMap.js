@@ -145,7 +145,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(onHighlightedStateChange('us', ownProps))
   },
   onClick: (feature) => dispatch(
-    handleLocationActivation(feature)
+    handleLocationActivation(feature, 'map')
   )
 })
 

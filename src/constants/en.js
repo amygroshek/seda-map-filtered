@@ -49,6 +49,7 @@ const LANG = {
   'UI_MAP_BUTTON': 'Map',
   'UI_CHART_BUTTON': 'Chart',
   'UI_SPLIT_BUTTON': 'Chart + map',
+  'UI_REPORT_LOADING': 'Generating PDF report. Please be patient—this may take up to 30 seconds...',
 
   // Screen Reader Labels
   'UI_MAP_BUTTON_SR': 'Go to map view',
@@ -100,6 +101,9 @@ const LANG = {
   'LABEL_COH_PN': 'Poor / Non-Poor Gap in Test Score Trends',
   'LABEL_COH_MF': 'Male / Female Gap in Test Score Trends',
   'LABEL_SEG': 'school poverty',
+  'LABEL_SEG_NP': 'poor - non-poor gap in school poverty',
+  'LABEL_SEG_WB': 'Black - White gap in school poverty',
+  'LABEL_SEG_WH': 'Hispanic - White gap in school poverty',
   'LABEL_SES_NO_REGION' : 'socioeconomic status (SES)',
   'LABEL_SES': '$[region] socioeconomic status (SES)',
   'LABEL_SES_W': 'White families\' socioeconomic status (SES)',
@@ -110,6 +114,8 @@ const LANG = {
   'LABEL_SES_F': '$[region] socioeconomic status (SES)',
   'LABEL_SES_P': '$[region] socioeconomic status (SES)',
   'LABEL_SES_NP': '$[region] socioeconomic status (SES)',
+  'LABEL_SES_WB': 'White - Black gap in socioeconomic status',
+  'LABEL_SES_WH': 'White - Hispanic gap in socioeconomic status',
   'LABEL_FRL': 'Free/Reduced Price Lunch Percentage',
 
   // Short Metric Labels
@@ -188,6 +194,8 @@ const LANG = {
   'LABEL_REGION': 'Region',
   'LABEL_HIGHLIGHTED_STATE': 'Highlighted State',
 
+  'LABEL_GAP_INPUT': '$[dem1] - $[dem2] gap in',
+
   // Tooltips
   'TOOLTIP_SUMMARY': 'Click on a location for more.',
   'TOOLTIP_TYPE_MAP': 'an area on the map',
@@ -213,9 +221,9 @@ const LANG = {
   'PANEL_HEADING': '$[metric] for $[region]',
 
   // Location panel flags
-  'FLAG_SPED': 'This school serves primarily special education students; keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
-  'FLAG_LEP': 'This school serves primarily students with limited English proficiency (LEP); keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
-  'FLAG_GIFTED': 'This school has a high percentage of gifted students; keep in mind when interpreting test scores. See <a href="#">FAQ</a> for information.',
+  'FLAG_SPED': 'This school serves primarily special education students; keep in mind when interpreting test scores. See <a target="_blank" href="/help-faq/#data-adjustments">FAQ</a> for information.',
+  'FLAG_LEP': 'This school serves primarily students with limited English proficiency (LEP); keep in mind when interpreting test scores. See <a target="_blank" href="/help-faq/#data-adjustments">FAQ</a> for information.',
+  'FLAG_GIFTED': 'This school has a high percentage of gifted students; keep in mind when interpreting test scores. See <a target="_blank" href="/help-faq/#data-adjustments">FAQ</a> for information.',
 
   // Location Panel Summaries (Counties / Districts)
   'SUMMARY_AVG_LOW': '$[name] provides <strong>lower than average</strong> educational opportunites.',
@@ -611,7 +619,6 @@ const LANG = {
   'HELP_AVG_CONCEPT': 'Why Do Average Test Scores Show Educational Opportunities in and out of School?',
   'HELP_GRD_CONCEPT': 'Why Do Average Learning Rates Largely Reflect a School’s Effectiveness?',
   'HELP_COH_CONCEPT': "How Do Trends in Test Scores Show Changes in a  Community's Educational Opportunities?",
-  'HELP_SES_CONCEPT': 'How does socioeconomic status impact educational opportunity?',
   
   'HELP_AVG': 'How Are Average Test Scores Calculated?',
   'HELP_GRD': 'How Are Learning Rates Calculated?',
@@ -624,14 +631,12 @@ const LANG = {
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much students’ scores improve each year while they are in school. This is a better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much the health of patients improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their scores improve while in school.`,
   'HELP_COH_CONCEPT_A': `Average student test scores are influenced by home environments, early childhood experiences, community resources, and schools. The trend (or change) in average student test scores from one year to the next indicates whether educational opportunities are improving or declining in a community. Where the trend is positive, students’ opportunities to learn are improving. Opportunities may improve over time because of changes in school quality or because of changes in family resources, home environments, early childhood experiences, and/or community resources.`,
 
-  'HELP_SES_CONCEPT_A': ``,
   'HELP_AVG_A': `The average test score is based on the average of standardized math and English Language Arts (ELA) tests taken by public-school students in grades 3 through 8 between 2009 and 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more detail.`,
   'HELP_GRD_A': `The learning rate is based on changes in average test scores from each year and grade to the next year and grade (e.g. changes from 2015 3rd-grade scores to 2016 4th-grade scores). The learning rates are calculated using standardized math and English Language Arts (ELA) tests taken by public school students in grades 3 through 8 between 2009 and 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more detail.`,
   'HELP_COH_A': `The trend in test scores is based on changes in average test scores from each year to the next in the same grade (e.g. changes from 2015 3rd-grade scores to 2016 3rd-grade scores). The test-score trends are calculated using standardized math and English Language Arts (ELA) tests taken by public-school students in grades 3 through 8 between 2009 and 2016. See the <a href="/help-faq/#how-measures-computed" target="_blank">FAQ</a> for more detail.`,
   'HELP_SES_A': `Socioeconomic status (SES) is a broad measure of the economic and social resources available in a community. It is based on information about the income, educational attainment, employment, and structure of all families living in the community served by a school district or county. This information is combined into a single composite rating for each community. A rating of 0 represents the national average of socioeconomic status; higher ratings represent more affluent communities. See the <a href="/help-faq/#ses-measured" target="_blank">FAQ</a> for more detail. `,
   'HELP_SEG_A': `The gap in school poverty is a measure of school segregation. We use the proportion of students defined as “economically disadvantaged” in a school as a measure of school poverty. The black-white gap in school poverty, for example, measures the difference between the poverty rate of the average black student’s school and the poverty rate of the average white student’s school. When there is no segregation—when white and black students attend the same schools, or when white and black students’ schools have equal poverty rates—the black-white school poverty gap is 0. A positive black-white school poverty gap means that black students’ schools have higher poverty rates than white students’ schools, on average. A negative black-white school poverty gap means that white students’ schools have higher poverty rates than black students’ schools, on average.`,
   'HELP_FRL_A': `The free/reduced-price lunch percentage measures the proportion of students in the school who are eligible for free or reduced-price lunches through the National School Lunch Program. Students are eligible for free or reduced-price lunches if their family income is below 185% of the poverty threshold. A school with a free lunch rate of 0% has no poor or near-poor students; the higher the free lunch rate, the greater the number of poor students. The lower the free/reduced-price lunch percentage, the more affluent the school.`,
-
 
   'HELP_HOW_Q1': 'What are the Different Ways of Exploring the Data?',
   'HELP_HOW_Q2': 'What Data Can I Choose From?',
@@ -699,6 +704,7 @@ const LANG = {
   'EMBED_CHART_INSTRUCTIONS': 'Use the code below to embed the chart on your website.  The chart will match your current data selections. ',
   'EMBED_CHART_PREVIEW': 'View Chart Preview',
   'EMBED_CHART_INPUT_LABEL': 'Chart Embed Code',
+  'EMBED_SECONDARY_INSTRUCTIONS': 'The current gap view has two charts, use the code below to embed the secondary chart on your website.',
   'EMBED_COPY_LABEL': 'Copy embed code',
 
   'LINK_DIALOG_TITLE': 'Share a Link',

@@ -55,8 +55,8 @@ hr {
   bottom: 0px;
   top: 0px;
   height: 100%;
-  right: 24px;
-  left: auto;
+  left: 24px;
+  right: auto;
   margin: auto;
   display: flex;
   align-items: center;
@@ -72,7 +72,7 @@ hr {
   .map__zoom {
     left: 24px;
     right: auto;
-    height: 100px;
+    height: 160px;
   }
 }
 
@@ -85,6 +85,14 @@ hr {
   background-color: var(--highlight-background);
   box-shadow: inset 0 0 0 2px var(--link);
   border-radius:0px;
+}
+
+.mapboxgl-ctrl-us {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAApVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABU/knhAAAANnRSTlMA+wgFGIcUEOOhlffzcyvv37l4X0rpzcVuRT85H9rWy7+tfVcwJBy0m5CLgVHPazaoY9NnXA2GZDZxAAADCElEQVRo3u3Yx7KqQBQF0A0oGUTAnHPWG/f/f9qzDRe8wQAyeFWsCcxOnd6H7i6Qy+VyuVzuBwWT96CAbNVc7MjOoiEjO13WXihYtWJDQza6pMQvHWM7VvAkUQhlfidtDD9sI61iWRrjSO7yd1Z3tnDWrbaMCy7upZPDc0sSb6i89QeGWVz5Tn273fan964VyR6OXvmgnjNs4kDGNS3uBedIEuiO5sVx2MI1Y+7ZW/E6YTKdVxmKezV3Ch3xOmQipQIgD67FU5dISjNV7Ck6k/AaI4R9r9pW/MHqA9/J4aJLYXSKPRHL0muHp82SvmlNEBdubB6VNbGDqBWm039X3XoBcVObJ0MFgsN0PEAp0nYQkfs8O026yXSKLdQ3ZD9epMoTScPBiqnopqJaJLuIqD2enaIymM4MTe4FRhuCEvp+lV8WhU/RWtrcVxhx74UOhJbEuF59qqWPhA4aPKhBKJQYU91B8JjSCKhSqB5qVBkZvOJoxZSKwJyCKxary4gxXONoyJQMYMPTubFkTGXp4mTGlCw1pKAvgzIvisix3TitEv+g4kyVmAmLOiI6s6B78y0iPrOw5PITkQWzsCLjRVolPp9t+rqCiOoxA6V2HTFti1lovCNuwCwsNMSFzMQSF6rMgj1BXI2ZGCFukcUQWytckjPIXmriQrtQmD+9xtLFd9qze1njB/lTfuMz9fCrenZ9REZ25n0I0+ZHj08R4Bq3zyco4oZRhWmZuEkzJabyJuMOuyrT8HEXpeGbM08au+thgq6aeICc8OrXxj1SHpshHqaYvOlyIA08rsDrSsZ8Zwbubk5p6EgkrTYeZ9/55YVNYC2qvOBxAalPxh8lXugYNZY3P1ZnqpN08LhdR1yhmlK8REt8tqrW8cy6jziDpIfEXvilpuFI1hRcKnOvgaQaPKk4Cv60FqP2piAhZcaDmYYrJjb3XpHU1DtMk4qrHB4GLLHgnvVW5iTLSGwsHf4J3lKW0hRBn5TGuKlOE8nJHzU7wE1q4CKVwuT2gDRV5HK5XC73n/oHFrcY6jpr5cAAAAAASUVORK5CYII=);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  pointer-events: all;
 }
 
 /** END COMPONENTS */

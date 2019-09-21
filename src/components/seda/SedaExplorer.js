@@ -18,8 +18,6 @@ import SedaTooltip from './SedaTooltip';
 import SedaGapChart from './SedaGapChart';
 import { Button } from '@material-ui/core';
 import { getLang } from '../../modules/lang';
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useTheme } from '@material-ui/core/styles';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import EmbedDialog from '../organisms/Embed/EmbedDialog';
 import { ShareLinkDialog } from '../organisms/Share';
@@ -90,10 +88,6 @@ const ExplorerView = ({
   // use state to track if the intro is on / off
   // const [introOn, setIntroOn] = useState(false);
 
-  // check if viewport is above medium
-  const theme = useTheme();
-  const isAboveMedium = useMediaQuery(theme.breakpoints.up('md'));
-
   // load locations and flag potential layout change afterwards
   useEffect(() => {
     loadRouteLocations(locations)
@@ -107,25 +101,33 @@ const ExplorerView = ({
   // load flagged schools
   useEffect(() => {
     loadFlaggedSchools()
-  }, [ loadFlaggedSchools ])
+  // eslint-disable-next-line
+  }, []) // empty array so this only happens on mount
 
   // flag potential layout change when there are 0 or 1 locations
   useEffect(() => {
+    if (!selected) { return; }
     if (
       selected.length === 0 || 
       selected.length === 1
     ) {
       onLayoutChange('map')
     }
-  }, [ selected, onLayoutChange ])
+  // eslint-disable-next-line
+  }, [ selected ])
 
   // flag layout change when view, helpOpen changes
   useEffect(() => { 
-    onLayoutChange(view) 
-  }, [ view, helpOpen, locationActive, onLayoutChange ])
+    onLayoutChange(view)
+  // eslint-disable-next-line
+  }, [ view, helpOpen, locationActive ])
+
+  const handleToggleGapChart = (visible) =>
+    onToggleGapChart(visible, demographic);
+
   return (
     <>
-      { isAboveMedium && <SedaTooltip /> }
+      <SedaTooltip />
       <SplitSection
         id="map"
         classes={{ root: 'section--explorer' }}
@@ -138,7 +140,7 @@ const ExplorerView = ({
             hasGapChart={hasGapChart(demographic)} 
             showGapChart={hasGapChart(demographic) && gapChart} 
             sectionId={view} 
-            onChartToggle={onToggleGapChart}
+            onChartToggle={handleToggleGapChart}
           />
         }
         footerContent={canRender && <SedaLocations />}
@@ -179,7 +181,7 @@ const mapStateToProps =
     demographic,
     helpOpen,
     locations,
-    selected: region ? selected[region] : [],
+    selected: selected[region],
     locationActive: Boolean(active),
     canRender: Boolean(metric) && Boolean(demographic) && Boolean(view) && Boolean(region),
     activeView: view === 'map' ? 'right' :
@@ -197,8 +199,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onMetricChange: (metricId) =>
     dispatch(onMetricChange(metricId, ownProps))
   ,
-  onToggleGapChart: (visible) => {
-    dispatch(toggleGapChart(visible))
+  onToggleGapChart: (visible, demographicId) => {
+    dispatch(toggleGapChart(visible, demographicId))
   }
 })
 

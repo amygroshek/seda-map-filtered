@@ -10,13 +10,26 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getLang } from '../../../modules/lang';
-import { getScatterplotVars } from '../../../modules/config';
+import { getScatterplotVars, getMapVars } from '../../../modules/config';
 import { InputAdornment, IconButton } from '@material-ui/core';
 import CopyIcon from '@material-ui/icons/FileCopy';
 import copy from 'copy-to-clipboard';
 import { toggleEmbedDialog } from '../../../actions';
 
 const BASE_URL = `${window.location.origin}${window.location.pathname}`;
+
+const getSecondaryChartsForDemographic = (dem) => {
+  switch (dem) {
+    case 'wb':
+    case 'wh':
+      return [ 'ses', 'seg' ]
+    case 'pn':
+    case 'pnp':
+      return [ 'seg' ]
+    default:
+      return null;
+  }
+}
 
 const getMapEmbedLink = ({ 
   region, 
@@ -45,20 +58,43 @@ const getChartEmbedLink = ({
     `${BASE_URL}#/embed/chart/${highlightedState}/${region}/${xVar}/${yVar}/${zVar}`
 }
 
+const getSecondaryChartEmbedLink = ({
+  highlightedState,
+  region, 
+  demographic, 
+  metric, 
+  locations,
+  secondary
+}) => {
+  let { xVar, yVar, zVar } = getMapVars(region, metric, demographic)
+  if (xVar.split('_')[0] === 'pn') {
+    // HACK: poor / non-poor gap in school poverty has different name
+    xVar = 'np_seg'; 
+  } else {
+    xVar = xVar.split('_')[0] + '_' + secondary;
+  }
+  return locations ?
+    `${BASE_URL}#/embed/chart/${highlightedState}/${region}/${xVar}/${yVar}/${zVar}/${locations}` :
+    `${BASE_URL}#/embed/chart/${highlightedState}/${region}/${xVar}/${yVar}/${zVar}`
+}
+
 const getEmbedCode = (link) => {
   return `<iframe src="${link}" style="width:720px;height:405px" frameborder="0"></iframe>`
 }
 
-function EmbedDialog({open, onClose, ...rest}) {
+function EmbedDialog({open, onClose, secondaryChart, ...rest}) {
   const [ copied, setCopied ] = React.useState('');
-  console.log(rest)
   const mapLink = getMapEmbedLink(rest);
   const chartLink = getChartEmbedLink(rest);
   const mapEmbedCode = getEmbedCode(mapLink);
-  const chartEmbedCode = getEmbedCode(getChartEmbedLink(rest));
+  const chartEmbedCode = getEmbedCode(chartLink);
+  const secondaryMetrics = getSecondaryChartsForDemographic(rest.demographic);
+  const secondaryChartLink = secondaryMetrics ? 
+    getSecondaryChartEmbedLink({...rest}) : null
+  const secondaryEmbedCode = secondaryMetrics ?
+    getEmbedCode(secondaryChartLink) : null
 
   const handleFocus = (event) => event.target.select();
-  console.log(mapEmbedCode)
 
   return (
     <Dialog 
@@ -79,6 +115,7 @@ function EmbedDialog({open, onClose, ...rest}) {
             {getLang('EMBED_MAP_PREVIEW')}
           </a>
         </DialogContentText>
+        
         <TextField
           label={getLang('EMBED_MAP_INPUT_LABEL')}
           type="text"
@@ -129,6 +166,42 @@ function EmbedDialog({open, onClose, ...rest}) {
           }}
         />
         { copied === 'chart' && <span className='embed-dialog__copied'>Copied!</span> }
+        {
+          secondaryMetrics && secondaryChart &&
+            <>
+              <DialogContentText>
+                <br />
+                { getLang('EMBED_SECONDARY_INSTRUCTIONS') }
+                { ' ' }
+                <a href={secondaryChartLink} target="_blank" rel="noopener noreferrer">
+                  {getLang('EMBED_CHART_PREVIEW')}
+                </a>
+              </DialogContentText>
+
+              <TextField
+                label={getLang('EMBED_CHART_INPUT_LABEL')}
+                type="text"
+                value={secondaryEmbedCode}
+                fullWidth
+                onFocus={handleFocus}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label={ getLang('EMBED_COPY_LABEL') }
+                        onClick={() => { copy(chartEmbedCode); setCopied('secondary'); }}
+                      >
+                        <CopyIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              { copied === 'secondary' && <span className='embed-dialog__copied'>Copied!</span> }
+            </>
+        }
+        
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
@@ -140,7 +213,10 @@ function EmbedDialog({open, onClose, ...rest}) {
 }
 
 const mapStateToProps = (
-  state,
+  {
+    sections: { gapChartX, gapChart },
+    ui: { embedOpen }
+  },
   { match: { params: { 
     region, 
     demographic, 
@@ -148,20 +224,22 @@ const mapStateToProps = (
     zoom, 
     lat, 
     lon, 
-    locations, 
+    locations,
     highlightedState
   } } }
 ) => {
   return {
     region, 
     demographic, 
-    metric, 
+    metric,
+    secondary: gapChartX,
+    secondaryChart: gapChart,
     zoom, 
     lat, 
     lon, 
     locations, 
     highlightedState,
-    open: state.ui.embedOpen,
+    open: embedOpen,
   }
 }
 
