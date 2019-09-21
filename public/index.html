@@ -732,6 +732,14 @@
       }
     })()
 
+    // switch from split view if low resolution
+    if (
+      window.location.hash.indexOf('/split/') > -1 &&
+      window.innerWidth < 1024
+    ) {
+      window.location.hash = window.location.hash.replace('/split/', '/map/');
+    }
+
     // SEDA namespace for globals
     window.SEDA = (function() {
 
