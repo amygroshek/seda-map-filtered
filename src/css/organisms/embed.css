@@ -54,6 +54,11 @@
     overflow: visible!important;
   }
 
+  /** COntrols */
+  .map-embed .mapboxgl-ctrl-us {
+    display: none;
+  }
+
   /** Legend */
   .map-embed .map-legend {
     position: absolute;
