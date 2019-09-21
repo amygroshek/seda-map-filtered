@@ -84,7 +84,9 @@ const SedaExplorerMap = ({
         onLoad={() => window.SEDA.trigger('map')}
         {...{onViewportChange, onClick}}
       ></MapBase>
-      { showLegend && <SedaMapLegend /> }
+      <SedaMapLegend 
+        classes={{ root: showLegend ? null : 'hidden' }}
+      />
     </div>
   )
 }
