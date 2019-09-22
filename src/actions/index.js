@@ -108,9 +108,11 @@ export const addToFeatureIdMap = (features) => ({
  * Returns an action to set the hovered feature for
  * a section.
  */
-export const onHoverFeature = (feature) => ({
+export const onHoverFeature = (feature, coords, vars = {}) => ({
   type: 'SET_HOVERED_FEATURE',
-  feature
+  feature,
+  coords,
+  vars
 });
 
 /** Sets the section the user is currently interacting with */
@@ -120,26 +122,6 @@ export const onHoverSection = (sectionId) => {
     sectionId
   }
 }
-
-/** Sets the variables for the tooltip */
-export const setTooltipVars = (vars = {}) => {
-  return {
-    type: 'SET_TOOLTIP_VARS',
-    vars
-  }
-}
-
-/**
- * Returns an action to set the coordinates
- * for the map tooltip.
- * @param {object} coords e.g. { x: 10, y: 20 }
- */
-export const onCoordsChange = (coords) => {
-  return ({
-    type: 'SET_COORDS',
-    coords
-  });
-} 
 
 /**
  * Returns an action to update the map viewport.

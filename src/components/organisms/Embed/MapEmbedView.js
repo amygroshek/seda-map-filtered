@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateMapSize, loadRouteLocations, onHoverFeature, setTooltipVars, onCoordsChange, addToFeatureIdMap, onViewportChange } from '../../../actions';
+import { updateMapSize, loadRouteLocations, onHoverFeature, onViewportChange } from '../../../actions';
 
 import SedaTooltip from '../../seda/SedaTooltip';
 import { getMapViewport, getLayers, defaultMapStyle } from '../Map/selectors';
@@ -180,10 +180,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
   onLayoutChange: () => dispatch(updateMapSize()),
   onHover: (feature, vars, coords) => {
-    dispatch(onHoverFeature(feature))
-    dispatch(setTooltipVars(vars))
-    dispatch(onCoordsChange(coords))
-    dispatch(addToFeatureIdMap([ feature ]))
+    dispatch(onHoverFeature(feature, coords, vars))
+    // dispatch(setTooltipVars(vars))
+    // dispatch(onCoordsChange(coords))
+    // dispatch(addToFeatureIdMap([ feature ]))
   },
   onViewportChange: (vp, updateRoute = true) => {
     dispatch(onViewportChange(vp))
