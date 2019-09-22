@@ -10,6 +10,7 @@ import { getSingularRegion } from '../../../modules/config';
 import { getFeatureProperty } from '../../../modules/features';
 
 var client = algoliasearch(process.env.REACT_APP_ALGOLIA_ID, process.env.REACT_APP_ALGOLIA_KEY);
+const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'similar/';
 
 const getDataForFeatureId = (index, id) =>
   index.search(id)
@@ -40,6 +41,20 @@ const getDataForFeatureIds = (ids, region) => {
   )
 }
 
+const fetchSimilarLocations = (featureId, region) => {
+  const filename = featureId.substring(0, 2) + '.csv';
+  return axios(`${endpoint}${region}/${filename}`)
+    .then(result => {
+      // regex to grab the line that matches the feature ID
+      const matcher = new RegExp(`^${featureId},.*\n`, 'gm');
+      const otherIds = result.data.match(matcher)[0]
+        .slice(0,-1)
+        .split(',')
+        .filter(id => id !== featureId)
+      return getDataForFeatureIds(otherIds, region);
+    })
+};
+
 const SimilarLocations = ({
   feature,
   region,
@@ -47,32 +62,21 @@ const SimilarLocations = ({
   markerColor,
   onSelectFeature
 }) => {
-  const endpoint = process.env.REACT_APP_DATA_ENDPOINT + 'similar/';
+  
   const [ similar, setSimilar ] = useState(null);
   const [ fetchError, setFetchError ] = useState(null);
   const featureId = getFeatureProperty(feature, 'id');
   
   useEffect(() => {
-    const filename = featureId.substring(0, 2) + '.csv';
-    const fetchData = async () => {
-      try {
-        const result = await axios(`${endpoint}${region}/${filename}`);
-        // regex to grab the line that matches the feature ID
-        const matcher = new RegExp(`^${featureId},.*\n`, 'gm');
-        const otherIds = result.data.match(matcher)[0]
-          .slice(0,-1)
-          .split(',')
-          .filter(id => id !== featureId)
-        const otherData =
-          await getDataForFeatureIds(otherIds, region);
+    fetchSimilarLocations(featureId, region)
+      .then((otherData) => {
         setSimilar(otherData);
         setFetchError(null);
-      } catch (e) {
+      })
+      .catch(() => {
         setFetchError("Error fetching similar locations.")
-      }
-    };
-    fetchData();
-  }, [ featureId, endpoint, region ]);
+      });
+  }, [ featureId, region ]);
   return similar ? (
     <>
       <Typography>
