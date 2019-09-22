@@ -238,7 +238,7 @@
   }
 
   /** Help Panel or Location Panel are visible, resize content */
-  @media(min-width: 1023px) {
+  @media(min-width: 1280px) {
     .section--explorer .section__content.section__content--help,
     .section--explorer .section__content.section__content--location {
       width: calc(100% - var(--panel-width));

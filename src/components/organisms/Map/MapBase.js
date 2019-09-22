@@ -159,19 +159,6 @@ const MapBase = ({
   const handleClick = ({ features }) =>
     features && features.length > 0 && onClick(features[0])
 
-  // resize map on window resize
-  useEffect(() => {
-    // handler for resize event
-    const handleResize = () => {
-      onViewportChange({...getContainerSize(mapEl.current)}, false);
-    }
-    window.addEventListener('resize', handleResize);
-    return function cleanup() {
-      window.removeEventListener('resize', handleResize);
-    };
-  // eslint-disable-next-line
-  }, []); // only register listener on mount
-
   // set hovered outline when hoveredId changes
   useEffect(() => {
     prev && prev.hoveredId && 
