@@ -73,6 +73,7 @@ SedaLocationPanel.propTypes = {
   onHelpClick: PropTypes.func,
   onSelectFeature: PropTypes.func,
   onShowSimilar: PropTypes.func,
+  onDownloadReport: PropTypes.func,
   helpOpen: PropTypes.bool,
 }
 
@@ -94,7 +95,11 @@ const mapStateToProps =
 
 const mapDispatchToProps = (dispatch) => ({
   onGapClick: (gapId, metricId) => {
-    dispatch(setDemographicAndMetric(gapId, metricId))
+    dispatch(setDemographicAndMetric(gapId, metricId));
+    // close panel if mobile
+    if (window.innerWidth < 650) {
+      dispatch(clearActiveLocation())
+    }
   },
   clearActiveLocation: () => 
     dispatch(clearActiveLocation()),
