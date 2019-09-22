@@ -521,15 +521,15 @@ export const toggleHelp = (forceOpen = false) =>
     const sesValue = region === 'schools' ?
       getFeatureProperty(feature, 'all_frl') :
       getFeatureProperty(feature, 'all_ses');
-    const diffAvg = sesValue || sesValue === 0 ? 
+    const diffAvg = (avgValue || avgValue === 0) && (sesValue || sesValue === 0) ? 
       formatNumber(avgValue - getPredictedValue(sesValue, 'avg', region)) :
       null;
-    const diffGrd = sesValue || sesValue === 0 ? 
+    const diffGrd = (grdValue || grdValue === 0) && (sesValue || sesValue === 0) ? 
       (grdValue - getPredictedValue(sesValue, 'grd', region))*100 :
       null;
-    const diffCoh = sesValue || sesValue === 0 ? 
+    const diffCoh = (cohValue || cohValue === 0) && (sesValue || sesValue === 0) ? 
       formatNumber(cohValue - getPredictedValue(sesValue, 'coh', region)) :
-      null; 
+      null;
     axios({
       url: 'https://export.edopportunity.org/',
       method: 'POST',
