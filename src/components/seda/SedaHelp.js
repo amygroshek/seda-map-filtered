@@ -4,7 +4,7 @@ import { getLang, getLegendEndLabelsForVarName } from '../../modules/lang';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
-import { getChoroplethColors, isGapVarName, getInvertedFromVarName, getMetricRangeFromVarName, getFormatterForVarName, getSingularRegion, valueToLowMidHigh, getGapDemographics, getMidpointForVarName } from '../../modules/config';
+import { getChoroplethColors, isGapVarName, getInvertedFromVarName, getMetricRangeFromVarName, getFormatterForVarName, getSingularRegion, valueToLowMidHigh, getGapDemographics, getMidpointForVarName, isGapDemographic } from '../../modules/config';
 import Panel from '../molecules/Panel';
 import AccordionItem from '../molecules/AccordionItem';
 import { hideHelpTopic, showHelpTopic } from '../../actions';
@@ -315,7 +315,7 @@ const HelpSection = ({heading, topics = [], expanded, onChange}) => {
  * @param {string} metric 
  * @param {string} secondary 
  */
-const getCurrentViewTopics = (view, metric, secondary) => {
+const getCurrentViewTopics = (view, metric, secondary, demographic) => {
   if (!metric || !secondary || !view) { return [] }
   const topics = [];
   if (view === 'split') { topics.push('HELP_MAP', 'HELP_CHART') }
@@ -325,6 +325,9 @@ const getCurrentViewTopics = (view, metric, secondary) => {
     ...CONTEXT_TOPICS.filter(t => t.includes(metric.toUpperCase())),
     ...CONTEXT_TOPICS.filter(t => t.includes(secondary.toUpperCase()))
   )
+  if (isGapDemographic(demographic)) {
+    topics.push('HELP_SEG')
+  }
   return topics;
 }
 
@@ -351,7 +354,7 @@ const SedaHelp = ({
   
   /** Help Topics */
   
-  const currentTopics = getCurrentViewTopics(view, metric, secondary);
+  const currentTopics = getCurrentViewTopics(view, metric, secondary, demographic);
   const otherTopics = getRemainingTopics(currentTopics);
   const handleToggleTopic = (topicId) => onTopicToggle(topicId, help)
 
@@ -427,10 +430,11 @@ const SedaHelp = ({
 
 const mapStateToProps = (
   { help, ui: { helpOpen } },
-  { match: { params: { region, demographic, metric, view }}}
+  { match: { params: { region, demographic, metric, view, secondary }}}
 ) => ({
   open: helpOpen,
-  region, 
+  region,
+  secondary,
   demographic, 
   metric, 
   view,
