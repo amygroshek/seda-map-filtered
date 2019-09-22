@@ -2,8 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Tooltip from '../atoms/Tooltip';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
 import { getFeatureProperty } from '../../modules/features';
 import { LocationStatSummaryList } from '../organisms/LocationPanel/LocationStats';
 import { getLang, getDescriptionForVarName } from '../../modules/lang';
@@ -41,6 +39,7 @@ const ConnectedTooltip = ({
   yVar, 
   xVar
 }) => {
+  console.log('render sedatt', x, y, above, left, yVar, xVar)
   const isVersus = isVersusFromVarNames(xVar, yVar);
   const isGap = isGapVarName(yVar);
   const demographic = getDemographicForVarNames(xVar, yVar);
@@ -49,31 +48,31 @@ const ConnectedTooltip = ({
       [ demographic + '_' + xVar.split('_')[1] ] :
       [ yVar, xVar ]
   }, [ xVar, yVar, demographic, isVersus ])
-  if (!feature || !feature.properties) { return null }
+  const visible = (feature && feature.properties);
   const featureId = getFeatureProperty(feature, 'id');
   const title = getFeatureProperty(feature, 'name');
-  const stateName = getStateName(featureId);
+  const stateName = visible ? getStateName(featureId) : null;
   const statVars = [yVar, xVar];
 
   // add var to feature if missing
   if (
-    isVersus && 
+    isVersus && visible && 
     !getFeatureProperty(feature, descriptionVars[0])
   ) {
     feature.properties[descriptionVars[0]] = 
       getFeatureProperty(feature, yVar) - getFeatureProperty(feature, xVar)
   }
-  const description = descriptionVars.reduce((desc, varName) => {
-    const val = getFeatureProperty(feature, varName);
-    return val || val === 0 ?
-      (desc + getDescriptionForVarName(varName, val) + ' ') :
-      desc
-  }, '')
+  const description = visible ?
+    descriptionVars.reduce((desc, varName) => {
+      const val = getFeatureProperty(feature, varName);
+      return val || val === 0 ?
+        (desc + getDescriptionForVarName(varName, val) + ' ') :
+        desc
+    }, '') : '';
   const langContextKey = getContextLangKey(isVersus, yVar);
 
   return (
     <div className="tooltip__wrapper">
-      { (featureId) &&
         <Tooltip 
           title={title} 
           subtitle={stateName}
@@ -81,11 +80,12 @@ const ConnectedTooltip = ({
           y={y}
           above={above}
           left={left}
+          visible={visible}
         >
           <Typography variant="caption" className="tooltip__demographic">
-            { getLang(langContextKey) }
+            { visible && getLang(langContextKey) }
           </Typography>
-          <LocationStatSummaryList 
+          { visible && <LocationStatSummaryList 
             feature={feature} 
             varNames={statVars}
             size="small"
@@ -94,7 +94,7 @@ const ConnectedTooltip = ({
               isVersus ? getDemographicLabel : 
                 (isGap ? getShortVarNameGapLabel : getShortVarNameLabel)
             }
-          />
+          />}
           <Typography
             className="tooltip__description"
             variant="caption" 
@@ -125,10 +125,9 @@ ConnectedTooltip.propTypes = {
 
 const mapStateToProps = ({ 
   map: { coords: { x, y } },
-  sections: { hovered, active },
+  sections: { hovered },
   tooltip,
 }) => {
-
   return {
     x,
     y,
@@ -142,9 +141,6 @@ const mapStateToProps = ({
   }
 }
 
-const SedaTooltip = compose(
-  withRouter,
-  connect(mapStateToProps, null)
-)(ConnectedTooltip)
+const SedaTooltip = connect(mapStateToProps, null)(ConnectedTooltip)
 
 export default SedaTooltip

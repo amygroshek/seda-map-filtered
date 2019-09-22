@@ -11,9 +11,10 @@ const Tooltip = ({
   y, 
   above,
   left,
+  visible,
   offset = {x: 0, y:0}
 }) => {
-  if (!x || !y) { return null; }
+  console.log('render tt')
   const xPos = left ?
     `calc(-115% + ${x + offset.x}px)` :
     `calc(15% + ${x + offset.x}px)`;
@@ -25,6 +26,7 @@ const Tooltip = ({
       className="tooltip" 
       style={{ 
         transform: `translate(${xPos}, ${yPos})`,
+        visibility: visible ? 'visible' : 'hidden'
       }}
     >
       <div className="tooltip__header">
