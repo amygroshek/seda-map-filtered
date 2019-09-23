@@ -150,7 +150,6 @@ function Scatterplot({
         options={scatterplotOptions}
         metaVars={baseVars}
         onHover={(loc, e) => {
-          console.log('hover')
           if (loc && loc.id) {
             return onHover(
               { 
