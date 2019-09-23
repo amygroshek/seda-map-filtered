@@ -5,7 +5,7 @@ const xVar = (
   { type, vars }
 ) => {
   switch(type) {
-    case 'SET_TOOLTIP_VARS':
+    case 'SET_HOVERED_FEATURE':
       return vars && vars.xVar && vars.xVar !== state ? 
         vars.xVar : state;
     default:
@@ -18,7 +18,7 @@ const yVar = (
   { type, vars }
 ) => {
   switch(type) {
-    case 'SET_TOOLTIP_VARS':
+    case 'SET_HOVERED_FEATURE':
       return vars && vars.yVar && vars.yVar !== state ? 
         vars.yVar : state;
     default:

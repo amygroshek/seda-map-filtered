@@ -125,7 +125,7 @@ ConnectedTooltip.propTypes = {
 
 const mapStateToProps = ({ 
   map: { coords: { x, y } },
-  sections: { hovered, active },
+  sections: { hovered },
   tooltip,
 }) => {
 

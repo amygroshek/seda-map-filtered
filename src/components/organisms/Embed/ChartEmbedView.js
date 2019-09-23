@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError, onCoordsChange, setTooltipVars } from "../../../actions";
+import { onHoverFeature, onScatterplotData, onScatterplotLoaded, onScatterplotError } from "../../../actions";
 
 
 import Scatterplot from '../Scatterplot';
@@ -129,9 +129,9 @@ const mapDispatchToProps = (dispatch) => ({
     window.SEDA.trigger('map')
   },
   onHover: (feature, vars, e) => {
-    dispatch(onHoverFeature(feature, 'map'))
-    dispatch(setTooltipVars(vars))
-    dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
+    dispatch(onHoverFeature(feature, {x: e.pageX, y: e.pageY }, vars))
+    // dispatch(setTooltipVars(vars))
+    // dispatch(onCoordsChange({x: e.pageX, y: e.pageY }))
   },
   onClick: () => {},
   onError: (e, sectionId = 'map') =>

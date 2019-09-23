@@ -39,7 +39,8 @@ const viewport = (state = null, action) => {
  */
 const coords = (state = { x: 0, y: 0 }, action) => {
   switch (action.type) {
-    case 'SET_COORDS':
+    case 'SET_HOVERED_FEATURE':
+      if (!action.coords) { return state; }
       return action.coords
     default:
       return state;
@@ -90,14 +91,23 @@ const containsNewFeatures = (idMap, features) => {
  * @param {*} state 
  * @param {*} action 
  */
-const idMap = (state = {}, {type, features}) => {
-  if (!features || !features.length || !features[0] || !type) { return state; }
-  switch (type) {
+const idMap = (state = {}, action) => {
+  const features = action.features;
+  const feature = action.feature;
+  switch (action.type) {
     case 'ADD_TO_FEATURE_ID_MAP':
+      if (!features || !features.length || !features[0]) { return state; }
       if (!containsNewFeatures(state, features)) { return state }
       return {
         ...state,
         ...getIdMapFromFeatures(features)
+      }
+    case 'SET_HOVERED_FEATURE':
+      if (!feature) { return state; }
+      if (!containsNewFeatures(state, [ feature ])) { return state; }
+      return {
+        ...state,
+        ...getIdMapFromFeatures([feature])
       }
     default:
       return state

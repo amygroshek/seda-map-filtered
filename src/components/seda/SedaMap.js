@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { onHoverFeature, onViewportChange, onCoordsChange, addToFeatureIdMap, handleLocationActivation, setTooltipVars, onHighlightedStateChange } from '../../actions';
+import { onHoverFeature, onViewportChange, handleLocationActivation, onHighlightedStateChange } from '../../actions';
 import { updateViewportRoute } from '../../modules/router';
 import { getMapViewport, getLayers, defaultMapStyle } from '../organisms/Map/selectors';
 import { getHoveredId } from '../../modules/sections';
@@ -134,10 +134,10 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch) => ({
   onHover: (feature, vars, coords) => {
-    dispatch(onHoverFeature(feature))
-    dispatch(setTooltipVars(vars))
-    dispatch(onCoordsChange(coords))
-    dispatch(addToFeatureIdMap([ feature ]))
+    dispatch(onHoverFeature(feature, coords, vars))
+    // dispatch(setTooltipVars(vars))
+    // dispatch(onCoordsChange(coords))
+    // dispatch(addToFeatureIdMap([ feature ]))
   },
   onViewportChange: (vp, updateRoute = true) => {
     dispatch(onViewportChange(vp))
