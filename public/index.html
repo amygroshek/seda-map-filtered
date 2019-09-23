@@ -409,6 +409,24 @@
         opacity:0;
       }
 
+      .section--intro .section__body--unsupported .section__user-prompt {
+        display: none;
+      }
+
+      .section--intro .section__body .section__unsupported {
+        display:none;
+        font-size: var(--large-font-size);
+        max-width: 620px;
+        margin:auto;
+        padding: 16px;
+        background: #fee;
+        border: 1px solid #c00;
+      }
+
+      .section--intro .section__body--unsupported .section__unsupported {
+        display:block;
+      }
+
     /** Cards */
 
       .card {
@@ -658,6 +676,10 @@
         </div>
         <p class="loading__text" id="loadingText">Loading assets</p>
       </div>
+      <div class="section__unsupported">
+        <p>The browser you are using does not support the features required to use this tool.  Please switch to a modern browser (MS Edge, Safari, Firefox, Google Chrome, etc.) and ensure WebGL is enabled.</p>
+        <button class="button" onclick="window.history.go(-1); return false;">Go Back</button>
+      </div>
       <div class="section__user-prompt">
         <h2 class="section__heading">
           What would you like to explore?
@@ -743,6 +765,53 @@
     // SEDA namespace for globals
     window.SEDA = (function() {
 
+      var browser = (function(){
+        var ua = navigator.userAgent, tem, 
+            M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+        if(/trident/i.test(M[1])){
+            tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+            return {name:'IE',version:(tem[1] || '')};
+        }
+        if(M[1]=== 'Chrome'){
+            tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+            if(tem != null) return {name:tem[1].replace('OPR', 'Opera'),version:tem[2]};
+        }
+        M = M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+        if((tem = ua.match(/version\/(\d+)/i))!= null)
+            M.splice(1, 1, tem[1]);
+        return {name:M[0], version:M[1]};
+      })();
+
+      function webgl_support () { 
+        try {
+          var canvas = document.createElement('canvas'); 
+          return !!window.WebGLRenderingContext &&
+            (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+        } catch(e) {
+          return false;
+        }
+      };
+
+      function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        if (msie > 0) {
+          // IE 10 or older => return version number
+          return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+        }
+        var trident = ua.indexOf('Trident/');
+        if (trident > 0) {
+          // IE 11 => return version number
+          var rv = ua.indexOf('rv:');
+          return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+        }
+        return false;
+      }
+
+      function unsupportedBrowser() {
+        return !webgl_support() || isIE();
+      }
+
       // track start time
       var startTime = new Date();
 
@@ -810,6 +879,14 @@
         var el = document.getElementsByClassName('section__body--loading')[0]
         if (el) {
           el.classList.remove("section__body--loading")
+        }
+      }
+
+      var showUnsupported = function () {
+        var el = document.getElementsByClassName('section__body--loading')[0]
+        if (el) {
+          el.classList.remove("section__body--loading")
+          el.classList.add('section__body--unsupported')
         }
       }
 
@@ -953,6 +1030,8 @@
         }
       }
 
+
+
       var getViewFromURL = function(url) {
         if (url.indexOf('/map/') > -1) { return 'map' }
         if (url.indexOf('/chart/') > -1) { return 'chart' }
@@ -989,9 +1068,16 @@
         setupViewTiming();
       }
 
-      // bind events
-      addHandler('app', appLoadedHandler);
-      addHandler('map', mapLoadHandler);
+      if (unsupportedBrowser()) {
+        showUnsupported();
+        trackProblem('unsupported browser: ' + browser.name + ' ' + browser.version)
+      } else {
+        // bind events
+        addHandler('app', appLoadedHandler);
+        addHandler('map', mapLoadHandler);
+      }
+
+      
 
       // return public functions
       return {
