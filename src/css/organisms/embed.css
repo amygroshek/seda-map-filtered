@@ -7,21 +7,70 @@
 
 /** Logo */
 
+.map-embed .logo__link,
 .chart-embed .logo__link {
-  position: absolute;
-  right: 24px;
-  top:20px;
-  width: 240px;
-  height: 40px;
+  display: block;
+  position:absolute;
+  top: 0px;
+  bottom:0px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  margin:auto;
+  overflow: hidden;
+}
+.map-embed .logo__link .logo__image,
+.chart-embed .logo__image {
+  position: static;
+  height: 44px;
+  width: auto;
+  clip: rect(0px,44px,44px,0px);
+  
 }
 
-.map-embed .logo__image,
-.chart-embed .logo__image {
-  clip: auto;
-  width: 100%;
-  position: static;
-  left: auto;
+/** Title */
+.map-embed__header,
+.chart-embed__header {
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index: 100;
+  padding: 12px 8px;
+  background: #fff;
+  box-shadow: var(--shadow10);
 }
+
+.map-embed__heading,
+.chart-embed__heading {
+  margin-left: 64px;
+}
+.map-embed__heading p,
+.chart-embed__heading p {
+  line-height: 1.4;
+  margin-bottom: -4px;
+  font-size: var(--small-font-size);
+}
+
+/** Chart Embed */
+
+.chart-embed__heading h1 {
+  text-transform: capitalize;
+}
+
+.chart-embed--locations .scatterplot--embed {
+  bottom: 49px;
+}
+
+.chart-embed--locations .summary-group {
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  margin-left:0;
+}
+
+.chart-embed .location-item__action { display:none;}
 
 
 /** Map Embed */
@@ -116,50 +165,6 @@
       left: 0px;
       bottom: 0;
     }
-  }
-
-
-
-  /** Map Title */
-  .map-embed__header {
-    position: absolute;
-    top:0;
-    left:0;
-    right:0;
-    z-index: 100;
-    padding: 12px 8px;
-    background: #fff;
-    box-shadow: var(--shadow10);
-  }
-
-  .map-embed__heading {
-    margin-left: 64px;
-  }
-  .map-embed__heading p {
-    line-height: 1.4;
-    margin-bottom: -4px;
-    font-size: var(--small-font-size);
-  }
-
-
-  /** Logo */
-
-  .map-embed .logo__link {
-    display: block;
-    position:absolute;
-    top: 0px;
-    bottom:0px;
-    left: 16px;
-    width: 44px;
-    height: 44px;
-    margin:auto;
-    overflow: hidden;
-  }
-  .map-embed .logo__link .logo__image {
-    height: 44px;
-    width: auto;
-    clip: rect(0px,44px,44px,0px);
-    
   }
 
 

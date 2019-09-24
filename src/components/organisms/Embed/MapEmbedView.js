@@ -42,7 +42,7 @@ const MapEmbedView = ({
 
   // flag potential layout change after loading locations
   useEffect(() => {
-    loadRouteLocations(locations)
+    loadRouteLocations(locations, region)
       .then(()=> {
         // set map size when locations load
         onLayoutChange()
@@ -182,9 +182,9 @@ const mapStateToProps = (
     viewport: getMapViewport(viewport, params),
   })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadRouteLocations: (locations) => 
-    dispatch(loadRouteLocations(locations, ownProps.match.params.region)),
+const mapDispatchToProps = (dispatch) => ({
+  loadRouteLocations: (locations, region) => 
+    dispatch(loadRouteLocations(locations, region)),
   onLayoutChange: () => dispatch(updateMapSize()),
   onHover: (feature, vars, coords) => {
     dispatch(onHoverFeature(feature, coords, vars))
