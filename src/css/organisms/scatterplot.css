@@ -332,6 +332,10 @@
   height:auto;
 }
 
+.scatterplot.scatterplot--embed .scatterplot__heading {
+  display: none;
+}
+
 /** Increase chart width on small resolutions because axis is condensed */
 @media(max-width: 650px) {
   .scatterplot.scatterplot--embed .echarts-for-react {

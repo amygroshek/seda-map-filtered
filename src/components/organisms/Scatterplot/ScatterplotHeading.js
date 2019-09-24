@@ -6,7 +6,7 @@ import { isGapVarName, isVersusFromVarNames, getMetricIdFromVarName, getDemograp
 import { Typography } from '@material-ui/core';
 
 /** Returns the title string for the provded vars */
-const getTitle = (xVar, yVar, region) => {
+export const getTitle = (xVar, yVar, region) => {
   const isGap = isGapVarName(yVar);
   const isVersus = isVersusFromVarNames(xVar, yVar);
   const titleKey = isGap ? 'SP_TITLE_GAP' :
@@ -18,7 +18,7 @@ const getTitle = (xVar, yVar, region) => {
 }
 
 /** Returns the subtitle for the provided vars */
-const getSubtitle = (xVar, yVar, region, highlightedState) => {
+export const getSubtitle = (xVar, yVar, region, highlightedState) => {
   const state = getStatePropByAbbr(highlightedState, 'full') || 'U.S.';
   const isGap = isGapVarName(yVar)
   const isVersus = isVersusFromVarNames(xVar, yVar);
@@ -37,7 +37,7 @@ const getSubtitle = (xVar, yVar, region, highlightedState) => {
   })
 }
 
-const ScatterplotHeading = ({
+export const ScatterplotHeading = ({
   xVar, yVar, region, highlightedState
 }) => {
   const title = getTitle(xVar, yVar, region);

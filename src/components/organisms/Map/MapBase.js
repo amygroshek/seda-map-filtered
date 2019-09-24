@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import usePrevious from '../../../hooks/usePrevious';
 import ZoomToUSControl from './ZoomToControl';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
+import * as _debounce from 'lodash.debounce';
+
 /**
  * Returns the width and height of the provided element
  */
@@ -38,6 +40,13 @@ const getUpdatedMapStyle = (style, layers) => {
     , style.get('layers'))
   );
 }
+
+const isSameViewport = (vp1, vp2) =>
+  [ 'width', 'height', 'latitude', 'longitude', 'zoom' ]
+    .reduce(
+      (acc, curr) => acc ? (vp1[curr] === vp2[curr]) : false
+      , true  
+    )
 
 const MapBase = ({
   style, 
@@ -140,7 +149,10 @@ const MapBase = ({
   const handleViewportChange = (vp) => {
     if (!loaded) return;
     if (vp.zoom && vp.zoom < 2) return;
-    return onViewportChange({ ...vp, ...getContainerSize(mapEl.current) })
+    const newVp = { ...vp, ...getContainerSize(mapEl.current) }
+    if (!isSameViewport(viewport, newVp)) {
+      return onViewportChange({ ...vp, ...getContainerSize(mapEl.current) })
+    }
   }
 
   // handler for feature hover
@@ -158,6 +170,20 @@ const MapBase = ({
   // handler for feature click
   const handleClick = ({ features }) =>
     features && features.length > 0 && onClick(features[0])
+
+  // resize map on window resize
+  useEffect(() => {
+    // handler for resize event
+    const handleResize = _debounce(() => {
+      onViewportChange({...getContainerSize(mapEl.current)}, false);
+    }, 100);
+    window.addEventListener('resize', handleResize);
+    return function cleanup() {
+      window.removeEventListener('resize', handleResize);
+    };
+  // eslint-disable-next-line
+  }, []); // only register listener on mount
+
 
   // set hovered outline when hoveredId changes
   useEffect(() => {
@@ -205,7 +231,6 @@ const MapBase = ({
         <div className="map__zoom">
           <NavigationControl showCompass={false} onViewportChange={handleViewportChange} />
           <ZoomToUSControl title="Zoom to U.S." />
-          
         </div>
       </ReactMapGL>
     </div>
