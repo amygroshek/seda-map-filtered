@@ -9,6 +9,7 @@
   align-items: stretch;
   justify-content: stretch;
   border-right: var(--divider-border);
+  
 }
 
 .panel .button--link {
@@ -39,6 +40,11 @@
 .panel hr {
   margin-left: 16px;
   margin-right: 16px;
+}
+
+/** URL bar fix: Add padding to content so it can scroll to the bottom on mobile */
+@media(max-width: 768px) {
+  .panel .panel__content { padding-bottom: 64px; }
 }
 
 .panel .panel__content,
