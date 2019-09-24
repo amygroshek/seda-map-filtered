@@ -95,4 +95,17 @@ hr {
   pointer-events: all;
 }
 
+.external-link {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.external-link .MuiSvgIcon-root {
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  position: relative;
+  top: 2px;
+}
+
 /** END COMPONENTS */

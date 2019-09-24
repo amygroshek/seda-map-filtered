@@ -18,6 +18,7 @@ import SedaLocations from '../../seda/SedaLocations';
 import { getLang } from '../../../modules/lang';
 import { titleCase } from '../../../utils';
 import { Typography } from '@material-ui/core';
+import OpenInNew from '@material-ui/icons/OpenInNew';
 
 const selectedColors = getSelectedColors();
 
@@ -81,12 +82,14 @@ const MapEmbedView = ({
     
   }
 
+  const explorerUrl = `https://edopportunity.org/explorer/#/map/us/${region}/${metric}/ses/${demographic}/${viewport.zoom}/${viewport.latitude}/${viewport.longitude}`
+
   return (
     <div className={classNames('map-embed', { 'map-embed--locations': selectedIds.length > 0})}>
       <div className="map-embed__header">
         <Logo url='https://edopportunity.org/' target='_blank' />
         <div className="map-embed__heading">
-          <Typography variant='h5'>
+          <Typography component="h1" variant='h5'>
             { 
               getLang('EMBED_MAP_TITLE', {
                 concept: titleCase(getLang('LABEL_CONCEPT_' + metric)),
@@ -101,6 +104,10 @@ const MapEmbedView = ({
                 demographic: getCasedDemographic(demographic)
               })
             }
+            { ' ' }
+            <a className="external-link" href={explorerUrl} rel="noopener noreferrer" target="_blank" >
+              <OpenInNew fontSize="small" />open full view
+            </a>
           </Typography>
         </div>
       </div>
