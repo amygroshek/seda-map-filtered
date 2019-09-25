@@ -73,11 +73,15 @@ const MapBase = ({
   // refernce to the ReactMapGL instance
   const mapRef = useRef(null);
 
-  // canvase element
-  const canvas = mapRef && 
+  const currentMap = mapRef && 
     mapRef.current && 
     mapRef.current.getMap && 
-    mapRef.current.getMap().getCanvas();
+    mapRef.current.getMap()
+
+  // canvas element
+  const canvas = currentMap && 
+    currentMap.getCanvas && 
+    currentMap.getCanvas();
 
   // storing previous hover / selected IDs
   const prev = usePrevious({hoveredId, selectedIds});
@@ -94,7 +98,7 @@ const MapBase = ({
     if (!layer || !featureId || !mapRef.current) { return; }
     const id = layer.idMap && idMap && idMap[featureId] ? 
       idMap[featureId] : featureId
-    mapRef.current.getMap().setFeatureState({
+    currentMap && currentMap.setFeatureState && currentMap.setFeatureState({
       source: layer.style.get('source'), 
       sourceLayer: layer.style.get('source-layer'), 
       id
@@ -122,23 +126,23 @@ const MapBase = ({
   // handler for map load
   const handleLoad = (e) => {
     if (!loaded) {
-      const map = mapRef.current.getMap()
       setLoaded(true)
       // HACK: remove tabindex from map div
       const tabindexEl = document.querySelector('.map:first-child')
       if (tabindexEl) { tabindexEl.children[0].removeAttribute('tabindex'); }
       // add screen reader content for map
-      const canvas = map.getCanvas();
-      canvas.setAttribute('role', 'img')
-      canvas.setAttribute('aria-label', ariaLabel)
+      if (canvas) {
+        canvas.setAttribute('role', 'img')
+        canvas.setAttribute('aria-label', ariaLabel)
+      }
       // add geolocation
       const geolocateControl = new mapboxgl.GeolocateControl({
         positionOptions: { enableHighAccuracy: true },
         trackUserLocation: true
       });
       const controlContainer = document.querySelector('.map__zoom:first-child');
-      if (controlContainer) {
-        controlContainer.appendChild(geolocateControl.onAdd(map))
+      if (controlContainer && currentMap) {
+        controlContainer.appendChild(geolocateControl.onAdd(currentMap))
       }
       // trigger load callback
       if(typeof onLoad === 'function') { onLoad(e) }
