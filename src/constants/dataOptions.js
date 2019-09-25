@@ -128,6 +128,7 @@ export const METRICS = [
       '*_counties': [ -4.5, 2.5 ],
       '*_districts_b': [ -4, 3 ],
       '*_districts_w': [ -4, 4 ],
+      '*_districts_a': [ -4, 5 ],
       '*_districts': [ -4.5, 4.5 ],
       '*_schools': [ -8, 7 ],
     },
@@ -177,6 +178,8 @@ export const METRICS = [
       '*_*_wh': [ -0.5, 4.5 ],
       'map_*_*': [ -3, 3 ],
       '*_counties': [-4, 3],
+      '*_districts_w': [-3, 3],
+      '*_districts': [-5, 3],
       '*': [ -5, 4 ],
     }
   },
