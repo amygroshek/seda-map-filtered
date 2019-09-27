@@ -9,6 +9,8 @@ import ScatterplotAxis from '../Scatterplot/ScatterplotAxis';
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles';
 import { getLang } from '../../../modules/lang';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 
 const LegendPanel = ({
   title,
@@ -152,6 +154,7 @@ const MapLegend = ({
             <div className="legend-actions">
               <Button onClick={onToggleClick}>
                 { variant === 'chart' ? 'Hide Chart' : 'Show Chart' }
+                { variant === 'chart' ? <KeyboardArrowDown fontSize="small" /> : <KeyboardArrowUp fontSize="small" /> }
               </Button>
             </div>
           }
