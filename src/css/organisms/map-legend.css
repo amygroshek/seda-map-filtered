@@ -323,6 +323,10 @@
   border-top: var(--divider-border);
   margin-top: 8px;
 }
+.map-legend .legend-actions .MuiSvgIcon-root {
+  margin: -4px 0;
+  font-size: 1rem;
+}
 .map-legend .legend-panel--no-chart .legend-actions {
   margin-top: -1px;
 }
