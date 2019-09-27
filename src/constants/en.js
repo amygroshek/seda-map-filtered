@@ -344,7 +344,7 @@ const LANG = {
   // Description of gap value for location
   'VALUE_AVG_GAP': '$[demographic1] and $[demographic2] students’ average scores differ by $[value] grade levels.',
   'VALUE_GRD_GAP': '$[demographic1] and $[demographic2] students’ learning rates differ by $[value] per year.',
-  'VALUE_COH_GAP': '$[demographic1] and $[demographic2] students’ learning rates differ by $[value] grade levels per year.',
+  'VALUE_COH_GAP': '$[demographic1] and $[demographic2] students’ test score trends differ by $[value] grade levels per year.',
   'VALUE_SES_GAP': '$[demographic1] students’ average socioeconomic status is $[difference] $[demographic2] students’.',
   'VALUE_SEG_GAP': 'Poverty rate in $[demographic2] students’ schools are $[value] $[highLow] than $[demographic1] students’ schools.',
 
