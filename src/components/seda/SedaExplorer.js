@@ -139,7 +139,7 @@ const ExplorerView = ({
         leftComponent={
           canRender && <Charts 
             hasGapChart={hasGapChart(demographic)} 
-            showGapChart={hasGapChart(demographic) && gapChart} 
+            showGapChart={region !== "schools" && hasGapChart(demographic) && gapChart} 
             sectionId={view} 
             onChartToggle={handleToggleGapChart}
           />
