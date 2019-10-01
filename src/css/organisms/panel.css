@@ -79,6 +79,7 @@
 .panel__content {
   flex-grow: 1;
   overflow:auto;
+  overflow-x:hidden;
 }
 
 .panel .tab-label .tab-label__title,
