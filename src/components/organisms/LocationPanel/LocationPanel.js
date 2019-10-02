@@ -155,7 +155,8 @@ const LocationPanel = ({
       }, 500); // give some time to open the panel
     }
     if (prevOpen && !feature) {
-      const el = document.querySelector('.react-autosuggest__input:first-child')
+      // restore focus to active view toggle
+      const el = document.querySelector('.toggle-buttons__button--active')
       if (el && el.focus) { el.focus() }
     }
   }, [ feature, prevOpen ]);
