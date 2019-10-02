@@ -6,13 +6,14 @@ import { ScatterplotPreview } from '../organisms/Scatterplot';
 import { getScatterplotVars } from '../../modules/config'
 
 const mapStateToProps = ({
-  scatterplot: { data }
+  scatterplot: { data, error }
 }, {
   match: { params: { region, highlightedState, metric, demographic, secondary }}
 }) => ({
   ...getScatterplotVars(region, metric, demographic),
   data,
   region,
+  error,
   highlightedState,
 })
 

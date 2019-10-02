@@ -166,7 +166,39 @@
     }
     
   }
-    
+
+.scatterplot__error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 276px;
+  margin: auto;
+  padding: 8px 16px;
+  background: #fee;
+  height: 96px;
+  border: 1px solid #c00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.scatterplot__error p {
+  margin: 0 0 16px 0;
+}
+
+.scatterplot__error button {
+  font-family: var(--alt-font);
+  text-transform: uppercase;
+  font-size: var(--large-font-size);
+  background: var(--accent);
+  color: #fff;
+  border:none;
+  padding: 4px 8px;
+  line-height: 1;
+}
 
 /** Y Axis */
 
@@ -276,6 +308,8 @@
 .scatterplot--secondary .scatterplot__axis.scatterplot__axis--x .legend-bar__title {
   display: none;
 }
+
+
 
 /** Scatterplot Gap Selector */
 

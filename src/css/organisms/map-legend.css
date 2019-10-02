@@ -152,7 +152,7 @@
   }
 }
 
-.scatterplot-preview > .echarts-for-react {
+.scatterplot-preview .echarts-for-react {
   height: calc(100% - 32px)!important;
 }
 
