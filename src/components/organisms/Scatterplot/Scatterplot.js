@@ -45,7 +45,6 @@ function Scatterplot({
   highlightedState,
   variant,
   freeze,
-  error,
   children,
   onHover,
   onClick,
@@ -53,6 +52,7 @@ function Scatterplot({
   onReady,
   onError
 }) {
+
   const regionData = data[region]
   
   const stateFips = getStateFipsFromAbbr(highlightedState);
@@ -81,7 +81,7 @@ function Scatterplot({
 
   const needsData = !data || !data[region] || !data['name']
   // fetch base vars for region if they haven't already been fetched
-  // this is required 
+  // this is required as sometimes names are not available
   useEffect(() => {
     if (needsData) {
       fetchScatterplotVars(
@@ -96,7 +96,7 @@ function Scatterplot({
     }
   // disable lint, this doesn't need to fire when onData changes
   // eslint-disable-next-line
-  }, [ region, zVar, region, needsData ]);
+  }, [ region, zVar, needsData ]);
 
   // fetch any additional school level data for highlighted states
   useEffect(() => {
@@ -127,9 +127,6 @@ function Scatterplot({
       aria-label={ariaLabel} 
       className={classNames('scatterplot', className)}
     >
-      { error &&
-        <span className="notification notification--error">{ error }</span>
-      }
       <SedaScatterplot
         {...{
           endpoint,
@@ -149,6 +146,7 @@ function Scatterplot({
         prefix={region}
         options={scatterplotOptions}
         metaVars={baseVars}
+        classes={{error: 'scatterplot__error'}}
         onHover={(loc, e) => {
           if (loc && loc.id) {
             return onHover(

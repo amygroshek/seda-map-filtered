@@ -59,7 +59,20 @@ const loaded = (state = {}, action) => {
   }
 }
 
-const scatterplot = combineReducers({ data, loaded })
+const error = (state = false, action) => {
+  switch(action.type) {
+    case 'SCATTERPLOT_LOADED':
+      return false
+    case 'SCATTERPLOT_DATA_RECEIVED':
+      return false
+    case 'SCATTERPLOT_ERROR':
+      return true
+    default:
+      return state
+  }
+}
+
+const scatterplot = combineReducers({ data, loaded, error })
 
 export default scatterplot;
 

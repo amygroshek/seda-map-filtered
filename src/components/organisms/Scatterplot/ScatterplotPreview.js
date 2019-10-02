@@ -42,6 +42,7 @@ function ScatterplotPreview({
   highlightedState,
   freeze,
   children,
+  error,
   onError
 }) {
   const regionData = data && data[region]
@@ -75,8 +76,12 @@ function ScatterplotPreview({
   return (
     <div 
       role="img" 
-      aria-label={ariaLabel}
+      aria-label={ (error ? null : ariaLabel) }
       className='scatterplot-preview'
+      style={{ 
+        'height': (error ? '0px' : null),
+        'margin': (error ? 0 : null)
+      }}
     >
       <SedaScatterplot
         {...{
@@ -111,7 +116,7 @@ ScatterplotPreview.propTypes = {
   children: PropTypes.node,
   onError: PropTypes.func,
   freeze: PropTypes.bool,
-  error: PropTypes.string,
+  error: PropTypes.bool,
 }
 
 export default ScatterplotPreview
