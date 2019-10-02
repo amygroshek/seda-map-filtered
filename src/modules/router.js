@@ -2,6 +2,7 @@ import * as _debounce from 'lodash.debounce';
 import * as polylabel from 'polylabel';
 import { push } from 'connected-react-router';
 import { history } from '../store';
+import { getRegionFromFeatureId, getRegionFromFeature } from './config';
 /**
  * Variables stored in the root, in order
  */
@@ -69,6 +70,40 @@ export const locationsToString = (locations) =>
   ), '');
 
 /**
+ * Gets a count of the number of locations by region type
+ * @param {string} locations 
+ */
+const getLocationCountByRegion = (locations) => {
+  if (!locations) { return { 'counties': 0, 'districts': 0, 'schools': 0 }}
+  const featureIds = locations.split('+').map(l => l.split(',')[0]);
+  return featureIds.reduce((acc, curr) => {
+    acc[getRegionFromFeatureId(curr)]++;
+    return acc;
+  }, { 'counties': 0, 'districts': 0, 'schools': 0 });
+}
+
+/**
+ * Removes the first location of the provided region type from the
+ * locations string.
+ * @param {string} locations url formatted locations ({id},{lat},{lon}+{id2},{lat2},{lon2}...)  
+ * @param {*} region region type to remove from the url
+ * @returns a location string with the first location of region type removed
+ */
+const removeFirstLocationForRegion = (locations, region) => {
+  if (!region || !locations) { return locations }
+  let isRemoved = false;
+  return locations.split('+')
+    .map(l => {
+      const r = getRegionFromFeatureId(l.split(',')[0])
+      if (isRemoved || r !== region) return l;
+      isRemoved = true;
+      return null;
+    })
+    .filter(l => Boolean(l))
+    .join('+');
+}
+
+/**
  * Adds a feature to the route pathname
  * @param {string} pathname
  * @param {object} feature 
@@ -76,8 +111,13 @@ export const locationsToString = (locations) =>
  */
 export const addFeatureToPathname = (pathname, feature) => {
   const currentRoute = getParamsFromPathname(pathname);
-  const locations = currentRoute.locations ?
-    currentRoute.locations + '+' + getLocationFromFeature(feature) :
+  const counts = getLocationCountByRegion(currentRoute.locations);
+  const region = getRegionFromFeature(feature);
+  const baseLocations = counts[region] < 6 ? 
+    currentRoute.locations :
+    removeFirstLocationForRegion(currentRoute.locations, region)
+  const locations = baseLocations ?
+    baseLocations + '+' + getLocationFromFeature(feature) :
     getLocationFromFeature(feature);
   return getPathnameFromParams(currentRoute, { locations })
 }
