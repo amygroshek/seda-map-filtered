@@ -68,6 +68,23 @@ const SedaExplorerMap = ({
     demographic: getLang('LABEL_STUDENTS_' + demographic)
   })
 
+  const handleLoad = () => {
+    window.SEDA.trigger('map');
+    setTimeout(() => {
+      
+      if (
+        viewport.zoom === 3.5 && 
+        viewport.latitude === 38 &&
+        viewport.longitude === -97 &&
+        view === 'map'
+      ) {
+        // if default viewport, zoom to US
+        console.log(viewport, 'resetting')
+        resetHighlightedState();
+      }
+    }, 1000);
+  }
+
   return (
     <div className="seda-map">
       <MapBase
@@ -81,7 +98,7 @@ const SedaExplorerMap = ({
         hoveredId={hoveredId}
         ariaLabel={ariaLabel}
         onHover={handleHover}
-        onLoad={() => window.SEDA.trigger('map')}
+        onLoad={handleLoad}
         {...{onViewportChange, onClick}}
       ></MapBase>
       <SedaMapLegend 
