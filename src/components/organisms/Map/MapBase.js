@@ -94,13 +94,13 @@ const MapBase = ({
   const setFeatureState = (featureId, state) => {
     if (!loaded) { return; }
     const layer = 
-      layers.find(l => l.hasFeatureId && l.hasFeatureId(featureId))
+      layers.find(l => (l.hasFeatureId && l.hasFeatureId(featureId)))
     if (!layer || !featureId || !mapRef.current) { return; }
-    const id = layer.idMap && idMap && idMap[featureId] ? 
+    const id = idMap && idMap[featureId] ? 
       idMap[featureId] : featureId
     currentMap && currentMap.setFeatureState && currentMap.setFeatureState({
       source: layer.style.get('source'), 
-      sourceLayer: layer.style.get('source-layer'), 
+      sourceLayer: layer.style.get('source-layer'),
       id
     }, state);
   }
