@@ -94,8 +94,21 @@
     height:100%!important;
   }
 
-  .map-embed--locations .map {
-    bottom: 49px;
+  .map-embed .map {
+    bottom: 60px;
+  }
+
+  .map-embed.map-embed--locations .map {
+    bottom: 109px;
+  }
+
+  @media(min-width: 600px) {
+    .map-embed .map {
+      bottom: 0px;
+    }
+    .map-embed.map-embed--locations .map {
+      bottom: 49px;
+    }
   }
 
   .map-embed .overlays {
@@ -110,12 +123,19 @@
   /** Legend */
   .map-embed .map-legend {
     position: absolute;
-    bottom: 0;
+    bottom: -60px;
     height: 60px;
     right: 0px;
-    width: 280px;
+    width: 100%;
     padding-top:0;
     overflow:hidden;
+  }
+
+  @media(min-width: 600px) {
+    .map-embed .map-legend {
+      width: 280px;
+      bottom:0;
+    }
   }
 
   .map-embed .map-legend .map-legend__legend-bar {
