@@ -85,37 +85,30 @@ export const getCircleHighlightLayer = ({layerId, region}) => fromJS({
   source: 'composite',
   'source-layer': 'schools',
   type: 'circle',
-  minzoom: getCircleMinZoom(region),
+  minzoom: 4,
   interactive: false,
   layout: {
     'visibility': region === 'schools' ? 'visible' : 'none'
   },
   paint: {
-    'circle-color': [
-      "case",
-      ["boolean", ["feature-state", "hover"], false],
-      '#f00',
-      ["string", ["feature-state", "selected"], 'rgba(0,0,0,0)']
-    ],
+    'circle-color': 'rgba(0,0,0,0)',
     'circle-opacity': 1,
-    'circle-radius': getCircleRadius(region),
+    'circle-radius': getCircleRadius(region, -3),
     'circle-stroke-opacity': 1,
     'circle-stroke-color': [
       "case",
       ["boolean", ["feature-state", "hover"], false],
-      '#fff',
-      ["boolean", ["feature-state", "selected"], false],
-      '#fff',
-      'rgba(0,0,0,0)'
+      '#f00',
+      ["string", ["feature-state", "selected"], 'rgba(0,0,0,0)']
     ],
     'circle-stroke-width': [
       "interpolate",
       [ "linear" ],
       [ "zoom" ],
       4,
-      0,
+      2,
       6,
-      1,
+      2,
       14,
       4
     ]
@@ -262,9 +255,17 @@ export const getChoroplethOutlineCasing = ({layerId, region}) => fromJS({
   }
 })
 
-const isIdInRegion = (id, region) => {
-  if (!region || !id) { return false }
-  return getRegionFromFeatureId(id) === region
+const isChoroplethId = (id) => {
+  if (!id) { return false }
+  const featureRegion = getRegionFromFeatureId(id)
+  return featureRegion === 'districts' || 
+          featureRegion === 'counties'
+}
+
+const isCircleId = (id) => {
+  if (!id) { return false }
+  const featureRegion = getRegionFromFeatureId(id)
+  return featureRegion === 'schools'
 }
 
 export const getChoroplethLayer = ({
@@ -298,7 +299,7 @@ export const getChoroplethLayers = (context) => {
     { 
       z: 1, 
       style: getChoroplethLayer(context), 
-      hasFeatureId: (id) => isIdInRegion(id, context.region)
+      hasFeatureId: isChoroplethId
     },
     { z: 50, style: getChoroplethOutline(context) },
     { z: 50, style: getChoroplethOutlineCasing(context) }
@@ -307,14 +308,15 @@ export const getChoroplethLayers = (context) => {
 
 export const getCircleLayers = (context) => {
   return [
+    { z: 50, style: getCircleHighlightLayer(context) },
     {
       z: 50, 
-      style: getCircleLayer(context), 
+      style: getCircleLayer(context),
       idMap: true,
-      hasFeatureId: (id) => isIdInRegion(id, context.region)
+      hasFeatureId: isCircleId
     },
-    { z: 50, style: getCircleCasingLayer(context) },
-    { z: 50, style: getCircleHighlightLayer(context) }
+    { z: 50, style: getCircleCasingLayer(context) }
+    
   ]
 }
 
