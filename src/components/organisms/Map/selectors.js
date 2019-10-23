@@ -85,7 +85,7 @@ export const getCircleHighlightLayer = ({layerId, region}) => fromJS({
   source: 'composite',
   'source-layer': 'schools',
   type: 'circle',
-  minzoom: 4,
+  minzoom: getCircleMinZoom(region),
   interactive: false,
   layout: {
     'visibility': region === 'schools' ? 'visible' : 'none'

@@ -96,7 +96,7 @@ const MapBase = ({
     const layer = 
       layers.find(l => (l.hasFeatureId && l.hasFeatureId(featureId)))
     if (!layer || !featureId || !mapRef.current) { return; }
-    const id = idMap[featureId] ? 
+    const id = idMap && idMap[featureId] ? 
       idMap[featureId] : featureId
     currentMap && currentMap.setFeatureState && currentMap.setFeatureState({
       source: layer.style.get('source'), 
