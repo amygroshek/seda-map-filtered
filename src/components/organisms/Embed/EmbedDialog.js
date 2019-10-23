@@ -79,7 +79,7 @@ const getSecondaryChartEmbedLink = ({
 }
 
 const getEmbedCode = (link) => {
-  return `<iframe src="${link}" style="width:720px;height:405px" frameborder="0"></iframe>`
+  return `<iframe src="${link}" style="width:720px;height:405px;max-width:100%;" frameborder="0"></iframe>`
 }
 
 function EmbedDialog({open, onClose, secondaryChart, ...rest}) {
