@@ -808,16 +808,36 @@
       }
     })()
 
+    // sets hash on browser for url
+    function replaceHash(hash) {
+      window.location.hash = hash
+    }
+
     // switch from split view if low resolution
     if (
       window.location.hash.indexOf('/split/') > -1 &&
       window.innerWidth < 1024
     ) {
-      window.location.hash = window.location.hash.replace('/split/', '/map/');
+      replaceHash(window.location.hash.replace('/split/', '/map/'));
     }
 
     // SEDA namespace for globals
     window.SEDA = (function() {
+
+      // grabs everything after the # character on provided string
+      function getHashFromURL(url) {
+        if (url.indexOf('#') === -1) { return '' }
+        return url.substring(url.indexOf('#')+1);
+      }
+
+      // listen to hash change, and show intro if empty route
+      window.addEventListener("hashchange", function(e) { 
+        const oldHash = getHashFromURL(e.oldURL);
+        const newHash = getHashFromURL(e.newURL);
+        if (newHash === '/' && oldHash.length > 0) {
+          showIntro();
+        }
+      }, false)
 
       // stores the browser name and version for reporting
       var browser = (function(){
@@ -977,6 +997,17 @@
         }
       }
 
+      var showIntro = function() {
+        var el = document.getElementsByClassName('section--intro')[0];
+        if (el) {
+          // el.parentNode.removeChild(el)
+          el.setAttribute("style", "");
+          el.classList.remove("section--hidden")
+          document.getElementById('root').classList.add('hidden');
+          showCards();
+        }
+      }
+
       // hides the intro section and reveals the tool
       var hideIntro = function() {
         var el = document.getElementsByClassName('section--intro')[0];
@@ -989,7 +1020,8 @@
       var removeIntro = function() {
         var el = document.getElementsByClassName('section--intro')[0];
         if (el) {
-          el.parentNode.removeChild(el)
+          // el.parentNode.removeChild(el)
+          el.setAttribute("style", "display:none;");
         }    
       }
 
@@ -1050,7 +1082,7 @@
           trackView(view);
           trackDemographic(demographic);
         }
-        location.hash = route;
+        replaceHash(route);
       }
 
       // updates the loading message
@@ -1155,7 +1187,7 @@
             trackDirectLink();
           } else {
             trackProblem('tried to load invalid route');
-            window.location.hash = defaultRoute;
+            replaceHash(defaultRoute);
           }
           showLoadRemainingAssets();
         }
@@ -1184,6 +1216,7 @@
           var elapsedTime = parseInt(((new Date()) - viewTime));
           trackTiming('interaction', 'viewing ' + currentView, elapsedTime);
         }
+        
         window.addEventListener("hashchange", handleHashChange, false);
         window.addEventListener("beforeunload", handleUnload, false)
       }
