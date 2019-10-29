@@ -111,8 +111,6 @@ const getBaseSeries = ({ highlightedState, sizer, variant }) => {
   const hl = isStateHighlighed(highlightedState)
   return getSeries('base', 'scatter', {
     silent: hl || (variant === 'preview'),
-    large: hl,
-    largeThreshold: 0,
     z:5,
     itemStyle: {
       color: hl ? '#e6e6e6' : '#76ced2cc',
