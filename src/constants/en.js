@@ -100,6 +100,9 @@ const LANG = {
   'LABEL_COH_WH': 'White / Hispanic Gap in Test Score Trends',
   'LABEL_COH_PN': 'Poor / Non-Poor Gap in Test Score Trends',
   'LABEL_COH_MF': 'Male / Female Gap in Test Score Trends',
+  'LABEL_MIN': 'percent minority students in schools',
+  'LABEL_MIN_WB': 'White / Black gap in Percent Minority Students in Schools',
+  'LABEL_MIN_WH': 'White / Hispanic gap in Percent Minority Students in Schools',
   'LABEL_SEG': 'school poverty',
   'LABEL_SEG_NP': 'poor - non-poor gap in school poverty',
   'LABEL_SEG_WB': 'Black - White gap in school poverty',
@@ -124,12 +127,14 @@ const LANG = {
   'LABEL_SHORT_COH': 'trend',
   'LABEL_SHORT_SES': 'SES',
   'LABEL_SHORT_FRL': 'Free Lunch',
-  'LABEL_SHORT_SEG': 'Poverty',
+  'LABEL_SHORT_SEG': '% Poverty',
+
 
   'LABEL_SHORT_AVG_GAP': 'scores',
   'LABEL_SHORT_GRD_GAP': 'rate',
   'LABEL_SHORT_COH_GAP': 'trend',
-  'LABEL_SHORT_SEG_GAP': 'Poverty',
+  'LABEL_SHORT_SEG_GAP': '% Poverty',
+  'LABEL_SHORT_MIN_GAP': '% Minority',
   'LABEL_SHORT_SES_GAP': 'SES',
 
   // Concepts that correspond to metric
@@ -346,7 +351,10 @@ const LANG = {
   'VALUE_GRD_GAP': '$[demographic1] and $[demographic2] students’ learning rates differ by $[value] per year.',
   'VALUE_COH_GAP': '$[demographic1] and $[demographic2] students’ test score trends differ by $[value] grade levels per year.',
   'VALUE_SES_GAP': '$[demographic1] students’ average socioeconomic status is $[difference] $[demographic2] students’.',
-  'VALUE_SEG_GAP': 'Poverty rate in $[demographic2] students’ schools are $[value] $[highLow] than $[demographic1] students’ schools.',
+  // 'VALUE_SEG_GAP': 'Poverty rate in $[demographic2] students’ schools are $[value] $[highLow] than $[demographic1] students’ schools.',
+  'VALUE_SEG_GAP': 'The poverty rate in $[demographic2] students’ schools is $[value] $[highLow] than in $[demographic1] students’ schools.',
+  'VALUE_MIN_GAP': 'The percent of minority students in $[demographic2] students’ schools is $[value] $[highLow] than in $[demographic1] students’ schools.',
+
 
   'DIFF_VERY_HIGH': 'much higher than',
   'DIFF_HIGH': 'higher than',
@@ -399,9 +407,9 @@ const LANG = {
 
   'AXIS_AVG_GAP_MID': 'no\ngap',
   'AXIS_AVG_GAP_LOW_SINGLE': '$[value] grade level\ndifference',
-  'AXIS_AVG_GAP_LOW': '$[value] grade level\ndifference',
+  'AXIS_AVG_GAP_LOW': '-$[value] grade level\ndifference',
   'AXIS_AVG_GAP_HIGH_SINGLE': '$[value] grade level\ndifference',
-  'AXIS_AVG_GAP_HIGH': '$[value] grade level\ndifference',
+  'AXIS_AVG_GAP_HIGH': '+$[value] grade level\ndifference',
 
   'AXIS_GRD_GAP_MID': 'no\n difference',
   'AXIS_GRD_GAP_LOW': '-$[value] grade levels\nper year difference',
@@ -427,6 +435,9 @@ const LANG = {
   'AXIS_SEG_GAP_MID': 'no gap',
   'AXIS_SEG_LOW_GAP': 'less',
   'AXIS_SEG_HIGH_GAP': 'more',
+
+  'AXIS_MIN_GAP_MID': 'no gap',
+  'AXIS_MIN_GAP_HIGH': '$[value]',
 
   'AXIS_FRL_MID': ' ',
 
@@ -516,11 +527,15 @@ const LANG = {
 
   // SEG gaps
   'LEGEND_LOW_SEG_WB': ' ',
-  'LEGEND_HIGH_SEG_WB': 'Larger school poverty gap, favoring White families ▶',
+  'LEGEND_HIGH_SEG_WB': 'More Racial-Economic School Segregation ▶',
   'LEGEND_LOW_SEG_WH': ' ',
-  'LEGEND_HIGH_SEG_WH': 'Larger school poverty gap, favoring White families ▶',
+  'LEGEND_HIGH_SEG_WH': 'More Racial-Economic School Segregation ▶',
   'LEGEND_LOW_SEG': ' ',
-  'LEGEND_HIGH_SEG': 'Larger school poverty gap, favoring non-poor families ▶',
+  'LEGEND_HIGH_SEG': 'More Racial-Economic School Segregation ▶',
+  'LEGEND_LOW_MIN_WH': ' ',
+  'LEGEND_HIGH_MIN_WH': 'More Racial School Segregation  ▶',
+  'LEGEND_LOW_MIN_WB': ' ',
+  'LEGEND_HIGH_MIN_WB': 'More Racial School Segregation  ▶',
 
   // Map Legend
   'LEGEND_MAP_AVG_LOW': '$[value] grade levels',
@@ -626,6 +641,7 @@ const LANG = {
   'HELP_SES': 'What Is Socioeconomic Status and How Is It Calculated?',
   'HELP_SEG': 'What Is the Gap in School Poverty and How Is It Calculated?',
   'HELP_FRL': 'How Is the Free/Reduced-Price Lunch Percentage Calculated and What Does It Mean?',
+  'HELP_MIN': 'What Is the Gap in Percent Minority Students in Schools and How Is It Calculated?',
 
   'HELP_AVG_CONCEPT_A': `Average student test scores are influenced by opportunities to learn at home, in neighborhoods, in child-care, preschool, and after-school programs, from peers and friends, and in schools. Because of all these influences, average test scores are not a good way to assess how much children learn in schools. But they are a good way to assess the average set of educational opportunities available to children in a community. Where average scores are low, students have fewer opportunities to learn. Schools are better evaluated using learning rates, which measure how much students’ scores improve while they are in school.`,
   'HELP_GRD_CONCEPT_A': `Learning rates measure how much students’ scores improve each year while they are in school. This is a better way to assess what children learn in schools than average test scores, which are heavily influenced by factors outside of school. To understand the distinction, think of a hospital: We wouldn’t assess a hospital based on the health of its patients; rather, we’d judge it on how much the health of patients improves as a result of their time in the hospital. Similarly, we shouldn’t evaluate a school based on the average scores of its students, but rather by how much their scores improve while in school.`,
@@ -637,6 +653,7 @@ const LANG = {
   'HELP_SES_A': `Socioeconomic status (SES) is a broad measure of the economic and social resources available in a community. It is based on information about the income, educational attainment, employment, and structure of all families living in the community served by a school district or county. This information is combined into a single composite rating for each community. A rating of 0 represents the national average of socioeconomic status; higher ratings represent more affluent communities. See the <a href="/help-faq/#ses-measured" target="_blank">FAQ</a> for more detail. `,
   'HELP_SEG_A': `The gap in school poverty is a measure of school segregation. We use the proportion of students defined as “economically disadvantaged” in a school as a measure of school poverty. The black-white gap in school poverty, for example, measures the difference between the poverty rate of the average black student’s school and the poverty rate of the average white student’s school. When there is no segregation—when white and black students attend the same schools, or when white and black students’ schools have equal poverty rates—the black-white school poverty gap is 0. A positive black-white school poverty gap means that black students’ schools have higher poverty rates than white students’ schools, on average. A negative black-white school poverty gap means that white students’ schools have higher poverty rates than black students’ schools, on average.`,
   'HELP_FRL_A': `The free/reduced-price lunch percentage measures the proportion of students in the school who are eligible for free or reduced-price lunches through the National School Lunch Program. Students are eligible for free or reduced-price lunches if their family income is below 185% of the poverty threshold. A school with a free lunch rate of 0% has no poor or near-poor students; the higher the free lunch rate, the greater the number of poor students. The lower the free/reduced-price lunch percentage, the more affluent the school.`,
+  'HELP_MIN_A': `The gap in percent minority students in schools (shown in the secondary gap charts) is a measure of school segregation. Percent minority students in schools is measured as the proportion of minority students (black students plus Hispanic students) in a student’s school. The black-white gap in percent minority students in schools then measures the difference between the proportion of minority students in the average black student’s school and the proportion of minority students in the average white student’s school. When there is no segregation—when white and black students attend the same schools, or when white and black students’ schools have equal proportions of minority students—the black-white gap in percent minority students is 0. A positive black-white gap in percent minority students means that black students’ schools have higher shares of minority students than white students’ schools, on average. A negative black-white gap in percent minority students means that white students’ schools have higher shares of minority students than black students’ schools, on average.`,
 
   'HELP_HOW_Q1': 'What are the Different Ways of Exploring the Data?',
   'HELP_HOW_Q2': 'What Data Can I Choose From?',
