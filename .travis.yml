@@ -50,5 +50,6 @@ deploy:
     region: us-east-1
     acl: public_read
     local_dir: build
+    upload-dir: explorer
     on:
       branch: master
