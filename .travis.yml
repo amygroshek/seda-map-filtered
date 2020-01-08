@@ -54,3 +54,7 @@ deploy:
     upload-dir: explorer
     on:
       branch: master
+  - provider: script
+    script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_DEV --paths="/explorer/*"
+    on:
+      branch: master
