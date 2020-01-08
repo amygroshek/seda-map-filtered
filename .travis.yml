@@ -42,3 +42,13 @@ deploy:
     script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_PRODUCTION --paths="/explorer/*"
     on:
       branch: production
+  - skip_cleanup: true
+    provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: edop-explorer-dev
+    region: us-east-1
+    acl: public_read
+    local_dir: build
+    on:
+      branch: master
